@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import fields
+from openerp import models, fields, api, _
 from tools.translate import _
 import re
 import time
@@ -8,7 +8,7 @@ import tools
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
-class project_scrum_sprint(osv.osv):
+class project_scrum_sprint(models.Model):
     _name = 'project.scrum.sprint'
     _description = 'Project Scrum Sprint'
     _order = 'date_start desc'
