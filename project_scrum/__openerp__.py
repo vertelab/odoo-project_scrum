@@ -26,7 +26,7 @@
     'category': 'Project Management',
     'complexity': "normal",
     'description': """
-Using Scrum to plan the work in a team by using sprints.
+Using Scrum to plan the work in a team.
 =========================================================================================================
 
 More information:
@@ -34,7 +34,7 @@ More information:
     'author': 'Vertel AB',
     'website': 'http://www.vertel.se',
     'images': ['images/product_backlogs.jpeg', 'images/project_sprints.jpeg', 'images/scrum_dashboard.jpeg', 'images/scrum_meetings.jpeg'],
-    'depends': ['project', 'process', 'mail'],
+    'depends': ['project', 'mail'],
     'init_xml': [],
     'update_xml': [
         'security/ir.model.access.csv',
