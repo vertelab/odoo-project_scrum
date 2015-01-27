@@ -1,2 +1,2 @@
-import project_scrum_sprint
+import project_scrum
 
