@@ -29,6 +29,7 @@ class scrum_sprint(models.Model):
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], 'State', required=True, default = 'draft')
 
+
 #class meeting_ids(models.Model):
     
 #class backlog_ids(models.Model):
