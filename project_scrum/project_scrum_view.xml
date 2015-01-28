@@ -1,5 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        
+        <menuitem id="menu_scrum"
+            name="Scrum"
+            parent="base.menu_main_pm" sequence="3"/>
+            
+            
+
 
 <!--
               Scrum Sprint
@@ -7,7 +15,7 @@
 
         <record id="view_scrum_sprint_calendar" model="ir.ui.view">
             <field name="name">project.scrum.sprint.calendar</field>
-            <field name="model">scrum.sprint</field>
+            <field name="model">project.scrum.sprint</field>
             <field name="type">calendar</field>
             <field name="arch" type="xml">
                 <calendar string="Scrum Sprint" date_start="date_start" date_stop="date_stop" date_duration="date_duration">
@@ -32,13 +40,8 @@
                     <field name="effective_hours" sum="Effective hours" widget="float_time"/>
                     <field name="expected_hours" sum="Planned hours" widget="float_time"/>
                     <field name="state"/>
-                <!--<button type="object" string="Open" name="button_open" states="draft,pending" icon="terp-camera_test"/>
-                    <button type="object" string="Pending" name="button_pending" states="open" icon="gtk-media-pause"/>
-                    <button type="object" string="Close" name="button_close" states="open,pending" icon="terp-dialog-close"/>
-                    <button type="object" string="Set to Draft" name="button_draft" states="cancel,done" icon="gtk-convert"/>
-                    <button name="%(project_scrum.report_scrum_sprint_burndown_chart)d" states="open,draft,close,cancel"
-                                    string="Burndown Chart" type="action" icon="gtk-print"/>-->
-                </tree>
+
+              </tree>
             </field>
         </record>
         
@@ -50,9 +53,9 @@
                 <form string="Scrum Sprint">
                     <group colspan="4" col="6">
                         <field name="name" select="1"/>
-                        <field name="project_id" <!-- on_change="onchange_project_id(project_id)" -->/> 
-                    </group>
-                    <notebook colspan="4">
+                        <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
+                  </group> 
+    <!--                <notebook colspan="4">
                         <page string="Sprint Info">
                             <group colspan="2" col="2">
                                 <separator string="Responsible" colspan="2"/>
@@ -70,7 +73,7 @@
                                 <field name="effective_hours" widget="float_time"/>
                                 <field name="progress" widget="progressbar"/>
                             </group>
-                        </page>
+                        </page> --> 
                       <!--  <page string="Daily Meetings">
                             <field colspan="4" name="meeting_ids" nolabel="1" widget="one2many_list">
                                 <form string="Scrum Sprint">
@@ -98,29 +101,25 @@
                                             <separator colspan="4" string="Tasks"/>
                                             <field colspan="4" name="task_ids" nolabel="1" domain="[('sprint_id','=',sprint_id)]"/>
                                         </page>
-                                </notebook>
+                                </notebook> 
                             </form>
                                 <tree string="Scrum Meeting">
                                 <field name="date"/>
                                 <field name="user_id"/>
                             </tree>
-                            </field> -->
+                            </field> 
                         </page>
                         <page string="Review">
                             <field colspan="4" name="review" nolabel="1"/>
                         </page>
                         <page string="Retrospective">
                             <field colspan="4" name="retrospective" nolabel="1"/>
-                        </page>
-                    </notebook>
-                    <group col="8" colspan="4">
+                        </page> 
+                    </notebook> -->
+                   <group col="8" colspan="4">
                         <field name="state" readonly="1"/>
-                        <button name="%(project_scrum.report_scrum_sprint_burndown_chart)d"
-                                    string="Burndown Chart" type="action" icon="gtk-print"/>
-                        <button type="object" string="Open" name="button_open" states="draft,pending" icon="terp-camera_test"/>
-                        <button type="object" string="Pending" name="button_pending" states="open" icon="gtk-media-pause"/>
-                        <button type="object" string="Close" name="button_close" states="open,pending" icon="terp-dialog-close"/>
-                        <button type="object" string="Set to Draft" name="button_draft" states="cancel,done" icon="gtk-convert"/>
+                        
+                   
                     </group>
                 </form>
             </field>
@@ -154,8 +153,8 @@
                         <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}" help="Sprint Month"/>
                     </group>
                 </search>
-            </field>
-        </record>
+            </field> 
+        </record> 
 
         <record id="action_sprint_all_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>
@@ -170,6 +169,6 @@
         <menuitem
             sequence="20"
             action="action_sprint_all_tree" id="menu_action_sprint_all_tree" parent="menu_scrum"/>
-            
+           
     </data>
 </openerp>

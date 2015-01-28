@@ -21,9 +21,9 @@ More information:
     'website': 'http://www.vertel.se',
     'depends': ['project', 'mail'],
     #'init_xml': [],
-    #'data': ['project_scrum_view.xml',
+    'data': ['project_scrum_view.xml',
     #'security/ir.model.access.csv',
-    #],
+   ],
     
     'installable': True,
     #'auto_install': False,
