@@ -7,7 +7,6 @@
             parent="base.menu_main_pm" sequence="3"/>
             
 <!--Scrum Sprint-->
-
         <record id="view_scrum_sprint_calendar" model="ir.ui.view">
             <field name="name">project.scrum.sprint.calendar</field>
             <field name="model">project.scrum.sprint</field>
