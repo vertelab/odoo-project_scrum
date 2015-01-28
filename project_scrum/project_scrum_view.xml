@@ -21,7 +21,7 @@
         </record>
         
         <record id="view_scrum_sprint_tree" model="ir.ui.view">
-            <field name="name">project.scrum.sprint.form</field>
+            <field name="name">project.scrum.sprint.tree</field>
             <field name="model">project.scrum.sprint</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
