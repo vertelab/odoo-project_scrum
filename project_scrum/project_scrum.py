@@ -25,8 +25,8 @@ class project_scrum_sprint(models.Model):
     retrospective = fields.Text('Sprint Retrospective'),
     # backlog_ids = fields.One2many('project.scrum.product.backlog', 'sprint_id', 'Sprint Backlog'),
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time."),
-    effective_hours = fields.Function(_compute, multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done."),
-    expected_hours = fields.Function(_compute, multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.'),
+    effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done."),
+    expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.'),
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], 'State', required=True, default = 'draft'),
 
 
