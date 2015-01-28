@@ -51,7 +51,7 @@
                         <field name="product_owner_id"/>
                         <field name="date_start"/>  <!--time to start-->
                         <field name="date_stop"/>   <!--time to stop-->
-                <!--    <field name="date_duration"/>   --> <!--duration time-->
+                <!--    <field name="date_duration"/>   --> <!--duration time = stop time - start time-->
                         <field name="description"/> <!--description of sprint-->
                     </group> 
 <!--                <notebook colspan="4">
