@@ -5,7 +5,7 @@
         <menuitem id="menu_scrum"
             name="Scrum"
             parent="base.menu_main_pm" sequence="3"/>
-            
+        
 <!--Scrum Sprint-->
         <record id="view_scrum_sprint_calendar" model="ir.ui.view">
             <field name="name">project.scrum.sprint.calendar</field>
@@ -30,7 +30,11 @@
                     <field name="scrum_master_id"/> <!--name of scrum master-->
                     <field name="product_owner_id" invisible="1"/>  <!--name of product owner-->
                     <field name="date_start"/>
-            <!--    <field name="progress" widget="progressbar"/>   -->
+                    <field name="date_stop"/><!--time to stop-->   
+                    <field name="expected_hours" widget="float_time"/>
+                    <field name="effective_hours" widget="float_time"/> 
+                    <field name="progress" widget="progressbar"/>   
+                   
             <!--    <field name="effective_hours" sum="Effective hours" widget="float_time"/>   -->
             <!--    <field name="expected_hours" sum="Planned hours" widget="float_time"/>   -->
                     <field name="state"/>
@@ -44,62 +48,83 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
+                    <!--Header States-->
+                    <header>
+                        <group colspan="1" col="1">
+                            <field name="state"/>
+                        </group>
+                    </header>
                     <group colspan="4" col="4">
                         <field name="name" select="1"/>
                         <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
-                        <field name="scrum_master_id"/>
-                        <field name="product_owner_id"/>
-                        <field name="date_start"/>  <!--time to start-->
-                        <field name="date_stop"/>   <!--time to stop-->
-                <!--    <field name="date_duration"/>   --> <!--duration time = stop time - start time-->
-                        <field name="description"/> <!--description of sprint-->
+                        <field name="date_start" select="1"/> <!--time to start-->      
+                        <field name="date_stop"/><!--time to stop-->   
+                        <field name="expected_hours" widget="float_time"/>
+                        <field name="effective_hours" widget="float_time"/>
+                        <field name="progress" widget="progressbar"/>
+                       <!-- <field name="scrum_master_id"/>
+                        <field name="product_owner_id"/> -->                        
+                <!--    <field name="date_duration"/>   --> <!--duration time = stop time - start time -->
                     </group> 
-<!--                <notebook colspan="4">
+
+                
+                    <!--<group colspan="4" col="2"> 
+
+						  <tree string="Items" editable="bottom"> -->
+    <!--                    <field name="item"/> -->
+     <!--                   <field name="dev_name"/> --> <!--name of worker-->
+      <!--                  <field name="priority"/> --> <!--priority of the item-->
+      <!--                  <field name="item_state" /> --> <!--state of the item-->
+                      <!--  </tree> -->
+
+               <!--     </group> -->
+                    
+               <notebook colspan="5">
                         <page string="Sprint Info">
                             <group colspan="2" col="2">
                                 <separator string="Responsible" colspan="2"/>
                                 <field name="product_owner_id"/>
                                 <field name="scrum_master_id"/>
                             </group>
+                            
                             <group colspan="2" col="2">
-                                <separator string="Dates" colspan="2"/>
-                                <field name="date_start" select="1"/>
-                                <field name="date_stop"/>
+                                <separator string="Detailed info" colspan="2"/>
+                                <field name="item" /> 
+                                <field name="dev_name"/> 
+                                <field name="priority"/> 
+                                <field name="item_state" />
                             </group>
-                            <group colspan="2" col="2">
-                                <separator string="Planning" colspan="2"/>
-                                <field name="expected_hours" widget="float_time"/>
-                                <field name="effective_hours" widget="float_time"/>
-                                <field name="progress" widget="progressbar"/>
-                            </group>
-                        </page> --> 
-                      <!--  <page string="Daily Meetings">
-                            <field colspan="4" name="meeting_ids" nolabel="1" widget="one2many_list">
+                        </page> 
+                        
+                      <page string="Daily Meetings">
+                            <field colspan="4" name="meeting_ids" nolabel="1" widget="one2many_list"> <!--KLAR -->
                                 <form string="Scrum Sprint">
                                     <group colspan="4" col="6">
-                                            <field name="date"/>
-                                            <field name="user_id"/>
+                                            <field name="date"/> <!--KLAR -->
+                                            <field name="user_id"/> <!--KLAR -->
                                             <button name="%(mail.action_email_compose_message_wizard)d"
                                                 string="Send Email" type="action" icon="terp-mail-message-new"/>
                                     </group>
                                     <notebook colspan="4">
                                         <page string="Scrum Meeting">
                                             <separator colspan="4" string="What did you do since the last meeting?"/>
-                                            <field colspan="4" name="question_yesterday" nolabel="1"/>
+                                            <field colspan="4" name="question_yesterday" nolabel="1"/> <!--KLAR -->
                                             <separator colspan="4" string="What do you plan to do till the next meeting?"/>
-                                            <field colspan="4" name="question_today" nolabel="1"/>
+                                            <field colspan="4" name="question_today" nolabel="1"/> <!--KLAR -->
                                             <separator colspan="4" string="Are there anything blocking you?"/>
-                                            <field colspan="4" name="question_blocks" nolabel="1"/>
+                                            <field colspan="4" name="question_blocks" nolabel="1"/> <!--KLAR -->
                                             <separator colspan="4" string=""/>
-                                        </page>
-                                            <page string="Optional Info">
+                                        </page> 
+                                        
+                                    <!-- <page string="Optional Info">
                                             <separator colspan="4" string="Are your Sprint Backlog estimate accurate ?"/>
                                             <field colspan="4" name="question_backlog" nolabel="1"/>
-                                        </page>
-                                        <page string="Links">
+                                        </page> -->
+                                        
+                                 <!--       <page string="Links">
                                             <separator colspan="4" string="Tasks"/>
                                             <field colspan="4" name="task_ids" nolabel="1" domain="[('sprint_id','=',sprint_id)]"/>
-                                        </page>
+                                        </page> -->
                                 </notebook> 
                             </form>
                                 <tree string="Scrum Meeting">
@@ -107,17 +132,15 @@
                                 <field name="user_id"/>
                             </tree>
                             </field> 
-                        </page>
+                        </page> 
                         <page string="Review">
                             <field colspan="4" name="review" nolabel="1"/>
                         </page>
                         <page string="Retrospective">
                             <field colspan="4" name="retrospective" nolabel="1"/>
                         </page> 
-                    </notebook> -->
-                    <group col="8" colspan="4">
-                        <field name="state" readonly="1"/>
-                    </group>
+                    </notebook> 
+                
                 </form>
             </field>
         </record>
