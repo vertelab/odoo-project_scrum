@@ -14,16 +14,13 @@ class scrum_sprint(models.Model):
     
     def _compute(self):
         for record in self:
-<<<<<<< HEAD
-            record.progress = 42.0
-=======
             record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
             record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days
     
     def time_cal(self):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
         return diff.days
->>>>>>> 2d8b71cbc3e47b1a6af4fb68fd1f6de5e2410fe6
+
         
         
     
@@ -40,26 +37,22 @@ class scrum_sprint(models.Model):
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', required=True,help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
     product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
-<<<<<<< HEAD
    
     meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
     
-=======
-    #meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', 'sprint_id', string = 'Daily Scrum')
->>>>>>> 2d8b71cbc3e47b1a6af4fb68fd1f6de5e2410fe6
+
+
     review = fields.Text(string = 'Sprint Review')
     retrospective = fields.Text(string = 'Sprint Retrospective')
     #backlog_ids = fields.One2many(comodel_name = 'project.scrum.product.backlog', 'sprint_id', 'Sprint Backlog')
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
-<<<<<<< HEAD
+
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done'),('reopen','Re-open')], string='State', required=True, default = 'draft')
-=======
-    #effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
-    #expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
+
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string = 'State', required=True, default='draft')
->>>>>>> 2d8b71cbc3e47b1a6af4fb68fd1f6de5e2410fe6
+
 
 
 

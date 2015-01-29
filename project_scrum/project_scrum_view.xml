@@ -31,17 +31,13 @@
                     <field name="scrum_master_id"/> <!--name of scrum master-->
                     <field name="product_owner_id" invisible="1"/>  <!--name of product owner-->
                     <field name="date_start"/>
-<<<<<<< HEAD
                     <field name="date_stop"/><!--time to stop-->   
                     <field name="expected_hours" widget="float_time"/>
                     <field name="effective_hours" widget="float_time"/> 
                     <field name="progress" widget="progressbar"/>   
-                   
-=======
-                    <field name="date_stop"/>
                     <field name="date_duration"/>   <!--duration time = stop time - start time-->
-                    <field name="progress" widget="progressbar"/>
->>>>>>> 2d8b71cbc3e47b1a6af4fb68fd1f6de5e2410fe6
+                    
+
             <!--    <field name="effective_hours" sum="Effective hours" widget="float_time"/>   -->
             <!--    <field name="expected_hours" sum="Planned hours" widget="float_time"/>   -->
                     <field name="state"/>
@@ -55,7 +51,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
-<<<<<<< HEAD
+
                     <!--Header States-->
                     <header>
                         <group colspan="1" col="1">
@@ -72,7 +68,7 @@
                         <field name="progress" widget="progressbar"/>
                        <!-- <field name="scrum_master_id"/>
                         <field name="product_owner_id"/> -->                        
-                <!--    <field name="date_duration"/>   --> <!--duration time = stop time - start time -->
+                        <field name="date_duration"/>   --> <!--duration time = stop time - start time -->
                     </group> 
 
                 
@@ -88,23 +84,7 @@
                <!--     </group> -->
                     
                <notebook colspan="5">
-=======
-                    <group colspan="3" col="4">
-                        <field name="name" select="1"/>
-                        <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
-                        <field name="scrum_master_id"/>
-                        <field name="product_owner_id"/>
-                        <field name="date_start"/>  <!--time to start-->
-                        <field name="date_stop"/>   <!--time to stop-->
-                    </group> 
-                    <group colspan="1" col="1">
-                        <field name="description"/> <!--description of sprint-->
-                    </group>
-                    <group colspan="1" col="1">
-                        <field name="state"/>
-                    </group>
-<!--                <notebook colspan="4">
->>>>>>> 2d8b71cbc3e47b1a6af4fb68fd1f6de5e2410fe6
+
                         <page string="Sprint Info">
                             <group colspan="2" col="2">
                                 <separator string="Responsible" colspan="2"/>
@@ -164,13 +144,9 @@
                         <page string="Retrospective">
                             <field colspan="4" name="retrospective" nolabel="1"/>
                         </page> 
-<<<<<<< HEAD
+
                     </notebook> 
                 
-=======
-                    </notebook> -->
-
->>>>>>> 2d8b71cbc3e47b1a6af4fb68fd1f6de5e2410fe6
                 </form>
             </field>
         </record>
