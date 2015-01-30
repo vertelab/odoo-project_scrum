@@ -26,7 +26,6 @@ class scrum_sprint(models.Model):
     
     item = fields.Char(string = 'Item', required=False, size=64, help="description of the task")
     dev_name = fields.Char(string = 'Name', required=False, size=15, help="name of employee/worker")
-    #priority = fields.Char(string = 'Priority', required=False, size=20, help="item priority")
     priority = fields.Selection([('veryhigh','Very High'),('high','High'),('medium','Medium'),('low','Low'),('notimportant','Not Important')], string='Priority', required=True, default = 'medium', help="tem priority")
     item_state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=True, default = 'draft', help="item state")
     
