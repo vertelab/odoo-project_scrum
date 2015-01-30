@@ -60,14 +60,18 @@ class scrum_meeting(models.Model):
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
+    question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
     
     
+class scrum_backlog(models.Model):
+    _name = 'project.scrum.backlog'
+    _description = 'Project Scrum Backlog'
+    sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
     
-#class scrum_backlog(models.Model):
-    #_name = 'project.scrum.backlog'
-    #_description = 'Project Scrum Backlog'
-    #sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
+
+    task_ids = fields.Text(string = 'Tasks')
     
-    #question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-    #task_ids = fields.Text(string = 'Tasks')
+class task(models.Model):
+    _inherit = "project.task"
+    sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
     

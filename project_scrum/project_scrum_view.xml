@@ -119,18 +119,18 @@
                                             <separator colspan="4" string="Are there anything blocking you?"/>
                                             <field colspan="4" name="question_blocks" nolabel="1"/> <!--KLAR -->
                                             <separator colspan="4" string=""/>
-                                        </page> 
+                                        </page>
                                         
-                                 <!--       <page string="Optional Info"> 
+                                        <page string="Optional Info"> 
                                             <separator colspan="4" string="Are your Sprint Backlog estimate accurate ?"/>
                                             <field colspan="4" name="question_backlog" nolabel="1"/> 
                                             <separator colspan="4" string=""/>
-                                        </page> -->
+                                        </page> 
                                         
-                                   <!--     <page string="Links">
+                                  <!--     <page string="Links">
                                             <separator colspan="4" string="Tasks"/>
                                             <field colspan="4" name="task_ids" nolabel="1" domain="[('sprint_id','=',sprint_id)]"/>  
-                                        </page> -->
+                                        </page>  -->
                                 </notebook> 
                             </form>
                                 <tree string="Scrum Meeting">
