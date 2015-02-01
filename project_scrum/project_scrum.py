@@ -21,14 +21,6 @@ class scrum_sprint(models.Model):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
         return diff.days
 
-        
-        
-    
-    item = fields.Char(string = 'Item', required=False, size=64, help="description of the task")
-    dev_name = fields.Char(string = 'Name', required=False, size=15, help="name of employee/worker")
-    priority = fields.Selection([('veryhigh','Very High'),('high','High'),('medium','Medium'),('low','Low'),('notimportant','Not Important')], string='Priority', required=True, default = 'medium', help="tem priority")
-    item_state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=True, default = 'draft', help="item state")
-    
     name = fields.Char(string = 'Sprint Name', required=True, size=64)
     date_start = fields.Date(string = 'Starting Date', required=False)
     date_stop = fields.Date(string = 'Ending Date', required=False)
@@ -40,14 +32,12 @@ class scrum_sprint(models.Model):
     meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
     review = fields.Text(string = 'Sprint Review')
     retrospective = fields.Text(string = 'Sprint Retrospective')
-    #backlog_ids = fields.One2many('project.scrum.backlog', 'sprint_id', string ='Sprint Backlog')
+    backlog_ids = fields.One2many('project.scrum.backlog', 'sprint_id', string ='Sprint Backlog')
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
-    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done'),('reopen','Re-open')], string='State', required=True, default = 'draft')
-    
-
-
+    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=True)
+    priority = fields.Selection([('veryhigh','Very High'),('high','High'),('medium','Medium'),('low','Low'),('notimportant','Not Important')], string='Priority', required=True, default = 'medium', help="tem priority")
 
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
@@ -67,9 +57,12 @@ class scrum_backlog(models.Model):
     _name = 'project.scrum.backlog'
     _description = 'Project Scrum Backlog'
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
-    
-
-    task_ids = fields.Text(string = 'Tasks')
+    date = fields.Date(string = 'Date', required=True)
+    task_ids = fields.Char(string = 'Task', required=True)
+    dev_name = fields.Char(string = 'Person in charge', required=True, size=20)
+    backlog_details = fields.Text(string = 'Description', required=True)
+    backlog_priority = fields.Selection([('veryhigh','Very High'),('high','High'),('medium','Medium'),('low','Low'),('notimportant','Not Important')], string='Priority', required=True)
+    backlog_state = fields.Selection([('inprogress','In Progress'),('pending','Pending'),('done','Done'),('cancel','Cancelled')], string='State', required=True)
     
 class task(models.Model):
     _inherit = "project.task"

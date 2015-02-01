@@ -25,7 +25,8 @@
             <field name="model">project.scrum.sprint</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree colors="blue:state in ('draft','pending');grey:state in ('cancel','done')" string="Scrum Sprint">
+                <tree colors="black:state in ('draft'); blue:state in ('pending'); grey:state in ('cancel');
+                green:state in('done')" string="Scrum Sprint">
                     <field name="name"/>    <!--name of sprint-->
                     <field name="project_id"/>  <!--name of project-->
                     <field name="scrum_master_id"/> <!--name of scrum master-->
@@ -36,8 +37,6 @@
                     <field name="effective_hours" widget="float_time"/> 
                     <field name="progress" widget="progressbar"/>   
                     <field name="date_duration"/>   <!--duration time = stop time - start time-->
-                    
-
             <!--    <field name="effective_hours" sum="Effective hours" widget="float_time"/>   -->
             <!--    <field name="expected_hours" sum="Planned hours" widget="float_time"/>   -->
                     <field name="state"/>
@@ -54,54 +53,54 @@
 
                     <!--Header States-->
                     <header>
-                        <group colspan="1" col="1">
-                            <field name="state"/>
-                        </group>
+                        <group colspan="2" col="2">
+                                <separator colspan="2"/>
+                                <field name="state"/>   
+                            </group>
                     </header>
                     <group colspan="4" col="4">
                         <field name="name" select="1"/>
                         <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
+                        <field name="scrum_master_id"/>
+                        <field name="product_owner_id"/>
                         <field name="date_start" select="1"/> <!--time to start-->      
                         <field name="date_stop"/><!--time to stop-->   
                         <field name="expected_hours" widget="float_time"/>
                         <field name="effective_hours" widget="float_time"/>
-                        <field name="progress" widget="progressbar"/>
-                       <!-- <field name="scrum_master_id"/>
-                        <field name="product_owner_id"/> -->                        
+                        <field name="progress" widget="progressbar"/>                  
                         <field name="date_duration"/>    <!--duration time = stop time - start time -->
                     </group> 
-
-                
-                    <!--<group colspan="4" col="2"> 
-
-						  <tree string="Items" editable="bottom"> -->
-    <!--                    <field name="item"/> -->
-     <!--                   <field name="dev_name"/> --> <!--name of worker-->
-      <!--                  <field name="priority"/> --> <!--priority of the item-->
-      <!--                  <field name="item_state" /> --> <!--state of the item-->
-                      <!--  </tree> -->
-
-               <!--     </group> -->
                     
-               <notebook colspan="5">
-
-                        <page string="Sprint Info">
-                            <group colspan="2" col="2">
-                                <separator string="Responsible" colspan="2"/>
-                                <field name="product_owner_id"/>
-                                <field name="scrum_master_id"/>
-                            </group>
+                    <notebook colspan="5">
                             
-                            <group colspan="2" col="2">
-                                <separator string="Detailed info" colspan="2"/>
-                                <field name="item" /> 
-                                <field name="dev_name"/> 
-                                <field name="priority"/>   
-                                <field name="item_state" />
-                            </group>
+                        <page string="Product Backlog"> <!--KLAR -->
+                            <field colspan="2" col="1" name="backlog_ids" nolabel="1" widget="one2many_list">
+                                <form string="Scrum Sprint">
+                                    <group>
+                                        <field name="date"/>
+                                    </group>
+                                    <group colspan="4" col="4">
+                                        <field name="task_ids"/>
+                                        <field name="backlog_priority"/>
+                                        <field name="dev_name"/>
+                                        <field name="backlog_state"/>
+                                    </group>
+                                    <group>
+                                        <separator colspan="4" string="Details of backlog"/>
+                                        <field colspan="4" name="backlog_details" nolabel="1"/>
+                                    </group>
+                                </form>
+                                <tree string="Product Backlog">
+                                    <field name="date"/>
+                                    <field name="task_ids"/>
+                                    <field name="backlog_priority"/>
+                                    <field name="dev_name"/>
+                                    <field name="backlog_state"/>
+                                </tree>
+                            </field> 
                         </page> 
-                        
-                      <page string="Daily Meetings">
+
+                        <page string="Daily Meetings">
                             <field colspan="4" name="meeting_ids" nolabel="1" widget="one2many_list"> <!--KLAR -->
                                 <form string="Scrum Sprint">
                                     <group colspan="4" col="6">
@@ -159,9 +158,9 @@
             <field name="arch" type="xml">
                 <search string="Sprints">
                     <group>
-                        <filter icon="terp-check" string="New" name="current" domain="[('state','=','draft')]" help="New Sprints"/>
-                        <filter icon="terp-camera_test" string="In Progress" domain="[('state','=','open')]" help="In Progress Sprints"/>
-                        <filter icon="gtk-media-pause" string="Pending" domain="[('state','=','pending')]" help="Pending Sprints"/>
+                    <!--<filter icon="terp-check" string="New" name="current" domain="[('state','=','draft')]" help="New Sprints"/>-->
+                    <!--<filter icon="terp-camera_test" string="In Progress" domain="[('state','=','open')]" help="In Progress Sprints"/>-->
+                    <!--<filter icon="gtk-media-pause" string="Pending" domain="[('state','=','pending')]" help="Pending Sprints"/>-->
                         <separator orientation="vertical"/>
                         <field name="name"/>
                         <field name="project_id"/>
@@ -175,7 +174,7 @@
                         <separator orientation="vertical"/>
                         <filter string="Project" icon="terp-folder-violet" domain="[]" context="{'group_by':'project_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    <!--<filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>-->
                         <separator orientation="vertical"/>
                         <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}" help="Sprint Month"/>
                     </group>
