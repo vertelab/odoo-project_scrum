@@ -90,7 +90,8 @@
                                         <field colspan="4" name="backlog_details" nolabel="1"/>
                                     </group>
                                 </form>
-                                <tree string="Product Backlog">
+                                <tree colors="red:backlog_priority in ('high'); yellow:backlog_priority in ('medium');
+                                green:backlog_priority in ('low'); grey:backlog_priority in ('notimportant')" string="Product Backlog">
                                     <field name="date"/>
                                     <field name="task_ids"/>
                                     <field name="backlog_priority"/>

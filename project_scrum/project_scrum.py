@@ -59,10 +59,10 @@ class scrum_backlog(models.Model):
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
     date = fields.Date(string = 'Date', required=True)
     task_ids = fields.Char(string = 'Task', required=True)
-    dev_name = fields.Char(string = 'Person in charge', required=True, size=20)
-    backlog_details = fields.Text(string = 'Description', required=True)
-    backlog_priority = fields.Selection([('veryhigh','Very High'),('high','High'),('medium','Medium'),('low','Low'),('notimportant','Not Important')], string='Priority', required=True)
-    backlog_state = fields.Selection([('inprogress','In Progress'),('pending','Pending'),('done','Done'),('cancel','Cancelled')], string='State', required=True)
+    dev_name = fields.Char(string = 'Person in charge', required=False, size=20)
+    backlog_details = fields.Text(string = 'Description', required=False)
+    backlog_priority = fields.Selection([('high','High'),('medium','Medium'),('low','Low'),('notimportant','Not Important')], string='Priority', required=False)
+    backlog_state = fields.Selection([('inprogress','In Progress'),('draft','Draft'),('done','Done'),('cancel','Cancelled')], string='State', required=False)
     
 class task(models.Model):
     _inherit = "project.task"
