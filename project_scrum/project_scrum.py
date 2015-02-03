@@ -42,7 +42,7 @@ class scrum_sprint(models.Model):
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
-    _inherit = 'mail.thread'
+    #_inherit = 'mail.thread'
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
     date = fields.Date(string = 'Date', required=True)
     user_id = fields.Char(String = 'Name', required=True, size=20)
@@ -50,8 +50,33 @@ class scrum_meeting(models.Model):
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
+    #order_line = fields.One2many('sale.order.line', string = 'order line')
+    
+    @api.multi
+    def send_email(self):
+        assert len(self) == 1, 'This option should only be used for a single id at a time.'
+        template = self.env.ref('project_scrum.email_template_id', False)
+        compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
+        ctx = dict(
+            default_model='project.scrum.meeting',
+            default_res_id=self.id,
+            default_use_template=bool(template),
+            default_template_id=template.id,
+            default_composition_mode='comment',
+            #mark_invoice_as_sent=True,
+        )
+        return {
+            'name': _('Compose Email'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form.id, 'form')],
+            'view_id': compose_form.id,
+            'target': 'new',
+            'context': ctx,
+        }
 
 class task(models.Model):
     _inherit = "project.task"
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
-    
