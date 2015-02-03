@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+    <data noupdate="1">
         
         <menuitem id="menu_scrum"
             name="Scrum"
@@ -37,8 +37,6 @@
                     <field name="effective_hours" widget="float_time"/> 
                     <field name="progress" widget="progressbar"/>   
                     <field name="date_duration"/>   <!--duration time = stop time - start time-->
-            <!--    <field name="effective_hours" sum="Effective hours" widget="float_time"/>   -->
-            <!--    <field name="expected_hours" sum="Planned hours" widget="float_time"/>   -->
                     <field name="state"/>
                 </tree>
             </field>
@@ -51,11 +49,11 @@
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
 
-                    <!--Header States-->
+                    <!--Header States-->                    
                     <header>
                         <group colspan="2" col="2">
-                                <separator colspan="2"/>
-                                <field name="state"/>   
+                            <separator colspan="2"/>
+                            <field name="state"/>   
                             </group>
                     </header>
                     <group colspan="4" col="4">
@@ -64,7 +62,7 @@
                         <field name="scrum_master_id"/>
                         <field name="product_owner_id"/>
                         <field name="date_start" select="1"/> <!--time to start-->      
-                        <field name="date_stop"/><!--time to stop-->   
+                        <field name="date_stop"/>   <!--time to stop-->   
                         <field name="expected_hours" widget="float_time"/>
                         <field name="effective_hours" widget="float_time"/>
                         <field name="progress" widget="progressbar"/>                  
@@ -72,43 +70,35 @@
                     </group> 
                     
                     <notebook colspan="5">
-                            
-                        <page string="Product Backlog"> <!--KLAR -->
+                        
+
+                        <page string="Product Backlog">
                             <field colspan="2" col="1" name="backlog_ids" nolabel="1" widget="one2many_list">
-                                <form string="Scrum Sprint">
-                                    <group>
-                                        <field name="date"/>
-                                    </group>
-                                    <group colspan="4" col="4">
-                                        <field name="task_ids"/>
-                                        <field name="backlog_priority"/>
-                                        <field name="dev_name"/>
-                                        <field name="backlog_state"/>
-                                    </group>
-                                    <group>
-                                        <separator colspan="4" string="Details of backlog"/>
-                                        <field colspan="4" name="backlog_details" nolabel="1"/>
-                                    </group>
-                                </form>
-                                <tree colors="red:backlog_priority in ('high'); yellow:backlog_priority in ('medium');
-                                green:backlog_priority in ('low'); grey:backlog_priority in ('notimportant')" string="Product Backlog">
-                                    <field name="date"/>
-                                    <field name="task_ids"/>
-                                    <field name="backlog_priority"/>
-                                    <field name="dev_name"/>
-                                    <field name="backlog_state"/>
+                                <tree string="Product Backlog" colors="green:priority in ('0');
+                                orange:priority in ('1'); red:priority in('2')">
+                                    <field name="priority"/>
+                                    <field name="name"/>
+                                    <field name="user_id"/>
+                                    <field name="date_deadline"/>
+                                    <field name="kanban_state"/>
                                 </tree>
                             </field> 
-                        </page> 
+                        </page>
 
+                        
                         <page string="Daily Meetings">
                             <field colspan="4" name="meeting_ids" nolabel="1" widget="one2many_list"> <!--KLAR -->
                                 <form string="Scrum Sprint">
                                     <group colspan="4" col="6">
-                                            <field name="date"/> <!--KLAR -->
-                                            <field name="user_id"/> <!--KLAR -->
-                                            <button name="%(mail.action_email_compose_message_wizard)d"
-                                                string="Send Email" type="action" icon="terp-mail-message-new"/>
+                                        <field name="date"/> <!--KLAR -->
+                                        <field name="user_id"/> <!--KLAR -->
+<!--
+                                        <button name="email_template_account_followup_level0"
+                                            string="Send Email" type="object" icon="terp-mail-message-new"/>
+-->
+                                        <button name="send_passwd" string="Send Email" type="object" 
+                                        icon="terp-mail-message-new" />
+
                                     </group>
                                     <notebook colspan="4">
                                         <page string="Scrum Meeting">
@@ -133,7 +123,7 @@
                                         </page>  -->
                                 </notebook> 
                             </form>
-                                <tree string="Scrum Meeting">
+                            <tree string="Scrum Meeting">
                                 <field name="date"/>
                                 <field name="user_id"/>
                             </tree>
@@ -151,6 +141,29 @@
                 </form>
             </field>
         </record>
+        
+        <record id="email_template_id" model="email.template">
+            <field name="name">Name of email Template</field>
+            <field name="email_from">${object.user_id.email or ''}</field>
+            <field name="subject"> ${object.date or ''}</field>
+            <!--<field name="model_id" ref="project_scrum.meeting"/>-->
+            <field name="auto_delete" eval="True"/>
+            <field name="email_to">${object.user_id.email}</field>
+            <field name="body_html">
+            </field>  
+       
+     </record>
+
+        <record id="view_scrum_sprint_task_search" model="ir.ui.view">
+            <field name="name">project.scrum.sprint.task</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <filter name="project" position="after">
+                    <filter string="Sprint" name="Sprint" context="{'group_by':'sprint_id'}"/>
+                </filter>
+            </field>
+        </record>
 
         <record model="ir.ui.view" id="view_scrum_sprint_search">
             <field name="name">project.scrum.sprint.search</field>
@@ -159,9 +172,9 @@
             <field name="arch" type="xml">
                 <search string="Sprints">
                     <group>
-                    <!--<filter icon="terp-check" string="New" name="current" domain="[('state','=','draft')]" help="New Sprints"/>-->
-                    <!--<filter icon="terp-camera_test" string="In Progress" domain="[('state','=','open')]" help="In Progress Sprints"/>-->
-                    <!--<filter icon="gtk-media-pause" string="Pending" domain="[('state','=','pending')]" help="Pending Sprints"/>-->
+                        <filter icon="terp-check" string="New" name="current"/>
+                        <filter icon="terp-camera_test" string="In Progress"/>
+                        <filter icon="gtk-media-pause" string="Pending"/>
                         <separator orientation="vertical"/>
                         <field name="name"/>
                         <field name="project_id"/>
@@ -175,13 +188,13 @@
                         <separator orientation="vertical"/>
                         <filter string="Project" icon="terp-folder-violet" domain="[]" context="{'group_by':'project_id'}"/>
                         <separator orientation="vertical"/>
-                    <!--<filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>-->
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
                         <separator orientation="vertical"/>
                         <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}" help="Sprint Month"/>
                     </group>
                 </search>
             </field> 
-        </record> 
+        </record>
 
         <record id="action_sprint_all_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>

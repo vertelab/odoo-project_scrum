@@ -32,7 +32,7 @@ class scrum_sprint(models.Model):
     meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
     review = fields.Text(string = 'Sprint Review')
     retrospective = fields.Text(string = 'Sprint Retrospective')
-    backlog_ids = fields.One2many('project.scrum.backlog', 'sprint_id', string ='Sprint Backlog')
+    backlog_ids = fields.One2many('project.task', 'sprint_id', string ='Sprint Backlog')
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
@@ -44,27 +44,42 @@ class scrum_meeting(models.Model):
     _description = 'Project Scrum Daily Meetings'
     _inherit = 'mail.thread'
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
-    
     date = fields.Date(string = 'Date', required=True)
     user_id = fields.Char(String = 'Name', required=True, size=20)
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-    
-    
-class scrum_backlog(models.Model):
-    _name = 'project.scrum.backlog'
-    _description = 'Project Scrum Backlog'
-    sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
-    date = fields.Date(string = 'Date', required=True)
-    task_ids = fields.Char(string = 'Task', required=True)
-    dev_name = fields.Char(string = 'Person in charge', required=False, size=20)
-    backlog_details = fields.Text(string = 'Description', required=False)
-    backlog_priority = fields.Selection([('high','High'),('medium','Medium'),('low','Low'),('notimportant','Not Important')], string='Priority', required=False)
-    backlog_state = fields.Selection([('inprogress','In Progress'),('draft','Draft'),('done','Done'),('cancel','Cancelled')], string='State', required=False)
+    #order_line = fields.One2many('sale.order.line', string = 'order line')
+    def send_passwd(self):
+        """ Sends the password to the users mail.
+        """        
+        assert len(self) == 1, 'This option should only be used for a single id at a time.'
+        template = self.env.ref('project_scrum.email_template_id', False)
+        compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
+        ctx = dict(
+            default_model='project_scrum.project.scrum.meeting',
+            default_res_id=self.id,
+            default_use_template=bool(template),
+            #default_template_id=template.id,
+            default_composition_mode='comment',
+            #mark_invoice_as_sent=True,
+        )
+        self.state='sent'
+        return {
+            'name': _('Compose Email'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form.id, 'form')],
+            'view_id': compose_form.id,
+            'target': 'new',
+            'context': ctx,
+        }
     
 class task(models.Model):
     _inherit = "project.task"
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
     
+
