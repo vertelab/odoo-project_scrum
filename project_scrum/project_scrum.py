@@ -42,7 +42,7 @@ class scrum_sprint(models.Model):
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
-    #_inherit = 'mail.thread'
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
     date = fields.Date(string = 'Date', required=True)
     user_id = fields.Char(String = 'Name', required=True, size=20)
