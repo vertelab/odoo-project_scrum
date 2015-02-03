@@ -71,7 +71,7 @@
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
 
-                    <!--Header States-->                    
+                    <!--Header States-->
                     <header>
                         <group colspan="2" col="2">
                             <separator colspan="2"/>
@@ -118,11 +118,7 @@
                                         <button name="email_template_account_followup_level0"
                                             string="Send Email" type="object" icon="terp-mail-message-new"/>
 -->
-<<<<<<< HEAD
-                                        <button name="send_passwd" string="Send Email" type="object" 
-=======
                                         <button name="send_email" string="Send Email" type="object" 
->>>>>>> 83452465941dc38440618856594d22c36677f467
                                         icon="terp-mail-message-new" />
 
                                     </group>
@@ -168,21 +164,6 @@
             </field>
         </record>
         
-<<<<<<< HEAD
-        <record id="email_template_id" model="email.template">
-            <field name="name">Name of email Template</field>
-            <field name="email_from">${object.user_id.email or ''}</field>
-            <field name="subject"> ${object.date or ''}</field>
-            <!--<field name="model_id" ref="project_scrum.meeting"/>-->
-            <field name="auto_delete" eval="True"/>
-            <field name="email_to">${object.user_id.email}</field>
-            <field name="body_html">
-            </field>  
-       
-     </record>
-
-=======
->>>>>>> 83452465941dc38440618856594d22c36677f467
         <record id="view_scrum_sprint_task_search" model="ir.ui.view">
             <field name="name">project.scrum.sprint.task</field>
             <field name="model">project.task</field>
