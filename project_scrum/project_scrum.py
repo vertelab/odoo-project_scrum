@@ -51,29 +51,13 @@ class scrum_meeting(models.Model):
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
     #order_line = fields.One2many('sale.order.line', string = 'order line')
-<<<<<<< HEAD
-    def send_passwd(self):
-        """ Sends the password to the users mail.
-        """        
-=======
     
     @api.multi
     def send_email(self):
->>>>>>> 83452465941dc38440618856594d22c36677f467
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
         template = self.env.ref('project_scrum.email_template_id', False)
         compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
         ctx = dict(
-<<<<<<< HEAD
-            default_model='project_scrum.project.scrum.meeting',
-            default_res_id=self.id,
-            default_use_template=bool(template),
-            #default_template_id=template.id,
-            default_composition_mode='comment',
-            #mark_invoice_as_sent=True,
-        )
-        self.state='sent'
-=======
             default_model='project.scrum.meeting',
             default_res_id=self.id,
             default_use_template=bool(template),
@@ -81,7 +65,6 @@ class scrum_meeting(models.Model):
             default_composition_mode='comment',
             #mark_invoice_as_sent=True,
         )
->>>>>>> 83452465941dc38440618856594d22c36677f467
         return {
             'name': _('Compose Email'),
             'type': 'ir.actions.act_window',
@@ -93,16 +76,7 @@ class scrum_meeting(models.Model):
             'target': 'new',
             'context': ctx,
         }
-<<<<<<< HEAD
-    
-class task(models.Model):
-    _inherit = "project.task"
-    sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
-    
-
-=======
 
 class task(models.Model):
     _inherit = "project.task"
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
->>>>>>> 83452465941dc38440618856594d22c36677f467
