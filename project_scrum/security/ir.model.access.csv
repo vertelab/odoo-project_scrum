@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+scrum_sprint_admin,project scrum sprint,modelscrum_sprint,base.group_sale_manager,1,1,1,1
+scrum_sprint_user,project scrum sprint,model_scrum_sprint,base.group_sale_user,1,0,0,0
+

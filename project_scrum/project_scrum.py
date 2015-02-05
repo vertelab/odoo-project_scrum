@@ -20,10 +20,9 @@ class scrum_sprint(models.Model):
     def time_cal(self):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
         return diff.days
-
-    user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
-    #color = fields.Integer(default=1)
-    name = fields.Char(string = 'Sprint Name', required=True, size=64)
+        
+    name = fields.Char(string = 'Sprint Name', required=True, size=64)  # name for sprint
+    user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')   # name for person who has been assigned to
     date_start = fields.Date(string = 'Starting Date', required=False)
     date_stop = fields.Date(string = 'Ending Date', required=False)
     date_duration = fields.Integer(compute = '_compute', string = 'Duration')
@@ -40,19 +39,18 @@ class scrum_sprint(models.Model):
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=True)
     
-    
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
     date = fields.Date(string = 'Date', required=True)
-    user_id = fields.Char(String = 'Name', required=True, size=20)
+    user_id = fields.Char(String = 'Name', required=True, size=20)  # name for person who attend to meeting
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-    #order_line = fields.One2many('sale.order.line', string = 'order line')
+    #order_line = fields.One2many('sale.order.line', string = 'order line') # tasks sort by order
     
     @api.multi
     def send_email(self):
