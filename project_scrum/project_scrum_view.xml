@@ -17,11 +17,11 @@
                 <![CDATA[
                 <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 16px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
                 <p>Name: ${object.user_id}</p>   <p>Date: ${object.date}</p> <br/>
-                <p style="color:blue"><font-size="8">What did you do since the last meeting?</font></p>
+                <p style="color:blue"><font-size="14">What did you do since the last meeting?</font></p>
                     ${object.question_yesterday}    <br/><br/>
-                <p style="color:blue"><font-size="8">What do you plan to do till the next meeting?</font></p>
+                <p style="color:blue"><font-size="14">What do you plan to do till the next meeting?</font></p>
                     ${object.question_today}    <br/><br/>
-                <p style="color:blue"><font-size="8">Are there anything blocking you?</font></p>
+                <p style="color:blue"><font-size="14">Are there anything blocking you?</font></p>
                     ${object.question_blocks}    <br/><br/>
                 </div>
                 ]]>
