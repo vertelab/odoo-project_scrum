@@ -8,39 +8,45 @@
             
         <record id="email_template_id" model="email.template">
             <field name="name">Name of email Template</field>
-            <field name="email_from">${object.user_id.email or ''}</field>
+            <field name="email_from">${object.user_id or ''}</field>
             <field name="subject"> ${object.date or ''}</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_meeting"/>
             <field name="auto_delete" eval="True"/>
-            <field name="email_to">${object.user_id.email or ''}</field>
+            <field name="email_to">${object.user_id or ''}</field>
             <field name="body_html">
                 <![CDATA[
                 <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 16px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); ">
                 <p>Name: ${object.user_id}</p>   <p>Date: ${object.date}</p> <br/>
-                <p style="color:blue"><font size="8">What did you do since the last meeting?</font></p>
+                <p style="color:blue"><font-size="8">What did you do since the last meeting?</font></p>
                     ${object.question_yesterday}    <br/><br/>
-                <p style="color:blue"><font size="8">What do you plan to do till the next meeting?</font></p>
+                <p style="color:blue"><font-size="8">What do you plan to do till the next meeting?</font></p>
                     ${object.question_today}    <br/><br/>
-                <p style="color:blue"><font size="8">Are there anything blocking you?</font></p>
+                <p style="color:blue"><font-size="8">Are there anything blocking you?</font></p>
                     ${object.question_blocks}    <br/><br/>
                 </div>
                 ]]>
             </field>
-        </record>    
-        
-<!--Scrum Sprint-->
+        </record>          
 
+<!--Calendar -->
+
+<!--
         <record id="view_scrum_sprint_calendar" model="ir.ui.view">
             <field name="name">project.scrum.sprint.calendar</field>
             <field name="model">project.scrum.sprint</field>
             <field name="type">calendar</field>
             <field name="arch" type="xml">
-                <calendar string="Scrum Sprint" date_start="date_start" date_stop="date_stop" date_duration="date_duration">
+               <calendar string="Scrum Sprint" 
+                date_start="date_start" date_stop="date_stop" date_duration="date_duration">
                     <field name="name"/>
-                    <field name="project_id"/>
-                </calendar>
+                    <field name="project_id"/> 
+                    <field name="sprint_id"/> 
+                 </calendar>
             </field>
         </record>
+-->
+        
+<!--Scrum Sprint-->
         
         <record id="view_scrum_sprint_tree" model="ir.ui.view">
             <field name="name">project.scrum.sprint.tree</field>
@@ -71,7 +77,7 @@
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
 
-                    <!--Header States-->                    
+                    <!--Header States-->
                     <header>
                         <group colspan="2" col="2">
                             <separator colspan="2"/>
@@ -118,11 +124,7 @@
                                         <button name="email_template_account_followup_level0"
                                             string="Send Email" type="object" icon="terp-mail-message-new"/>
 -->
-<<<<<<< HEAD
-                                        <button name="send_passwd" string="Send Email" type="object" 
-=======
                                         <button name="send_email" string="Send Email" type="object" 
->>>>>>> 83452465941dc38440618856594d22c36677f467
                                         icon="terp-mail-message-new" />
 
                                     </group>
@@ -163,26 +165,10 @@
                         </page> 
 
                     </notebook> 
-                
                 </form>
             </field>
         </record>
         
-<<<<<<< HEAD
-        <record id="email_template_id" model="email.template">
-            <field name="name">Name of email Template</field>
-            <field name="email_from">${object.user_id.email or ''}</field>
-            <field name="subject"> ${object.date or ''}</field>
-            <!--<field name="model_id" ref="project_scrum.meeting"/>-->
-            <field name="auto_delete" eval="True"/>
-            <field name="email_to">${object.user_id.email}</field>
-            <field name="body_html">
-            </field>  
-       
-     </record>
-
-=======
->>>>>>> 83452465941dc38440618856594d22c36677f467
         <record id="view_scrum_sprint_task_search" model="ir.ui.view">
             <field name="name">project.scrum.sprint.task</field>
             <field name="model">project.task</field>
@@ -193,7 +179,7 @@
                 </filter>
             </field>
         </record>
-
+            
         <record model="ir.ui.view" id="view_scrum_sprint_search">
             <field name="name">project.scrum.sprint.search</field>
             <field name="model">project.scrum.sprint</field>
@@ -229,7 +215,9 @@
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
             <field name="view_type">form</field>
+<!--
             <field name="view_mode">tree,form,calendar</field>
+-->
             <field name="view_id" ref="view_scrum_sprint_tree"/>
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_scrum_sprint_search"/>

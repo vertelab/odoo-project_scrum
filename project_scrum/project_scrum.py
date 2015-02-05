@@ -21,6 +21,8 @@ class scrum_sprint(models.Model):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
         return diff.days
 
+    user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
+    #color = fields.Integer(default=1)
     name = fields.Char(string = 'Sprint Name', required=True, size=64)
     date_start = fields.Date(string = 'Starting Date', required=False)
     date_stop = fields.Date(string = 'Ending Date', required=False)
@@ -37,12 +39,12 @@ class scrum_sprint(models.Model):
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=True)
-    priority = fields.Selection([('veryhigh','Very High'),('high','High'),('medium','Medium'),('low','Low'),('notimportant','Not Important')], string='Priority', required=True, default = 'medium', help="tem priority")
-
+    
+    
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
-    #_inherit = 'mail.thread'
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
     date = fields.Date(string = 'Date', required=True)
     user_id = fields.Char(String = 'Name', required=True, size=20)
@@ -51,29 +53,13 @@ class scrum_meeting(models.Model):
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
     #order_line = fields.One2many('sale.order.line', string = 'order line')
-<<<<<<< HEAD
-    def send_passwd(self):
-        """ Sends the password to the users mail.
-        """        
-=======
     
     @api.multi
     def send_email(self):
->>>>>>> 83452465941dc38440618856594d22c36677f467
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
         template = self.env.ref('project_scrum.email_template_id', False)
         compose_form = self.env.ref('mail.email_compose_message_wizard_form', False)
         ctx = dict(
-<<<<<<< HEAD
-            default_model='project_scrum.project.scrum.meeting',
-            default_res_id=self.id,
-            default_use_template=bool(template),
-            #default_template_id=template.id,
-            default_composition_mode='comment',
-            #mark_invoice_as_sent=True,
-        )
-        self.state='sent'
-=======
             default_model='project.scrum.meeting',
             default_res_id=self.id,
             default_use_template=bool(template),
@@ -81,7 +67,6 @@ class scrum_meeting(models.Model):
             default_composition_mode='comment',
             #mark_invoice_as_sent=True,
         )
->>>>>>> 83452465941dc38440618856594d22c36677f467
         return {
             'name': _('Compose Email'),
             'type': 'ir.actions.act_window',
@@ -93,16 +78,7 @@ class scrum_meeting(models.Model):
             'target': 'new',
             'context': ctx,
         }
-<<<<<<< HEAD
-    
-class task(models.Model):
-    _inherit = "project.task"
-    sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
-    
-
-=======
 
 class task(models.Model):
     _inherit = "project.task"
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
->>>>>>> 83452465941dc38440618856594d22c36677f467
