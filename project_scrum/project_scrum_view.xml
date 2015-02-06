@@ -9,7 +9,7 @@
 <!--email_template for daily meeting-->
 
         <record id="email_template_id" model="email.template">
-            <field name="name">Email Template for Sprint</field>
+            <field name="name">Email Template for Meeting</field>
             <field name="email_from">${object.user_id or ''}</field>
             <field name="subject"> ${object.date or ''}</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_meeting"/>
@@ -31,7 +31,6 @@
         </record>          
 
 <!--Calendar for sprint-->
-
         <record id="view_scrum_sprint_calendar" model="ir.ui.view">
             <field name="name">project.scrum.sprint.calendar</field>
             <field name="model">project.scrum.sprint</field>
@@ -43,20 +42,6 @@
                 </calendar>
             </field>
         </record>
-        
-<!--Calendar for metting-->
-<!--
-        <record id="view_scrum_meeting_calendar" model="ir.ui.view">
-            <field name="name">project.scrum.meeting.calendar</field>
-            <field name="model">project.scrum.meeting</field>
-            <field name="type">calendar</field>
-            <field name="arch" type="xml">
-                <calendar string="Scrum Meeting" date_start="date" color="user_id">
-                    <field name="sprint_id"/>
-                </calendar>
-            </field>
-        </record>
--->
         
 <!--Scrum Sprint-->
         <!--Scrum tree view-->
