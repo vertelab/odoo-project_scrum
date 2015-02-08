@@ -22,7 +22,7 @@ More information:
     'depends': ['project', 'mail'],
     #'init_xml': [],
     'data': ['project_scrum_view.xml',
-    #'security/ir.model.access.csv',
+    'security/ir.model.access.csv',
    ],
     
     'installable': True,
