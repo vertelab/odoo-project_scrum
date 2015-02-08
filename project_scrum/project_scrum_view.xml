@@ -4,7 +4,7 @@
         
         <menuitem id="menu_scrum"
             name="Scrum"
-            parent="base.menu_main_pm" sequence="3"/>         
+            parent="base.menu_main_pm" sequence="3"/>
 
 <!--Scrum Sprint-->
         <!--sprint tree view-->
@@ -63,7 +63,8 @@
                         <page string="Product Backlog">
                             <field colspan="2" col="1" name="backlog_ids" nolabel="1" widget="one2many_list">
                                 <tree string="Product Backlog" colors="green:priority in ('0');
-                                orange:priority in ('1'); red:priority in('2')">
+                                orange:priority in ('1'); red:priority in('2')" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
                                     <field name="priority"/>
                                     <field name="name"/>
                                     <field name="user_id"/>
@@ -209,7 +210,21 @@
                 </search>
             </field> 
         </record>
+        
+<!--the place of tasks sequence have same piority can be changed, tree view-->        
+        <record id="action_invoice_tasks_view_tree" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">tree</field>
+            <field name="inherit_id" ref="sale.action_invoice_salesteams_view_tree"/>
+        </record>
 
+<!--the place of tasks sequence have same piority can be changed, form view           
+        <record id="action_invoice_tasks_view_form" model="ir.actions.act_window.view">
+            <field name="sequence">2</field>
+            <field name="view_mode">form</field>
+            <field name="inherit_id" ref="sale.action_invoice_salesteams_view_form"/>
+        </record>
+-->
 <!--access to sprint-->
         <record id="action_sprint_all_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>
