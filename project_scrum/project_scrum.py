@@ -30,7 +30,6 @@ class scrum_sprint(models.Model):
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', required=True,help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
     product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
-    meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
     review = fields.Text(string = 'Sprint Review')
     retrospective = fields.Text(string = 'Sprint Retrospective')
     backlog_ids = fields.One2many('project.task', 'sprint_id', string ='Sprint Backlog')
@@ -44,8 +43,9 @@ class scrum_meeting(models.Model):
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
-    date = fields.Date(string = 'Date', required=True)
-    user_id = fields.Char(String = 'Name', required=True, size=20)  # name for person who attend to meeting
+    #meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
+    date_meeting = fields.Date(string = 'Date', required=True)
+    user_id_meeting = fields.Char(string = 'Name', required=True)  # name for person who attend to meeting
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
