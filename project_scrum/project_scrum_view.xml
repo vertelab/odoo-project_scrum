@@ -211,20 +211,6 @@
             </field> 
         </record>
         
-<!--the place of tasks sequence have same piority can be changed, tree view-->        
-        <record id="action_invoice_tasks_view_tree" model="ir.actions.act_window.view">
-            <field name="sequence">1</field>
-            <field name="view_mode">tree</field>
-            <field name="inherit_id" ref="sale.action_invoice_salesteams_view_tree"/>
-        </record>
-
-<!--the place of tasks sequence have same piority can be changed, form view           
-        <record id="action_invoice_tasks_view_form" model="ir.actions.act_window.view">
-            <field name="sequence">2</field>
-            <field name="view_mode">form</field>
-            <field name="inherit_id" ref="sale.action_invoice_salesteams_view_form"/>
-        </record>
--->
 <!--access to sprint-->
         <record id="action_sprint_all_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>
