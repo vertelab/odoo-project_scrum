@@ -33,7 +33,7 @@ class scrum_sprint(models.Model):
     review = fields.Text(string = 'Sprint Review')
     retrospective = fields.Text(string = 'Sprint Retrospective')
     backlog_ids = fields.One2many('project.task', 'sprint_id', string ='Sprint Backlog')
-    sequence = fields.integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
+    sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
