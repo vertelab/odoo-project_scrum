@@ -15,13 +15,17 @@ class scrum_sprint(models.Model):
     def _compute(self):
         for record in self:
             record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
-            record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days
+            if date.today() >= fields.Date.from_string(self.date_stop):
+                record.date_duration = record.time_cal()
+            else:
+                record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days
     
     def time_cal(self):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
-        return diff.days
+        if diff.days <= 0:
+            return 1
+        return diff.days + 1
 
-        
     name = fields.Char(string = 'Sprint Name', required=True, size=64)  # name for sprint
     meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')   # name for person who has been assigned to
