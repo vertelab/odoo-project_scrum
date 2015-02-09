@@ -20,8 +20,10 @@ class scrum_sprint(models.Model):
     def time_cal(self):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
         return diff.days
+
         
     name = fields.Char(string = 'Sprint Name', required=True, size=64)  # name for sprint
+    meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')   # name for person who has been assigned to
     date_start = fields.Date(string = 'Starting Date', required=False)
     date_stop = fields.Date(string = 'Ending Date', required=False)
@@ -33,7 +35,7 @@ class scrum_sprint(models.Model):
     review = fields.Text(string = 'Sprint Review')
     retrospective = fields.Text(string = 'Sprint Retrospective')
     backlog_ids = fields.One2many('project.task', 'sprint_id', string ='Sprint Backlog')
-    sequence = fields.integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
+    sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
@@ -44,7 +46,7 @@ class scrum_meeting(models.Model):
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
-    #meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
+    
     date_meeting = fields.Date(string = 'Date', required=True)
     user_id_meeting = fields.Char(string = 'Name', required=True)  # name for person who attend to meeting
     question_yesterday = fields.Text(string = 'Description', required=True)
@@ -81,3 +83,4 @@ class scrum_meeting(models.Model):
 class task(models.Model):
     _inherit = "project.task"
     sprint_id = fields.Many2one('project.scrum.sprint', string = 'Sprint')
+    
