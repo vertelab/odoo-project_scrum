@@ -170,11 +170,6 @@
                 </form>
             </field>
         </record>
-        
-<!--Scrum Meeting-->
-<!--
-        <record id="view_task_form2" model="ir.ui.view">
--->
 
 <!--Scrum Meeting-->
         <!--daily meeting tree view-->
