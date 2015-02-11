@@ -15,7 +15,7 @@ class scrum_sprint(models.Model):
     def _compute(self):
         for record in self:
             record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
-            if date.today() >= fields.Date.from_string(self.date_stop):
+            if date.today() >= fields.Date.from_string(record.date_stop):
                 record.date_duration = record.time_cal()
             else:
                 record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days
@@ -29,8 +29,8 @@ class scrum_sprint(models.Model):
     name = fields.Char(string = 'Sprint Name', required=True, size=64)  # name for sprint
     meeting_ids = fields.One2many('project.scrum.meeting', 'sprint_id', string ='Daily Scrum')
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')   # name for person who has been assigned to
-    date_start = fields.Date(string = 'Starting Date', required=False)
-    date_stop = fields.Date(string = 'Ending Date', required=False)
+    date_start = fields.Date(string = 'Starting Date', required=True)
+    date_stop = fields.Date(string = 'Ending Date', required=True)
     date_duration = fields.Integer(compute = '_compute', string = 'Duration')
     description = fields.Text(string = 'Description', required=False)
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', required=True,help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
