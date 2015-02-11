@@ -21,8 +21,10 @@
                     <field name="product_owner_id" invisible="1"/>  <!--name of product owner-->
                     <field name="date_start"/>
                     <field name="date_stop"/><!--time to stop-->   
+<!--
                     <field name="expected_hours" widget="float_time"/>
                     <field name="effective_hours" widget="float_time"/> 
+-->
                     <field name="progress" widget="progressbar"/>   
                     <field name="date_duration"/>   <!--duration time = stop time - start time-->
                     <field name="state"/>
@@ -52,24 +54,23 @@
                         <field name="product_owner_id"/>
                         <field name="date_start" select="1"/> 
                         <field name="date_stop"/>
+<!--
                         <field name="expected_hours" widget="float_time"/>
                         <field name="effective_hours" widget="float_time"/>
-                        <field name="progress" widget="progressbar"/>                  
+-->
+                        <field name="progress" widget="progressbar"/>
                         <field name="date_duration"/>
                     </group> 
                     
                     <notebook colspan="5">
-                        <!--Backlog-->
-                        <page string="Product Backlog">
-                            <field colspan="2" col="1" name="backlog_ids" nolabel="1" widget="one2many_list">
-                                <tree string="Product Backlog" colors="green:priority in ('0');
-                                orange:priority in ('1'); red:priority in('2')" editable="bottom">
-                                    <field name="sequence" widget="handle"/>
-                                    <field name="priority"/>
+                        <!--User Stories-->
+                        <page string="User Stories">
+                            <field colspan="2" col="1" name="us_ids">
+                                <tree>
+                                    <field name="actor_ids"/>
                                     <field name="name"/>
-                                    <field name="user_id"/>
-                                    <field name="date_deadline"/>
-                                    <field name="kanban_state"/>
+                                    <field name="sprint_id"/>
+                                    <field name="project_id"/>
                                 </tree>
                             </field> 
                         </page>
@@ -90,13 +91,91 @@
             <field name="model">project.scrum.sprint</field>
             <field name="type">calendar</field>
             <field name="arch" type="xml">
-                <calendar string="Scrum Sprint" date_start="date_start" color="backlog_ids">
+                <calendar string="Scrum Sprint" date_start="date_start" color="us_ids">
                     <field name="name"/>
                     <field name="project_id"/>
                 </calendar>
             </field>
-        </record>    
+        </record>
+
+<!--Scrum User Stories-->
+        <!--user stories kanban view-->
+        <record id="view_scrum_us_kanban" model="ir.ui.view">
+            <field name="name">project.scrum.us.kanban</field>
+            <field name="model">project.scrum.us</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <li><p>Actor: <field name="actor_ids"/></p></li>
+                        <li><p>User Story: <field name="name"/></p></li>
+                        <li><p>Task: <field name="task_ids"/></p></li>
+                        <li><p>Sprint: <field name="sprint_id"/></p></li>
+                        <li><p>Project: <field name="project_id"/></p></li>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--user stories tree view-->
+        <record id="view_scrum_us_tree" model="ir.ui.view">
+            <field name="name">project.scrum.us.tree</field>
+            <field name="model">project.scrum.us</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="User Stories">
+                    <field name="actor_ids"/>
+                    <field name="name"/>
+                    <field name="sprint_id"/>
+                    <field name="project_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--user stories form view-->
+        <record id="view_scrum_us_form" model="ir.ui.view">
+            <field name="name">project.scrum.us.form</field>
+            <field name="model">project.scrum.us</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="User Stories">
+                    <group col="4">
+                        <field name="project_id"/>
+                        <field name="sprint_id"/>
+                    </group>
+                    <group>
+                        <field name="actor_ids" widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                    <notebook colspan="5">
+                        <page string="Tasks">
+                            <field colspan="2" col="1" name="task_ids" nolabel="1" widget="one2many_list">
+                                <tree string="Sprint Backlog" colors="green:priority in ('0');
+                                orange:priority in ('1'); red:priority in('2')">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="priority"/>
+                                    <field name="name"/>
+                                    <field name="user_id"/>
+                                    <field name="date_deadline"/>
+                                    <field name="kanban_state"/>
+                                </tree>
+                            </field> 
+                        </page>
+                    </notebook> 
+                </form>
+            </field>
+        </record>
         
+<!--Scrum Meeting-->
+<!--
+        <record id="view_task_form2" model="ir.ui.view">
+-->
+
 <!--Scrum Meeting-->
         <!--daily meeting tree view-->
         <record id="view_scrum_meeting_tree" model="ir.ui.view">
@@ -173,24 +252,21 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Sprints">
-                    <group>
-                        <filter icon="terp-check" string="New" name="current"/>
-                        <filter icon="terp-camera_test" string="In Progress"/>
-                        <filter icon="gtk-media-pause" string="Pending"/>
+                    <group string="Filter By...">
+                        <filter string="Draft" domain="[('state','=','draft')]"/>
+                        <filter string="Open" domain="[('state','=','open')]"/>
+                        <filter string="Pending" domain="[('state','=','pending')]"/>
+                        <filter string="Cancelled" domain="[('state','=','cancel')]"/>
+                        <filter string="Done" domain="[('state','=','done')]"/>
                         <separator orientation="vertical"/>
-                        <field name="name"/>
-                        <field name="project_id"/>
-                        <field name="scrum_master_id"/>
-                        <field name="date_start"/>
                     </group>
                     <newline/>
                     <group expand="0" string="Group By...">
                         <filter string="Product owner" icon="terp-personal" domain="[]" context="{'group_by':'product_owner_id'}"/>
+                        <separator orientation="vertical"/>
                         <filter string="Scrum Master" icon="terp-personal" domain="[]"  context="{'group_by':'scrum_master_id'}"/>
                         <separator orientation="vertical"/>
                         <filter string="Project" icon="terp-folder-violet" domain="[]" context="{'group_by':'project_id'}"/>
-                        <separator orientation="vertical"/>
-                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
                         <separator orientation="vertical"/>
                         <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}" help="Sprint Month"/>
                     </group>
@@ -206,13 +282,29 @@
             <field name="arch" type="xml">
                 <search string="Meeting">
                     <group expand="0" string="Group By...">
-                        <filter string="Date" icon="terp-go-month" domain="[]" context="{'group_by':'date_meeting'}"/>
-                        <filter string="Name" icon="terp-personal" domain="[]" context="{'group_by':'user_id_meeting'}"/>
+                        <filter string="Date" domain="[]" context="{'group_by':'date_meeting'}"/>
+                        <filter string="Name" domain="[]" context="{'group_by':'user_id_meeting'}"/>
+                        <filter string="Sprint" domain="[]" context="{'group_by':'sprint_id'}"/> 
                     </group>
                 </search>
             </field> 
         </record>
-        
+
+<!--user stories search bar-->
+        <record model="ir.ui.view" id="view_scrum_us_search">
+            <field name="name">project.scrum.us.search</field>
+            <field name="model">project.scrum.us</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="User Stories">
+                    <group expand="0" string="Group By...">
+                        <filter string="Sprint" domain="[]" context="{'group_by':'sprint_id'}"/>
+                        <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
+                    </group>
+                </search>
+            </field> 
+        </record>
+
 <!--access to sprint-->
         <record id="action_sprint_all_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>
@@ -222,9 +314,11 @@
             <field name="view_id" ref="view_scrum_sprint_tree"/>
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_scrum_sprint_search"/>
-            <field name="help">The scrum agile methodology is used in software development projects. In this methodology, a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs. The sprint review is organized when the team presents its work to the customer and product owner.</field>
+            <field name="help">The scrum agile methodology is used in software development projects. In this methodology, 
+            a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs. 
+            The sprint review is organized when the team presents its work to the customer and product owner.</field>
         </record>
-        
+
 <!--access to daily meeting-->
         <record id="action_meeting_all_tree" model="ir.actions.act_window">
             <field name="name">Meetings</field>
@@ -237,14 +331,54 @@
             <field name="help">The daily meeting of scrum.</field>
         </record>
 
-<!--menu for accessing to sprint-->        
+<!--access to user stories(tree view)-->
+        <record id="action_us_all_tree" model="ir.actions.act_window">
+            <field name="name">User Stories</field>
+            <field name="res_model">project.scrum.us</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_scrum_us_tree"/>
+            <field name="context">{"search_default_current": 1}</field>
+            <field name="search_view_id" ref="view_scrum_us_search"/>
+            <field name="help">The user stories of scrum.</field>
+        </record>
+
+<!--access to user stories-->
+        <record id="action_us_all_form" model="ir.actions.act_window">
+            <field name="name">User Stories</field>
+            <field name="res_model">project.scrum.us</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_scrum_us_form"/>
+            <field name="context">{"search_default_current": 1}</field>
+            <field name="search_view_id" ref="view_scrum_us_search"/>
+        </record>
+
+<!--access to sprint from task form view-->
+        <record id="view_scrum_sprint_task_form2" model="ir.ui.view">
+            <field name="name">project.scrum.task.form</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <field name="date_deadline" position="before">
+                    <field string="Sprint" name= "sprint_id"/>
+                </field>
+            </field>
+        </record>
+
+<!--menu for accessing to sprint-->
         <menuitem
             sequence="20"
             action="action_sprint_all_tree" id="menu_action_sprint_all_tree" parent="menu_scrum"/>
-            
-<!--menu for accessing to meeting-->
+
+<!--menu for accessing to userstories-->
         <menuitem
             sequence="21"
+            action="action_us_all_tree" id="menu_action_us_all_tree" parent="menu_scrum"/>
+
+<!--menu for accessing to meeting-->
+        <menuitem
+            sequence="22"
             action="action_meeting_all_tree" id="menu_action_meeting_all_tree" parent="menu_scrum"/>
 
 <!--email_template for daily meeting-->
