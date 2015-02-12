@@ -258,13 +258,13 @@
                     </group>
                     <newline/>
                     <group expand="0" string="Group By...">
-                        <filter string="Product owner" icon="terp-personal" domain="[]" context="{'group_by':'product_owner_id'}"/>
+                        <filter string="Product owner" domain="[]" context="{'group_by':'product_owner_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Scrum Master" icon="terp-personal" domain="[]"  context="{'group_by':'scrum_master_id'}"/>
+                        <filter string="Scrum Master" domain="[]"  context="{'group_by':'scrum_master_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Project" icon="terp-folder-violet" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_start'}" help="Sprint Month"/>
+                        <filter string="Month" domain="[]" context="{'group_by':'date_start'}" help="Sprint Month"/>
                     </group>
                 </search>
             </field> 
@@ -279,7 +279,9 @@
                 <search string="Meeting">
                     <group expand="0" string="Group By...">
                         <filter string="Date" domain="[]" context="{'group_by':'date_meeting'}"/>
+                        <separator orientation="vertical"/>
                         <filter string="Name" domain="[]" context="{'group_by':'user_id_meeting'}"/>
+                        <separator orientation="vertical"/>
                         <filter string="Sprint" domain="[]" context="{'group_by':'sprint_id'}"/>
                     </group>
                 </search>
@@ -295,6 +297,7 @@
                 <search string="User Stories">
                     <group expand="0" string="Group By...">
                         <filter string="Sprint" domain="[]" context="{'group_by':'sprint_id'}"/>
+                        <separator orientation="vertical"/>
                         <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
                     </group>
                 </search>
@@ -377,6 +380,48 @@
         <menuitem
             sequence="22"
             action="action_meeting_all_tree" id="menu_action_meeting_all_tree" parent="menu_scrum"/>
+            
+<!--Add a button on project form view that can connect to user stories and sprints-->
+        <record id="edit_project_scrum" model="ir.ui.view">
+            <field name="name">project.scrum.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <button name="attachment_tree_view" position="before">
+                    <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
+                    name="%(action_us_all_tree)d">
+                        <field string="User Stories" name="user_story_count" widget="statinfo"/>
+                    </button>
+                    <button  class="oe_inline oe_stat_button" type="action" icon="fa-tasks"
+                    name="%(action_sprint_all_tree)d">
+                        <field string="Sprints" name="sprint_count" widget="statinfo"/>
+                    </button>
+                </button>
+                <field name="use_tasks" position="before">
+                    <field name="use_scrum" class="oe_inline"/>
+                    <label for="use_scrum" string="Use Scrum"/>
+                </field>
+            </field>
+        </record>
+        
+<!--user stories and sprints can be seen in project kanban view-->
+        <record id="view_project_scrum_kanban" model="ir.ui.view" >
+            <field name="name">project.scrum.project.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <field name="doc_count" position="before">
+                    <field name="user_story_count"/>
+                    <field name="sprint_count"/>
+                </field>
+                <a name="attachment_tree_view" position="before">
+                    <a t-if="record.sprint_count.raw_value" name="%(action_sprint_all_tree)d" type="action" style="margin-right: 10px">
+                        <t t-raw="record.sprint_count.raw_value.length"/> Sprints</a><br/>
+                    <a t-if="record.user_story_count.raw_value" name="%(action_us_all_tree)d" type="action" style="margin-right: 10px">
+                        <t t-raw="record.user_story_count.raw_value.length"/> User Stories</a><br/>
+                </a>
+            </field>
+        </record>
 
 <!--email_template for daily meeting-->
         <record id="email_template_id" model="email.template">
