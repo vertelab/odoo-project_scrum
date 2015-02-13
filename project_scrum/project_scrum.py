@@ -80,6 +80,28 @@ class project_task(models.Model):
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
 
+    @api.model
+    def _read_group_sprint_id(self, present_ids, domain, **kwargs):
+        project_id = self._resolve_project_id_from_context()
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)]).name_get()
+        return sprints, None
+
+    @api.model
+    def _read_group_us_id(self, present_ids, domain, **kwargs):
+        project_id = self._resolve_project_id_from_context()
+        user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
+        return user_stories, None
+
+    try:
+        _group_by_full['sprint_id'] = _read_group_sprint_id
+        _group_by_full['us_id'] = _read_group_us_id
+    except:
+        _group_by_full = {
+        'sprint_id': _read_group_sprint_id,
+        'us_id': _read_group_us_id,
+        }
+    name = fields.Char()
+
 class project_actors(models.Model):
     _name = 'project.scrum.actors'
     _description = 'Actors in user stories'
