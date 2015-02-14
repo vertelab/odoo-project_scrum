@@ -19,17 +19,17 @@ class scrum_sprint(models.Model):
         #if context is None:
             #context = {}
         ## Prevent double scrum creation when 'use_scrum' is checked + alias management
-        #create_context = dict(context, project_creation_in_progress=True,
-                              #alias_model_name=vals.get('alias_model', 'project.task'),
+        #create_context = dict(context, scrum_creation_in_progress=True,
+                              #alias_model_name=vals.get('alias_model', 'project.scrum.sprint'),
                               #alias_parent_model_name=self._name)
 
         #if vals.get('type', False) not in ('template', 'contract'):
             #vals['type'] = 'contract'
 
-        #project_id = super(project, self).create(cr, uid, vals, context=create_context)
-        #project_rec = self.browse(cr, uid, project_id, context=context)
-        #self.pool.get('mail.alias').write(cr, uid, [project_rec.alias_id.id], {'alias_parent_thread_id': project_id, 'alias_defaults': {'project_id': project_id}}, context)
-        #return project_id
+        #scrum_id = super(scrum, self).create(cr, uid, vals, context=create_context)
+        #scrum_rec = self.browse(cr, uid, scrum_id, context=context)
+        #self.pool.get('mail.alias').write(cr, uid, [scrum_rec.alias_id.id], {'alias_parent_thread_id': scrum_id, 'alias_defaults': {'scrum_id': scrum_id}}, context)
+        #return scrum_id
     
     def _compute(self):
         for record in self:
@@ -67,6 +67,9 @@ class scrum_sprint(models.Model):
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
     _description = 'Project Scrum Use Stories'
+    _defaults = {
+        'use_scrum': True
+    }
     name = fields.Char(string='Name')
     description = fields.Html(string = 'Description')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
@@ -76,6 +79,9 @@ class project_user_stories(models.Model):
 
 class project_task(models.Model):
     _inherit = "project.task"
+    _defaults = {
+        'use_scrum': True
+    }
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
@@ -105,12 +111,18 @@ class project_task(models.Model):
 class project_actors(models.Model):
     _name = 'project.scrum.actors'
     _description = 'Actors in user stories'
+    _defaults = {
+        'use_scrum': True
+    }
     name = fields.Many2one(comodel_name='res.users', string='Name', size=60)
 
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _defaults = {
+        'use_scrum': True
+    }
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
     user_id_meeting = fields.Char(string = 'Name', required=True)  # name for person who attend to meeting
@@ -164,18 +176,20 @@ class project(models.Model):
 
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
-    use_scrum = fields.Boolean(string = 'Use Scrum', help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
+    use_scrum = fields.Boolean(string = 'Use Scrum', 
+    help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
     
-    #def on_change_template(self, cr, uid, ids, template_id, date_start=False, context=None):
-        #res = super(account_analytic_account, self).on_change_template(cr, uid, ids, template_id, date_start=date_start, context=context)
+    #def on_change_template_scrum(self, cr, uid, ids, template_id, date_start=False, context=None):
+        #res = super(account_analytic_account, self).on_change_template_scrum(cr, uid, ids, template_id, date_start=date_start, context=context)
         #if template_id and 'value' in res:
             #template = self.browse(cr, uid, template_id, context=context)
-            #res['value']['use_tasks'] = template.use_tasks
+            #res['value']['use_scrum'] = template.use_scrum
         #return res
 
-    #def _trigger_project_creation(self, cr, uid, vals, context=None):
+    #def _trigger_scrum_creation(self, cr, uid, vals, context=None):
         #'''
-        #This function is used to decide if a project needs to be automatically created or not when an analytic account is created. It returns True if it needs to be so, False otherwise.
+        #This function is used to decide if a scrum needs to be automatically created or not when an analytic account is created.
+        #It returns True if it needs to be so, False otherwise.
         #'''
         #if context is None: context = {}
-        #return vals.get('use_tasks') and not 'project_creation_in_progress' in context
+        #return vals.get('use_scrum') and not 'scrum_creation_in_progress' in context

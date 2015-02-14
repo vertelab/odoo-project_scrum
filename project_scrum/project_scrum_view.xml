@@ -100,6 +100,7 @@
 
 <!--Scrum User Stories-->
         <!--user stories kanban view-->
+<!--
         <record id="view_scrum_us_kanban" model="ir.ui.view">
             <field name="name">project.scrum.us.kanban</field>
             <field name="model">project.scrum.us</field>
@@ -118,6 +119,7 @@
                 </kanban>
             </field>
         </record>
+-->
 
         <!--user stories tree view-->
         <record id="view_scrum_us_tree" model="ir.ui.view">
@@ -333,30 +335,19 @@
             <field name="help">The daily meeting of scrum.</field>
         </record>
 
-<!--access to user stories(tree view)-->
+<!--access to user stories-->
         <record id="action_us_all_tree" model="ir.actions.act_window">
             <field name="name">User Stories</field>
             <field name="res_model">project.scrum.us</field>
             <field name="view_type">form</field>
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_scrum_us_tree"/>
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_scrum_us_search"/>
             <field name="help">The user stories of scrum.</field>
         </record>
 
-<!--access to user stories-->
-        <record id="action_us_all_form" model="ir.actions.act_window">
-            <field name="name">User Stories</field>
-            <field name="res_model">project.scrum.us</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">kanban,tree,form</field>
-            <field name="view_id" ref="view_scrum_us_form"/>
-            <field name="context">{"search_default_current": 1}</field>
-            <field name="search_view_id" ref="view_scrum_us_search"/>
-        </record>
-
-<!--access to sprint from task form view-->
+<!--access to sprint and user story from task form view-->
         <record id="view_scrum_sprint_task_form2" model="ir.ui.view">
             <field name="name">project.scrum.task.form</field>
             <field name="model">project.task</field>
@@ -392,11 +383,11 @@
             <field name="arch" type="xml">
                 <button name="attachment_tree_view" position="before">
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
-                    name="%(action_us_all_tree)d">
+                    attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_us_all_tree)d">
                         <field string="User Stories" name="user_story_count" widget="statinfo"/>
                     </button>
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-tasks"
-                    name="%(action_sprint_all_tree)d">
+                    attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_sprint_all_tree)d">
                         <field string="Sprints" name="sprint_count" widget="statinfo"/>
                     </button>
                 </button>
