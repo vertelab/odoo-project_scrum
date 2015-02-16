@@ -71,11 +71,22 @@ class project_user_stories(models.Model):
         'use_scrum': True
     }
     name = fields.Char(string='Name')
+    color = fields.Integer('Color Index')
     description = fields.Html(string = 'Description')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id', string = 'Task')
+
+    @api.model
+    def _read_group_sprint_id(self, present_ids, domain, **kwargs):
+        sprints = self.env['project.scrum.sprint'].search([]).name_get()
+        return sprints, None
+
+    _group_by_full = {
+        'sprint_id': _read_group_sprint_id,
+        }
+    name = fields.Char()
 
 class project_task(models.Model):
     _inherit = "project.task"
