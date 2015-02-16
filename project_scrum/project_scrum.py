@@ -11,6 +11,25 @@ class scrum_sprint(models.Model):
     _name = 'project.scrum.sprint'
     _description = 'Project Scrum Sprint'
     _order = 'date_start desc'
+    _defaults = {
+        'use_scrum': True
+    }
+    
+    #def create(self, context=None):
+        #if context is None:
+            #context = {}
+        ## Prevent double scrum creation when 'use_scrum' is checked + alias management
+        #create_context = dict(context, scrum_creation_in_progress=True,
+                              #alias_model_name=vals.get('alias_model', 'project.scrum.sprint'),
+                              #alias_parent_model_name=self._name)
+
+        #if vals.get('type', False) not in ('template', 'contract'):
+            #vals['type'] = 'contract'
+
+        #scrum_id = super(scrum, self).create(cr, uid, vals, context=create_context)
+        #scrum_rec = self.browse(cr, uid, scrum_id, context=context)
+        #self.pool.get('mail.alias').write(cr, uid, [scrum_rec.alias_id.id], {'alias_parent_thread_id': scrum_id, 'alias_defaults': {'scrum_id': scrum_id}}, context)
+        #return scrum_id
     
     def _compute(self):
         for record in self:
@@ -48,6 +67,9 @@ class scrum_sprint(models.Model):
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
     _description = 'Project Scrum Use Stories'
+    _defaults = {
+        'use_scrum': True
+    }
     name = fields.Char(string='Name')
     description = fields.Html(string = 'Description')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
@@ -57,19 +79,50 @@ class project_user_stories(models.Model):
 
 class project_task(models.Model):
     _inherit = "project.task"
+    _defaults = {
+        'use_scrum': True
+    }
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
 
+    @api.model
+    def _read_group_sprint_id(self, present_ids, domain, **kwargs):
+        project_id = self._resolve_project_id_from_context()
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)]).name_get()
+        return sprints, None
+
+    @api.model
+    def _read_group_us_id(self, present_ids, domain, **kwargs):
+        project_id = self._resolve_project_id_from_context()
+        user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
+        return user_stories, None
+
+    try:
+        _group_by_full['sprint_id'] = _read_group_sprint_id
+        _group_by_full['us_id'] = _read_group_us_id
+    except:
+        _group_by_full = {
+        'sprint_id': _read_group_sprint_id,
+        'us_id': _read_group_us_id,
+        }
+    name = fields.Char()
+
 class project_actors(models.Model):
     _name = 'project.scrum.actors'
     _description = 'Actors in user stories'
+    _defaults = {
+        'use_scrum': True
+    }
     name = fields.Many2one(comodel_name='res.users', string='Name', size=60)
 
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _defaults = {
+        'use_scrum': True
+    }
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
     user_id_meeting = fields.Char(string = 'Name', required=True)  # name for person who attend to meeting
@@ -89,7 +142,6 @@ class scrum_meeting(models.Model):
             default_use_template=bool(template),
             default_template_id=template.id,
             default_composition_mode='comment',
-            #mark_invoice_as_sent=True,
         )
         return {
             'name': _('Compose Email'),
@@ -103,3 +155,41 @@ class scrum_meeting(models.Model):
             'context': ctx,
         }
 
+class project(models.Model):
+    _inherit = 'project.project'
+    sprint_ids = fields.One2many(comodel_name = "project.scrum.sprint", inverse_name = "project_id", string = "Sprints")
+    user_story_ids = fields.One2many(comodel_name = "project.scrum.us", inverse_name = "project_id", string = "User Stories")
+    sprint_count = fields.Integer(compute = '_sprint_count', string="Sprints")
+    user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
+
+    def _sprint_count(self):    # method that calculate how many sprints exist
+        res={}
+        for sprints in self:
+            sprints.sprint_count = len(sprints.sprint_ids)
+        return res
+
+    def _user_story_count(self):    # method that calculate how many user stories exist
+        res={}
+        for user_stories in self:
+            user_stories.user_story_count = len(user_stories.user_story_ids)
+        return res
+
+class account_analytic_account(models.Model):
+    _inherit = 'account.analytic.account'
+    use_scrum = fields.Boolean(string = 'Use Scrum', 
+    help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
+    
+    #def on_change_template_scrum(self, cr, uid, ids, template_id, date_start=False, context=None):
+        #res = super(account_analytic_account, self).on_change_template_scrum(cr, uid, ids, template_id, date_start=date_start, context=context)
+        #if template_id and 'value' in res:
+            #template = self.browse(cr, uid, template_id, context=context)
+            #res['value']['use_scrum'] = template.use_scrum
+        #return res
+
+    #def _trigger_scrum_creation(self, cr, uid, vals, context=None):
+        #'''
+        #This function is used to decide if a scrum needs to be automatically created or not when an analytic account is created.
+        #It returns True if it needs to be so, False otherwise.
+        #'''
+        #if context is None: context = {}
+        #return vals.get('use_scrum') and not 'scrum_creation_in_progress' in context
