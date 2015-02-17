@@ -343,7 +343,7 @@
             <field name="res_model">project.scrum.meeting</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
-            <field name="view_id" ref="view_scrum_meeting_tree"/>
+            <field name="view_id" ref="view_scrum_meeting_calendar"/>
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_scrum_meeting_search"/>
             <field name="help">The daily meeting of scrum.</field>
@@ -398,16 +398,30 @@
                 <button name="attachment_tree_view" position="before">
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
                     attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_us_all_tree)d">
-                        <field string="User Stories" name="user_story_count" widget="statinfo"/>
+                        <field name="user_story_count" widget="statinfo"/>
                     </button>
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-tasks"
                     attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_sprint_all_tree)d">
-                        <field string="Sprints" name="sprint_count" widget="statinfo"/>
+                        <field name="sprint_count" widget="statinfo"/>
                     </button>
+<!--
+                    <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
+                    attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_meeting_all_tree)d">
+                        <field name="meeting_count" widget="statinfo"/>
+                    </button>
+-->
                 </button>
                 <field name="use_tasks" position="before">
                     <field name="use_scrum" class="oe_inline"/>
                     <label for="use_scrum" string="Use Scrum"/>
+                </field>
+                <field name="user_id" position="replace">
+                    <field name="user_id" string="Scrum Master" attrs="{'invisible': [('use_scrum', '=', False)]}"/>
+                    <field name="user_id" string="Project Manager" attrs="{'invisible': [('use_scrum', '=', True)]}"/>
+                </field>
+                <field name="partner_id" position="replace">
+                    <field name="partner_id" string="Product Owner" attrs="{'invisible': [('use_scrum', '=', False)]}"/>
+                    <field name="partner_id" string="Customer" attrs="{'invisible': [('use_scrum', '=', True)]}"/>
                 </field>
             </field>
         </record>
@@ -424,9 +438,13 @@
                 </field>
                 <a name="attachment_tree_view" position="before">
                     <a t-if="record.sprint_count.raw_value" name="%(action_sprint_all_tree)d" type="action" style="margin-right: 10px">
-                        <t t-raw="record.sprint_count.raw_value.length"/> Sprints</a><br/>
+                        <t t-raw="record.sprint_count.raw_value"/> Sprints</a><br/>
                     <a t-if="record.user_story_count.raw_value" name="%(action_us_all_tree)d" type="action" style="margin-right: 10px">
-                        <t t-raw="record.user_story_count.raw_value.length"/> User Stories</a><br/>
+                        <t t-raw="record.user_story_count.raw_value"/> User Stories</a><br/>
+<!--
+                    <a t-if="record.meeting_count.raw_value" name="%(action_us_all_tree)d" type="action" style="margin-right: 10px">
+                        <t t-raw="record.meeting_count.raw_value.length"/> Meetings</a><br/>
+-->
                 </a>
             </field>
         </record>

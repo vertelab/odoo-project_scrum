@@ -125,7 +125,7 @@ class project_actors(models.Model):
     _defaults = {
         'use_scrum': True
     }
-    name = fields.Many2one(comodel_name='res.users', string='Name', size=60)
+    name = fields.Char(string='Name', size=60)
 
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
@@ -170,25 +170,27 @@ class project(models.Model):
     _inherit = 'project.project'
     sprint_ids = fields.One2many(comodel_name = "project.scrum.sprint", inverse_name = "project_id", string = "Sprints")
     user_story_ids = fields.One2many(comodel_name = "project.scrum.us", inverse_name = "project_id", string = "User Stories")
+    #meeting_ids = fields.One2many(comodel_name = "project.scrum.meeting", inverse_name = "project_id", string = "Meetings")
     sprint_count = fields.Integer(compute = '_sprint_count', string="Sprints")
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
-
+    #meeting_count = fields.Integer(compute = '_user_meeting_count', string="Meetings")
+    
     def _sprint_count(self):    # method that calculate how many sprints exist
-        res={}
-        for sprints in self:
-            sprints.sprint_count = len(sprints.sprint_ids)
-        return res
+        for p in self:
+            p.sprint_count = len(p.sprint_ids)
 
     def _user_story_count(self):    # method that calculate how many user stories exist
-        res={}
-        for user_stories in self:
-            user_stories.user_story_count = len(user_stories.user_story_ids)
-        return res
+        for p in self:
+            p.user_story_count = len(p.user_story_ids)
 
+    #def _user_meeting_count(self):    # method that calculate how many meetings exist
+        #for p in self:
+            #p._user_meeting_count = len(p.meeting_ids)
+    
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
-    use_scrum = fields.Boolean(string = 'Use Scrum', 
-    help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
+    use_scrum = fields.Boolean(string = 'Use Scrum', help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
+
     
     #def on_change_template_scrum(self, cr, uid, ids, template_id, date_start=False, context=None):
         #res = super(account_analytic_account, self).on_change_template_scrum(cr, uid, ids, template_id, date_start=date_start, context=context)
