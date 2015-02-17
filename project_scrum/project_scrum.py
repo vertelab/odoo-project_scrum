@@ -130,18 +130,25 @@ class project_actors(models.Model):
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'ir.needaction_mixin', 'project.project']
     _defaults = {
         'use_scrum': True
     }
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
-    user_id_meeting = fields.Char(string = 'Name', required=True)  # name for person who attend to meeting
+    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)  # name for person who attend to meeting
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-
+    project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
+    selection='_reference_project')
+    
+    @api.model
+    def _reference_project(self): 
+        project = self.env['project.project'].browse(self.sprint_id.project_id)
+        return [(project.id,project.name)]    
+                    
     @api.multi
     def send_email(self):
         assert len(self) == 1, 'This option should only be used for a single id at a time.'

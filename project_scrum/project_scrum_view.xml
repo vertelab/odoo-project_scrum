@@ -50,8 +50,10 @@
                     <group colspan="4" col="4">
                         <field name="name" select="1"/>
                         <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
+<!--
                         <field name="scrum_master_id"/>
                         <field name="product_owner_id"/>
+-->
                         <field name="date_start" select="1"/> 
                         <field name="date_stop"/>
 <!--
@@ -213,6 +215,7 @@
                         <field name="date_meeting"/>
                         <field name="user_id_meeting"/>
                         <field name="sprint_id"/> 
+                        <field name="project_id"/>
                         <button name="send_email" string="Send Email" type="object" 
                         icon="terp-mail-message-new" />
                     </group>
