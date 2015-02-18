@@ -496,8 +496,8 @@
                     <a t-if="record.user_story_count.raw_value" name="%(action_us_current_tree)d" type="action" style="margin-right: 10px">
                         <t t-raw="record.user_story_count.raw_value"/> User Stories</a><br/>
 <!--
-                    <a t-if="record.meeting_count.raw_value" name="%(action_us_all_tree)d" type="action" style="margin-right: 10px">
-                        <t t-raw="record.meeting_count.raw_value.length"/> Meetings</a><br/>
+                    <a t-if="record.meeting_count.raw_value" name="%(action_meeting_all_tree)d" type="action" style="margin-right: 10px">
+                        <t t-raw="record.meeting_count.raw_value"/> Meetings</a><br/>
 -->
                 </a>
             </field>

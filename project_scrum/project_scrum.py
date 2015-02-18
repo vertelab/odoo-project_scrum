@@ -200,13 +200,12 @@ class project(models.Model):
 
     def _user_meeting_count(self):    # method that calculate how many meetings exist
         for p in self:
-            p._user_meeting_count = len(p.meeting_ids)
+            p.meeting_count = len(p.meeting_ids)
     
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
     use_scrum = fields.Boolean(string = 'Use Scrum', help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
 
-    
     #def on_change_template_scrum(self, cr, uid, ids, template_id, date_start=False, context=None):
         #res = super(account_analytic_account, self).on_change_template_scrum(cr, uid, ids, template_id, date_start=date_start, context=context)
         #if template_id and 'value' in res:
