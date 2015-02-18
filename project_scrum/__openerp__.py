@@ -24,7 +24,7 @@ More information:
     'data': ['project_scrum_view.xml',
     'security/ir.model.access.csv',
    ],
-    
+    'demo': ['project_scrum_demo.xml'],
     'installable': True,
     #'auto_install': False,
 }

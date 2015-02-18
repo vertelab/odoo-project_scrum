@@ -78,10 +78,12 @@ class project_user_stories(models.Model):
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id', string = 'Task')
+    sequence = fields.Integer('Sequence')
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
         sprints = self.env['project.scrum.sprint'].search([]).name_get()
+        #sprints.sorted(key=lambda r: r.sequence)
         return sprints, None
 
     _group_by_full = {
@@ -97,11 +99,13 @@ class project_task(models.Model):
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
-
+    
+    
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
         project_id = self._resolve_project_id_from_context()
-        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)]).name_get()
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='sequence').name_get()
+        #sprints.sorted(key=lambda r: r.sequence)
         return sprints, None
 
     @api.model
@@ -137,11 +141,21 @@ class scrum_meeting(models.Model):
     }
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
-    user_id_meeting = fields.Char(string = 'Name', required=True)  # name for person who attend to meeting
+    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)  # name for person who attend to meeting
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project Name')
+    
+    #project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
+    #selection='_reference_project')
+    
+    @api.model
+    def _reference_project(self):
+        project = self.env['project.project'].browse(self.sprint_id.project_id)
+        return [(project.id,project.name)]
+
 
     @api.multi
     def send_email(self):
@@ -171,10 +185,10 @@ class project(models.Model):
     _inherit = 'project.project'
     sprint_ids = fields.One2many(comodel_name = "project.scrum.sprint", inverse_name = "project_id", string = "Sprints")
     user_story_ids = fields.One2many(comodel_name = "project.scrum.us", inverse_name = "project_id", string = "User Stories")
-    #meeting_ids = fields.One2many(comodel_name = "project.scrum.meeting", inverse_name = "project_id", string = "Meetings")
+    meeting_ids = fields.One2many(comodel_name = "project.scrum.meeting", inverse_name = "project_id", string = "Meetings")
     sprint_count = fields.Integer(compute = '_sprint_count', string="Sprints")
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
-    #meeting_count = fields.Integer(compute = '_user_meeting_count', string="Meetings")
+    meeting_count = fields.Integer(compute = '_user_meeting_count', string="Meetings")
     
     def _sprint_count(self):    # method that calculate how many sprints exist
         for p in self:
@@ -184,9 +198,9 @@ class project(models.Model):
         for p in self:
             p.user_story_count = len(p.user_story_ids)
 
-    #def _user_meeting_count(self):    # method that calculate how many meetings exist
-        #for p in self:
-            #p._user_meeting_count = len(p.meeting_ids)
+    def _user_meeting_count(self):    # method that calculate how many meetings exist
+        for p in self:
+            p._user_meeting_count = len(p.meeting_ids)
     
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'

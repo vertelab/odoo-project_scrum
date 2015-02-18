@@ -94,9 +94,11 @@
                                 </html>
 -->
                             </field>
+<!--
                             <group>
                                 <field name="task_ids" string="Task list"/>
                             </group>
+-->
                         </page>
                         <page string="Retrospective">   <!--page for retropective-->
                             <field colspan="4" name="retrospective" nolabel="1"/>
@@ -234,6 +236,7 @@
                         <field name="date_meeting"/>
                         <field name="user_id_meeting"/>
                         <field name="sprint_id"/> 
+                        <field name="project_id"/>
                         <button name="send_email" string="Send Email" type="object" 
                         icon="terp-mail-message-new" />
                     </group>
@@ -387,7 +390,7 @@
             <field name="help">The daily meeting of scrum.</field>
         </record>
 
-<!--access to all auser stories kanban view-->
+<!--access to all user stories kanban view-->
         <record id="action_us_all_tree" model="ir.actions.act_window">
             <field name="name">User Stories</field>
             <field name="res_model">project.scrum.us</field>
@@ -457,12 +460,10 @@
                     attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_sprint_current_tree)d">
                         <field name="sprint_count" widget="statinfo"/>
                     </button>
-<!--
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
                     attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_meeting_all_tree)d">
                         <field name="meeting_count" widget="statinfo"/>
                     </button>
--->
                 </button>
                 <field name="use_tasks" position="before">
                     <field name="use_scrum" class="oe_inline"/>
