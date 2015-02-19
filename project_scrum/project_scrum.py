@@ -52,7 +52,8 @@ class scrum_sprint(models.Model):
     date_stop = fields.Date(string = 'Ending Date', required=True)
     date_duration = fields.Integer(compute = '_compute', string = 'Duration')
     description = fields.Text(string = 'Description', required=False)
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', required=True,help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True,
+        required=True, help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
     product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
     us_ids = fields.One2many(comodel_name = 'project.scrum.us', inverse_name = 'sprint_id', string = 'User Stories')
@@ -82,7 +83,7 @@ class project_user_stories(models.Model):
     color = fields.Integer('Color Index')
     description = fields.Html(string = 'Description')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
     test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
@@ -147,7 +148,7 @@ class scrum_meeting(models.Model):
         'use_scrum': True
     }
     
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
     user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)  # name for person who attend to meeting
@@ -193,7 +194,7 @@ class project(models.Model):
     sprint_ids = fields.One2many(comodel_name = "project.scrum.sprint", inverse_name = "project_id", string = "Sprints")
     user_story_ids = fields.One2many(comodel_name = "project.scrum.us", inverse_name = "project_id", string = "User Stories")
     meeting_ids = fields.One2many(comodel_name = "project.scrum.meeting", inverse_name = "project_id", string = "Meetings")
-    test_case_ids = fields.One2many(comodel_name = "project.scrum.test", inverse_name = "project_id_test", string = "Test Cases")  
+    test_case_ids = fields.One2many(comodel_name = "project.scrum.test", inverse_name = "project_id", string = "Test Cases")  
     sprint_count = fields.Integer(compute = '_sprint_count', string="Sprints")
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
     meeting_count = fields.Integer(compute = '_meeting_count', string="Meetings")
@@ -221,10 +222,20 @@ class test_case(models.Model):
 
     name = fields.Char(string='Name')
     color = fields.Integer('Color Index')
-    project_id_test = fields.Many2one(comodel_name = 'project.project', string = 'Project')
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True)
     user_story_id_test = fields.Many2one(comodel_name = "project.scrum.us", string = "User Story")
     description_test = fields.Text(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence', select=True)
+    
+    @api.model
+    def _read_group_test_case_id(self, present_ids, domain, **kwargs):
+        test_cases = self.env['project.scrum.us'].search([]).name_get()
+        return test_cases, None
+
+    _group_by_full = {
+        'user_story_id_test': _read_group_test_case_id,
+        }
+    name = fields.Char()
     
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
