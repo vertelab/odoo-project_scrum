@@ -85,6 +85,7 @@ class project_user_stories(models.Model):
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
+    test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     sequence = fields.Integer('Sequence')
 
     @api.model
@@ -141,7 +142,7 @@ class project_actors(models.Model):
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
-    _inherit = ['mail.thread', 'ir.needaction_mixin', 'project.project']
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
     _defaults = {
         'use_scrum': True
     }
@@ -154,16 +155,6 @@ class scrum_meeting(models.Model):
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-<<<<<<< HEAD
-    project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
-    selection='_reference_project')
-    
-    @api.model
-    def _reference_project(self): 
-        project = self.env['project.project'].browse(self.sprint_id.project_id)
-        return [(project.id,project.name)]    
-                    
-=======
 
     #project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
     #selection='_reference_project')
@@ -173,8 +164,6 @@ class scrum_meeting(models.Model):
         project = self.env['project.project'].browse(self.sprint_id.project_id)
         return [(project.id,project.name)]
 
-
->>>>>>> 98f9e11dfdbfb3f05eae480eca7d7a606b50808a
     @api.multi
     def send_email(self):
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
@@ -204,9 +193,11 @@ class project(models.Model):
     sprint_ids = fields.One2many(comodel_name = "project.scrum.sprint", inverse_name = "project_id", string = "Sprints")
     user_story_ids = fields.One2many(comodel_name = "project.scrum.us", inverse_name = "project_id", string = "User Stories")
     meeting_ids = fields.One2many(comodel_name = "project.scrum.meeting", inverse_name = "project_id", string = "Meetings")
+    test_case_ids = fields.One2many(comodel_name = "project.scrum.test", inverse_name = "project_id_test", string = "Test Cases")  
     sprint_count = fields.Integer(compute = '_sprint_count', string="Sprints")
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
     meeting_count = fields.Integer(compute = '_meeting_count', string="Meetings")
+    test_case_count = fields.Integer(compute = '_test_case_count', string="Test Cases")
     
     def _sprint_count(self):    # method that calculate how many sprints exist
         for p in self:
@@ -219,6 +210,21 @@ class project(models.Model):
     def _meeting_count(self):    # method that calculate how many meetings exist
         for p in self:
             p.meeting_count = len(p.meeting_ids)
+            
+    def _test_case_count(self):    # method that calculate how many test cases exist
+        for p in self:
+            p.test_case_count = len(p.test_case_ids)            
+
+class test_case(models.Model):
+    _name = 'project.scrum.test'
+    _order = 'sequence_test desc'
+
+    name = fields.Char(string='Name')
+    color = fields.Integer('Color Index')
+    project_id_test = fields.Many2one(comodel_name = 'project.project', string = 'Project')
+    user_story_id_test = fields.Many2one(comodel_name = "project.scrum.us", string = "User Story")
+    description_test = fields.Text(string = 'Description')
+    sequence_test = fields.Integer(string = 'Sequence', select=True)
     
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'

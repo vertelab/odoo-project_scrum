@@ -260,7 +260,81 @@
                 </calendar>
             </field>
         </record> 
-      
+        
+<!--Scrum test case-->
+        <!--test case kanban view-->
+        <record id="view_scrum_test_case_kanban" model="ir.ui.view">
+            <field name="name">project.scrum.test.kanban</field>
+            <field name="model">project.scrum.test</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="color"/>
+                    <field name="name"/>
+                    <field name="sequence_test"/>
+                    <field name="project_id_test"/>
+                    <field name="user_story_id_test"/>
+                    <field name="description_test"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                                <span class="oe_e">í</span>
+                                <ul class="oe_dropdown_menu">
+                                    <li>
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="oe_kanban_content">
+                                <div><b><field name="name"/></b></div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+<!--test case tree view-->
+        <record id="view_scrum_test_case_tree" model="ir.ui.view">
+            <field name="name">project.scrum.test.tree</field>
+            <field name="model">project.scrum.test</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml" >
+                <tree>
+                    <field name="name"/>
+                    <field name="sequence_test"/>
+                    <field name="project_id_test"/>
+                    <field name="user_story_id_test"/>
+                    <field name="description_test"/>
+                </tree>
+            </field>
+        </record>
+        
+<!--test case form view-->
+        <record id="view_scrum_test_case_form" model="ir.ui.view">
+            <field name="name">project.scrum.test.form</field>
+            <field name="model">project.scrum.test</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Test Cases">
+                    <group col="4">
+                        <field name="name"/>
+                        <field name="sequence_test"/>
+                        <field name="project_id_test"/>
+                        <field name="user_story_id_test"/>
+                    </group>
+                    <group>    
+                        <field name="description_test"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+             
 <!--task search bar-->
         <record id="view_scrum_sprint_task_search" model="ir.ui.view">
             <field name="name">project.scrum.sprint.task</field>
@@ -339,6 +413,22 @@
                 </search>
             </field> 
         </record>
+        
+<!--test cases search bar-->
+        <record model="ir.ui.view" id="view_scrum_test_case_search">
+            <field name="name">project.scrum.test.search</field>
+            <field name="model">project.scrum.test</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Test Cases">
+                    <group expand="0" string="Group By...">
+                        <filter string="Project" name="group_by_project" context="{'group_by':'project_id_test'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="User Story" name="group_by_us_test" context="{'group_by':'user_story_id_test'}"/>
+                    </group>
+                </search>
+            </field> 
+        </record>
 
 <!--access to all sprint tree view-->
         <record id="action_sprint_all_tree" model="ir.actions.act_window">
@@ -410,6 +500,34 @@
             <field name="help"></field>
         </record>
 
+<!--access to test case kanban view-->        
+        <record id="action_test_case_all_tree" model="ir.actions.act_window">
+            <field name="name">Test Case</field>
+            <field name="res_model">project.scrum.test</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_scrum_test_case_kanban"/>
+            <field name="context">{"search_default_current": 1}</field>
+            <field name="search_view_id" ref="view_scrum_test_case_search"/>
+            <field name="help">The test case.</field>
+        </record>    
+
+<!--access to current test case kanban view-->        
+        <record id="action_test_case_current_tree" model="ir.actions.act_window">
+            <field name="name">Test Case</field>
+            <field name="res_model">project.scrum.test</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{
+                'search_default_project_id': [active_id],
+                'default_project_id': active_id,
+                'search_default_group_by_us_test': 1,
+                'active_test': False,
+            }</field>
+            <field name="search_view_id" ref="view_scrum_test_case_search"/>
+            <field name="help">The test case.</field>
+        </record>    
+
 <!--access to sprint and user story from task form view-->
         <record id="view_scrum_sprint_task_form2" model="ir.ui.view">
             <field name="name">project.scrum.task.form</field>
@@ -438,6 +556,11 @@
             sequence="22"
             action="action_meeting_all_tree" id="menu_action_meeting_all_tree" parent="menu_scrum"/>
             
+<!-- menu for accessing to test case-->            
+        <menuitem
+            sequence="23"
+            action="action_test_case_all_tree" id="menu_action_test_case_all_tree" parent="menu_scrum"/>
+            
 <!--Add buttons on project form view that can connect to user stories and sprints-->
         <record id="edit_project_scrum" model="ir.ui.view">
             <field name="name">project.scrum.project.form</field>
@@ -456,6 +579,10 @@
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
                     attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_meeting_all_tree)d">
                         <field name="meeting_count" widget="statinfo"/>
+                    </button>
+                    <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
+                    attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_test_case_current_tree)d">
+                        <field name="test_case_count" widget="statinfo"/>
                     </button>
                 </button>
                 <field name="use_tasks" position="before">
@@ -483,6 +610,7 @@
                     <field name="user_story_count"/>
                     <field name="sprint_count"/>
                     <field name="meeting_count"/>
+                    <field name="test_case_count"/>
                 </field>
                 <a name="attachment_tree_view" position="before">
                     <a t-if="record.sprint_count.raw_value" name="%(action_sprint_current_tree)d" type="action" style="margin-right: 10px">
@@ -491,6 +619,8 @@
                         <t t-raw="record.user_story_count.raw_value"/> User Stories</a><br/>
                     <a t-if="record.meeting_count.raw_value" name="%(action_meeting_all_tree)d" type="action" style="margin-right: 10px">
                         <t t-raw="record.meeting_count.raw_value"/> Meetings</a><br/>
+                    <a t-if="record.test_case_count.raw_value" name="%(action_test_case_current_tree)d" type="action" style="margin-right: 10px">
+                        <t t-raw="record.test_case_count.raw_value"/> Test Cases</a><br/>
                 </a>
             </field>
         </record>
