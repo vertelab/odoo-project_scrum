@@ -489,16 +489,15 @@
                 <field name="doc_count" position="before">
                     <field name="user_story_count"/>
                     <field name="sprint_count"/>
+                    <field name="meeting_count"/>
                 </field>
                 <a name="attachment_tree_view" position="before">
                     <a t-if="record.sprint_count.raw_value" name="%(action_sprint_current_tree)d" type="action" style="margin-right: 10px">
                         <t t-raw="record.sprint_count.raw_value"/> Sprints</a><br/>
                     <a t-if="record.user_story_count.raw_value" name="%(action_us_current_tree)d" type="action" style="margin-right: 10px">
                         <t t-raw="record.user_story_count.raw_value"/> User Stories</a><br/>
-<!--
                     <a t-if="record.meeting_count.raw_value" name="%(action_meeting_all_tree)d" type="action" style="margin-right: 10px">
                         <t t-raw="record.meeting_count.raw_value"/> Meetings</a><br/>
--->
                 </a>
             </field>
         </record>

@@ -99,8 +99,7 @@ class project_task(models.Model):
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
-    
-    
+
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
         project_id = self._resolve_project_id_from_context()
@@ -139,6 +138,8 @@ class scrum_meeting(models.Model):
     _defaults = {
         'use_scrum': True
     }
+    
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
     user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)  # name for person who attend to meeting
@@ -146,8 +147,7 @@ class scrum_meeting(models.Model):
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project Name')
-    
+
     #project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
     #selection='_reference_project')
     
@@ -188,7 +188,7 @@ class project(models.Model):
     meeting_ids = fields.One2many(comodel_name = "project.scrum.meeting", inverse_name = "project_id", string = "Meetings")
     sprint_count = fields.Integer(compute = '_sprint_count', string="Sprints")
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
-    meeting_count = fields.Integer(compute = '_user_meeting_count', string="Meetings")
+    meeting_count = fields.Integer(compute = '_meeting_count', string="Meetings")
     
     def _sprint_count(self):    # method that calculate how many sprints exist
         for p in self:
@@ -198,7 +198,7 @@ class project(models.Model):
         for p in self:
             p.user_story_count = len(p.user_story_ids)
 
-    def _user_meeting_count(self):    # method that calculate how many meetings exist
+    def _meeting_count(self):    # method that calculate how many meetings exist
         for p in self:
             p.meeting_count = len(p.meeting_ids)
     
