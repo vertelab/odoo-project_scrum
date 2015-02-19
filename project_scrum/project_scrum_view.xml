@@ -78,30 +78,23 @@
                                 </tree>
                             </field> 
                         </page>
-                        <page string="Review">  <!--page for review-->
-                            <field name="review">
-<!--
-                                <html>
-                                <body>
-                                    <![CDATA[
-                                    <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif;
-                                    font-size: 16px; color: blue; background-color: rgb(255, 255, 255);">
-                                    <p>What was the goal of this sprint?</p><br/><br/>
-                                    <p>Did the goal has been reached?</p><br/><br/>
-                                    </div>
-                                    ]]>
-                                </body>
-                                </html>
--->
+                        <page string="Review">
+                            <!--page for review-->
+                            <field name="review"/>
+                            <p style="color:blue"><font size="5">Task List:</font></p>
+                            <field name="task_ids">
+                            <tree>
+                                <field name="priority"/>
+                                <field name="name"/>
+                                <field name="user_id"/>
+                                <field name="date_deadline"/>
+                                <field name="kanban_state"/>
+                            </tree>
                             </field>
-<!--
-                            <group>
-                                <field name="task_ids" string="Task list"/>
-                            </group>
--->
                         </page>
-                        <page string="Retrospective">   <!--page for retropective-->
-                            <field colspan="4" name="retrospective" nolabel="1"/>
+                        <page string="Retrospective">
+                            <!--page for retropective-->
+                            <field name="retrospective"/>
                         </page> 
                     </notebook> 
                 </form>
@@ -525,6 +518,6 @@
                 ]]>
             </field>
         </record> 
-        
+
     </data>
 </openerp>

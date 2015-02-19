@@ -57,8 +57,15 @@ class scrum_sprint(models.Model):
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
     us_ids = fields.One2many(comodel_name = 'project.scrum.us', inverse_name = 'sprint_id', string = 'User Stories')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
-    review = fields.Html(string = 'Sprint Review')
-    retrospective = fields.Html(string = 'Sprint Retrospective')
+    review = fields.Html(string = 'Sprint Review', default="""
+        <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>Did the goal has been reached?</ul></h1><br/><br/>
+    """)
+    retrospective = fields.Html(string = 'Sprint Retrospective', default="""
+        <h1 style="color:blue"><ul>What will you start doing in next sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>What will you stop doing in next sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>What will you continue doing in next sprint?</ul></h1><br/><br/>
+    """)
     sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
@@ -77,7 +84,7 @@ class project_user_stories(models.Model):
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
-    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id', string = 'Task')
+    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
     sequence = fields.Integer('Sequence')
 
     @api.model
