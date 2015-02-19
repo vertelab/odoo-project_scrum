@@ -56,8 +56,16 @@ class scrum_sprint(models.Model):
     product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
     us_ids = fields.One2many(comodel_name = 'project.scrum.us', inverse_name = 'sprint_id', string = 'User Stories')
-    review = fields.Text(string = 'Sprint Review')
-    retrospective = fields.Text(string = 'Sprint Retrospective')
+    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
+    review = fields.Html(string = 'Sprint Review', default="""
+        <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>Did the goal has been reached?</ul></h1><br/><br/>
+    """)
+    retrospective = fields.Html(string = 'Sprint Retrospective', default="""
+        <h1 style="color:blue"><ul>What will you start doing in next sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>What will you stop doing in next sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>What will you continue doing in next sprint?</ul></h1><br/><br/>
+    """)
     sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
@@ -76,11 +84,13 @@ class project_user_stories(models.Model):
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
-    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id', string = 'Task')
+    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
+    sequence = fields.Integer('Sequence')
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
         sprints = self.env['project.scrum.sprint'].search([]).name_get()
+        #sprints.sorted(key=lambda r: r.sequence)
         return sprints, None
 
     _group_by_full = {
@@ -100,7 +110,8 @@ class project_task(models.Model):
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
         project_id = self._resolve_project_id_from_context()
-        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)]).name_get()
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='sequence').name_get()
+        #sprints.sorted(key=lambda r: r.sequence)
         return sprints, None
 
     @api.model
@@ -125,7 +136,7 @@ class project_actors(models.Model):
     _defaults = {
         'use_scrum': True
     }
-    name = fields.Many2one(comodel_name='res.users', string='Name', size=60)
+    name = fields.Char(string='Name', size=60)
 
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
@@ -134,6 +145,8 @@ class scrum_meeting(models.Model):
     _defaults = {
         'use_scrum': True
     }
+    
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
     user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)  # name for person who attend to meeting
@@ -141,6 +154,7 @@ class scrum_meeting(models.Model):
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
+<<<<<<< HEAD
     project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
     selection='_reference_project')
     
@@ -149,6 +163,18 @@ class scrum_meeting(models.Model):
         project = self.env['project.project'].browse(self.sprint_id.project_id)
         return [(project.id,project.name)]    
                     
+=======
+
+    #project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
+    #selection='_reference_project')
+    
+    @api.model
+    def _reference_project(self):
+        project = self.env['project.project'].browse(self.sprint_id.project_id)
+        return [(project.id,project.name)]
+
+
+>>>>>>> 98f9e11dfdbfb3f05eae480eca7d7a606b50808a
     @api.multi
     def send_email(self):
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
@@ -177,26 +203,27 @@ class project(models.Model):
     _inherit = 'project.project'
     sprint_ids = fields.One2many(comodel_name = "project.scrum.sprint", inverse_name = "project_id", string = "Sprints")
     user_story_ids = fields.One2many(comodel_name = "project.scrum.us", inverse_name = "project_id", string = "User Stories")
+    meeting_ids = fields.One2many(comodel_name = "project.scrum.meeting", inverse_name = "project_id", string = "Meetings")
     sprint_count = fields.Integer(compute = '_sprint_count', string="Sprints")
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
-
+    meeting_count = fields.Integer(compute = '_meeting_count', string="Meetings")
+    
     def _sprint_count(self):    # method that calculate how many sprints exist
-        res={}
-        for sprints in self:
-            sprints.sprint_count = len(sprints.sprint_ids)
-        return res
+        for p in self:
+            p.sprint_count = len(p.sprint_ids)
 
     def _user_story_count(self):    # method that calculate how many user stories exist
-        res={}
-        for user_stories in self:
-            user_stories.user_story_count = len(user_stories.user_story_ids)
-        return res
+        for p in self:
+            p.user_story_count = len(p.user_story_ids)
 
+    def _meeting_count(self):    # method that calculate how many meetings exist
+        for p in self:
+            p.meeting_count = len(p.meeting_ids)
+    
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
-    use_scrum = fields.Boolean(string = 'Use Scrum', 
-    help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
-    
+    use_scrum = fields.Boolean(string = 'Use Scrum', help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
+
     #def on_change_template_scrum(self, cr, uid, ids, template_id, date_start=False, context=None):
         #res = super(account_analytic_account, self).on_change_template_scrum(cr, uid, ids, template_id, date_start=date_start, context=context)
         #if template_id and 'value' in res:
