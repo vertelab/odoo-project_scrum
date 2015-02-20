@@ -129,6 +129,7 @@
                     <field name="color"/>
                     <field name="name"/>
                     <field name="task_ids"/>
+                    <field name="test_ids"/>
                     <field name="sprint_id"/>
                     <field name="project_id"/>
                     <templates>
@@ -375,11 +376,14 @@
                     <field name="task_ids"/>
                     <group string="Filter By...">
                         <filter string="Draft" domain="[('state','=','draft')]"/>
-                        <filter string="Open" domain="[('state','=','open')]"/>
-                        <filter string="Pending" domain="[('state','=','pending')]"/>
-                        <filter string="Cancelled" domain="[('state','=','cancel')]"/>
-                        <filter string="Done" domain="[('state','=','done')]"/>
                         <separator orientation="vertical"/>
+                        <filter string="Open" domain="[('state','=','open')]"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Pending" domain="[('state','=','pending')]"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Cancelled" domain="[('state','=','cancel')]"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Done" domain="[('state','=','done')]"/>
                     </group>
                     <newline/>
                     <group expand="0" string="Group By...">
@@ -558,15 +562,17 @@
             <field name="help">The test case.</field>
         </record>    
 
-<!--access to current test case kanban view-->        
+<!--access to current test case kanban view-->
         <record id="action_test_case_current_tree" model="ir.actions.act_window">
             <field name="name">Test Case</field>
             <field name="res_model">project.scrum.test</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_scrum_test_case_kanban"/>
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
+                'search_default_group_by_us_test': 1,
                 'active_test': False,
             }</field>
             <field name="search_view_id" ref="view_scrum_test_case_search"/>

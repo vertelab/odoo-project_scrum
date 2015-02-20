@@ -8,7 +8,7 @@
 
 {
     'name': 'project_scrum',
-    'version': '8.1.1',
+    'version': '1.1',
     'category': 'Project Management',
     #'complexity': "normal",
     'description': """

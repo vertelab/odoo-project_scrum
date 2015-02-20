@@ -89,9 +89,26 @@ class project_user_stories(models.Model):
     test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     sequence = fields.Integer('Sequence')
 
+    def _resolve_project_id_from_context(self, cr, uid, context=None):
+        """ Returns ID of project based on the value of 'default_project_id'
+            context key, or None if it cannot be resolved to a single
+            project.
+        """
+        if context is None:
+            context = {}
+        if type(context.get('default_project_id')) in (int, long):
+            return context['default_project_id']
+        if isinstance(context.get('default_project_id'), basestring):
+            project_name = context['default_project_id']
+            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
+            if len(project_ids) == 1:
+                return project_ids[0][0]
+        return None
+
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
-        sprints = self.env['project.scrum.sprint'].search([]).name_get()
+        project_id = self._resolve_project_id_from_context()
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)]).name_get()
         #sprints.sorted(key=lambda r: r.sequence)
         return sprints, None
 
@@ -227,13 +244,30 @@ class test_case(models.Model):
     description_test = fields.Text(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence', select=True)
     
+    def _resolve_project_id_from_context(self, cr, uid, context=None):
+        """ Returns ID of project based on the value of 'default_project_id'
+            context key, or None if it cannot be resolved to a single
+            project.
+        """
+        if context is None:
+            context = {}
+        if type(context.get('default_project_id')) in (int, long):
+            return context['default_project_id']
+        if isinstance(context.get('default_project_id'), basestring):
+            project_name = context['default_project_id']
+            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
+            if len(project_ids) == 1:
+                return project_ids[0][0]
+        return None
+
     @api.model
-    def _read_group_test_case_id(self, present_ids, domain, **kwargs):
-        test_cases = self.env['project.scrum.us'].search([]).name_get()
-        return test_cases, None
+    def _read_group_us_id(self, present_ids, domain, **kwargs):
+        project_id = self._resolve_project_id_from_context()
+        user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
+        return user_stories, None
 
     _group_by_full = {
-        'user_story_id_test': _read_group_test_case_id,
+        'user_story_id_test': _read_group_us_id,
         }
     name = fields.Char()
     
