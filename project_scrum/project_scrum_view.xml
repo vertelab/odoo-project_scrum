@@ -164,7 +164,7 @@
                 <form string="User Stories">
                     <group col="4">
                         <field name="project_id"/>
-                        <field name="sprint_id"/>
+                        <field name="sprint_id" domain="[('project_id', '=', project_id)]"/>
                     </group>
                     <group col="4">
                         <field name="name"/>
@@ -233,8 +233,8 @@
                     <group col="4">
                         <field name="date_meeting"/>
                         <field name="user_id_meeting"/>
-                        <field name="sprint_id"/> 
                         <field name="project_id"/>
+                        <field name="sprint_id" domain="[('project_id', '=', project_id)]"/> 
                         <button name="send_email" string="Send Email" type="object" 
                         icon="terp-mail-message-new" />
                     </group>
@@ -260,7 +260,7 @@
             <field name="type">calendar</field>
             <field name="arch" type="xml">
                 <calendar string="Scrum Meeting" date_start="date_meeting" color="user_id_meeting">
-                    <field name="user_id_meeting"/>
+                    <field name="user_id_meeting" domain="[('project_id', '=', project_id)]"/>
                 </calendar>
             </field>
         </record> 
@@ -330,7 +330,7 @@
                         <field name="name"/>
                         <field name="sequence_test"/>
                         <field name="project_id"/>
-                        <field name="user_story_id_test"/>
+                        <field name="user_story_id_test" domain="[('project_id', '=', project_id)]"/>
                     </group>
                     <group>    
                         <field name="description_test"/>
@@ -392,11 +392,13 @@
             <field name="arch" type="xml">
                 <search string="Meeting">
                     <group expand="0" string="Group By...">
+                        <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Sprint" domain="[]" context="{'group_by':'sprint_id'}"/>
+                        <separator orientation="vertical"/>
                         <filter string="Date" domain="[]" context="{'group_by':'date_meeting'}"/>
                         <separator orientation="vertical"/>
                         <filter string="Name" domain="[]" context="{'group_by':'user_id_meeting'}"/>
-                        <separator orientation="vertical"/>
-                        <filter string="Sprint" domain="[]" context="{'group_by':'sprint_id'}"/>
                     </group>
                 </search>
             </field> 
@@ -469,7 +471,7 @@
             The sprint review is organized when the team presents its work to the customer and product owner.</field>
         </record>
 
-<!--access to daily meeting calendar view-->
+<!--access to all daily meeting calendar view-->
         <record id="action_meeting_all_tree" model="ir.actions.act_window">
             <field name="name">Meetings</field>
             <field name="res_model">project.scrum.meeting</field>
@@ -477,6 +479,23 @@
             <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="view_scrum_meeting_calendar"/>
             <field name="context">{"search_default_current": 1}</field>
+            <field name="search_view_id" ref="view_scrum_meeting_search"/>
+            <field name="help">The daily meeting of scrum.</field>
+        </record>
+        
+<!--access to current daily meeting calendar view-->
+        <record id="action_meeting_current_tree" model="ir.actions.act_window">
+            <field name="name">Meetings</field>
+            <field name="res_model">project.scrum.meeting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_id" ref="view_scrum_meeting_calendar"/>
+            <field name="context">{
+                'search_default_project_id': [active_id],
+                'default_project_id': active_id,
+                'search_default_group_by_sprint': 1,
+                'active_test': False,
+            }</field>
             <field name="search_view_id" ref="view_scrum_meeting_search"/>
             <field name="help">The daily meeting of scrum.</field>
         </record>
@@ -529,7 +548,7 @@
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
-                'search_default_group_by_us_test': 1,
+
                 'active_test': False,
             }</field>
             <field name="search_view_id" ref="view_scrum_test_case_search"/>
@@ -585,7 +604,7 @@
                         <field name="sprint_count" widget="statinfo"/>
                     </button>
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
-                    attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_meeting_all_tree)d">
+                    attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_meeting_current_tree)d">
                         <field name="meeting_count" widget="statinfo"/>
                     </button>
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o"
@@ -639,7 +658,7 @@
                         <t t-raw="record.sprint_count.raw_value"/> Sprints</a><br/>
                     <a t-if="record.user_story_count.raw_value" name="%(action_us_current_tree)d" type="action" style="margin-right: 10px">
                         <t t-raw="record.user_story_count.raw_value"/> User Stories</a><br/>
-                    <a t-if="record.meeting_count.raw_value" name="%(action_meeting_all_tree)d" type="action" style="margin-right: 10px">
+                    <a t-if="record.meeting_count.raw_value" name="%(action_meeting_current_tree)d" type="action" style="margin-right: 10px">
                         <t t-raw="record.meeting_count.raw_value"/> Meetings</a><br/>
                     <a t-if="record.test_case_count.raw_value" name="%(action_test_case_current_tree)d" type="action" style="margin-right: 10px">
                         <t t-raw="record.test_case_count.raw_value"/> Test Cases</a><br/>
