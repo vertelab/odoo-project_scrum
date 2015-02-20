@@ -9,6 +9,7 @@
 
 <!-- Project -->
         <record id="project_project_1" model="project.project">
+            <field name="use_scrum">True</field>
             <field name="date_start" eval="time.strftime('%Y-%m-01 10:00:00')"/>
             <field name="state">open</field>
             <field name="type">normal</field>
@@ -26,6 +27,7 @@
         </record>
 
         <record id="project_project_2" model="project.project">
+            <field name="use_scrum">True</field>
             <field name="date_start" eval="time.strftime('%Y-%m-01 10:00:00')"/>
             <field name="state">open</field>
             <field name="type">normal</field>
@@ -164,17 +166,44 @@
         </record>
         
 <!-- meeting-->        
-<!--
         <record id="project_meeting_1" model="project.scrum.meeting">
             <field name="name">Meeting 1</field>
             <field name="date_meeting" eval="time.strftime('2015-03-30')"/>
             <field name="user_id_meeting" ref="base.user_demo"/>
             <field name="sprint_id" ref="project_sprint_1"/> 
             <field name="project_id" ref="project_project_1"/>
+            <field name="question_yesterday">yesterday is history</field>
+            <field name="question_today">today is pressent</field>
+            <field name="question_blocks">tomorrow is a mystery</field>
             <field name="name">Meeting 1</field>
             <field name="description">Meeting Scrum Test</field>
         </record>
--->
+
+        <record id="project_meeting_2" model="project.scrum.meeting">
+            <field name="name">Meeting 2</field>
+            <field name="date_meeting" eval="time.strftime('2015-02-27')"/>
+            <field name="user_id_meeting" ref="base.user_demo"/>
+            <field name="sprint_id" ref="project_sprint_1"/> 
+            <field name="project_id" ref="project_project_1"/>
+            <field name="question_yesterday">yesterday is a mystery</field>
+            <field name="question_today">today is history</field>
+            <field name="question_blocks">tomorrow is a pressent</field>
+            <field name="name">Meeting 2</field>
+            <field name="description">Meeting Scrum Test 2</field>
+        </record>
+        
+        <record id="project_meeting_3" model="project.scrum.meeting">
+            <field name="name">Meeting 1</field>
+            <field name="date_meeting" eval="time.strftime('2015-02-25')"/>
+            <field name="user_id_meeting" ref="base.user_demo"/>
+            <field name="sprint_id" ref="project_sprint_2"/> 
+            <field name="project_id" ref="project_project_2"/>
+            <field name="question_yesterday">Fantasy is reality</field>
+            <field name="question_today">Aliens exist</field>
+            <field name="question_blocks">There is nothing that is true</field>
+            <field name="name">Meeting 1</field>
+            <field name="description">Meeting Testing Scrum</field>
+        </record>
 
 <!-- Test case -->
         <record id="project_test_case_1" model="project.scrum.test">
