@@ -260,7 +260,7 @@
             <field name="type">calendar</field>
             <field name="arch" type="xml">
                 <calendar string="Scrum Meeting" date_start="date_meeting" color="user_id_meeting">
-                    <field name="user_id_meeting" domain="[('project_id', '=', project_id)]"/>
+                    <field name="user_id_meeting"/>
                 </calendar>
             </field>
         </record> 
@@ -362,6 +362,17 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Sprints">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="meeting_ids"/>
+                    <field name="user_id"/>
+                    <field name="product_owner_id"/>
+                    <field name="scrum_master_id"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="date_duration"/>
+                    <field name="us_ids"/>
+                    <field name="task_ids"/>
                     <group string="Filter By...">
                         <filter string="Draft" domain="[('state','=','draft')]"/>
                         <filter string="Open" domain="[('state','=','open')]"/>
@@ -391,6 +402,10 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Meeting">
+                    <field name="project_id"/>
+                    <field name="sprint_id"/>
+                    <field name="date_meeting"/>
+                    <field name="user_id_meeting"/>
                     <group expand="0" string="Group By...">
                         <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
                         <separator orientation="vertical"/>
@@ -411,6 +426,11 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="User Stories">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="sprint_id"/>
+                    <field name="task_ids"/>
+                    <field name="test_ids"/>
                     <group expand="0" string="Group By...">
                         <filter string="Sprint" domain="[]" context="{'group_by':'sprint_id'}"/>
                         <separator orientation="vertical"/>
@@ -493,7 +513,6 @@
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
-                'search_default_group_by_sprint': 1,
                 'active_test': False,
             }</field>
             <field name="search_view_id" ref="view_scrum_meeting_search"/>
@@ -548,7 +567,6 @@
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
-
                 'active_test': False,
             }</field>
             <field name="search_view_id" ref="view_scrum_test_case_search"/>
@@ -562,8 +580,8 @@
             <field name= "inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
                 <field name="date_deadline" position="before">
-                    <field string="Sprint" name= "sprint_id"/>
-                    <field string="User Story" name= "us_id"/>
+                    <field string="Sprint" name= "sprint_id" domain="[('project_id', '=', project_id)]"/>
+                    <field string="User Story" name= "us_id" domain="[('project_id', '=', project_id)]"/>
                 </field>
             </field>
         </record>

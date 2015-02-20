@@ -160,10 +160,10 @@ class scrum_meeting(models.Model):
     #project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
     #selection='_reference_project')
     
-    @api.model
-    def _reference_project(self):
-        project = self.env['project.project'].browse(self.sprint_id.project_id)
-        return [(project.id,project.name)]
+    #@api.model
+    #def _reference_project(self):
+        #project = self.env['project.project'].browse(self.sprint_id.project_id)
+        #return [(project.id,project.name)]
 
     @api.multi
     def send_email(self):
