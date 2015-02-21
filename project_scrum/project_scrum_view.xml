@@ -41,21 +41,16 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
-                    
                     <!--Header States-->
                     <header>
-                        <group colspan="2" col="2">
-                            <separator colspan="2"/>
-                            <field name="state"/>   
-                            </group>
+                        <field name="state" string="State" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}"/>
                     </header>
-                    <group colspan="4" col="4">
-                        <field name="name" select="1"/>
+                    <sheet string="Sprint">
+                    <h1>
+                        <field name="name" placeholder="Sprint..." class="oe_inline"/>
+                    </h1>
+                    <group colspan="4" col="6">
                         <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
-<!--
-                        <field name="scrum_master_id"/>
-                        <field name="product_owner_id"/>
--->
                         <field name="date_start" select="1"/> 
                         <field name="date_stop"/>
 <!--
@@ -65,7 +60,6 @@
                         <field name="progress" widget="progressbar"/>
                         <field name="date_duration"/>
                     </group> 
-                    
                     <notebook colspan="5">
                         <!--User Stories-->
                         <page string="User Story">
@@ -101,6 +95,7 @@
                             <field name="retrospective"/>
                         </page> 
                     </notebook> 
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -173,8 +168,21 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="User Stories">
-                    <group col="6">
-                        <field name="name"/>
+                    <sheet string="User Story">
+                    <h1>
+                        <field name="name" placeholder="User Story..." class="oe_inline"/>
+                    </h1>
+<!--
+                    <if cond="task_ids=='True'">
+                        <field name="has_task" eval="True"/>
+                        <label for="has_task" string="Has Task"/>
+                    </if>
+                    <if cond="test_ids=='True'">
+                        <field name="has_test" eval="True"/>
+                        <label for="has_test" string="Has Test"/>
+                    </if>
+-->
+                    <group col="4">
                         <field name="sequence"/>
                         <field name="actor_ids" widget="many2many_tags"/>
                     </group>
@@ -207,7 +215,8 @@
                                 </tree>
                             </field>
                         </page>
-                    </notebook> 
+                    </notebook>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -249,6 +258,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Scrum Meeting">
+                    <sheet string="Daily Meeting">
                     <group col="4">
                         <field name="date_meeting"/>
                         <field name="user_id_meeting"/>
@@ -268,6 +278,7 @@
                         <field colspan="4" name="question_backlog" nolabel="1"/> 
                         <separator colspan="4" string=""/>
                     </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -348,18 +359,22 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Test Cases">
+                    <header>
+                        <field name="stats_test" string="State" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}"/>
+                    </header>
+                    <sheet string="Test Cases">
+                    <h1>
+                        <field name="name" placeholder="Test Case..." class="oe_inline"/>
+                    </h1>
                     <group col="6">
-                        <field name="name"/>
-                        <field name="stats_test"/>
                         <field name="sequence_test"/>
-                    </group>
-                    <group col="4">
                         <field name="project_id"/>
                         <field name="user_story_id_test" domain="[('project_id', '=', project_id)]"/>
                     </group>
                     <group>    
                         <field name="description_test"/>
                     </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -713,14 +728,14 @@
                     <field name="test_case_count"/>
                 </field>
                 <a name="attachment_tree_view" position="before">
-                    <a t-if="record.sprint_count.raw_value" name="%(action_sprint_current_tree)d" type="action" style="margin-right: 10px">
-                        <t t-raw="record.sprint_count.raw_value"/> Sprints</a><br/>
-                    <a t-if="record.user_story_count.raw_value" name="%(action_us_current_tree)d" type="action" style="margin-right: 10px">
-                        <t t-raw="record.user_story_count.raw_value"/> User Stories</a><br/>
-                    <a t-if="record.meeting_count.raw_value" name="%(action_meeting_current_tree)d" type="action" style="margin-right: 10px">
-                        <t t-raw="record.meeting_count.raw_value"/> Meetings</a><br/>
-                    <a t-if="record.test_case_count.raw_value" name="%(action_test_case_current_tree)d" type="action" style="margin-right: 10px">
-                        <t t-raw="record.test_case_count.raw_value"/> Test Cases</a><br/>
+                    <div><a t-if="record.sprint_count.raw_value" name="%(action_sprint_current_tree)d" type="action" style="margin-right: 10px">
+                    <t t-raw="record.sprint_count.raw_value"/> Sprints</a></div>
+                    <div><a t-if="record.user_story_count.raw_value" name="%(action_us_current_tree)d" type="action" style="margin-right: 10px">
+                    <t t-raw="record.user_story_count.raw_value"/> User Stories</a></div>
+                    <div><a t-if="record.meeting_count.raw_value" name="%(action_meeting_current_tree)d" type="action" style="margin-right: 10px">
+                    <t t-raw="record.meeting_count.raw_value"/> Meetings</a></div>
+                    <div><a t-if="record.test_case_count.raw_value" name="%(action_test_case_current_tree)d" type="action" style="margin-right: 10px">
+                    <t t-raw="record.test_case_count.raw_value"/> Test Cases</a></div>
                 </a>
             </field>
         </record>

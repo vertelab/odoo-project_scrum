@@ -29,7 +29,7 @@ class scrum_sprint(models.Model):
             return 1
         return diff.days + 1
 
-    name = fields.Char(string = 'Sprint Name', required=True, size=64)
+    name = fields.Char(string = 'Sprint Name', required=True)
     meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
     date_start = fields.Date(string = 'Starting Date', required=True)
@@ -55,7 +55,7 @@ class scrum_sprint(models.Model):
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
-    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=True)
+    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State')
 
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
@@ -65,7 +65,7 @@ class project_user_stories(models.Model):
         'use_scrum': True
     }
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='User Story', required=True)
     color = fields.Integer('Color Index')
     description = fields.Html(string = 'Description')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
@@ -76,6 +76,8 @@ class project_user_stories(models.Model):
     test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     test_count = fields.Integer(compute = '_test_count')
     sequence = fields.Integer('Sequence')
+    #has_task = fields.Boolean()
+    #has_test = fields.Boolean()
     
     def _task_count(self):    # method that calculate how many tasks exist
         for p in self:
@@ -85,27 +87,9 @@ class project_user_stories(models.Model):
         for p in self:
             p.test_count = len(p.test_ids)
 
-    def _resolve_project_id_from_context(self, cr, uid, context=None):
-        """ Returns ID of project based on the value of 'default_project_id'
-            context key, or None if it cannot be resolved to a single
-            project.
-        """
-        if context is None:
-            context = {}
-        if type(context.get('default_project_id')) in (int, long):
-            return context['default_project_id']
-        if isinstance(context.get('default_project_id'), basestring):
-            project_name = context['default_project_id']
-            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
-            if len(project_ids) == 1:
-                return project_ids[0][0]
-        return None
-
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
-        project_id = self._resolve_project_id_from_context()
-        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)]).name_get()
-        #sprints.sorted(key=lambda r: r.sequence)
+        sprints = self.env['project.scrum.sprint'].search([]).name_get()
         return sprints, None
 
     _group_by_full = {
@@ -160,7 +144,7 @@ class scrum_meeting(models.Model):
     _defaults = {
         'use_scrum': True
     }
-    
+
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
         select=True, track_visibility='onchange', change_default=True)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
@@ -226,7 +210,7 @@ class test_case(models.Model):
     _name = 'project.scrum.test'
     _order = 'sequence_test'
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name', required=True)
     color = fields.Integer('Color Index')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True)
     user_story_id_test = fields.Many2one(comodel_name = "project.scrum.us", string = "User Story")
@@ -235,6 +219,10 @@ class test_case(models.Model):
     stats_test = fields.Selection([('draft','Draft'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State')
 
     def _resolve_project_id_from_context(self, cr, uid, context=None):
+        """ Returns ID of project based on the value of 'default_project_id'
+            context key, or None if it cannot be resolved to a single
+            project.
+        """
         if context is None:
             context = {}
         if type(context.get('default_project_id')) in (int, long):
