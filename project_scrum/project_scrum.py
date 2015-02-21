@@ -14,7 +14,7 @@ class scrum_sprint(models.Model):
     _defaults = {
         'use_scrum': True
     }
-    
+
     def _compute(self):
         for record in self:
             record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
@@ -55,7 +55,7 @@ class scrum_sprint(models.Model):
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
-    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State')
+    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
 
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
@@ -78,7 +78,7 @@ class project_user_stories(models.Model):
     sequence = fields.Integer('Sequence')
     #has_task = fields.Boolean()
     #has_test = fields.Boolean()
-    
+
     def _task_count(self):    # method that calculate how many tasks exist
         for p in self:
             p.task_count = len(p.task_ids)
@@ -189,7 +189,7 @@ class project(models.Model):
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
     meeting_count = fields.Integer(compute = '_meeting_count', string="Meetings")
     test_case_count = fields.Integer(compute = '_test_case_count', string="Test Cases")
-    
+
     def _sprint_count(self):    # method that calculate how many sprints exist
         for p in self:
             p.sprint_count = len(p.sprint_ids)
@@ -216,7 +216,7 @@ class test_case(models.Model):
     user_story_id_test = fields.Many2one(comodel_name = "project.scrum.us", string = "User Story")
     description_test = fields.Text(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence', select=True)
-    stats_test = fields.Selection([('draft','Draft'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State')
+    stats_test = fields.Selection([('draft','Draft'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
 
     def _resolve_project_id_from_context(self, cr, uid, context=None):
         """ Returns ID of project based on the value of 'default_project_id'
@@ -248,4 +248,3 @@ class test_case(models.Model):
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
     use_scrum = fields.Boolean(string = 'Use Scrum')
-
