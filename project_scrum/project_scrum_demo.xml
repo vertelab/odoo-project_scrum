@@ -242,10 +242,10 @@
             <field name="name">Testing Scrum Case 1</field>
             <field name="sequence_test" ref="project_project_2"/>
             <field name="project_id" ref="project_project_2"/>
-            <field name="user_story_id_test" ref="project_us_6"/>
+            <field name="user_story_id_test" ref="project_us_5"/>
             <field name="description_test"  ref="project_project_2"/>
             <field name="name">Testing Scrum Case 1</field>
-            <field name="description">Test case for project testing scum</field>
+            <field name="description">Test case for project testing scrum</field>
         </record>
     </data>
 </openerp>

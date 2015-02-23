@@ -108,6 +108,8 @@ class project_task(models.Model):
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
+    date_start = fields.Date(string = 'Starting Date', required=True)
+    date_end = fields.Date(string = 'Ending Date', required=True)
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
