@@ -371,9 +371,11 @@
                         <field name="project_id"/>
                         <field name="user_story_id_test" domain="[('project_id', '=', project_id)]"/>
                     </group>
-                    <group>    
-                        <field name="description_test"/>
-                    </group>
+                    <notebook>
+                        <page string="Description">   
+                            <field name="description_test"/>
+                        </page>
+                    </notebook>
                     </sheet>
                 </form>
             </field>
@@ -498,11 +500,9 @@
                     <group string="Filter By...">
                         <filter string="Draft" domain="[('stats_test','=','draft')]"/>
                         <separator orientation="vertical"/>
-                        <filter string="Pending" domain="[('stats_test','=','pending')]"/>
+                        <filter string="In Progress" domain="[('stats_test','=','in progress')]"/>
                         <separator orientation="vertical"/>
                         <filter string="Cancelled" domain="[('stats_test','=','cancel')]"/>
-                        <separator orientation="vertical"/>
-                        <filter string="Done" domain="[('stats_test','=','done')]"/>
                     </group>
                     <newline/>
                     <group expand="0" string="Group By...">
@@ -556,7 +556,7 @@
             <field name="search_view_id" ref="view_scrum_meeting_search"/>
             <field name="help">The daily meeting of scrum.</field>
         </record>
-        
+
 <!--access to current daily meeting calendar view-->
         <record id="action_meeting_current_tree" model="ir.actions.act_window">
             <field name="name">Meetings</field>

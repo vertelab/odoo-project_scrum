@@ -214,9 +214,9 @@ class test_case(models.Model):
     color = fields.Integer('Color Index')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True)
     user_story_id_test = fields.Many2one(comodel_name = "project.scrum.us", string = "User Story")
-    description_test = fields.Text(string = 'Description')
+    description_test = fields.Html(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence', select=True)
-    stats_test = fields.Selection([('draft','Draft'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
+    stats_test = fields.Selection([('draft','Draft'),('in progress','In Progress'),('cancel','Cancelled')], string='State', required=False)
 
     def _resolve_project_id_from_context(self, cr, uid, context=None):
         """ Returns ID of project based on the value of 'default_project_id'

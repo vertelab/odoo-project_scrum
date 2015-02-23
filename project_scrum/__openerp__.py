@@ -7,7 +7,7 @@
 
 
 {
-    'name': 'project_scrum',
+    'name': 'Project Scrum',
     'version': '1.1',
     'category': 'Project Management',
     #'complexity': "normal",
