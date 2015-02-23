@@ -99,6 +99,7 @@ class project_user_stories(models.Model):
 
 class project_task(models.Model):
     _inherit = "project.task"
+    _order = "sequence"
     _defaults = {
         'use_scrum': True
     }
