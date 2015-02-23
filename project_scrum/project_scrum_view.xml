@@ -41,6 +41,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
+                    
                     <!--Header States-->
                     <header>
                         <field name="state" string="State" widget="statusbar" clickable="True"/>
@@ -122,7 +123,7 @@
             <field name="name">project.scrum.sprint.gantt</field>
             <field name="model">project.scrum.sprint</field>
             <field name="arch" type="xml">
-                <gantt date_start="date_start" date_stop="date_stop" progress="progress_rate" string="Projects">
+                <gantt date_start="date_start" date_stop="date_stop" progress="progress" string="Projects">
                 </gantt>
             </field>
         </record>
