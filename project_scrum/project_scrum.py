@@ -14,23 +14,7 @@ class scrum_sprint(models.Model):
     _defaults = {
         'use_scrum': True
     }
-    
-    #def create(self, context=None):
-        #if context is None:
-            #context = {}
-        ## Prevent double scrum creation when 'use_scrum' is checked + alias management
-        #create_context = dict(context, scrum_creation_in_progress=True,
-                              #alias_model_name=vals.get('alias_model', 'project.scrum.sprint'),
-                              #alias_parent_model_name=self._name)
 
-        #if vals.get('type', False) not in ('template', 'contract'):
-            #vals['type'] = 'contract'
-
-        #scrum_id = super(scrum, self).create(cr, uid, vals, context=create_context)
-        #scrum_rec = self.browse(cr, uid, scrum_id, context=context)
-        #self.pool.get('mail.alias').write(cr, uid, [scrum_rec.alias_id.id], {'alias_parent_thread_id': scrum_id, 'alias_defaults': {'scrum_id': scrum_id}}, context)
-        #return scrum_id
-    
     def _compute(self):
         for record in self:
             record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
@@ -38,29 +22,29 @@ class scrum_sprint(models.Model):
                 record.date_duration = record.time_cal()
             else:
                 record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days
-    
+
     def time_cal(self):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
         if diff.days <= 0:
             return 1
         return diff.days + 1
-        
-    name = fields.Char(string = 'Sprint Name', required=True, size=64)  # name for sprint
+
+    name = fields.Char(string = 'Sprint Name', required=True)
     meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
-    user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')   # name for person who has been assigned to
+    user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
     date_start = fields.Date(string = 'Starting Date', required=True)
     date_stop = fields.Date(string = 'Ending Date', required=True)
     date_duration = fields.Integer(compute = '_compute', string = 'Duration')
     description = fields.Text(string = 'Description', required=False)
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True,
-        required=True, help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',
+        change_default=True, required=True, help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
     product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
     us_ids = fields.One2many(comodel_name = 'project.scrum.us', inverse_name = 'sprint_id', string = 'User Stories')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
     review = fields.Html(string = 'Sprint Review', default="""
         <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
-        <h1 style="color:blue"><ul>Did the goal has been reached?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>Does the goal have been reached?</ul></h1><br/><br/>
     """)
     retrospective = fields.Html(string = 'Sprint Retrospective', default="""
         <h1 style="color:blue"><ul>What will you start doing in next sprint?</ul></h1><br/><br/>
@@ -71,28 +55,41 @@ class scrum_sprint(models.Model):
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
     effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
-    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=True)
+    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
 
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
     _description = 'Project Scrum Use Stories'
+    _order = 'sequence'
     _defaults = {
         'use_scrum': True
     }
-    name = fields.Char(string='Name')
+
+    name = fields.Char(string='User Story', required=True)
     color = fields.Integer('Color Index')
     description = fields.Html(string = 'Description')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True)
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',change_default=True)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
+    task_count = fields.Integer(compute = '_task_count')
     test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
+    test_count = fields.Integer(compute = '_test_count')
     sequence = fields.Integer('Sequence')
+    #has_task = fields.Boolean()
+    #has_test = fields.Boolean()
+
+    def _task_count(self):    # method that calculate how many tasks exist
+        for p in self:
+            p.task_count = len(p.task_ids)
+            
+    def _test_count(self):    # method that calculate how many test cases exist
+        for p in self:
+            p.test_count = len(p.test_ids)
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
         sprints = self.env['project.scrum.sprint'].search([]).name_get()
-        #sprints.sorted(key=lambda r: r.sequence)
         return sprints, None
 
     _group_by_full = {
@@ -149,23 +146,16 @@ class scrum_meeting(models.Model):
     _defaults = {
         'use_scrum': True
     }
-    
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True)
+
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
+        select=True, track_visibility='onchange', change_default=True)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
-    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)  # name for person who attend to meeting
+    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-
-    #project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
-    #selection='_reference_project')
-    
-    #@api.model
-    #def _reference_project(self):
-        #project = self.env['project.project'].browse(self.sprint_id.project_id)
-        #return [(project.id,project.name)]
 
     @api.multi
     def send_email(self):
@@ -201,7 +191,7 @@ class project(models.Model):
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
     meeting_count = fields.Integer(compute = '_meeting_count', string="Meetings")
     test_case_count = fields.Integer(compute = '_test_case_count', string="Test Cases")
-    
+
     def _sprint_count(self):    # method that calculate how many sprints exist
         for p in self:
             p.sprint_count = len(p.sprint_ids)
@@ -220,40 +210,43 @@ class project(models.Model):
 
 class test_case(models.Model):
     _name = 'project.scrum.test'
-    _order = 'sequence_test desc'
+    _order = 'sequence_test'
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name', required=True)
     color = fields.Integer('Color Index')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange', change_default=True)
     user_story_id_test = fields.Many2one(comodel_name = "project.scrum.us", string = "User Story")
-    description_test = fields.Text(string = 'Description')
+    description_test = fields.Html(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence', select=True)
-    
+    stats_test = fields.Selection([('draft','Draft'),('in progress','In Progress'),('cancel','Cancelled')], string='State', required=False)
+
+    def _resolve_project_id_from_context(self, cr, uid, context=None):
+        """ Returns ID of project based on the value of 'default_project_id'
+            context key, or None if it cannot be resolved to a single
+            project.
+        """
+        if context is None:
+            context = {}
+        if type(context.get('default_project_id')) in (int, long):
+            return context['default_project_id']
+        if isinstance(context.get('default_project_id'), basestring):
+            project_name = context['default_project_id']
+            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
+            if len(project_ids) == 1:
+                return project_ids[0][0]
+        return None
+
     @api.model
-    def _read_group_test_case_id(self, present_ids, domain, **kwargs):
-        test_cases = self.env['project.scrum.us'].search([]).name_get()
-        return test_cases, None
+    def _read_group_us_id(self, present_ids, domain, **kwargs):
+        project_id = self._resolve_project_id_from_context()
+        user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
+        return user_stories, None
 
     _group_by_full = {
-        'user_story_id_test': _read_group_test_case_id,
+        'user_story_id_test': _read_group_us_id,
         }
     name = fields.Char()
-    
+
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
-    use_scrum = fields.Boolean(string = 'Use Scrum', help="If checked, this contract will be available in the Scrum menu and you will be able to use scrum methods")
-
-    #def on_change_template_scrum(self, cr, uid, ids, template_id, date_start=False, context=None):
-        #res = super(account_analytic_account, self).on_change_template_scrum(cr, uid, ids, template_id, date_start=date_start, context=context)
-        #if template_id and 'value' in res:
-            #template = self.browse(cr, uid, template_id, context=context)
-            #res['value']['use_scrum'] = template.use_scrum
-        #return res
-
-    #def _trigger_scrum_creation(self, cr, uid, vals, context=None):
-        #'''
-        #This function is used to decide if a scrum needs to be automatically created or not when an analytic account is created.
-        #It returns True if it needs to be so, False otherwise.
-        #'''
-        #if context is None: context = {}
-        #return vals.get('use_scrum') and not 'scrum_creation_in_progress' in context
+    use_scrum = fields.Boolean(string = 'Use Scrum')
