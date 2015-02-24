@@ -118,7 +118,6 @@
 
         <!--sprint gantt view-->
 
-
        <record id="view_scrum_task_gantt" model="ir.ui.view">
             <field name="name">project.scrum.sprint.gantt</field>
             <field name="model">project.scrum.sprint</field>
@@ -139,11 +138,6 @@
                 <kanban default_group_by="sprint_id">
                     <field name="color"/>
                     <field name="name"/>
-                    <field name="task_ids"/>
-                    <field name="test_ids"/>
-                    <field name="sprint_id"/>
-                    <field name="project_id"/>
-                    <field name="sequence"/>
                     <field name="task_count"/>
                     <field name="test_count"/>
                     <templates>
@@ -206,9 +200,6 @@
                         <field name="project_id"/>
                         <field name="sprint_id" domain="[('project_id', '=', project_id)]"/>
                     </group>
-                    <group>
-                        <field name="description"/>
-                    </group>
                     <notebook colspan="5">
                         <page string="Tasks">
                             <field name="task_ids" nolabel="1" widget="one2many_list" string="Task">
@@ -230,6 +221,9 @@
                                     <field name="stats_test"/>
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Description">
+                            <field name="description"/>
                         </page>
                     </notebook>
                     </sheet>
