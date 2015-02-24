@@ -121,9 +121,23 @@
        <record id="view_scrum_task_gantt" model="ir.ui.view">
             <field name="name">project.scrum.sprint.gantt</field>
             <field name="model">project.scrum.sprint</field>
+            <field name="type">gantt</field>
             <field name="arch" type="xml">
                 <gantt date_start="date_start" date_stop="date_stop" progress="progress" string="Projects">
                 </gantt>
+            </field>
+        </record>
+
+<!--sprint graph view-->
+
+        <record id="view_project_task_graph" model="ir.ui.view">
+            <field name="name">project.scrum.sprint.graph</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="type">graph</field>
+            <field name="arch" type="xml">
+                <graph string="Scrum Sprint" type="bar">
+                    <field name="project_id" type="row"/>
+                </graph>
             </field>
         </record>
         
@@ -527,7 +541,7 @@
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="view_mode">tree,form,calendar,gantt,graph</field>
             <field name="view_id" ref="view_scrum_sprint_tree"/>
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_scrum_sprint_search"/>
@@ -540,7 +554,7 @@
         <record id="action_sprint_current_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
-            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="view_mode">tree,form,calendar,gantt,graph</field>
             <field name="view_id" ref="view_scrum_sprint_tree"/>
             <field name="context">{
                 'search_default_project_id': [active_id],
