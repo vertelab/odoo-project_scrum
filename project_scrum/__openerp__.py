@@ -7,7 +7,11 @@
 
 
 {
+<<<<<<< HEAD
     'name': 'project_scrum',
+=======
+    'name': 'Project Scrum',
+>>>>>>> 3623c3b38b20e70143c88987018b2109e27692f7
     'version': '1.1',
     'category': 'Project Management',
     #'complexity': "normal",
@@ -23,8 +27,9 @@ More information:
     #'init_xml': [],
     'data': ['project_scrum_view.xml',
     'security/ir.model.access.csv',
+
    ],
-    
+    'demo': ['project_scrum_demo.xml'],
     'installable': True,
     #'auto_install': False,
 }
