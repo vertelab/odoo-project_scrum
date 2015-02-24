@@ -82,7 +82,7 @@
                             </group>
                             <group col="1">
                                 <field name="task_ids" string="Task">
-                                    <tree>
+                                    <tree colors="blue:kanban_state in('normal'); red:kanban_state in('blocked'); grey:kanban_state in('done')" string="Task">
                                         <field name="sequence" widget="handle"/>
                                         <field name="priority"/>
                                         <field name="name"/>
@@ -545,15 +545,16 @@
 <!--access to current sprint tree view-->
         <record id="action_sprint_current_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>
-            <field name="res_model">project.task</field>
-            <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field>
+            <field name="res_model">project.scrum.sprint</field>
+            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="view_id" ref="view_scrum_sprint_tree"/>
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
                 'search_default_group_by_sprint': 1,
                 'active_test': False,
             }</field>
-            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="search_view_id" ref="view_scrum_sprint_search"/>
             <field name="help">The scrum agile methodology is used in software development projects. In this methodology, 
             a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs. 
             The sprint review is organized when the team presents its work to the customer and product owner.</field>
@@ -587,30 +588,31 @@
             <field name="help">The daily meeting of scrum.</field>
         </record>
 
-<!--access to all user stories kanban view-->
+<!--access to all user stories tree view-->
         <record id="action_us_all_tree" model="ir.actions.act_window">
             <field name="name">User Stories</field>
             <field name="res_model">project.scrum.us</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="view_id" ref="view_scrum_us_kanban"/>
+            <field name="view_id" ref="view_scrum_us_tree"/>
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_scrum_us_search"/>
             <field name="help">The user stories of scrum.</field>
         </record>
         
-<!--access to current user stories kanban view-->
+<!--access to current user stories tree view-->
         <record id="action_us_current_tree" model="ir.actions.act_window">
             <field name="name">User Stories</field>
-            <field name="res_model">project.task</field>
-            <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field>
+            <field name="res_model">project.scrum.us</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_scrum_us_tree"/>
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
-                'search_default_group_by_us': 1,
+                'search_default_project': 1,
                 'active_test': False,
             }</field>
-            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="search_view_id" ref="view_scrum_us_search"/>
             <field name="help"></field>
         </record>
 
