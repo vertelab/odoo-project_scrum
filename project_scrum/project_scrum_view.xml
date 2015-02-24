@@ -487,7 +487,7 @@
                     <group expand="0" string="Group By...">
                         <filter string="Sprint" domain="[]" context="{'group_by':'sprint_id'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Project" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Project" name="group_by_project" domain="[]" context="{'group_by':'project_id'}"/>
                     </group>
                 </search>
             </field> 
@@ -539,15 +539,16 @@
 <!--access to current sprint tree view-->
         <record id="action_sprint_current_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>
-            <field name="res_model">project.task</field>
-            <field name="view_mode">kanban,tree,form,calendar,gantt</field>
+            <field name="res_model">project.scrum.sprint</field>
+            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="view_id" ref="view_scrum_sprint_tree"/>
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
                 'search_default_group_by_sprint': 1,
                 'active_test': False,
             }</field>
-            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="search_view_id" ref="view_scrum_sprint_search"/>
             <field name="help">The scrum agile methodology is used in software development projects. In this methodology, 
             a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs. 
             The sprint review is organized when the team presents its work to the customer and product owner.</field>
@@ -596,16 +597,18 @@
 <!--access to current user stories kanban view-->
         <record id="action_us_current_tree" model="ir.actions.act_window">
             <field name="name">User Stories</field>
-            <field name="res_model">project.task</field>
-            <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field>
+            <field name="res_model">project.scrum.us</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_scrum_us_kanban"/>
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
-                'search_default_group_by_us': 1,
+                'search_default_group_by_project': 1,
                 'active_test': False,
             }</field>
-            <field name="search_view_id" ref="project.view_task_search_form"/>
-            <field name="help"></field>
+            <field name="search_view_id" ref="view_scrum_us_search"/>
+            <field name="help">The user stories of scrum.</field>
         </record>
 
 <!--access to test case kanban view-->        
@@ -630,7 +633,6 @@
             <field name="context">{
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
-                'search_default_group_by_us_test': 1,
                 'active_test': False,
             }</field>
             <field name="search_view_id" ref="view_scrum_test_case_search"/>
