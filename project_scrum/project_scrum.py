@@ -116,7 +116,10 @@ class project_task(models.Model):
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
     date_start = fields.Date(string = 'Starting Date', required=False, default=date.today())
     date_end = fields.Date(string = 'Ending Date', required=False, default=date.today())
+<<<<<<< HEAD
     use_scrum = fields.Boolean(related='project_id.use_scrum', default=False)
+=======
+>>>>>>> 789a3f7b28591c11423d314fcf1d5c18b5e98a19
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
@@ -157,6 +160,7 @@ class scrum_meeting(models.Model):
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
     user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)
+    scrum_master_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=True)
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
