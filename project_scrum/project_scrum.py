@@ -153,6 +153,7 @@ class scrum_meeting(models.Model):
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
     user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)
+    scrum_master_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master' required=True)
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
