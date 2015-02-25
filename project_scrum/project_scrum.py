@@ -11,9 +11,6 @@ class scrum_sprint(models.Model):
     _name = 'project.scrum.sprint'
     _description = 'Project Scrum Sprint'
     _order = 'date_start desc'
-    _defaults = {
-        'use_scrum': True
-    }
 
     def _compute(self):
         for record in self:
@@ -28,6 +25,19 @@ class scrum_sprint(models.Model):
         if diff.days <= 0:
             return 1
         return diff.days + 1
+
+    def test_task(self, cr, uid, sprint, pool):
+        tags = pool.get('project.category').search(cr,uid,[('name', '=', 'test')])  # search tags with name "test"
+        if len(tags)==0:    # if not exist, then creat a "test" tag into category
+            tags.append(pool.get('project.category').create(cr,uid,{'name':'test'}))
+        for tc in sprint.project_id.test_case_ids:  # loop through each test cases to creat task
+            pool.get('project.task').create(cr, uid,{
+                'name': '[TC] %s' % tc.name,
+                'description': tc.description_test,
+                'project_id': tc.project_id.id,
+                'sprint_id': sprint.id,
+                'categ_ids': [(6,_,tags)],
+                })
 
     name = fields.Char(string = 'Sprint Name', required=True)
     meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
@@ -61,9 +71,6 @@ class project_user_stories(models.Model):
     _name = 'project.scrum.us'
     _description = 'Project Scrum Use Stories'
     _order = 'sequence'
-    _defaults = {
-        'use_scrum': True
-    }
 
     name = fields.Char(string='User Story', required=True)
     color = fields.Integer('Color Index')
@@ -101,13 +108,15 @@ class project_task(models.Model):
     _inherit = "project.task"
     _order = "sequence"
     _defaults = {
-        'use_scrum': True
+        'use_scrum': False
     }
+    
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
-    date_start = fields.Date(string = 'Starting Date', required=True)
-    date_end = fields.Date(string = 'Ending Date', required=True)
+    date_start = fields.Date(string = 'Starting Date', required=False, default=date.today())
+    date_end = fields.Date(string = 'Ending Date', required=False, default=date.today())
+    use_scrum = fields.Boolean(related='project_id.use_scrum', default=False)
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
@@ -135,18 +144,13 @@ class project_task(models.Model):
 class project_actors(models.Model):
     _name = 'project.scrum.actors'
     _description = 'Actors in user stories'
-    _defaults = {
-        'use_scrum': True
-    }
+
     name = fields.Char(string='Name', size=60)
 
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
-    _defaults = {
-        'use_scrum': True
-    }
 
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
         select=True, track_visibility='onchange', change_default=True)
@@ -184,6 +188,10 @@ class scrum_meeting(models.Model):
 
 class project(models.Model):
     _inherit = 'project.project'
+    _defaults = {
+        'use_scrum': False
+    }
+
     sprint_ids = fields.One2many(comodel_name = "project.scrum.sprint", inverse_name = "project_id", string = "Sprints")
     user_story_ids = fields.One2many(comodel_name = "project.scrum.us", inverse_name = "project_id", string = "User Stories")
     meeting_ids = fields.One2many(comodel_name = "project.scrum.meeting", inverse_name = "project_id", string = "Meetings")
@@ -192,6 +200,7 @@ class project(models.Model):
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
     meeting_count = fields.Integer(compute = '_meeting_count', string="Meetings")
     test_case_count = fields.Integer(compute = '_test_case_count', string="Test Cases")
+    use_scrum = fields.Boolean(string = 'Use Scrum', default=False)
 
     def _sprint_count(self):    # method that calculate how many sprints exist
         for p in self:
@@ -207,7 +216,7 @@ class project(models.Model):
             
     def _test_case_count(self):    # method that calculate how many test cases exist
         for p in self:
-            p.test_case_count = len(p.test_case_ids)            
+            p.test_case_count = len(p.test_case_ids)
 
 class test_case(models.Model):
     _name = 'project.scrum.test'
@@ -247,7 +256,3 @@ class test_case(models.Model):
         'user_story_id_test': _read_group_us_id,
         }
     name = fields.Char()
-
-class account_analytic_account(models.Model):
-    _inherit = 'account.analytic.account'
-    use_scrum = fields.Boolean(string = 'Use Scrum')
