@@ -6,6 +6,85 @@
             name="Scrum"
             parent="base.menu_main_pm" sequence="3"/>
 
+<!--task search bar-->
+        <record id="view_scrum_sprint_task_search" model="ir.ui.view">
+            <field name="name">project.scrum.sprint.task</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <filter string="New Mail" position="after">
+                    <separator/>
+                    <filter string="Tags" name="filte_by_tag" domain="[(tags,'in','categ_ids')]"/>
+                </filter>
+                <field name="project_id" position="after">
+                    <field name="sprint_id"/>
+                </field>
+                <filter name="project" position="after">
+                    <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}"/>
+                    <filter string="User Story" name="group_by_us" context="{'group_by':'us_id'}"/>
+                </filter>
+            </field>
+        </record>
+        
+ <!-- access to task kanban view from sprint-->
+        <record id="action_sprint_backlog_kanban" model="ir.actions.act_window">
+            <field name="name">Sprint Backlog</field>
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{
+                'search_default_sprint_id': [active_id],
+                'default_sprint_id': active_id,
+                'search_default_User': 1,
+                'active_test': False,
+            }</field>
+            <field name="search_view_id" ref="view_scrum_sprint_task_search"/>
+        </record> 
+
+<!--test cases search bar-->
+        <record model="ir.ui.view" id="view_scrum_test_case_search">
+            <field name="name">project.scrum.test.search</field>
+            <field name="model">project.scrum.test</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Test Cases">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="user_story_id_test"/>
+                    <field name="description_test"/>
+                    <field name="stats_test"/>
+                    <group string="Filter By...">
+                        <filter string="Draft" domain="[('stats_test','=','draft')]"/>
+                        <separator orientation="vertical"/>
+                        <filter string="In Progress" domain="[('stats_test','=','in progress')]"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Cancelled" domain="[('stats_test','=','cancel')]"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Project" name="group_by_project" context="{'group_by':'project_id'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="User Story" name="group_by_us_test" context="{'group_by':'user_story_id_test'}"/>
+                    </group>
+                </search>
+            </field> 
+        </record>
+
+ <!-- access to test case tree view from sprint-->
+        <record id="action_sprint_test_case_tree" model="ir.actions.act_window">
+            <field name="name">Sprint Test Case</field>
+            <field name="res_model">project.scrum.test</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                'search_default_project_id': [active_id],
+                'default_project_id': active_id,
+                'search_default_filte_by_tag': 1,
+                'active_test': False,
+            }</field>
+            <field name="search_view_id" ref="view_scrum_test_case_search"/>
+        </record> 
+        
 <!--Scrum Sprint-->
         <!--sprint tree view-->
         <record id="view_scrum_sprint_tree" model="ir.ui.view">
@@ -50,12 +129,14 @@
                     <h1>
                         <field name="name" placeholder="Sprint..." class="oe_inline"/>
                     </h1>
-<!--
-                    <group>
-                        <button type="action" string="View Backlog" name="%(action_us_current_tree)d"/>
-                        <button type="action" string="View Test Cases" name="%(action_us_current_tree)d"/>
-                    </group>
--->
+                    <button  class="oe_inline oe_stat_button" type="action" icon="fa-tasks" 
+                    name="%(action_sprint_backlog_kanban)d">
+                        <field name="task_count" widget="statinfo"/>
+                    </button>
+                    <button  class="oe_inline oe_stat_button" type="action" icon="fa-files-o" 
+                    name="%(action_sprint_test_case_tree)d">
+                        <field name="test_count" widget="statinfo"/>
+                    </button>
                     <group colspan="4" col="4">
                         <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
                         <field name="progress" widget="progressbar"/>
@@ -409,22 +490,6 @@
             </field>
         </record>
              
-<!--task search bar-->
-        <record id="view_scrum_sprint_task_search" model="ir.ui.view">
-            <field name="name">project.scrum.sprint.task</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_search_form"/>
-            <field name="arch" type="xml">
-                <field name="project_id" position="after">
-                    <field name="sprint_id"/>
-                </field>
-                <filter name="project" position="after">
-                    <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}"/>
-                    <filter string="User Story" name="group_by_us" context="{'group_by':'us_id'}"/>
-                </filter>
-            </field>
-        </record>
-        
 <!--sprint search bar-->
         <record model="ir.ui.view" id="view_scrum_sprint_search">
             <field name="name">project.scrum.sprint.search</field>
@@ -513,35 +578,6 @@
             </field> 
         </record>
         
-<!--test cases search bar-->
-        <record model="ir.ui.view" id="view_scrum_test_case_search">
-            <field name="name">project.scrum.test.search</field>
-            <field name="model">project.scrum.test</field>
-            <field name="type">search</field>
-            <field name="arch" type="xml">
-                <search string="Test Cases">
-                    <field name="name"/>
-                    <field name="project_id"/>
-                    <field name="user_story_id_test"/>
-                    <field name="description_test"/>
-                    <field name="stats_test"/>
-                    <group string="Filter By...">
-                        <filter string="Draft" domain="[('stats_test','=','draft')]"/>
-                        <separator orientation="vertical"/>
-                        <filter string="In Progress" domain="[('stats_test','=','in progress')]"/>
-                        <separator orientation="vertical"/>
-                        <filter string="Cancelled" domain="[('stats_test','=','cancel')]"/>
-                    </group>
-                    <newline/>
-                    <group expand="0" string="Group By...">
-                        <filter string="Project" name="group_by_project" context="{'group_by':'project_id'}"/>
-                        <separator orientation="vertical"/>
-                        <filter string="User Story" name="group_by_us_test" context="{'group_by':'user_story_id_test'}"/>
-                    </group>
-                </search>
-            </field> 
-        </record>
-
 <!--access to all sprint tree view-->
         <record id="action_sprint_all_tree" model="ir.actions.act_window">
             <field name="name">Sprints</field>
@@ -658,7 +694,7 @@
             <field name="search_view_id" ref="view_scrum_test_case_search"/>
             <field name="help">The test case.</field>
         </record>    
-
+        
 <!--access to sprint and user story from task form view-->
         <record id="view_scrum_sprint_task_form2" model="ir.ui.view">
             <field name="name">project.scrum.task.form</field>
