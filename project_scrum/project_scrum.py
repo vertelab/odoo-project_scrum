@@ -39,13 +39,14 @@ class scrum_sprint(models.Model):
                 'categ_ids': [(6,_,tags)],
                 })
 
-    def _task_count(self):    # method that calculate how many tasks exist
-        for p in self:
-            p.task_count = len(p.task_ids)
-            
-    def _test_count(self):    # method that calculate how many test cases exist
-        for p in self:
-            p.test_count = len(p.test_ids)
+    #def _task_count(self):    # method that calculate how many tasks exist
+        #for p in self:
+            #p.task_count = len(p.task_ids)
+    
+    #def _task_test_count(self):    # method that calculate how many tasks in testing exist
+        #task = self.env['project.task'].search([('categ_ids','ilike','test')])
+        #for p in self:
+            #p.task_test_count = len(p.task_test_ids)
             
     name = fields.Char(string = 'Sprint Name', required=True)
     meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
@@ -60,9 +61,9 @@ class scrum_sprint(models.Model):
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
     us_ids = fields.One2many(comodel_name = 'project.scrum.us', inverse_name = 'sprint_id', string = 'User Stories')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
-    task_count = fields.Integer(compute = '_task_count')
-    test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
-    test_count = fields.Integer(compute = '_test_count')
+    #task_count = fields.Integer(compute = '_task_count')
+    task_test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
+    #task_test_count = fields.Integer(compute = '_task_test_count')
     review = fields.Html(string = 'Sprint Review', default="""
         <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
         <h1 style="color:blue"><ul>Does the goal have been reached?</ul></h1><br/><br/>
@@ -105,9 +106,27 @@ class project_user_stories(models.Model):
         for p in self:
             p.test_count = len(p.test_ids)
 
+    def _resolve_project_id_from_context(self, cr, uid, context=None):
+        """ Returns ID of project based on the value of 'default_project_id'
+            context key, or None if it cannot be resolved to a single
+            project.
+        """
+        if context is None:
+            context = {}
+        if type(context.get('default_project_id')) in (int, long):
+            return context['default_project_id']
+        if isinstance(context.get('default_project_id'), basestring):
+            project_name = context['default_project_id']
+            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
+            if len(project_ids) == 1:
+                return project_ids[0][0]
+        return None
+
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
-        sprints = self.env['project.scrum.sprint'].search([]).name_get()
+        project_id = self._resolve_project_id_from_context()
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='sequence').name_get()
+        #sprints.sorted(key=lambda r: r.sequence)
         return sprints, None
 
     _group_by_full = {
@@ -244,10 +263,6 @@ class test_case(models.Model):
     stats_test = fields.Selection([('draft','Draft'),('in progress','In Progress'),('cancel','Cancelled')], string='State', required=False)
 
     def _resolve_project_id_from_context(self, cr, uid, context=None):
-        """ Returns ID of project based on the value of 'default_project_id'
-            context key, or None if it cannot be resolved to a single
-            project.
-        """
         if context is None:
             context = {}
         if type(context.get('default_project_id')) in (int, long):
