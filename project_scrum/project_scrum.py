@@ -146,16 +146,13 @@ class project_user_stories(models.Model):
 class project_task(models.Model):
     _inherit = "project.task"
     _order = "sequence"
-    _defaults = {
-        'use_scrum': False
-    }
-    
+
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
     date_start = fields.Date(string = 'Starting Date', required=False, default=date.today())
     date_end = fields.Date(string = 'Ending Date', required=False, default=date.today())
-    use_scrum = fields.Boolean(related='project_id.use_scrum', default=False)
+    use_scrum = fields.Boolean(related='project_id.use_scrum', store=True)
     tags = fields.Char(comodel_name='project.scrum.sprint')
 
     @api.model
@@ -228,9 +225,6 @@ class scrum_meeting(models.Model):
 
 class project(models.Model):
     _inherit = 'project.project'
-    _defaults = {
-        'use_scrum': False
-    }
 
     sprint_ids = fields.One2many(comodel_name = "project.scrum.sprint", inverse_name = "project_id", string = "Sprints")
     user_story_ids = fields.One2many(comodel_name = "project.scrum.us", inverse_name = "project_id", string = "User Stories")
@@ -240,7 +234,7 @@ class project(models.Model):
     user_story_count = fields.Integer(compute = '_user_story_count', string="User Stories")
     meeting_count = fields.Integer(compute = '_meeting_count', string="Meetings")
     test_case_count = fields.Integer(compute = '_test_case_count', string="Test Cases")
-    use_scrum = fields.Boolean(string = 'Use Scrum', default=False)
+    use_scrum = fields.Boolean(store=True)
 
     def _sprint_count(self):    # method that calculate how many sprints exist
         for p in self:
