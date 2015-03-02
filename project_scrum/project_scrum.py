@@ -102,7 +102,10 @@ class project_user_stories(models.Model):
 
     def _conv_html2text(self):  # method that return a short text from description of user story
         for d in self:
-            d.description_short = BeautifulSoup(d.description or '').p.get_text()
+            try:
+                d.description_short = BeautifulSoup(d.description or '').p.get_text()
+            except:
+                pass
 
     def _task_count(self):    # method that calculate how many tasks exist
         for p in self:
