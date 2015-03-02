@@ -210,6 +210,7 @@
                 <kanban default_group_by="sprint_id">
                     <field name="color"/>
                     <field name="name"/>
+                    <field name="description_short"/>
                     <field name="task_count"/>
                     <field name="test_count"/>
                     <templates>
@@ -226,6 +227,7 @@
                             </div>
                             <div class="oe_kanban_content">
                                 <div><b><field name="name"/></b></div>
+                                <p><font color="#BDBDBD"><field name="description_short"/></font></p>
                             </div>
                             <div>
                                 <a t-if="record.task_count.raw_value">

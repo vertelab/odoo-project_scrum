@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
+from bs4 import BeautifulSoup
 import openerp.tools
 import re
 import time
@@ -87,6 +88,7 @@ class project_user_stories(models.Model):
     name = fields.Char(string='User Story', required=True)
     color = fields.Integer('Color Index')
     description = fields.Html(string = 'Description')
+    description_short = fields.Text(compute = '_conv_html2text')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',change_default=True)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
@@ -97,6 +99,10 @@ class project_user_stories(models.Model):
     sequence = fields.Integer('Sequence')
     #has_task = fields.Boolean()
     #has_test = fields.Boolean()
+
+    def _conv_html2text(self):  # method that return a short text from description of user story
+        for d in self:
+            d.description_short = BeautifulSoup(d.description or '').p.get_text()
 
     def _task_count(self):    # method that calculate how many tasks exist
         for p in self:
