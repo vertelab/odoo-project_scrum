@@ -103,7 +103,7 @@ class project_user_stories(models.Model):
     def _conv_html2text(self):  # method that return a short text from description of user story
         for d in self:
             try:
-                d.description_short = BeautifulSoup(d.description or '').p.get_text()
+                d.description_short = BeautifulSoup(d.description or '').get_text()[:99]
             except:
                 pass
 
