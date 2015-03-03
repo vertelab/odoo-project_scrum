@@ -50,8 +50,10 @@
                     <group colspan="4" col="4">
                         <field name="name" select="1"/>
                         <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
+<!--
                         <field name="scrum_master_id"/>
                         <field name="product_owner_id"/>
+-->
                         <field name="date_start" select="1"/> 
                         <field name="date_stop"/>
 <!--
@@ -100,39 +102,38 @@
 
 <!--Scrum User Stories-->
         <!--user stories kanban view-->
-<!--
         <record id="view_scrum_us_kanban" model="ir.ui.view">
             <field name="name">project.scrum.us.kanban</field>
             <field name="model">project.scrum.us</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban>
+                <kanban default_group_by="sprint_id">
+                    <field name="color"/>
+                    <field name="name"/>
+                    <field name="task_ids"/>
+                    <field name="sprint_id"/>
+                    <field name="project_id"/>
                     <templates>
                     <t t-name="kanban-box">
-                        <li><p>Actor: <field name="actor_ids"/></p></li>
-                        <li><p>User Story: <field name="name"/></p></li>
-                        <li><p>Task: <field name="task_ids"/></p></li>
-                        <li><p>Sprint: <field name="sprint_id"/></p></li>
-                        <li><p>Project: <field name="project_id"/></p></li>
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                                <span class="oe_e">í</span>
+                                <ul class="oe_dropdown_menu">
+                                    <li>
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="oe_kanban_content">
+                                <div><b><field name="name"/></b></div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
                     </t>
                     </templates>
                 </kanban>
-            </field>
-        </record>
--->
-
-        <!--user stories tree view-->
-        <record id="view_scrum_us_tree" model="ir.ui.view">
-            <field name="name">project.scrum.us.tree</field>
-            <field name="model">project.scrum.us</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="User Stories">
-                    <field name="actor_ids"/>
-                    <field name="name"/>
-                    <field name="sprint_id"/>
-                    <field name="project_id"/>
-                </tree>
             </field>
         </record>
 
@@ -147,18 +148,18 @@
                         <field name="project_id"/>
                         <field name="sprint_id"/>
                     </group>
-                    <group>
+                    <group col="4">
+                        <field name="name"/>
                         <field name="actor_ids" widget="many2many_tags"/>
                     </group>
                     <group>
-                        <field name="name"/>
+                        
                         <field name="description"/>
                     </group>
                     <notebook colspan="5">
                         <page string="Tasks">
-                            <field colspan="2" col="1" name="task_ids" nolabel="1" widget="one2many_list">
-                                <tree string="Sprint Backlog" colors="green:priority in ('0');
-                                orange:priority in ('1'); red:priority in('2')">
+                            <field name="task_ids" nolabel="1" widget="one2many_list">
+                                <tree string="Tasks">
                                     <field name="sequence" widget="handle"/>
                                     <field name="priority"/>
                                     <field name="name"/>
@@ -170,6 +171,21 @@
                         </page>
                     </notebook> 
                 </form>
+            </field>
+        </record>
+        
+        <!--user stories tree view-->
+        <record id="view_scrum_us_tree" model="ir.ui.view">
+            <field name="name">project.scrum.us.tree</field>
+            <field name="model">project.scrum.us</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml" >
+                <tree>
+                    <field name="actor_ids"/>
+                    <field name="name"/>
+                    <field name="sprint_id"/>
+                    <field name="project_id"/>
+                </tree>
             </field>
         </record>
 
@@ -199,6 +215,7 @@
                         <field name="date_meeting"/>
                         <field name="user_id_meeting"/>
                         <field name="sprint_id"/> 
+                        <field name="project_id"/>
                         <button name="send_email" string="Send Email" type="object" 
                         icon="terp-mail-message-new" />
                     </group>
@@ -340,8 +357,8 @@
             <field name="name">User Stories</field>
             <field name="res_model">project.scrum.us</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_scrum_us_tree"/>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="view_scrum_us_kanban"/>
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_scrum_us_search"/>
             <field name="help">The user stories of scrum.</field>
@@ -359,16 +376,16 @@
                 </field>
             </field>
         </record>
-
-<!--menu for accessing to sprint-->
-        <menuitem
-            sequence="20"
-            action="action_sprint_all_tree" id="menu_action_sprint_all_tree" parent="menu_scrum"/>
-
+        
 <!--menu for accessing to userstories-->
         <menuitem
-            sequence="21"
+            sequence="20"
             action="action_us_all_tree" id="menu_action_us_all_tree" parent="menu_scrum"/>
+            
+<!--menu for accessing to sprint-->
+        <menuitem
+            sequence="21"
+            action="action_sprint_all_tree" id="menu_action_sprint_all_tree" parent="menu_scrum"/>
 
 <!--menu for accessing to meeting-->
         <menuitem

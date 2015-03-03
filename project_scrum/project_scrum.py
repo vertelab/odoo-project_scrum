@@ -71,11 +71,22 @@ class project_user_stories(models.Model):
         'use_scrum': True
     }
     name = fields.Char(string='Name')
+    color = fields.Integer('Color Index')
     description = fields.Html(string = 'Description')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id', string = 'Task')
+
+    @api.model
+    def _read_group_sprint_id(self, present_ids, domain, **kwargs):
+        sprints = self.env['project.scrum.sprint'].search([]).name_get()
+        return sprints, None
+
+    _group_by_full = {
+        'sprint_id': _read_group_sprint_id,
+        }
+    name = fields.Char()
 
 class project_task(models.Model):
     _inherit = "project.task"
@@ -119,18 +130,25 @@ class project_actors(models.Model):
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'ir.needaction_mixin', 'project.project']
     _defaults = {
         'use_scrum': True
     }
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True)
-    user_id_meeting = fields.Char(string = 'Name', required=True)  # name for person who attend to meeting
+    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)  # name for person who attend to meeting
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-
+    project_id = fields.Reference(comodel_name = 'project.project', string = 'Project Name',
+    selection='_reference_project')
+    
+    @api.model
+    def _reference_project(self): 
+        project = self.env['project.project'].browse(self.sprint_id.project_id)
+        return [(project.id,project.name)]    
+                    
     @api.multi
     def send_email(self):
         assert len(self) == 1, 'This option should only be used for a single id at a time.'
