@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import openerp.tools
 import re
 import time
@@ -102,7 +102,6 @@ class project_user_stories(models.Model):
     
     @api.one
     def _conv_html2text(self):  # method that return a short text from description of user story
-        #self.description_short = re.sub('<.*>', ' ', self.description)[:7]
         for d in self: 
             d.description_short = re.sub('<.*>', ' ', d.description or '')
             if len(d.description_short)>=150:
