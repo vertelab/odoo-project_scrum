@@ -52,8 +52,8 @@ class scrum_sprint(models.Model):
     name = fields.Char(string = 'Sprint Name', required=True)
     meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
-    date_start = fields.Date(string = 'Starting Date', required=True)
-    date_stop = fields.Date(string = 'Ending Date', required=True)
+    date_start = fields.Date(string = 'Starting Date')
+    date_stop = fields.Date(string = 'Ending Date')
     date_duration = fields.Integer(compute = '_compute', string = 'Duration')
     description = fields.Text(string = 'Description', required=False)
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',
