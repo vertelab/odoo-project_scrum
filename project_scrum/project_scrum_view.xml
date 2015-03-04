@@ -99,13 +99,13 @@
                         <field name="name" placeholder="Sprint..." class="oe_inline"/>
                     </h1>
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-tasks" 
-                    name="%(action_ps_sprint_backlog)d" string="Backlog">
+                    name="%(action_ps_sprint_backlog)d" string="Backlog" context="{'default_project_id': project_id}">
 <!--
                         <field name="task_count" widget="statinfo" string="Tasks"/>
 -->
                     </button>
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-tasks" 
-                    name="%(action_ps_tc)d" string="[TC] Tasks">
+                    name="%(action_ps_tc)d" string="[TC] Tasks" context="{'default_project_id': project_id}">
 <!--
                         <field name="task_test_count" widget="statinfo" string="Test Tasks"/>
 -->
