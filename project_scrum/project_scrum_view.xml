@@ -90,7 +90,6 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
-                    
                     <!--Header States-->
                     <header>
                         <field name="state" string="State" widget="statusbar" clickable="True"/>
@@ -100,13 +99,13 @@
                         <field name="name" placeholder="Sprint..." class="oe_inline"/>
                     </h1>
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-tasks" 
-                    name="%(action_ps_sprint_backlog)d" string="Backlog">
+                    name="%(action_ps_sprint_backlog)d" string="Backlog" context="{'default_project_id': project_id}">
 <!--
                         <field name="task_count" widget="statinfo" string="Tasks"/>
 -->
                     </button>
                     <button  class="oe_inline oe_stat_button" type="action" icon="fa-tasks" 
-                    name="%(action_ps_tc)d" string="[TC] Tasks">
+                    name="%(action_ps_tc)d" string="[TC] Tasks" context="{'default_project_id': project_id}">
 <!--
                         <field name="task_test_count" widget="statinfo" string="Test Tasks"/>
 -->
@@ -127,7 +126,10 @@
                     <notebook colspan="5">
                         <!--User Stories-->
                         <page string="User Story">
-                            <field colspan="2" col="1" name="us_ids">
+                            <field colspan="2" col="1" name="us_ids" context="{
+                                        'default_project_id': project_id,
+                                        'default_sprint_id': id,
+                                        }">
                                 <tree>
                                     <field name="name"/>
                                     <field name="actor_ids"/>
@@ -142,7 +144,11 @@
                                 <field name="review"/>
                             </group>
                             <group col="1">
-                                <field name="task_ids" string="Task">
+                                <field name="task_ids" string="Task" context="{
+                                            'default_project_id': project_id,
+                                            'default_sprint_id': id,
+                                            'default_us_ids': us_ids,
+                                            }">
                                     <tree colors="blue:kanban_state in('normal'); red:kanban_state in('blocked'); grey:kanban_state in('done')" string="Task">
                                         <field name="sequence" widget="handle"/>
                                         <field name="priority"/>
@@ -252,6 +258,7 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="User Stories">
+                    <field name="project_id" invisible="1"/>
                     <sheet string="User Story">
                     <h1>
                         <field name="name" placeholder="User Story..." class="oe_inline"/>
@@ -272,11 +279,15 @@
                     </group>
                     <group col="4">
                         <field name="project_id"/>
-                        <field name="sprint_id" domain="[('project_id', '=', project_id)]"/>
+                        <field name="sprint_id"/>
                     </group>
                     <notebook colspan="5">
                         <page string="Tasks">
-                            <field name="task_ids" string="Task">
+                            <field name="task_ids" string="Task" context="{
+                                        'default_project_id': project_id,
+                                        'default_sprint_id': sprint_id,
+                                        'default_us_id': id,
+                                        }">
                                 <tree string="Tasks" colors="red:kanban_state in ('normal');
                                 grey:kanban_state in ('blocked'); green:kanban_state in('done')">
                                     <field name="sequence" widget="handle"/>
@@ -289,7 +300,10 @@
                             </field>
                         </page>
                         <page string="Test Cases">
-                            <field name="test_ids" string="Test Case">
+                            <field name="test_ids" string="Test Case" context="{
+                                        'default_project_id': project_id,
+                                        'default_user_story_id_test': id,
+                                        }">
                                 <tree name="test_ids" string="Test Cases">
                                     <field name="name"/>
                                     <field name="stats_test"/>
@@ -735,7 +749,9 @@
                 </field>
                 <page name="project_stages" position="after">
                     <page name="tasks" string="Tasks">
-                        <field name="task_ids" string="Task">
+                        <field name="task_ids" string="Task" context="{
+                                        'default_project_id': active_id,
+                                        }">
                             <tree>
                                 <field name="sequence" widget="handle"/>
                                 <field name="priority"/>

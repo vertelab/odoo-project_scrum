@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import openerp.tools
 import re
 import time
@@ -52,8 +52,8 @@ class scrum_sprint(models.Model):
     name = fields.Char(string = 'Sprint Name', required=True)
     meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
-    date_start = fields.Date(string = 'Starting Date', required=True)
-    date_stop = fields.Date(string = 'Ending Date', required=True)
+    date_start = fields.Date(string = 'Starting Date')
+    date_stop = fields.Date(string = 'Ending Date')
     date_duration = fields.Integer(compute = '_compute', string = 'Duration')
     description = fields.Text(string = 'Description', required=False)
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',
@@ -99,14 +99,19 @@ class project_user_stories(models.Model):
     sequence = fields.Integer('Sequence')
     #has_task = fields.Boolean()
     #has_test = fields.Boolean()
-
+    
+    @api.one
     def _conv_html2text(self):  # method that return a short text from description of user story
-        for d in self:
-            try:
-                d.description_short = BeautifulSoup(d.description or '').get_text()[:99]
-            except:
-                pass
-
+        for d in self: 
+            d.description_short = re.sub('<.*>', ' ', d.description or '')
+            if len(d.description_short)>=150:
+                d.description_short = d.description_short[:149]
+            #d.description_short = d.description_short[: len(d.description_short or '')-1 if len(d.description_short or '')<=150 else 149]
+            #d.description_short = re.sub('<.*>', ' ', d.description)[:len(d.description) - 1 if len(d.description)>149 then 149]
+            #d.description_short = BeautifulSoup(d.description.replace('*', ' ') or '').get_text()[:49] + '...'
+        #self.description_short = BeautifulSoup(self.description).get_text()
+            
+    @api.multi
     def _task_count(self):    # method that calculate how many tasks exist
         for p in self:
             p.task_count = len(p.task_ids)
@@ -151,9 +156,15 @@ class project_task(models.Model):
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
     date_start = fields.Date(string = 'Starting Date', required=False, default=date.today())
-    date_end = fields.Date(string = 'Ending Date', required=False, default=date.today())
+    date_end = fields.Date(string = 'Ending Date', required=False)
     use_scrum = fields.Boolean(related='project_id.use_scrum', store=True)
     tags = fields.Char(comodel_name='project.scrum.sprint')
+    
+    @api.multi
+    def write(self, vals):
+        if vals.get('stage_id') == self.env.ref('project.project_tt_deployment').id:
+            vals['date_end'] = fields.datetime.now()
+        return super(project_task, self).write(vals)
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
@@ -192,8 +203,8 @@ class scrum_meeting(models.Model):
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
         select=True, track_visibility='onchange', change_default=True)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
-    date_meeting = fields.Date(string = 'Date', required=True)
-    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True)
+    date_meeting = fields.Date(string = 'Date', required=True, default=date.today())
+    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True, default=lambda self: self.env.user)
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
