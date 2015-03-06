@@ -178,7 +178,7 @@ class project_task(models.Model):
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
-        if use_scrum:
+        if self.use_scrum:
             project_id = self._resolve_project_id_from_context()
             sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='sequence').name_get()
             #sprints.sorted(key=lambda r: r.sequence)
@@ -188,7 +188,7 @@ class project_task(models.Model):
 
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
-        if use_scrum:
+        if self.use_scrum:
             project_id = self._resolve_project_id_from_context()
             user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
             return user_stories, None
