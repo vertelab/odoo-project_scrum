@@ -42,13 +42,11 @@
                                     ]</field>
     </record>
     
-<!--
     <record model="ir.rule" id="ps_actors_rule">
         <field name="name">Actors</field>
         <field name="model_id" ref="model_project_scrum_actors"/>
         <field name="global" eval="True"/>
     </record>
--->
 
     </data>
 </openerp>
