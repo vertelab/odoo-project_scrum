@@ -51,7 +51,7 @@ class scrum_sprint(models.Model):
         #task = self.env['project.task'].search([('categ_ids','ilike','test')])
         #for p in self:
             #p.task_test_count = len(p.task_test_ids)
-            
+
     name = fields.Char(string = 'Sprint Name', required=True)
     meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
@@ -64,9 +64,8 @@ class scrum_sprint(models.Model):
     product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
     us_ids = fields.One2many(comodel_name = 'project.scrum.us', inverse_name = 'sprint_id', string = 'User Stories')
-    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
+    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'sprint_id')
     #task_count = fields.Integer(compute = '_task_count')
-    task_test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     #task_test_count = fields.Integer(compute = '_task_test_count')
     review = fields.Html(string = 'Sprint Review', default="""
         <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
@@ -79,9 +78,10 @@ class scrum_sprint(models.Model):
     """)
     sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
     progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
-    effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
-    expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
+    #effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
+    #expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
+    company_id = fields.Many2one(related='project.project')
 
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
@@ -93,13 +93,16 @@ class project_user_stories(models.Model):
     description = fields.Html(string = 'Description')
     description_short = fields.Text(compute = '_conv_html2text')
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',change_default=True)
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
+        select=True, track_visibility='onchange', change_default=True)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
+    task_test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     task_count = fields.Integer(compute = '_task_count')
     test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     test_count = fields.Integer(compute = '_test_count')
     sequence = fields.Integer('Sequence')
+    company_id = fields.Many2one(related='project.project')
     #has_task = fields.Boolean()
     #has_test = fields.Boolean()
     
@@ -160,8 +163,7 @@ class project_task(models.Model):
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
     date_start = fields.Date(string = 'Starting Date', required=False, default=date.today())
     date_end = fields.Date(string = 'Ending Date', required=False)
-    use_scrum = fields.Boolean(related='project_id.use_scrum', store=True)
-    tags = fields.Char(comodel_name='project.scrum.sprint')
+    use_scrum = fields.Boolean(related='project_id.use_scrum')
     
     @api.multi
     def write(self, vals):
@@ -171,16 +173,27 @@ class project_task(models.Model):
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
-        project_id = self._resolve_project_id_from_context()
-        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='sequence').name_get()
-        #sprints.sorted(key=lambda r: r.sequence)
-        return sprints, None
+        if use_scrum:
+            project_id = self._resolve_project_id_from_context()
+            sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='sequence').name_get()
+            #sprints.sorted(key=lambda r: r.sequence)
+            return sprints, None
+        else:
+            return [], None
 
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
-        project_id = self._resolve_project_id_from_context()
-        user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
-        return user_stories, None
+        if use_scrum:
+            project_id = self._resolve_project_id_from_context()
+            user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
+            return user_stories, None
+        else:
+            return [], None
+
+    #def _auto_init(self, cr, context=None):
+        #self._group_by_full['sprint_id'] = _read_group_sprint_id
+        #self._group_by_full['us_id'] = _read_group_us_id
+        #super(project_task, self)._auto_init(cr, context)
 
     try:
         _group_by_full['sprint_id'] = _read_group_sprint_id
@@ -190,7 +203,6 @@ class project_task(models.Model):
         'sprint_id': _read_group_sprint_id,
         'us_id': _read_group_us_id,
         }
-    name = fields.Char()
 
 class project_actors(models.Model):
     _name = 'project.scrum.actors'
@@ -212,6 +224,7 @@ class scrum_meeting(models.Model):
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
+    company_id = fields.Many2one(related='project.project')
 
     @api.multi
     def send_email(self):
@@ -278,6 +291,7 @@ class test_case(models.Model):
     description_test = fields.Html(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence', select=True)
     stats_test = fields.Selection([('draft','Draft'),('in progress','In Progress'),('cancel','Cancelled')], string='State', required=False)
+    company_id = fields.Many2one(related='project.project')
 
     def _resolve_project_id_from_context(self, cr, uid, context=None):
         if context is None:

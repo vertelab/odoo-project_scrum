@@ -21,12 +21,12 @@ More information:
     'data': ['project_scrum_view.xml',
         'wizard/project_scrum_test_task_view.xml',
         'security/ir.model.access.csv',
-        'security/project_security.xml',
+        #'security/project_security.xml',
        ],
     #'external_dependencies': {
         #'python' : ['bs4'],
     #},
-    'demo': ['project_scrum_demo.xml'],
+    #'demo': ['project_scrum_demo.xml'],
     'installable': True,
 }
 
