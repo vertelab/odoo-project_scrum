@@ -15,11 +15,14 @@ class scrum_sprint(models.Model):
 
     def _compute(self):
         for record in self:
-            record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
-            if date.today() >= fields.Date.from_string(record.date_stop):
-                record.date_duration = record.time_cal()
+            if record.date_start and record.date_stop:
+                record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
+                if date.today() >= fields.Date.from_string(record.date_stop):
+                    record.date_duration = record.time_cal()
+                else:
+                    record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days
             else:
-                record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days
+                record.date_duration = 0
 
     def time_cal(self):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
