@@ -81,7 +81,7 @@ class scrum_sprint(models.Model):
     #effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
     #expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
-    company_id = fields.Many2one(related='project.project')
+    #company_id = fields.Many2one(related='project.project')
 
     @api.onchange('date_start')
     def onchange_date_start(self):
@@ -107,7 +107,7 @@ class project_user_stories(models.Model):
     test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     test_count = fields.Integer(compute = '_test_count')
     sequence = fields.Integer('Sequence')
-    company_id = fields.Many2one(related='project.project')
+    #company_id = fields.Many2one(related='project.project')
     #has_task = fields.Boolean()
     #has_test = fields.Boolean()
     
@@ -229,7 +229,7 @@ class scrum_meeting(models.Model):
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-    company_id = fields.Many2one(related='project.project')
+    #company_id = fields.Many2one(related='project.project')
 
     @api.multi
     def send_email(self):
@@ -299,7 +299,7 @@ class test_case(models.Model):
     description_test = fields.Html(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence', select=True)
     stats_test = fields.Selection([('draft','Draft'),('in progress','In Progress'),('cancel','Cancelled')], string='State', required=False)
-    company_id = fields.Many2one(related='project.project')
+    #company_id = fields.Many2one(related='project.project')
 
     def _resolve_project_id_from_context(self, cr, uid, context=None):
         if context is None:
