@@ -85,8 +85,11 @@ class scrum_sprint(models.Model):
 
     @api.onchange('date_start')
     def onchange_date_start(self):
-        if self.project_id:
-            self.date_stop = fields.Date.from_string(self.date_start) + timedelta(days=self.project_id.default_sprintduration)
+        if self.date_start:
+            if self.project_id:
+                self.date_stop = fields.Date.from_string(self.date_start) + timedelta(days=self.project_id.default_sprintduration)
+        else:
+            pass
 
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
