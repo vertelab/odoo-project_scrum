@@ -18,11 +18,18 @@ class scrum_sprint(models.Model):
             if record.date_start and record.date_stop:
                 record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
                 if date.today() >= fields.Date.from_string(record.date_stop):
-                    record.date_duration = record.time_cal()
+                    record.date_duration = record.time_cal() * 9
                 else:
-                    record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days
+                    record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days * 9
             else:
                 record.date_duration = 0
+                
+    def _compute_progress(self):
+        for record in self:
+            if record.planned_hours and record.effective_hours and record.planned_hours != 0:
+                record.progress = record.effective_hours / record.planned_hours * 100
+            else:
+                record.progress = 0
 
     def time_cal(self):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
@@ -57,7 +64,7 @@ class scrum_sprint(models.Model):
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
     date_start = fields.Date(string = 'Starting Date', default=fields.Date.today())
     date_stop = fields.Date(string = 'Ending Date')
-    date_duration = fields.Integer(compute = '_compute', string = 'Duration')
+    date_duration = fields.Integer(compute = '_compute', string = 'Duration(in hours)')
     description = fields.Text(string = 'Description', required=False)
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',
         change_default=True, required=True, help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
@@ -77,11 +84,32 @@ class scrum_sprint(models.Model):
         <h1 style="color:blue"><ul>What will you continue doing in next sprint?</ul></h1><br/><br/>
     """)
     sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
-    progress = fields.Float(compute="_compute", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
-    #effective_hours = fields.Float(compute="_compute", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
-    #expected_hours = fields.Float(compute="_compute", multi="expected_hours", string='Planned Hours', help='Estimated time to do the task.')
+    progress = fields.Float(compute="_compute_progress", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
+    effective_hours = fields.Float(compute="_hours_get", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
+    planned_hours = fields.Float(multi="planned_hours", string='Planned Hours', help='Estimated time to do the task, usually set by the project manager when the task is in draft state.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
     company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+
+    # Compute: effective_hours, total_hours, progress
+    @api.one
+    def _hours_get(self):
+        res = {}
+        effective_hours = 0.0
+        planned_hours = 0.0
+        for task in self.task_ids:
+            effective_hours += task.effective_hours or 0.0
+            planned_hours += task.planned_hours or 0.0
+        self.effective_hours = effective_hours
+        # self.planned_hours = planned_hours
+        return True
+   
+        
+    @api.onchange('project_id')
+    def onchange_project_id(self):
+        if self.project_id and self.project_id.manhours:
+            self.planned_hours = self.project_id.manhours
+        else:
+            self.planned_hours = 0.0
 
     @api.onchange('date_start')
     def onchange_date_start(self):

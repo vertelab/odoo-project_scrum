@@ -72,10 +72,10 @@
 -->
                     <field name="date_start"/>
                     <field name="date_stop"/><!--time to stop-->   
-<!--
-                    <field name="expected_hours" widget="float_time"/>
+
+                    <field name="planned_hours" widget="float_time"/>
                     <field name="effective_hours" widget="float_time"/> 
--->
+
                     <field name="progress" widget="progressbar"/>   
                     <field name="date_duration"/>   <!--duration time = stop time - start time-->
                     <field name="state"/>
@@ -113,10 +113,10 @@
                     <group colspan="4" col="4">
                         <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
                         <field name="progress" widget="progressbar"/>
-<!--
-                        <field name="expected_hours" widget="float_time"/>
+
+                        <field name="planned_hours" widget="float_time"/>
                         <field name="effective_hours" widget="float_time"/>
--->
+
                     </group>
                     <group colspan="4" col="6">
                         <field name="date_start"/>
