@@ -740,12 +740,18 @@
                     <label for="use_scrum" string="Use Scrum"/>
                 </field>
                 <field name="user_id" position="replace">
-                    <field name="user_id" string="Scrum Master" attrs="{'invisible': [('use_scrum', '=', False)]}"/>
-                    <field name="user_id" string="Project Manager" attrs="{'invisible': [('use_scrum', '=', True)]}"/>
+                    <label for="user_id" attrs="{'invisible': [('use_scrum', '=', True)]}"/>
+                    <label for="user_id" string="Scrum Master" attrs="{'invisible': [('use_scrum', '=', False)]}"/>
+                    <div>
+                        <field name="user_id"/>
+                    </div>
                 </field>
                 <field name="partner_id" position="replace">
-                    <field name="partner_id" string="Product Owner" attrs="{'invisible': [('use_scrum', '=', False)]}"/>
-                    <field name="partner_id" string="Customer" attrs="{'invisible': [('use_scrum', '=', True)]}"/>
+                    <label for="partner_id" attrs="{'invisible': [('use_scrum', '=', True)]}"/>
+                    <label for="partner_id" string="Product Owner" attrs="{'invisible': [('use_scrum', '=', False)]}"/>
+                    <div>
+                        <field name="partner_id"/>
+                    </div>                    
                 </field>
                 <page name="project_stages" position="after">
                     <page name="tasks" string="Tasks">
