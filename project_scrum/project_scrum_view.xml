@@ -133,7 +133,7 @@
                                 <tree>
                                     <field name="name"/>
                                     <field name="actor_ids"/>
-                                    <field name="sprint_id"/>
+                                    <field name="sprint_ids"/>
                                     <field name="project_id"/>
                                 </tree>
                             </field> 
@@ -279,8 +279,9 @@
                     </group>
                     <group col="4">
                         <field name="project_id"/>
-                        <field name="sprint_id" context="{'default_project_id': project_id}"/>
+						<field name="sprint_ids" widget="many2many_tags" context="{'default_project_id': project_id}"/>
                     </group>
+
                     <notebook colspan="5">
                     	<page string="Description">
                             <field name="description"/>
@@ -288,9 +289,10 @@
                         <page string="Tasks">
                             <field name="task_ids" string="Task" context="{
                                         'default_project_id': project_id,
-                                        'default_sprint_id': sprint_id,
+                                        
                                         'default_us_id': id,
                                         }">
+                                        <!--'default_sprint_id': sprint_id,-->
                                 <tree string="Tasks" colors="black:kanban_state in ('normal');
                                 grey:kanban_state in ('blocked'); green:kanban_state in('done')">
                                     <field name="sequence" widget="handle"/>
@@ -327,7 +329,7 @@
                 <tree>
                     <field name="name"/>
                     <field name="actor_ids"/>
-                    <field name="sprint_id"/>
+                    <field name="sprint_ids"/>
                     <field name="project_id"/>
                 </tree>
             </field>
@@ -552,11 +554,11 @@
                 <search string="User Stories">
                     <field name="name"/>
                     <field name="project_id"/>
-                    <field name="sprint_id"/>
+                    <field name="sprint_ids"/>
                     <field name="task_ids"/>
                     <field name="test_ids"/>
                     <group expand="0" string="Group By...">
-                        <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}"/>
+                        <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_ids'}"/>
                         <separator orientation="vertical"/>
                         <filter string="Project" name="group_by_project" domain="[]" context="{'group_by':'project_id'}"/>
                     </group>

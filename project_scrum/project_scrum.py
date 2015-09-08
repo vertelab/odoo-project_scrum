@@ -70,7 +70,7 @@ class scrum_sprint(models.Model):
         change_default=True, required=True, help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
     product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
     scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
-    us_ids = fields.One2many(comodel_name = 'project.scrum.us', inverse_name = 'sprint_id', string = 'User Stories')
+    us_ids = fields.Many2many(comodel_name = 'project.scrum.us', string = 'User Stories')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'sprint_id')
     #task_count = fields.Integer(compute = '_task_count')
     #task_test_count = fields.Integer(compute = '_task_test_count')
@@ -119,6 +119,7 @@ class scrum_sprint(models.Model):
         else:
             pass
 
+
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
     _description = 'Project Scrum Use Stories'
@@ -131,7 +132,8 @@ class project_user_stories(models.Model):
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
         select=True, track_visibility='onchange', change_default=True)
-    sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
+    sprint_ids = fields.Many2many(comodel_name = 'project.scrum.sprint', string = 'Sprint')
+    #sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
     task_test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     task_count = fields.Integer(compute = '_task_count')
