@@ -111,7 +111,7 @@
 -->
                     </button>
                     <group colspan="4" col="4">
-                        <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"--> 
+                        <field name="project_id"/>  <!--on_change="onchange_project_id(project_id)"  -->
                         <field name="progress" widget="progressbar"/>
 
                         <field name="planned_hours" widget="float_time"/>
@@ -279,19 +279,21 @@
                     </group>
                     <group col="4">
                         <field name="project_id"/>
-                        <field name="sprint_id"/>
+                        <field name="sprint_id" context="{'default_project_id': project_id}"/>
                     </group>
                     <notebook colspan="5">
+                    	<page string="Description">
+                            <field name="description"/>
+                        </page>
                         <page string="Tasks">
                             <field name="task_ids" string="Task" context="{
                                         'default_project_id': project_id,
                                         'default_sprint_id': sprint_id,
                                         'default_us_id': id,
                                         }">
-                                <tree string="Tasks" colors="red:kanban_state in ('normal');
+                                <tree string="Tasks" colors="black:kanban_state in ('normal');
                                 grey:kanban_state in ('blocked'); green:kanban_state in('done')">
                                     <field name="sequence" widget="handle"/>
-                                    <field name="priority"/>
                                     <field name="name"/>
                                     <field name="user_id"/>
                                     <field name="date_deadline"/>
@@ -309,9 +311,6 @@
                                     <field name="stats_test"/>
                                 </tree>
                             </field>
-                        </page>
-                        <page string="Description">
-                            <field name="description"/>
                         </page>
                     </notebook>
                     </sheet>
@@ -781,7 +780,7 @@
             <field name="arch" type="xml">
                 <field name="date_deadline" position="before">
                     <field name="use_scrum" invisible="1" readonly="1"/>
-                    <field string="Sprint" name= "sprint_id" attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" />
+                    <field string="Sprint" name= "sprint_id" context="{'default_project_id':project_id}" attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" />
                     <field string="User Story" name= "us_id" attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" />
                 </field>
             </field>
