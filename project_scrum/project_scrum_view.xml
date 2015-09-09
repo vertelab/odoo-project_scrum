@@ -62,7 +62,7 @@
             <field name="model">project.scrum.sprint</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree colors="black:state in ('draft'); blue:state in ('pending'); yellow:state in('open');
+                <tree colors="black:state in ('draft'); orange:state in ('pending'); blue:state in('open');
                 grey:state in ('cancel'); green:state in('done')" string="Scrum Sprint">
                     <field name="name"/>    <!--name of sprint-->
                     <field name="project_id"/>  <!--name of project-->
