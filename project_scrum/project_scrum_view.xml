@@ -213,7 +213,7 @@
             <field name="model">project.scrum.us</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="sprint_id">
+                <kanban default_group_by="project_id">
                     <field name="color"/>
                     <field name="name"/>
                     <field name="description_short"/>
@@ -560,7 +560,7 @@
                     <group expand="0" string="Group By...">
                         <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_ids'}"/>
                         <separator orientation="vertical"/>
-                        <filter string="Project" name="group_by_project" domain="[]" context="{'group_by':'project_id'}"/>
+                        <filter string="Project" name="group_by_project" domain="[]" coantext="{'group_by':'project_id'}"/>
                     </group>
                 </search>
             </field> 
