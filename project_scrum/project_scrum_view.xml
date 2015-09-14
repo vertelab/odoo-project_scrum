@@ -279,7 +279,9 @@
                     </group>
                     <group col="4">
                         <field name="project_id"/>
-						<field name="sprint_ids" widget="many2many_tags" context="{'default_project_id': project_id}"/>
+						<field name="sprint_ids" widget="many2many_tags"
+                               context="{'default_project_id': project_id,}"
+                               domain="[('project_id', '=' , project_id)]"/>
                     </group>
 
                     <notebook colspan="5">
