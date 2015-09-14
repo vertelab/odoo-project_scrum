@@ -359,6 +359,7 @@
                 <form string="Scrum Meeting">
                     <sheet string="Daily Meeting">
                     <group col="4">
+                    	<field name="name"/>
                         <field name="date_meeting"/>
                         <field name="user_id_meeting"/>
                         <field name="project_id"/>
