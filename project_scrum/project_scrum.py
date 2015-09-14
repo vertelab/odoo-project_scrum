@@ -7,6 +7,8 @@ import re
 import time
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
+import logging
+_logger = logging.getLogger(__name__)
 
 class scrum_sprint(models.Model):
     _name = 'project.scrum.sprint'
@@ -128,7 +130,7 @@ class project_user_stories(models.Model):
     name = fields.Char(string='User Story', required=True)
     color = fields.Integer('Color Index')
     description = fields.Html(string = 'Description')
-    description_short = fields.Text(compute = '_conv_html2text')
+    description_short = fields.Text(compute = '_conv_html2text', store=True)
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
         select=True, track_visibility='onchange', change_default=True)
@@ -136,9 +138,9 @@ class project_user_stories(models.Model):
     #sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
     task_test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
-    task_count = fields.Integer(compute = '_task_count')
+    task_count = fields.Integer(compute = '_task_count', store=True)
     test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
-    test_count = fields.Integer(compute = '_test_count')
+    test_count = fields.Integer(compute = '_test_count', store=True)
     sequence = fields.Integer('Sequence')
     company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
     #has_task = fields.Boolean()
@@ -186,9 +188,9 @@ class project_user_stories(models.Model):
         sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='sequence').name_get()
         #sprints.sorted(key=lambda r: r.sequence)
         return sprints, None
-
+    
     _group_by_full = {
-        'sprint_id': _read_group_sprint_id,
+        'sprint_ids': _read_group_sprint_id,
         }
     name = fields.Char()
 
@@ -202,6 +204,7 @@ class project_task(models.Model):
     date_start = fields.Date(string = 'Starting Date', required=False, default=date.today())
     date_end = fields.Date(string = 'Ending Date', required=False)
     use_scrum = fields.Boolean(related='project_id.use_scrum')
+    description = fields.Html('Description')
     
     @api.multi
     def write(self, vals):
@@ -211,22 +214,47 @@ class project_task(models.Model):
 
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
-        if self.use_scrum:
-            project_id = self._resolve_project_id_from_context()
-            sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='sequence').name_get()
-            #sprints.sorted(key=lambda r: r.sequence)
+        project = self.env['project.project'].browse(self._resolve_project_id_from_context())
+
+        if project.use_scrum:
+            sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project.id)], order='sequence').name_get()
             return sprints, None
         else:
             return [], None
 
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
-        if self.use_scrum:
-            project_id = self._resolve_project_id_from_context()
-            user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
+        project = self.env['project.project'].browse(self._resolve_project_id_from_context())
+
+        if project.use_scrum:
+            user_stories = self.env['project.scrum.us'].search([('project_id', '=', project.id)], order='sequence').name_get()
             return user_stories, None
         else:
             return [], None
+
+    """        
+    def _read_group_us_id(self, cr, uid, domain, read_group_order=None, access_rights_uid=None, context=None):
+       # if self.use_scrum:
+        us_obj = self.pool.get('project.scrum.us')
+        order = us_obj._order
+        access_rights_uid = access_rights_uid or uid
+        if read_group_order == 'us_id desc':
+            order = '%s desc' % order
+        search_domain = []
+        project_id = self._resolve_project_id_from_context(cr, uid, context=context)
+        if project_id:
+            search_domain += ['|', ('project_ids', '=', project_id)]
+        search_domain += [('id', 'in', ids)]
+        us_ids = us_obj._search(cr, uid, search_domain, order=order, access_rights_uid=access_rights_uid, context=context)
+        result = us_obj.name_get(cr, access_rights_uid, us_ids, context=context)
+        result.sort(lambda x,y: cmp(us_ids.index(x[0]), us_ids.index(y[0])))
+
+        fold = {}
+        for us in us_obj.browse(cr, access_rights_uid, us_ids, context=context):
+            fold[us.id] = us.fold or False
+        return result, fold
+        #else:
+          #  return [], None"""
 
     #def _auto_init(self, cr, context=None):
         #self._group_by_full['sprint_id'] = _read_group_sprint_id
@@ -272,15 +300,21 @@ class project_task(models.Model):
         return result, {}
     
     try:
-        _group_by_full['sprint_id'] = _read_group_sprint_id
-        _group_by_full['us_id'] = _read_group_us_id
+        #group_by_full['sprint_id'] = _read_group_sprint_id
+        #_group_by_full['us_id'] = _read_group_us_id
+
+        _group_by_full = {
+            'sprint_id': _read_group_sprint_id,
+            'us_id': _read_group_us_id,
+            'stage_id': _read_group_stage_ids,
+            'user_id': _read_group_user_id,            
+        }
     except:
         _group_by_full = {
             'sprint_id': _read_group_sprint_id,
             'us_id': _read_group_us_id,
             'stage_id': _read_group_stage_ids,
-            'user_id': _read_group_user_id,
-            
+            'user_id': _read_group_user_id,            
         }
 
 class project_actors(models.Model):
@@ -294,8 +328,10 @@ class scrum_meeting(models.Model):
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
+    
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
         select=True, track_visibility='onchange', change_default=True)
+    name = fields.Char(string='Meeting', compute='_compute_meeting_name', size=60)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True, default=date.today())
     user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True, default=lambda self: self.env.user)
@@ -304,6 +340,15 @@ class scrum_meeting(models.Model):
     question_blocks = fields.Text(string = 'Description', required=True)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
     company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+
+    def _compute_meeting_name(self):
+        if self.project_id:
+            self.name = "%s - %s - %s" % (self.project_id.name, self.user_id_meeting.name, self.date_meeting)
+        else:
+            self.name = "%s - %s" % (self.user_id_meeting.name, self.date_meeting)
+
+        
+
 
     @api.multi
     def send_email(self):
