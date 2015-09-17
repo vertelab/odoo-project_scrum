@@ -365,7 +365,7 @@
                         <field name="date_meeting"/>
                         <field name="user_id_meeting"/>
                         <field name="project_id"/>
-                        <field name="sprint_id" domain="[('project_id', '=', project_id)]"/> 
+                        <field name="sprint_id" domain="[('project_id', '=', project_id)]" context="{'default_project_id': project_id}"/> 
                         <button name="send_email" string="Send Email" type="object" 
                         icon="terp-mail-message-new" />
                     </group>
@@ -469,7 +469,7 @@
                         <field name="stats_test"/>
                         <field name="sequence_test"/>
                         <field name="project_id"/>
-                        <field name="user_story_id_test" domain="[('project_id', '=', project_id)]"/>
+                        <field name="user_story_id_test" domain="[('project_id', '=', project_id)]" context="{'default_project_id': project_id}"/>
                     </group>
                     <notebook>
                         <page string="Description">   

@@ -328,7 +328,6 @@ class scrum_meeting(models.Model):
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
-    
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
         select=True, track_visibility='onchange', change_default=True)
     name = fields.Char(string='Meeting', compute='_compute_meeting_name', size=60)
@@ -337,18 +336,17 @@ class scrum_meeting(models.Model):
     user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True, default=lambda self: self.env.user)
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
-    question_blocks = fields.Text(string = 'Description', required=True)
+    question_blocks = fields.Text(string = 'Description', required=False)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
     company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+
+
 
     def _compute_meeting_name(self):
         if self.project_id:
             self.name = "%s - %s - %s" % (self.project_id.name, self.user_id_meeting.name, self.date_meeting)
         else:
             self.name = "%s - %s" % (self.user_id_meeting.name, self.date_meeting)
-
-        
-
 
     @api.multi
     def send_email(self):
