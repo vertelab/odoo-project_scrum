@@ -531,6 +531,11 @@ msgid "Tasks"
 msgstr "Items"
 
 #. module: project_scrum
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
+msgid "[TC] Tasks"
+msgstr "[TC] Items"
+
+#. module: project_scrum
 #: model:ir.actions.act_window,name:project_scrum.action_test_case_all_tree
 #: model:ir.actions.act_window,name:project_scrum.action_test_case_current_tree
 #: model:ir.ui.menu,name:project_scrum.menu_action_test_case_all_tree
