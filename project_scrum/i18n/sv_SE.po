@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20150223\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-24 14:32+0000\n"
-"PO-Revision-Date: 2015-02-26 08:24+0100\n"
+"PO-Revision-Date: 2015-09-21 14:28+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,7 @@ msgstr "Aktör"
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_scrum_actors
 msgid "Actors in user stories"
-msgstr "Aktörer i användar fallen"
+msgstr "Aktörer i användarfallen"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_account_analytic_account
@@ -84,12 +84,12 @@ msgstr "Analytiskt Konto"
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "Are there anything blocking you?"
-msgstr "Är det någonting som blokerad dig?"
+msgstr "Är det någonting som hindrar dig?"
 
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "Are your Sprint Backlog estimate accurate ?"
-msgstr "Är din Sprint Backlog exakt uppskattad?"
+msgstr "Är din ärendestock exakt uppskattad?"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,user_id:0
@@ -99,7 +99,7 @@ msgstr "Tilldelad till"
 #. module: project_scrum
 #: field:project.scrum.meeting,question_backlog:0
 msgid "Backlog Accurate?"
-msgstr "Funktionerna är Exakta?"
+msgstr "Är ärendestocken exakt?"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
@@ -144,12 +144,12 @@ msgstr "Kund"
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "Daily Meeting"
-msgstr "Dagligt Möte"
+msgstr "Scrum-möte"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,meeting_ids:0
 msgid "Daily Scrum"
-msgstr "Daglig Scrum"
+msgstr "Scrum-möte"
 
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
@@ -166,7 +166,7 @@ msgstr "Datum på det senaste meddelandet som är skrivet i posten."
 #: view:project.scrum.test:project_scrum.view_scrum_test_case_kanban
 #: view:project.scrum.us:project_scrum.view_scrum_us_kanban
 msgid "Delete"
-msgstr "Ta Bort"
+msgstr "Radera"
 
 #. module: project_scrum
 #: field:project.scrum.meeting,question_blocks:0
@@ -209,7 +209,7 @@ msgstr "Slut Datum"
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
 #: view:project.scrum.test:project_scrum.view_scrum_test_case_search
 msgid "Filter By..."
-msgstr "Filtrerad efter..."
+msgstr "Filtrera efter..."
 
 #. module: project_scrum
 #: field:project.scrum.meeting,message_follower_ids:0
@@ -219,7 +219,7 @@ msgstr "Följare"
 #. module: project_scrum
 #: help:project.scrum.sprint,sequence:0
 msgid "Gives the sequence order when displaying a list of tasks."
-msgstr "Ger sekvens ordningen när listan med aktiviteter visas."
+msgstr "Ger sekvensordningen när listan med ärenden visas."
 
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
@@ -227,7 +227,7 @@ msgstr "Ger sekvens ordningen när listan med aktiviteter visas."
 #: view:project.scrum.test:project_scrum.view_scrum_test_case_search
 #: view:project.scrum.us:project_scrum.view_scrum_us_search
 msgid "Group By..."
-msgstr "Grupperad efter..."
+msgstr "Gruppera efter..."
 
 #. module: project_scrum
 #: help:project.scrum.meeting,message_summary:0
@@ -235,8 +235,8 @@ msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
 msgstr ""
-"Håller Chatter summeringen (nummer av meddelanden, ...). Den här summeringen "
-"är skriven direkt i html format för att kunna läggas in i kanban vyn."
+"Håller Chatter summeringen (antal meddelanden, ...). Den här summeringen är "
+"skriven direkt i html-format för att kunna läggas in i kanban vyn."
 
 #. module: project_scrum
 #: field:project.scrum.actors,id:0 field:project.scrum.meeting,id:0
@@ -248,7 +248,7 @@ msgstr "ID"
 #. module: project_scrum
 #: help:project.scrum.meeting,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "Om vald nya meddelanden som behöver din uppmärksamhet"
+msgstr "Om vald behöver nya meddelanden din uppmärksamhet"
 
 #. module: project_scrum
 #: help:project.scrum.sprint,project_id:0
@@ -256,8 +256,8 @@ msgid ""
 "If you have [?] in the project name, it means there are no analytic account "
 "linked to this project."
 msgstr ""
-"Om du har [?] i projektetsnamn,menas det att det inte är några analytiska "
-"konton kopplade till projektet."
+"Om du har [?] i projektetsnamnet, så innebär det att det inte finns några "
+"analytiska konton kopplade till projektet."
 
 #. module: project_scrum
 #: view:project.scrum.test:project_scrum.view_scrum_test_case_search
@@ -268,12 +268,12 @@ msgstr "Pågår"
 #. module: project_scrum
 #: field:project.scrum.meeting,message_is_follower:0
 msgid "Is a Follower"
-msgstr "Är en Följare"
+msgstr "Är en följare"
 
 #. module: project_scrum
 #: field:project.scrum.meeting,message_last_post:0
 msgid "Last Message Date"
-msgstr "Senaste meddelande Datumet"
+msgstr "Senaste meddelande-datumet"
 
 #. module: project_scrum
 #: field:project.scrum.actors,write_uid:0
@@ -281,7 +281,7 @@ msgstr "Senaste meddelande Datumet"
 #: field:project.scrum.sprint,write_uid:0 field:project.scrum.test,write_uid:0
 #: field:project.scrum.us,write_uid:0
 msgid "Last Updated by"
-msgstr "Senast Uppdaterad av"
+msgstr "Senast uppdaterad av"
 
 #. module: project_scrum
 #: field:project.scrum.actors,write_date:0
@@ -289,7 +289,7 @@ msgstr "Senast Uppdaterad av"
 #: field:project.scrum.sprint,write_date:0
 #: field:project.scrum.test,write_date:0 field:project.scrum.us,write_date:0
 msgid "Last Updated on"
-msgstr "Senast Uppdaterad Den"
+msgstr "Senast uppdaterad den"
 
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
@@ -313,7 +313,7 @@ msgstr "Meddelanden"
 #. module: project_scrum
 #: help:project.scrum.meeting,message_ids:0
 msgid "Messages and communication history"
-msgstr "Meddelanden och kommunikations historik"
+msgstr "Meddelanden och kommunikations-historik"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
@@ -349,12 +349,12 @@ msgstr "Väntar"
 #: view:project.project:project_scrum.edit_project_scrum
 #: field:project.scrum.sprint,product_owner_id:0
 msgid "Product Owner"
-msgstr "Product Ägare"
+msgstr "Produktägare"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
 msgid "Product owner"
-msgstr "Produkt ägare"
+msgstr "Produktägare"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_project
@@ -372,12 +372,12 @@ msgstr "Projekt"
 #. module: project_scrum
 #: view:project.project:project_scrum.edit_project_scrum
 msgid "Project Manager"
-msgstr "Projekt Chef"
+msgstr "Projektchef"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_scrum_meeting
 msgid "Project Scrum Daily Meetings"
-msgstr "Projekt Scrum Daliga Möten"
+msgstr "Projekt Scrum Dagliga Möten"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_scrum_sprint
@@ -387,7 +387,7 @@ msgstr "Projekt Scrum Sprint"
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_scrum_us
 msgid "Project Scrum Use Stories"
-msgstr "Projekt Scrums Användar Fallen"
+msgstr "Projekt Scrum användarfall"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_task_gantt
@@ -397,12 +397,12 @@ msgstr "Projekt"
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 msgid "Retrospective"
-msgstr "Retrospektiv"
+msgstr "Återblick"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 msgid "Review"
-msgstr "Recension"
+msgstr "Presentation"
 
 #. module: project_scrum
 #: model:ir.ui.menu,name:project_scrum.menu_scrum
@@ -414,14 +414,14 @@ msgstr "Scrum"
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
 #: field:project.scrum.sprint,scrum_master_id:0
 msgid "Scrum Master"
-msgstr "Scrum Master"
+msgstr "Scrum-mästare"
 
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_calendar
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_tree
 msgid "Scrum Meeting"
-msgstr "Scrum Möte"
+msgstr "Scrum-möte"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_project_task_graph
@@ -429,7 +429,7 @@ msgstr "Scrum Möte"
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_tree
 msgid "Scrum Sprint"
-msgstr "Scrum Sprint"
+msgstr "Scrum-sprint"
 
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
@@ -452,32 +452,32 @@ msgstr "Sekvens"
 #: view:project.task:project_scrum.view_scrum_sprint_task_search
 #: field:project.task,sprint_id:0
 msgid "Sprint"
-msgstr "Sprintar"
+msgstr "Sprint"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
 msgid "Sprint Month"
-msgstr "Sprint Månad"
+msgstr "Sprint-månad"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,name:0
 msgid "Sprint Name"
-msgstr "Sprint Namn"
+msgstr "Sprint-namn"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,retrospective:0
 msgid "Sprint Retrospective"
-msgstr "Sprint Retrospektiv"
+msgstr "Sprint-återblick"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,review:0
 msgid "Sprint Review"
-msgstr "Sprint Recension"
+msgstr "Sprint-presentation"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 msgid "Sprint..."
-msgstr "Sprintar..."
+msgstr "Sprint..."
 
 #. module: project_scrum
 #: model:ir.actions.act_window,name:project_scrum.action_sprint_all_tree
@@ -492,7 +492,7 @@ msgstr "Sprintar"
 #. module: project_scrum
 #: field:project.scrum.sprint,date_start:0
 msgid "Starting Date"
-msgstr "Start Datum"
+msgstr "Startdatum"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
@@ -503,7 +503,7 @@ msgstr "Status"
 #. module: project_scrum
 #: field:project.scrum.meeting,message_summary:0
 msgid "Summary"
-msgstr "Summering"
+msgstr "Sammanfattning"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_task
@@ -511,19 +511,19 @@ msgstr "Summering"
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 msgid "Task"
-msgstr "Aktivitet"
+msgstr "Ärende"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,task_ids:0 field:project.scrum.us,task_ids:0
 msgid "Task ids"
-msgstr "Aktivitet ids"
+msgstr "ärende-id:n"
 
 #. module: project_scrum
 #: view:project.project:project_scrum.edit_project_scrum
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 #: view:project.scrum.us:project_scrum.view_scrum_us_kanban
 msgid "Tasks"
-msgstr "Aktiviteter"
+msgstr "Ärenden"
 
 #. module: project_scrum
 #: model:ir.actions.act_window,name:project_scrum.action_test_case_all_tree
@@ -531,12 +531,12 @@ msgstr "Aktiviteter"
 #: model:ir.ui.menu,name:project_scrum.menu_action_test_case_all_tree
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 msgid "Test Case"
-msgstr "Test Fall"
+msgstr "Testfall"
 
 #. module: project_scrum
 #: view:project.scrum.test:project_scrum.view_scrum_test_case_form
 msgid "Test Case..."
-msgstr "Test Fall..."
+msgstr "Testfall..."
 
 #. module: project_scrum
 #: view:project.project:project_scrum.view_project_scrum_kanban
@@ -546,12 +546,12 @@ msgstr "Test Fall..."
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 #: view:project.scrum.us:project_scrum.view_scrum_us_kanban
 msgid "Test Cases"
-msgstr "Test Fallen"
+msgstr "Testfall"
 
 #. module: project_scrum
 #: field:project.scrum.us,test_ids:0
 msgid "Test ids"
-msgstr "Test ids"
+msgstr "Test-id:n"
 
 #. module: project_scrum
 #: model:ir.actions.act_window,help:project_scrum.action_meeting_all_tree
@@ -580,21 +580,23 @@ msgid ""
 "            The sprint review is organized when the team presents its work "
 "to the customer and product owner."
 msgstr ""
-"Scrum är en agil metodik som används vid mjukvaru utveckling i projekt. I "
-"den här metodiken är en sprint är en kort period av tid (ex. en månad) där "
-"teamet implementerar en lista utav produkt backlogs."
+"Scrum är en agil projektmetodik som används vid mjukvaruutveckling. I den "
+"här metodiken är en sprint en kort tidsperiod (t.ex. en månad) där teamet "
+"implementerar en ärendestock.\n"
+"Sprint-presentationen organiseras när teamet redovisar sitt arbete för "
+"kunden och produktägaren"
 
 #. module: project_scrum
 #: model:ir.actions.act_window,help:project_scrum.action_test_case_all_tree
 #: model:ir.actions.act_window,help:project_scrum.action_test_case_current_tree
 msgid "The test case."
-msgstr "Test fall."
+msgstr "Testfallet."
 
 #. module: project_scrum
 #: model:ir.actions.act_window,help:project_scrum.action_us_all_tree
 #: model:ir.actions.act_window,help:project_scrum.action_us_current_tree
 msgid "The user stories of scrum."
-msgstr "Användar fallen till Scrum."
+msgstr "Scrum-användarfall."
 
 #. module: project_scrum
 #: field:project.scrum.meeting,message_unread:0
@@ -617,7 +619,7 @@ msgstr "Använd Scrum"
 #: view:project.scrum.us:project_scrum.view_scrum_us_search
 #: field:project.task,us_id:0
 msgid "User Stories"
-msgstr "Användar Fallen"
+msgstr "Användarfall"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
@@ -627,12 +629,12 @@ msgstr "Användar Fallen"
 #: view:project.task:project_scrum.view_scrum_sprint_task_form2
 #: view:project.task:project_scrum.view_scrum_sprint_task_search
 msgid "User Story"
-msgstr "Användar Fall"
+msgstr "Användarfall"
 
 #. module: project_scrum
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 msgid "User Story..."
-msgstr "Användar Fall..."
+msgstr "Användarfall..."
 
 #. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
