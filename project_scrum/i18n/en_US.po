@@ -1,46 +1,61 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* project_scrum
+# 	* project_scrum
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20150224\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-25 07:34+0000\n"
-"PO-Revision-Date: 2015-02-25 07:34+0000\n"
+"PO-Revision-Date: 2015-09-21 14:52+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"X-Generator: Poedit 1.5.4\n"
 
 #. module: project_scrum
 #: model:email.template,body_html:project_scrum.email_template_id
-msgid "\n"
+msgid ""
+"\n"
 "                \n"
-"                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif;\n"
-"                font-size: 16px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"                <p>Name: ${object.user_id_meeting}</p>   <p>Date: ${object.date_meeting}</p> <br/>\n"
-"                <p style=\"color:blue\"><font-size=\"14\">What did you do since the last meeting?</font></p>\n"
+"                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
+"Verdana, sans-serif;\n"
+"                font-size: 16px; color: rgb(34, 34, 34); background-color: "
+"rgb(255, 255, 255); \">\n"
+"                <p>Name: ${object.user_id_meeting}</p>   <p>Date: ${object."
+"date_meeting}</p> <br/>\n"
+"                <p style=\"color:blue\"><font-size=\"14\">What did you do "
+"since the last meeting?</font></p>\n"
 "                    ${object.question_yesterday}    <br/><br/>\n"
-"                <p style=\"color:blue\"><font-size=\"14\">What do you plan to do till the next meeting?</font></p>\n"
+"                <p style=\"color:blue\"><font-size=\"14\">What do you plan "
+"to do till the next meeting?</font></p>\n"
 "                    ${object.question_today}    <br/><br/>\n"
-"                <p style=\"color:blue\"><font-size=\"14\">Are there anything blocking you?</font></p>\n"
+"                <p style=\"color:blue\"><font-size=\"14\">Are there anything "
+"blocking you?</font></p>\n"
 "                    ${object.question_blocks}    <br/><br/>\n"
 "                </div>\n"
 "                \n"
 "            "
-msgstr "\n"
+msgstr ""
+"\n"
 "                \n"
-"                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif;\n"
-"                font-size: 16px; color: rgb(34, 34, 34); background-color: rgb(255, 255, 255); \">\n"
-"                <p>Name: ${object.user_id_meeting}</p>   <p>Date: ${object.date_meeting}</p> <br/>\n"
-"                <p style=\"color:blue\"><font-size=\"14\">What did you do since the last meeting?</font></p>\n"
+"                <div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, "
+"Verdana, sans-serif;\n"
+"                font-size: 16px; color: rgb(34, 34, 34); background-color: "
+"rgb(255, 255, 255); \">\n"
+"                <p>Name: ${object.user_id_meeting}</p>   <p>Date: ${object."
+"date_meeting}</p> <br/>\n"
+"                <p style=\"color:blue\"><font-size=\"14\">What did you do "
+"since the last meeting?</font></p>\n"
 "                    ${object.question_yesterday}    <br/><br/>\n"
-"                <p style=\"color:blue\"><font-size=\"14\">What do you plan to do till the next meeting?</font></p>\n"
+"                <p style=\"color:blue\"><font-size=\"14\">What do you plan "
+"to do till the next meeting?</font></p>\n"
 "                    ${object.question_today}    <br/><br/>\n"
-"                <p style=\"color:blue\"><font-size=\"14\">Are there anything blocking you?</font></p>\n"
+"                <p style=\"color:blue\"><font-size=\"14\">Are there anything "
+"blocking you?</font></p>\n"
 "                    ${object.question_blocks}    <br/><br/>\n"
 "                </div>\n"
 "                \n"
@@ -52,8 +67,7 @@ msgid " ${object.date_meeting or ''}"
 msgstr " ${object.date_meeting or ''}"
 
 #. module: project_scrum
-#: field:project.scrum.us,actor_ids:0
-#: field:project.task,actor_ids:0
+#: field:project.scrum.us,actor_ids:0 field:project.task,actor_ids:0
 msgid "Actor"
 msgstr "Actor"
 
@@ -88,6 +102,11 @@ msgid "Backlog Accurate?"
 msgstr "Backlog Accurate?"
 
 #. module: project_scrum
+#: button:project.scrum.sprint
+msgid "Backlog"
+msgstr "Backlog"
+
+#. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
 #: selection:project.scrum.sprint,state:0
 #: view:project.scrum.test:project_scrum.view_scrum_test_case_search
@@ -96,8 +115,7 @@ msgid "Cancelled"
 msgstr "Cancelled"
 
 #. module: project_scrum
-#: field:project.scrum.test,color:0
-#: field:project.scrum.us,color:0
+#: field:project.scrum.test,color:0 field:project.scrum.us,color:0
 msgid "Color Index"
 msgstr "Color Index"
 
@@ -111,8 +129,7 @@ msgstr "Compose Email"
 #: field:project.scrum.actors,create_uid:0
 #: field:project.scrum.meeting,create_uid:0
 #: field:project.scrum.sprint,create_uid:0
-#: field:project.scrum.test,create_uid:0
-#: field:project.scrum.us,create_uid:0
+#: field:project.scrum.test,create_uid:0 field:project.scrum.us,create_uid:0
 msgid "Created by"
 msgstr "Created by"
 
@@ -120,8 +137,7 @@ msgstr "Created by"
 #: field:project.scrum.actors,create_date:0
 #: field:project.scrum.meeting,create_date:0
 #: field:project.scrum.sprint,create_date:0
-#: field:project.scrum.test,create_date:0
-#: field:project.scrum.us,create_date:0
+#: field:project.scrum.test,create_date:0 field:project.scrum.us,create_date:0
 msgid "Created on"
 msgstr "Created on"
 
@@ -220,14 +236,16 @@ msgstr "Group By..."
 
 #. module: project_scrum
 #: help:project.scrum.meeting,message_summary:0
-msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
-msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+msgstr ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
 
 #. module: project_scrum
-#: field:project.scrum.actors,id:0
-#: field:project.scrum.meeting,id:0
-#: field:project.scrum.sprint,id:0
-#: field:project.scrum.test,id:0
+#: field:project.scrum.actors,id:0 field:project.scrum.meeting,id:0
+#: field:project.scrum.sprint,id:0 field:project.scrum.test,id:0
 #: field:project.scrum.us,id:0
 msgid "ID"
 msgstr "ID"
@@ -239,8 +257,12 @@ msgstr "If checked new messages require your attention."
 
 #. module: project_scrum
 #: help:project.scrum.sprint,project_id:0
-msgid "If you have [?] in the project name, it means there are no analytic account linked to this project."
-msgstr "If you have [?] in the project name, it means there are no analytic account linked to this project."
+msgid ""
+"If you have [?] in the project name, it means there are no analytic account "
+"linked to this project."
+msgstr ""
+"If you have [?] in the project name, it means there are no analytic account "
+"linked to this project."
 
 #. module: project_scrum
 #: view:project.scrum.test:project_scrum.view_scrum_test_case_search
@@ -261,8 +283,7 @@ msgstr "Last Message Date"
 #. module: project_scrum
 #: field:project.scrum.actors,write_uid:0
 #: field:project.scrum.meeting,write_uid:0
-#: field:project.scrum.sprint,write_uid:0
-#: field:project.scrum.test,write_uid:0
+#: field:project.scrum.sprint,write_uid:0 field:project.scrum.test,write_uid:0
 #: field:project.scrum.us,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
@@ -271,8 +292,7 @@ msgstr "Last Updated by"
 #: field:project.scrum.actors,write_date:0
 #: field:project.scrum.meeting,write_date:0
 #: field:project.scrum.sprint,write_date:0
-#: field:project.scrum.test,write_date:0
-#: field:project.scrum.us,write_date:0
+#: field:project.scrum.test,write_date:0 field:project.scrum.us,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
 
@@ -309,8 +329,7 @@ msgstr "Month"
 #: field:project.scrum.actors,name:0
 #: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
 #: field:project.scrum.meeting,user_id_meeting:0
-#: field:project.scrum.test,name:0
-#: field:project.scrum.us,name:0
+#: field:project.scrum.test,name:0 field:project.scrum.us,name:0
 msgid "Name"
 msgstr "Name"
 
@@ -424,8 +443,7 @@ msgstr "Send Email"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,sequence:0
-#: field:project.scrum.test,sequence_test:0
-#: field:project.scrum.us,sequence:0
+#: field:project.scrum.test,sequence_test:0 field:project.scrum.us,sequence:0
 msgid "Sequence"
 msgstr "Sequence"
 
@@ -483,8 +501,7 @@ msgstr "Starting Date"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: field:project.scrum.sprint,state:0
-#: field:project.scrum.test,stats_test:0
+#: field:project.scrum.sprint,state:0 field:project.scrum.test,stats_test:0
 msgid "State"
 msgstr "State"
 
@@ -499,20 +516,19 @@ msgstr "Summary"
 #: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 msgid "Task"
-msgstr "Task"
+msgstr "Item"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,task_ids:0
-#: field:project.scrum.us,task_ids:0
+#: field:project.scrum.sprint,task_ids:0 field:project.scrum.us,task_ids:0
 msgid "Task ids"
-msgstr "Task ids"
+msgstr "Item IDs"
 
 #. module: project_scrum
 #: view:project.project:project_scrum.edit_project_scrum
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 #: view:project.scrum.us:project_scrum.view_scrum_us_kanban
 msgid "Tasks"
-msgstr "Tasks"
+msgstr "Items"
 
 #. module: project_scrum
 #: model:ir.actions.act_window,name:project_scrum.action_test_case_all_tree
@@ -561,12 +577,20 @@ msgstr "The person who is responsible for the product"
 #. module: project_scrum
 #: model:ir.actions.act_window,help:project_scrum.action_sprint_all_tree
 #: model:ir.actions.act_window,help:project_scrum.action_sprint_current_tree
-msgid "The scrum agile methodology is used in software development projects. In this methodology, \n"
-"            a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs. \n"
-"            The sprint review is organized when the team presents its work to the customer and product owner."
-msgstr "The scrum agile methodology is used in software development projects. In this methodology, \n"
-"            a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs. \n"
-"            The sprint review is organized when the team presents its work to the customer and product owner."
+msgid ""
+"The scrum agile methodology is used in software development projects. In "
+"this methodology, \n"
+"            a sprint is a short period of time (e.g. one month) during which "
+"the team implements a list of product backlogs. \n"
+"            The sprint review is organized when the team presents its work "
+"to the customer and product owner."
+msgstr ""
+"The scrum agile methodology is used in software development projects. In "
+"this methodology, \n"
+"            a sprint is a short period of time (e.g. one month) during which "
+"the team implements a list of product backlogs. \n"
+"            The sprint review is organized when the team presents its work "
+"to the customer and product owner."
 
 #. module: project_scrum
 #: model:ir.actions.act_window,help:project_scrum.action_test_case_all_tree
@@ -596,8 +620,7 @@ msgstr "Use Scrum"
 #: model:ir.actions.act_window,name:project_scrum.action_us_current_tree
 #: model:ir.ui.menu,name:project_scrum.menu_action_us_all_tree
 #: view:project.project:project_scrum.view_project_scrum_kanban
-#: field:project.project,user_story_ids:0
-#: field:project.scrum.sprint,us_ids:0
+#: field:project.project,user_story_ids:0 field:project.scrum.sprint,us_ids:0
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 #: view:project.scrum.us:project_scrum.view_scrum_us_search
 #: field:project.task,us_id:0
@@ -633,4 +656,3 @@ msgstr "What do you plan to do till the next meeting?"
 #: selection:project.scrum.meeting,question_backlog:0
 msgid "Yes"
 msgstr "Yes"
-
