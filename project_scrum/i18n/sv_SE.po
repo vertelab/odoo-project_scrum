@@ -102,7 +102,7 @@ msgid "Backlog Accurate?"
 msgstr "Är ärendestocken exakt?"
 
 #. module: project_scrum
-#: button:project.scrum.sprint
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
 msgid "Backlog"
 msgstr "Ärendestock"
 
