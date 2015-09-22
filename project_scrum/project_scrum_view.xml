@@ -438,27 +438,18 @@
             </field>
         </record>
 
-
-        <!--project tree view-->
-        <record id="project_view_tree" model="ir.ui.view">
+<!--project tree view-->
+        <record id="project_ps_view" model="ir.ui.view">
             <field name="name">project.project.tree</field>
             <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
             <field name="arch" type="xml">
-                <tree fonts="bold:message_unread==True" colors="red:date and (date&lt;current_date) and (state == 'open');blue:state in ('draft','pending');grey: state in ('close','cancelled')" string="Projects">
-                    <field name="sequence" widget="handle"/>
-                    <field name="message_unread" invisible="1"/>
-                    <field name="date" invisible="1"/>
-                    <field name="name" string="Project Name"/>
-                    <field name="use_scrum" string="Using Scrum"/>
-                    <field name="user_id" string="Scrum Master/Project Manager"/>
-                    <field name="partner_id" string="Contact"/>
-                    <field name="parent_id" string="Parent" invisible="1"/>
-                    <field name="planned_hours" widget="float_time"/>
-                    <field name="total_hours" widget="float_time"/>
-                    <field name="effective_hours" widget="float_time"/>
-                    <field name="progress_rate" widget="progressbar"/>
-                    <field name="state"/>
-                </tree>
+                <field name="name" position="after">
+                    <field name="use_scrum" string="Using Scrum"/>                    
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="string">Scrum Master/Project Manager</attribute>
+                </field>
             </field>
         </record>
 
