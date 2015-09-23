@@ -825,16 +825,38 @@
                     <field name="sprint_count"/>
                     <field name="meeting_count"/>
                     <field name="test_case_count"/>
+                    <field name="use_scrum"/>
                 </field>
+
+
+                <a name="%(project.act_project_project_2_project_task_all)d" position="replace">
+                    <a t-if="record.use_tasks.raw_value" name="%(project.act_project_project_2_project_task_all)d" type="action" style="margin-right: 10px">
+                        <t t-raw="record.task_count.raw_value"/> <t t-if="record.use_scrum.raw_value"> Items</t><t t-if="! record.use_scrum.raw_value"> Tasks</t>
+                    </a>
+                </a>
+
+
                 <a name="attachment_tree_view" position="before">
-                    <div><a t-if="record.sprint_count.raw_value" name="%(action_ps_sprint_current)d" type="action" style="margin-right: 10px">
-                    <t t-raw="record.sprint_count.raw_value"/> Sprints</a></div>
-                    <div><a t-if="record.user_story_count.raw_value" name="%(action_ps_us_current)d" type="action" style="margin-right: 10px">
-                    <t t-raw="record.user_story_count.raw_value"/> User Stories</a></div>
-                    <div><a t-if="record.meeting_count.raw_value" name="%(action_ps_meeting_current)d" type="action" style="margin-right: 10px">
-                    <t t-raw="record.meeting_count.raw_value"/> Meetings</a></div>
-                    <div><a t-if="record.test_case_count.raw_value" name="%(action_ps_tc_current)d" type="action" style="margin-right: 10px">
-                    <t t-raw="record.test_case_count.raw_value"/> Test Cases</a></div>
+                    <div>
+                        <a t-if="record.sprint_count.raw_value" name="%(action_ps_sprint_current)d" type="action" style="margin-right: 10px">
+                            <t t-raw="record.sprint_count.raw_value"/> Sprints
+                        </a>
+                    </div>
+                    <div>
+                        <a t-if="record.user_story_count.raw_value" name="%(action_ps_us_current)d" type="action" style="margin-right: 10px">
+                            <t t-raw="record.user_story_count.raw_value"/> User Stories
+                        </a>
+                    </div>
+                    <div>
+                        <a t-if="record.meeting_count.raw_value" name="%(action_ps_meeting_current)d" type="action" style="margin-right: 10px">
+                            <t t-raw="record.meeting_count.raw_value"/> Meetings
+                        </a>
+                    </div>
+                    <div>
+                        <a t-if="record.test_case_count.raw_value" name="%(action_ps_tc_current)d" type="action" style="margin-right: 10px">
+                            <t t-raw="record.test_case_count.raw_value"/> Test Cases
+                        </a>
+                    </div>
                 </a>
             </field>
         </record>

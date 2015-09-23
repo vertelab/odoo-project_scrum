@@ -528,12 +528,12 @@ msgstr "Item IDs"
 #: view:project.scrum.us:project_scrum.view_scrum_us_form
 #: view:project.scrum.us:project_scrum.view_scrum_us_kanban
 msgid "Tasks"
-msgstr "Items"
+msgstr "Tasks"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
 msgid "[TC] Tasks"
-msgstr "[TC] Items"
+msgstr "[TC] Tasks"
 
 #. module: project_scrum
 #: model:ir.actions.act_window,name:project_scrum.action_test_case_all_tree

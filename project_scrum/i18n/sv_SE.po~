@@ -582,11 +582,11 @@ msgid "Task test ids"
 msgstr "Ärende-test ID:n"
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_ps_project
-#: view:project.scrum.us:project_scrum.view_ps_us_form
-#: view:project.scrum.us:project_scrum.view_ps_us_kanban
-msgid "Tasks"
-msgstr ""
+#: view:project.project:project_scrum.edit_project_scrum
+#: view:project.scrum.us:project_scrum.view_scrum_us_form
+#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
+msgid "Items"
+msgstr "Ärenden"
 
 #. module: project_scrum
 #: view:project.task:project_scrum.view_ps_task_search
