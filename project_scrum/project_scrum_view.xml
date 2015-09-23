@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <menuitem id="menu_scrum"
+        <menuitem id="menu_scrum_in_config"
             name="Scrum"
-            parent="base.menu_main_pm" sequence="3"/>
+            parent="base.menu_definitions" sequence="3"/>
+
+
 
 <!--task search-->
         <record id="view_ps_task_search" model="ir.ui.view">
@@ -436,6 +438,21 @@
             </field>
         </record>
 
+<!--project tree view-->
+        <record id="project_ps_view" model="ir.ui.view">
+            <field name="name">project.project.tree</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="use_scrum" string="Using Scrum"/>                    
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="string">Scrum Master/Project Manager</attribute>
+                </field>
+            </field>
+        </record>
+
 <!--test case tree view-->
         <record id="view_ps_tc_tree" model="ir.ui.view">
             <field name="name">project.scrum.test.tree</field>
@@ -596,6 +613,18 @@
                     </group>
                 </search>
             </field> 
+        </record>
+
+        <!-- filter by using scrum -->
+        <record id="view_ps_project_project_filter" model="ir.ui.view">
+            <field name="name">project.project.select</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_project_filter"/>
+            <field name="arch" type="xml">
+                <filter name="Template" position="after">
+                    <filter string="Using Scrum" name="use_scrum" domain="[('use_scrum','=',True)]"/>   
+                </filter>             
+            </field>
         </record>
 
 <!--access to all sprint tree view-->
@@ -797,22 +826,22 @@
 <!--menu for accessing to userstories-->
         <menuitem
             sequence="20"
-            action="action_ps_us_all" id="menu_action_ps_us_all" parent="menu_scrum"/>
+            action="action_ps_us_all" id="menu_action_ps_us_all" parent="menu_scrum_in_config"/>
             
 <!--menu for accessing to sprint-->
         <menuitem
             sequence="21"
-            action="action_ps_sprint_all" id="menu_action_ps_sprint_all" parent="menu_scrum"/>
+            action="action_ps_sprint_all" id="menu_action_ps_sprint_all" parent="menu_scrum_in_config"/>
 
 <!--menu for accessing to meeting-->
         <menuitem
             sequence="22"
-            action="action_ps_meeting_all" id="menu_action_ps_meeting_all" parent="menu_scrum"/>
+            action="action_ps_meeting_all" id="menu_action_ps_meeting_all" parent="menu_scrum_in_config"/>
             
 <!-- menu for accessing to test case-->            
         <menuitem
             sequence="23"
-            action="action_ps_tc_all" id="menu_action_ps_tc_all" parent="menu_scrum"/>
+            action="action_ps_tc_all" id="menu_action_ps_tc_all" parent="menu_scrum_in_config"/>
 
 <!--user stories and sprints can be seen in project kanban view-->
         <record id="view_ps_kanban" model="ir.ui.view">

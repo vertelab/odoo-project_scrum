@@ -4,16 +4,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0-20150224\n"
+"Project-Id-Version: Odoo Server 8.0-20150917\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-25 07:34+0000\n"
-"PO-Revision-Date: 2015-09-21 14:52+0100\n"
+"POT-Creation-Date: 2015-09-22 08:39+0000\n"
+"PO-Revision-Date: 2015-09-22 10:45+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: en_US\n"
 "X-Generator: Poedit 1.5.4\n"
 
 #. module: project_scrum
@@ -25,17 +26,17 @@ msgid ""
 "Verdana, sans-serif;\n"
 "                font-size: 16px; color: rgb(34, 34, 34); background-color: "
 "rgb(255, 255, 255); \">\n"
-"                <p>Name: ${object.user_id_meeting}</p>   <p>Date: ${object."
+"                <p>Name: ${object.user_id_meeting}</p> <p>Date: ${object."
 "date_meeting}</p> <br/>\n"
 "                <p style=\"color:blue\"><font-size=\"14\">What did you do "
 "since the last meeting?</font></p>\n"
-"                    ${object.question_yesterday}    <br/><br/>\n"
+"                ${object.question_yesterday} <br/><br/>\n"
 "                <p style=\"color:blue\"><font-size=\"14\">What do you plan "
 "to do till the next meeting?</font></p>\n"
-"                    ${object.question_today}    <br/><br/>\n"
+"                ${object.question_today} <br/><br/>\n"
 "                <p style=\"color:blue\"><font-size=\"14\">Are there anything "
 "blocking you?</font></p>\n"
-"                    ${object.question_blocks}    <br/><br/>\n"
+"                ${object.question_blocks} <br/><br/>\n"
 "                </div>\n"
 "                \n"
 "            "
@@ -46,17 +47,17 @@ msgstr ""
 "Verdana, sans-serif;\n"
 "                font-size: 16px; color: rgb(34, 34, 34); background-color: "
 "rgb(255, 255, 255); \">\n"
-"                <p>Name: ${object.user_id_meeting}</p>   <p>Date: ${object."
+"                <p>Name: ${object.user_id_meeting}</p> <p>Date: ${object."
 "date_meeting}</p> <br/>\n"
 "                <p style=\"color:blue\"><font-size=\"14\">What did you do "
 "since the last meeting?</font></p>\n"
-"                    ${object.question_yesterday}    <br/><br/>\n"
+"                ${object.question_yesterday} <br/><br/>\n"
 "                <p style=\"color:blue\"><font-size=\"14\">What do you plan "
 "to do till the next meeting?</font></p>\n"
-"                    ${object.question_today}    <br/><br/>\n"
+"                ${object.question_today} <br/><br/>\n"
 "                <p style=\"color:blue\"><font-size=\"14\">Are there anything "
 "blocking you?</font></p>\n"
-"                    ${object.question_blocks}    <br/><br/>\n"
+"                ${object.question_blocks} <br/><br/>\n"
 "                </div>\n"
 "                \n"
 "            "
@@ -77,17 +78,12 @@ msgid "Actors in user stories"
 msgstr "Actors in user stories"
 
 #. module: project_scrum
-#: model:ir.model,name:project_scrum.model_account_analytic_account
-msgid "Analytic Account"
-msgstr "Analytic Account"
-
-#. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_form
 msgid "Are there anything blocking you?"
 msgstr "Are there anything blocking you?"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_form
 msgid "Are your Sprint Backlog estimate accurate ?"
 msgstr "Are your Sprint Backlog estimate accurate ?"
 
@@ -97,19 +93,24 @@ msgid "Assigned to"
 msgstr "Assigned to"
 
 #. module: project_scrum
-#: field:project.scrum.meeting,question_backlog:0
-msgid "Backlog Accurate?"
-msgstr "Backlog Accurate?"
-
-#. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
 msgid "Backlog"
 msgstr "Backlog"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: field:project.scrum.meeting,question_backlog:0
+msgid "Backlog Accurate?"
+msgstr "Backlog Accurate?"
+
+#. module: project_scrum
+#: field:project.project,default_sprintduration:0
+msgid "Calendar"
+msgstr "Calendar"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 #: selection:project.scrum.sprint,state:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
+#: view:project.scrum.test:project_scrum.view_ps_tc_search
 #: selection:project.scrum.test,stats_test:0
 msgid "Cancelled"
 msgstr "Cancelled"
@@ -120,10 +121,15 @@ msgid "Color Index"
 msgstr "Color Index"
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:174
+#: code:addons/project_scrum/project_scrum.py:364
 #, python-format
 msgid "Compose Email"
 msgstr "Compose Email"
+
+#. module: project_scrum
+#: model:ir.actions.server,name:project_scrum.ps_action_server_creat_test_task
+msgid "Creat Tasks from Test Cases"
+msgstr "Create Items from Test Cases"
 
 #. module: project_scrum
 #: field:project.scrum.actors,create_uid:0
@@ -142,12 +148,7 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
-msgid "Customer"
-msgstr "Customer"
-
-#. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_form
 msgid "Daily Meeting"
 msgstr "Daily Meeting"
 
@@ -157,7 +158,7 @@ msgid "Daily Scrum"
 msgstr "Daily Scrum"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_search
 #: field:project.scrum.meeting,date_meeting:0
 msgid "Date"
 msgstr "Date"
@@ -168,8 +169,13 @@ msgid "Date of the last message posted on the record."
 msgstr "Date of the last message posted on the record."
 
 #. module: project_scrum
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_kanban
-#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
+#: help:project.project,default_sprintduration:0
+msgid "Default Sprint time for this project, in days"
+msgstr "Default Sprint time for this project, in days"
+
+#. module: project_scrum
+#: view:project.scrum.test:project_scrum.view_ps_tc_kanban
+#: view:project.scrum.us:project_scrum.view_ps_us_kanban
 msgid "Delete"
 msgstr "Delete"
 
@@ -178,30 +184,35 @@ msgstr "Delete"
 #: field:project.scrum.meeting,question_today:0
 #: field:project.scrum.meeting,question_yesterday:0
 #: field:project.scrum.sprint,description:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_form
+#: view:project.scrum.test:project_scrum.view_ps_tc_form
 #: field:project.scrum.test,description_test:0
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
+#: view:project.scrum.us:project_scrum.view_ps_us_form
 #: field:project.scrum.us,description:0
 msgid "Description"
 msgstr "Description"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: field:project.scrum.us,description_short:0
+msgid "Description short"
+msgstr "Description short"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 #: selection:project.scrum.sprint,state:0
 msgid "Done"
 msgstr "Done"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 #: selection:project.scrum.sprint,state:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
+#: view:project.scrum.test:project_scrum.view_ps_tc_search
 #: selection:project.scrum.test,stats_test:0
 msgid "Draft"
 msgstr "Draft"
 
 #. module: project_scrum
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_kanban
-#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
+#: view:project.scrum.test:project_scrum.view_ps_tc_kanban
+#: view:project.scrum.us:project_scrum.view_ps_us_kanban
 msgid "Edit..."
 msgstr "Edit..."
 
@@ -211,8 +222,17 @@ msgid "Ending Date"
 msgstr "Ending Date"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
+#: help:project.scrum.sprint,planned_hours:0
+msgid ""
+"Estimated time to do the task, usually set by the project manager when the "
+"task is in draft state."
+msgstr ""
+"Estimated time to do the item, usually set by the project manager when the "
+"item is in draft state."
+
+#. module: project_scrum
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
+#: view:project.scrum.test:project_scrum.view_ps_tc_search
 msgid "Filter By..."
 msgstr "Filter By..."
 
@@ -224,13 +244,13 @@ msgstr "Followers"
 #. module: project_scrum
 #: help:project.scrum.sprint,sequence:0
 msgid "Gives the sequence order when displaying a list of tasks."
-msgstr "Gives the sequence order when displaying a list of tasks."
+msgstr "Gives the sequence order when displaying a list of items."
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: view:project.scrum.us:project_scrum.view_scrum_us_search
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
+#: view:project.scrum.test:project_scrum.view_ps_tc_search
+#: view:project.scrum.us:project_scrum.view_ps_us_search
 msgid "Group By..."
 msgstr "Group By..."
 
@@ -242,6 +262,11 @@ msgid ""
 msgstr ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
+
+#. module: project_scrum
+#: help:project.project,manhours:0
+msgid "How many hours you expect this project needs before it's finished"
+msgstr "How many hours you expect this project needs before it's finished"
 
 #. module: project_scrum
 #: field:project.scrum.actors,id:0 field:project.scrum.meeting,id:0
@@ -265,7 +290,7 @@ msgstr ""
 "linked to this project."
 
 #. module: project_scrum
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
+#: view:project.scrum.test:project_scrum.view_ps_tc_search
 #: selection:project.scrum.test,stats_test:0
 msgid "In Progress"
 msgstr "In Progress"
@@ -297,15 +322,20 @@ msgid "Last Updated on"
 msgstr "Last Updated on"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
+#: field:project.project,manhours:0
+msgid "Man Hours"
+msgstr "Man Hours"
+
+#. module: project_scrum
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_search
 msgid "Meeting"
 msgstr "Meeting"
 
 #. module: project_scrum
-#: model:ir.actions.act_window,name:project_scrum.action_meeting_all_tree
-#: model:ir.actions.act_window,name:project_scrum.action_meeting_current_tree
-#: model:ir.ui.menu,name:project_scrum.menu_action_meeting_all_tree
-#: view:project.project:project_scrum.view_project_scrum_kanban
+#: model:ir.actions.act_window,name:project_scrum.action_ps_meeting_all
+#: model:ir.actions.act_window,name:project_scrum.action_ps_meeting_current
+#: model:ir.ui.menu,name:project_scrum.menu_action_ps_meeting_all
+#: view:project.project:project_scrum.view_ps_kanban
 #: field:project.project,meeting_ids:0
 msgid "Meetings"
 msgstr "Meetings"
@@ -321,17 +351,22 @@ msgid "Messages and communication history"
 msgstr "Messages and communication history"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 msgid "Month"
 msgstr "Month"
 
 #. module: project_scrum
 #: field:project.scrum.actors,name:0
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_search
 #: field:project.scrum.meeting,user_id_meeting:0
 #: field:project.scrum.test,name:0 field:project.scrum.us,name:0
 msgid "Name"
 msgstr "Name"
+
+#. module: project_scrum
+#: view:project.task:project_scrum.view_ps_task_search
+msgid "New Mail"
+msgstr "New Mail"
 
 #. module: project_scrum
 #: selection:project.scrum.meeting,question_backlog:0
@@ -339,45 +374,45 @@ msgid "No"
 msgstr "No"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 #: selection:project.scrum.sprint,state:0
 msgid "Open"
 msgstr "Open"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 #: selection:project.scrum.sprint,state:0
 msgid "Pending"
 msgstr "Pending"
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
+#: field:project.scrum.sprint,planned_hours:0
+msgid "Planned Hours"
+msgstr "Planned Hours"
+
+#. module: project_scrum
+#: view:project.project:project_scrum.edit_ps_project
 #: field:project.scrum.sprint,product_owner_id:0
 msgid "Product Owner"
 msgstr "Product Owner"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 msgid "Product owner"
 msgstr "Product owner"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_project
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_search
 #: field:project.scrum.meeting,project_id:0
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 #: field:project.scrum.sprint,project_id:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
+#: view:project.scrum.test:project_scrum.view_ps_tc_search
 #: field:project.scrum.test,project_id:0
-#: view:project.scrum.us:project_scrum.view_scrum_us_search
+#: view:project.scrum.us:project_scrum.view_ps_us_search
 #: field:project.scrum.us,project_id:0
 msgid "Project"
 msgstr "Project"
-
-#. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
-msgid "Project Manager"
-msgstr "Project Manager"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_scrum_meeting
@@ -395,49 +430,50 @@ msgid "Project Scrum Use Stories"
 msgstr "Project Scrum Use Stories"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_task_gantt
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_gantt
 msgid "Projects"
 msgstr "Projects"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
 msgid "Retrospective"
 msgstr "Retrospective"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
 msgid "Review"
 msgstr "Review"
 
 #. module: project_scrum
 #: model:ir.ui.menu,name:project_scrum.menu_scrum
+#: view:project.project:project_scrum.edit_ps_project
 msgid "Scrum"
 msgstr "Scrum"
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: view:project.project:project_scrum.edit_ps_project
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 #: field:project.scrum.sprint,scrum_master_id:0
 msgid "Scrum Master"
 msgstr "Scrum Master"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_calendar
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_tree
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_calendar
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_form
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_tree
 msgid "Scrum Meeting"
 msgstr "Scrum Meeting"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_project_task_graph
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_calendar
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_tree
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_calendar
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_graph
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_tree
 msgid "Scrum Sprint"
 msgstr "Scrum Sprint"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_form
 msgid "Send Email"
 msgstr "Send Email"
 
@@ -448,19 +484,26 @@ msgid "Sequence"
 msgstr "Sequence"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
+#: view:project.project:project_scrum.edit_ps_project
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_search
 #: field:project.scrum.meeting,sprint_id:0
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_search
-#: field:project.scrum.us,sprint_id:0
-#: view:project.task:project_scrum.view_scrum_sprint_task_form2
-#: view:project.task:project_scrum.view_scrum_sprint_task_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
+#: field:project.scrum.test,sprint_id:0
+#: view:project.scrum.us:project_scrum.view_ps_us_search
+#: field:project.scrum.us,sprint_ids:0
+#: view:project.task:project_scrum.view_ps_sprint_task_form2
+#: view:project.task:project_scrum.view_ps_task_search
 #: field:project.task,sprint_id:0
 msgid "Sprint"
 msgstr "Sprint"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: model:ir.actions.act_window,name:project_scrum.action_ps_sprint_backlog
+msgid "Sprint Backlog"
+msgstr "Sprint Backlog"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 msgid "Sprint Month"
 msgstr "Sprint Month"
 
@@ -480,17 +523,22 @@ msgid "Sprint Review"
 msgstr "Sprint Review"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
+#: model:ir.actions.act_window,name:project_scrum.action_ps_tc
+msgid "Sprint Test Case"
+msgstr "Sprint Test Case"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
 msgid "Sprint..."
 msgstr "Sprint..."
 
 #. module: project_scrum
-#: model:ir.actions.act_window,name:project_scrum.action_sprint_all_tree
-#: model:ir.actions.act_window,name:project_scrum.action_sprint_current_tree
-#: model:ir.ui.menu,name:project_scrum.menu_action_sprint_all_tree
-#: view:project.project:project_scrum.view_project_scrum_kanban
+#: model:ir.actions.act_window,name:project_scrum.action_ps_sprint_all
+#: model:ir.actions.act_window,name:project_scrum.action_ps_sprint_current
+#: model:ir.ui.menu,name:project_scrum.menu_action_ps_sprint_all
+#: view:project.project:project_scrum.view_ps_kanban
 #: field:project.project,sprint_ids:0
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
 msgid "Sprints"
 msgstr "Sprints"
 
@@ -500,7 +548,7 @@ msgid "Starting Date"
 msgstr "Starting Date"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
 #: field:project.scrum.sprint,state:0 field:project.scrum.test,stats_test:0
 msgid "State"
 msgstr "State"
@@ -512,11 +560,16 @@ msgstr "Summary"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_task
-#: view:project.project:project_scrum.edit_project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
+#: view:project.project:project_scrum.edit_ps_project
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
+#: view:project.scrum.us:project_scrum.view_ps_us_form
 msgid "Task"
 msgstr "Item"
+
+#. module: project_scrum
+#: field:project.scrum.us,task_count:0
+msgid "Task count"
+msgstr "Item count"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,task_ids:0 field:project.scrum.us,task_ids:0
@@ -524,9 +577,14 @@ msgid "Task ids"
 msgstr "Item IDs"
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
+#: field:project.scrum.us,task_test_ids:0
+msgid "Task test ids"
+msgstr "Item test ids"
+
+#. module: project_scrum
+#: view:project.project:project_scrum.edit_ps_project
+#: view:project.scrum.us:project_scrum.view_ps_us_form
+#: view:project.scrum.us:project_scrum.view_ps_us_kanban
 msgid "Tasks"
 msgstr "Tasks"
 
@@ -536,27 +594,37 @@ msgid "[TC] Tasks"
 msgstr "[TC] Tasks"
 
 #. module: project_scrum
-#: model:ir.actions.act_window,name:project_scrum.action_test_case_all_tree
-#: model:ir.actions.act_window,name:project_scrum.action_test_case_current_tree
-#: model:ir.ui.menu,name:project_scrum.menu_action_test_case_all_tree
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
+#: view:project.task:project_scrum.view_ps_task_search
+msgid "Test"
+msgstr "Test"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,name:project_scrum.action_ps_tc_all
+#: model:ir.actions.act_window,name:project_scrum.action_ps_tc_current
+#: model:ir.ui.menu,name:project_scrum.menu_action_ps_tc_all
+#: view:project.scrum.us:project_scrum.view_ps_us_form
 msgid "Test Case"
 msgstr "Test Case"
 
 #. module: project_scrum
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_form
+#: view:project.scrum.test:project_scrum.view_ps_tc_form
 msgid "Test Case..."
 msgstr "Test Case..."
 
 #. module: project_scrum
-#: view:project.project:project_scrum.view_project_scrum_kanban
+#: view:project.project:project_scrum.view_ps_kanban
 #: field:project.project,test_case_ids:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_form
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
+#: view:project.scrum.test:project_scrum.view_ps_tc_form
+#: view:project.scrum.test:project_scrum.view_ps_tc_search
+#: view:project.scrum.us:project_scrum.view_ps_us_form
+#: view:project.scrum.us:project_scrum.view_ps_us_kanban
 msgid "Test Cases"
 msgstr "Test Cases"
+
+#. module: project_scrum
+#: field:project.scrum.us,test_count:0
+msgid "Test count"
+msgstr "Test count"
 
 #. module: project_scrum
 #: field:project.scrum.us,test_ids:0
@@ -564,8 +632,8 @@ msgid "Test ids"
 msgstr "Test ids"
 
 #. module: project_scrum
-#: model:ir.actions.act_window,help:project_scrum.action_meeting_all_tree
-#: model:ir.actions.act_window,help:project_scrum.action_meeting_current_tree
+#: model:ir.actions.act_window,help:project_scrum.action_ps_meeting_all
+#: model:ir.actions.act_window,help:project_scrum.action_ps_meeting_current
 msgid "The daily meeting of scrum."
 msgstr "The daily meeting of scrum."
 
@@ -580,8 +648,8 @@ msgid "The person who is responsible for the product"
 msgstr "The person who is responsible for the product"
 
 #. module: project_scrum
-#: model:ir.actions.act_window,help:project_scrum.action_sprint_all_tree
-#: model:ir.actions.act_window,help:project_scrum.action_sprint_current_tree
+#: model:ir.actions.act_window,help:project_scrum.action_ps_sprint_all
+#: model:ir.actions.act_window,help:project_scrum.action_ps_sprint_current
 msgid ""
 "The scrum agile methodology is used in software development projects. In "
 "this methodology, \n"
@@ -598,14 +666,14 @@ msgstr ""
 "to the customer and product owner."
 
 #. module: project_scrum
-#: model:ir.actions.act_window,help:project_scrum.action_test_case_all_tree
-#: model:ir.actions.act_window,help:project_scrum.action_test_case_current_tree
+#: model:ir.actions.act_window,help:project_scrum.action_ps_tc_all
+#: model:ir.actions.act_window,help:project_scrum.action_ps_tc_current
 msgid "The test case."
 msgstr "The test case."
 
 #. module: project_scrum
-#: model:ir.actions.act_window,help:project_scrum.action_us_all_tree
-#: model:ir.actions.act_window,help:project_scrum.action_us_current_tree
+#: model:ir.actions.act_window,help:project_scrum.action_ps_us_all
+#: model:ir.actions.act_window,help:project_scrum.action_ps_us_current
 msgid "The user stories of scrum."
 msgstr "The user stories of scrum."
 
@@ -615,45 +683,49 @@ msgid "Unread Messages"
 msgstr "Unread Messages"
 
 #. module: project_scrum
-#: field:account.analytic.account,use_scrum:0
-#: view:project.project:project_scrum.edit_project_scrum
+#: view:project.project:project_scrum.edit_ps_project
 msgid "Use Scrum"
 msgstr "Use Scrum"
 
 #. module: project_scrum
-#: model:ir.actions.act_window,name:project_scrum.action_us_all_tree
-#: model:ir.actions.act_window,name:project_scrum.action_us_current_tree
-#: model:ir.ui.menu,name:project_scrum.menu_action_us_all_tree
-#: view:project.project:project_scrum.view_project_scrum_kanban
+#: field:project.project,use_scrum:0
+msgid "Use scrum"
+msgstr "Use scrum"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,name:project_scrum.action_ps_us_all
+#: model:ir.actions.act_window,name:project_scrum.action_ps_us_current
+#: model:ir.ui.menu,name:project_scrum.menu_action_ps_us_all
+#: view:project.project:project_scrum.view_ps_kanban
 #: field:project.project,user_story_ids:0 field:project.scrum.sprint,us_ids:0
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_search
+#: view:project.scrum.us:project_scrum.view_ps_us_form
+#: view:project.scrum.us:project_scrum.view_ps_us_search
 #: field:project.task,us_id:0
 msgid "User Stories"
 msgstr "User Stories"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
+#: view:project.scrum.test:project_scrum.view_ps_tc_search
 #: field:project.scrum.test,user_story_id_test:0
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: view:project.task:project_scrum.view_scrum_sprint_task_form2
-#: view:project.task:project_scrum.view_scrum_sprint_task_search
+#: view:project.scrum.us:project_scrum.view_ps_us_form
+#: view:project.task:project_scrum.view_ps_sprint_task_form2
+#: view:project.task:project_scrum.view_ps_task_search
 msgid "User Story"
 msgstr "User Story"
 
 #. module: project_scrum
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
+#: view:project.scrum.us:project_scrum.view_ps_us_form
 msgid "User Story..."
 msgstr "User Story..."
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_form
 msgid "What did you do since the last meeting?"
 msgstr "What did you do since the last meeting?"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
+#: view:project.scrum.meeting:project_scrum.view_ps_meeting_form
 msgid "What do you plan to do till the next meeting?"
 msgstr "What do you plan to do till the next meeting?"
 
@@ -661,3 +733,8 @@ msgstr "What do you plan to do till the next meeting?"
 #: selection:project.scrum.meeting,question_backlog:0
 msgid "Yes"
 msgstr "Yes"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
+msgid "[TC] Tasks"
+msgstr "[TC] Items"

@@ -198,6 +198,7 @@ class project_task(models.Model):
     _inherit = "project.task"
     _order = "sequence"
 
+    user_id = fields.Many2one('res.users', 'Assigned to', select=True, track_visibility='onchange', default="")
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
