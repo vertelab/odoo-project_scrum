@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0-20150917\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-22 08:39+0000\n"
-"PO-Revision-Date: 2015-09-22 10:45+0100\n"
+"PO-Revision-Date: 2015-09-28 08:40+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -733,8 +733,3 @@ msgstr "What do you plan to do till the next meeting?"
 #: selection:project.scrum.meeting,question_backlog:0
 msgid "Yes"
 msgstr "Yes"
-
-#. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
-msgid "[TC] Tasks"
-msgstr "[TC] Items"

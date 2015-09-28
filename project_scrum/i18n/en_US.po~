@@ -589,15 +589,14 @@ msgid "Tasks"
 msgstr "Tasks"
 
 #. module: project_scrum
-<<<<<<< HEAD
 #: view:project.scrum.sprint:project_scrum.view_ps_sprint_form
 msgid "[TC] Tasks"
 msgstr "[TC] Tasks"
-=======
+
+#. module: project_scrum
 #: view:project.task:project_scrum.view_ps_task_search
 msgid "Test"
 msgstr "Test"
->>>>>>> 8e128e9dac2ac2e2b295da869416699fce8d53c8
 
 #. module: project_scrum
 #: model:ir.actions.act_window,name:project_scrum.action_ps_tc_all
