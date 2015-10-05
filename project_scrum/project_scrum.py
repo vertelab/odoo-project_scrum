@@ -78,7 +78,7 @@ class scrum_sprint(models.Model):
     #task_test_count = fields.Integer(compute = '_task_test_count')
     review = fields.Html(string = 'Sprint Review', default="""
         <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
-        <h1 style="color:blue"><ul>Does the goal have been reached?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>Has the goal been reached?</ul></h1><br/><br/>
     """)
     retrospective = fields.Html(string = 'Sprint Retrospective', default="""
         <h1 style="color:blue"><ul>What will you start doing in next sprint?</ul></h1><br/><br/>

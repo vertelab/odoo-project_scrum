@@ -182,7 +182,7 @@
             <field name="sprint_id" ref="project_sprint_1"/> 
             <field name="project_id" ref="project_project_1"/>
             <field name="question_yesterday">yesterday is history</field>
-            <field name="question_today">today is pressent</field>
+            <field name="question_today">today is present</field>
             <field name="question_blocks">tomorrow is a mystery</field>
             <field name="name">Meeting 1</field>
             <field name="description">Meeting Scrum Test</field>
@@ -196,7 +196,7 @@
             <field name="project_id" ref="project_project_1"/>
             <field name="question_yesterday">yesterday is a mystery</field>
             <field name="question_today">today is history</field>
-            <field name="question_blocks">tomorrow is a pressent</field>
+            <field name="question_blocks">tomorrow is a present</field>
             <field name="name">Meeting 2</field>
             <field name="description">Meeting Scrum Test 2</field>
         </record>
