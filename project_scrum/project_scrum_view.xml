@@ -146,160 +146,148 @@
                                             'default_sprint_id': id,
                                             'default_us_ids': us_ids,
                                             }">
-                    <tree colors="blue:kanban_state in('normal'); red:kanban_state in('blocked'); grey:kanban_state in('done')" string="Task">
-                      <field name="sequence" widget="handle" />
-                      <field name="priority" />
-                      <field name="name" />
-                      <field name="user_id" />
-                      <field name="date_deadline" />
-                      <field name="stage_id" />
-                    </tree>
-                  </field>
-                </group>
-              </page>
-              <page string="Retrospective">
-                <!--page for retropective-->
-                <field name="retrospective" />
-              </page>
-            </notebook>
-          </sheet>
-        </form>
-      </field>
-    </record>
-    <!--sprint calendar view-->
-    <record id="view_ps_sprint_calendar" model="ir.ui.view">
-      <field name="name">project.scrum.sprint.calendar</field>
-      <field name="model">project.scrum.sprint</field>
-      <field name="type">calendar</field>
-      <field name="arch" type="xml">
-        <calendar string="stage_id" date_start="date_start" color="us_ids">
-          <field name="name" />
-          <field name="project_id" />
-        </calendar>
-      </field>
-    </record>
-    <!--sprint gantt view-->
-    <record id="view_ps_sprint_gantt" model="ir.ui.view">
-      <field name="name">project.scrum.sprint.gantt</field>
-      <field name="model">project.scrum.sprint</field>
-      <field name="type">gantt</field>
-      <field name="arch" type="xml">
-        <gantt date_start="date_start" date_stop="date_stop" progress="progress" string="Projects" />
-      </field>
-    </record>
-    <!--sprint graph view-->
-    <record id="view_ps_sprint_graph" model="ir.ui.view">
-      <field name="name">project.scrum.sprint.graph</field>
-      <field name="model">project.scrum.sprint</field>
-      <field name="type">graph</field>
-      <field name="arch" type="xml">
-        <graph string="Scrum Sprint" type="bar">
-          <field name="project_id" type="row" />
-        </graph>
-      </field>
-    </record>
-    <!--Scrum User Stories-->
-    <!--user stories kanban view-->
-    <record id="view_ps_us_kanban" model="ir.ui.view">
-      <field name="name">project.scrum.us.kanban</field>
-      <field name="model">project.scrum.us</field>
-      <field name="type">kanban</field>
-      <field name="arch" type="xml">
-        <kanban default_group_by="project_id">
-          <field name="color" />
-          <field name="name" />
-          <field name="description_short" />
-          <field name="task_count" />
-          <field name="test_count" />
-          <templates>
-            <t t-name="kanban-box">
-              <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
-                  <span class="oe_e">í</span>
-                  <ul class="oe_dropdown_menu">
-                    <li>
-                      <t t-if="widget.view.is_action_enabled('edit')">
-                        <li>
-                          <a type="edit">Edit...</a>
-                        </li>
-                      </t>
-                      <t t-if="widget.view.is_action_enabled('delete')">
-                        <li>
-                          <a type="delete">Delete</a>
-                        </li>
-                      </t>
-                    </li>
-                  </ul>
-                </div>
-                <div class="oe_kanban_content">
-                  <div>
-                    <b>
-                      <field name="name" />
-                    </b>
-                  </div>
-                  <p>
-                    <font color="#BDBDBD">
-                      <field name="description_short" />
-                    </font>
-                  </p>
-                </div>
-                <div>
-                  <a t-if="record.task_count.raw_value">
-                    <t t-raw="record.task_count.raw_value" />
-                    Tasks
-                  </a>
-                </div>
-                <div>
-                  <a t-if="record.test_count.raw_value">
-                    <t t-raw="record.test_count.raw_value" />
-                    Test Cases
-                  </a>
-                </div>
-                <div class="oe_clear" />
-              </div>
-            </t>
-          </templates>
-        </kanban>
-      </field>
-    </record>
-    <!--user stories form view-->
-    <record id="view_ps_us_form" model="ir.ui.view">
-      <field name="name">project.scrum.us.form</field>
-      <field name="model">project.scrum.us</field>
-      <field name="type">form</field>
-      <field name="arch" type="xml">
-        <form string="User Stories">
-          <field name="project_id" invisible="1" />
-          <sheet string="User Story">
-            <h1>
-              <field name="name" placeholder="User Story..." class="oe_inline" />
-            </h1>
-            <!--
-                 <if cond="task_ids=='True'">
-                 <field name="has_task" eval="True"/>
-                 <label for="has_task" string="Has Task"/>
-                 </if>
-                 <if cond="test_ids=='True'">
-                 <field name="has_test" eval="True"/>
-                 <label for="has_test" string="Has Test"/>
-                 </if>
-            -->
-            <group col="4">
-              <field name="sequence" />
-              <field name="actor_ids" widget="many2many_tags" />
-            </group>
-            <group col="4">
-              <field name="project_id" />
-              <field name="sprint_ids" widget="many2many_tags" context="{'default_project_id': project_id,}" domain="[('project_id', '=' , project_id)]" />
-            </group>
-            <notebook colspan="5">
-              <page string="Description">
-                <field name="description" />
-              </page>
-              <page string="Tasks">
-                <field name="task_ids" string="Task" context="{
+                                    <tree colors="blue:kanban_state in('normal'); red:kanban_state in('blocked'); grey:kanban_state in('done')" string="Task">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="priority"/>
+                                        <field name="name"/>
+                                        <field name="user_id"/>
+                                        <field name="date_deadline"/>
+                                        <field name="stage_id"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Retrospective">
+                            <!--page for retropective-->
+                            <field name="retrospective"/>
+                        </page> 
+                    </notebook> 
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!--sprint calendar view-->
+        <record id="view_ps_sprint_calendar" model="ir.ui.view">
+            <field name="name">project.scrum.sprint.calendar</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar string="Scrum Sprint" date_start="date_start" color="us_ids">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!--sprint gantt view-->
+       <record id="view_ps_sprint_gantt" model="ir.ui.view">
+            <field name="name">project.scrum.sprint.gantt</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="type">gantt</field>
+            <field name="arch" type="xml">
+                <gantt date_start="date_start" date_stop="date_stop" progress="progress" string="Projects">
+                </gantt>
+            </field>
+        </record>
+
+        <!--sprint graph view-->
+        <record id="view_ps_sprint_graph" model="ir.ui.view">
+            <field name="name">project.scrum.sprint.graph</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="type">graph</field>
+            <field name="arch" type="xml">
+                <graph string="Scrum Sprint" type="bar">
+                    <field name="project_id" type="row"/>
+                </graph>
+            </field>
+        </record>
+
+<!--Scrum User Stories-->
+        <!--user stories kanban view-->
+        <record id="view_ps_us_kanban" model="ir.ui.view">
+            <field name="name">project.scrum.us.kanban</field>
+            <field name="model">project.scrum.us</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="project_id">
+                    <field name="color"/>
+                    <field name="name"/>
+                    <field name="description_short"/>
+                    <field name="task_count"/>
+                    <field name="test_count"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
+                                <span class="oe_e">í</span>
+                                <ul class="oe_dropdown_menu">
+                                    <li>
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div><b><field name="name"/></b></div>
+                                <p><font color="#BDBDBD"><field name="description_short"/></font></p>
+                            </div>
+                            <div>
+                                <a t-if="record.task_count.raw_value">
+                                <t t-raw="record.task_count.raw_value"/> Tasks</a>
+                            </div>
+                            <div>
+                                <a t-if="record.test_count.raw_value">
+                                <t t-raw="record.test_count.raw_value"/> Test Cases</a>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--user stories form view-->
+        <record id="view_ps_us_form" model="ir.ui.view">
+            <field name="name">project.scrum.us.form</field>
+            <field name="model">project.scrum.us</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="User Stories">
+                    <field name="project_id" invisible="1"/>
+                    <sheet string="User Story">
+                    <h1>
+                        <field name="name" placeholder="User Story..." class="oe_inline"/>
+                    </h1>
+<!--
+                    <if cond="task_ids=='True'">
+                        <field name="has_task" eval="True"/>
+                        <label for="has_task" string="Has Task"/>
+                    </if>
+                    <if cond="test_ids=='True'">
+                        <field name="has_test" eval="True"/>
+                        <label for="has_test" string="Has Test"/>
+                    </if>
+-->
+                    <group col="4">
+                        <field name="sequence"/>
+                        <field name="actor_ids" widget="many2many_tags"/>
+                    </group>
+                    <group col="4">
+                        <field name="project_id"/>
+						<field name="sprint_ids" widget="many2many_tags"
+                               context="{'default_project_id': project_id,}"
+                               domain="[('project_id', '=' , project_id)]"/>
+                    </group>
+
+                    <notebook colspan="5">
+                    	<page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Tasks">
+                            <field name="task_ids" string="Task" context="{
                                         'default_project_id': project_id,
-                                        
                                         'default_us_id': id,
                                         }">
                   <!--'default_sprint_id': sprint_id,-->
