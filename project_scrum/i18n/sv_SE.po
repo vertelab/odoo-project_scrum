@@ -105,7 +105,7 @@ msgstr "Är ärendestocken exakt?"
 #. module: project_scrum
 #: field:project.project,default_sprintduration:0
 msgid "Calendar"
-msgstr "Calendar"
+msgstr "Calender"
 
 #. module: project_scrum
 #: view:project.scrum.sprint:project_scrum.view_ps_sprint_search
