@@ -15,8 +15,6 @@ class scrum_sprint(models.Model):
     _description = 'Project Scrum Sprint'
     _order = 'date_start desc'
 
-
-
     def get_current_sprint(self, project_id):
         sprint = self.env['project.scrum.sprint'].search(['&', '&',
             ('date_start', '<=', date.today()),
@@ -26,9 +24,6 @@ class scrum_sprint(models.Model):
         if len(sprint) >0:
             return sprint[0]
         return None
-        self.current_sprint = self.sprint_id.id == s.id
-
-
 
     def _compute(self):
         for record in self:
@@ -222,21 +217,24 @@ class project_task(models.Model):
     use_scrum = fields.Boolean(related='project_id.use_scrum')
     description = fields.Html('Description')
 
+    @api.depends('sprint_id')
     @api.one
     def _current_sprint(self):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
+        _logger.error('Task computed %r' % self)
         if sprint:
             self.current_sprint = sprint.id == self.sprint_id.id
         else:
             self.current_sprint = False
-
-    @api.one
-    def _search_current_sprint(self):
-        sprint = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
-        if sprint:
-            return sprint.id == self.sprint_id.id
-        else:
-            return False
+            
+    def _search_current_sprint(self, operator, value):
+        #~ raise Warning('operator %s value %s' % (operator, value))
+        project_id = self.env.context.get('default_project_id', None)
+        sprint = self.env['project.scrum.sprint'].get_current_sprint(project_id)
+        #~ raise Warning('sprint %s csprint %s context %s' % (self.sprint_id, sprint, self.env.context))
+        _logger.error('Task %r' % self)
+        return [('sprint_id', '=', sprint and sprint.id or None)]
+            
     current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
 
     @api.multi
