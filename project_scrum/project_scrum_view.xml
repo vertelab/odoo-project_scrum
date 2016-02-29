@@ -258,7 +258,6 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="User Stories">
-                    <field name="project_id" invisible="1"/>
                     <sheet string="User Story">
                     <h1>
                         <field name="name" placeholder="User Story..." class="oe_inline"/>
