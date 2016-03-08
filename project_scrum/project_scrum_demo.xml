@@ -67,7 +67,7 @@
         <record id="project_sprint_3" model="project.scrum.sprint">
             <field name="name">Sprint 3</field>
             <field name="project_id" ref="project_project_1"/>
-            <field name="date_start" eval="(DateTime.today() - relativedelta(weeks=2)).strftime('%Y-%m-%d')"/>
+            <field name="date_start" eval="(DateTime.today() + relativedelta(weeks=2)).strftime('%Y-%m-%d')"/>
             <field name="date_stop" eval="(DateTime.today() + relativedelta(weeks=3)).strftime('%Y-%m-%d')"/>
             <field name="state">open</field> 
         </record>

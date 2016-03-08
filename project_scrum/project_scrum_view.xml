@@ -146,7 +146,7 @@
                                             'default_sprint_id': id,
                                             'default_us_ids': us_ids,
                                             }">
-                                    <tree colors="blue:kanban_state in('normal'); red:kanban_state in('blocked'); grey:kanban_state in('done')" string="Task">
+                                    <tree>
                                         <field name="sequence" widget="handle"/>
                                         <field name="priority"/>
                                         <field name="name"/>
@@ -291,13 +291,12 @@
                                         'default_us_id': id,
                                         }">
                   <!--'default_sprint_id': sprint_id,-->
-                  <tree string="Tasks" colors="black:kanban_state in ('normal');
-                                grey:kanban_state in ('blocked'); green:kanban_state in('done')">
+                  <tree>
                     <field name="sequence" widget="handle" />
                     <field name="name" />
                     <field name="user_id" />
                     <field name="date_deadline" />
-                    <field name="kanban_state" />
+                    <field name="stage_id" />
                   </tree>
                 </field>
               </page>
@@ -786,7 +785,7 @@
                 <field name="name" />
                 <field name="user_id" />
                 <field name="date_deadline" />
-                <field name="kanban_state" />
+                <field name="stage_id" />
               </tree>
             </field>
           </page>
