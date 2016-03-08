@@ -216,12 +216,13 @@ class project_task(models.Model):
     date_end = fields.Date(string = 'Ending Date', required=False)
     use_scrum = fields.Boolean(related='project_id.use_scrum')
     description = fields.Html('Description')
+    current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
 
     @api.depends('sprint_id')
     @api.one
     def _current_sprint(self):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
-        _logger.error('Task computed %r' % self)
+        #~ _logger.error('Task computed %r' % self)
         if sprint:
             self.current_sprint = sprint.id == self.sprint_id.id
         else:
@@ -235,7 +236,7 @@ class project_task(models.Model):
         _logger.error('Task %r' % self)
         return [('sprint_id', '=', sprint and sprint.id or None)]
             
-    current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
+    
 
     @api.multi
     def write(self, vals):
