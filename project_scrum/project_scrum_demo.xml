@@ -46,6 +46,49 @@
             <field name="alias_model">project.task</field>
         </record>
 
+<!-- Sprint -->
+<!--Project 1-->
+        <record id="project_sprint_1" model="project.scrum.sprint">
+            <field name="name">Sprint 1</field>
+            <field name="project_id" ref="project_project_1"/>
+            <field name="date_start" eval="(DateTime.today() - relativedelta(weeks=1)).strftime('%Y-%m-%d')"/>
+            <field name="date_stop" eval="(DateTime.today() + relativedelta(weeks=1)).strftime('%Y-%m-%d')"/>
+            <field name="state">pending</field> 
+        </record>
+        
+        <record id="project_sprint_2" model="project.scrum.sprint">
+            <field name="name">Sprint 2</field>
+            <field name="project_id" ref="project_project_1"/>
+            <field name="date_start" eval="(DateTime.today() - relativedelta(weeks=3)).strftime('%Y-%m-%d')"/>
+            <field name="date_stop" eval="(DateTime.today() - relativedelta(weeks=2)).strftime('%Y-%m-%d')"/>
+            <field name="state">pending</field> 
+        </record>
+        
+        <record id="project_sprint_3" model="project.scrum.sprint">
+            <field name="name">Sprint 3</field>
+            <field name="project_id" ref="project_project_1"/>
+            <field name="date_start" eval="(DateTime.today() + relativedelta(weeks=2)).strftime('%Y-%m-%d')"/>
+            <field name="date_stop" eval="(DateTime.today() + relativedelta(weeks=3)).strftime('%Y-%m-%d')"/>
+            <field name="state">open</field> 
+        </record>
+
+<!--Project 2-->
+        <record id="project_sprint_4" model="project.scrum.sprint">
+            <field name="name">Testing Sprint 1</field>
+            <field name="project_id" ref="project_project_2"/>
+            <field name="date_start" eval="(DateTime.today() + relativedelta(weeks=4)).strftime('%Y-%m-%d')"/>
+            <field name="date_stop" eval="(DateTime.today() + relativedelta(weeks=5)).strftime('%Y-%m-%d')"/>
+            <field name="state">open</field> 
+        </record>
+        
+        <record id="project_sprint_5" model="project.scrum.sprint">
+            <field name="name">Testing Sprint 2</field>
+            <field name="project_id" ref="project_project_2"/>
+            <field name="date_start" eval="(DateTime.today() + relativedelta(weeks=6)).strftime('%Y-%m-%d')"/>
+            <field name="date_stop" eval="(DateTime.today() + relativedelta(weeks=7)).strftime('%Y-%m-%d')"/>
+            <field name="state">open</field> 
+        </record>
+                
 <!-- Tasks -->
 <!--Project 1-->
         <record id="project_task_1" model="project.task">
@@ -56,6 +99,7 @@
             <field name="project_id" ref="project_project_1"/>
             <field name="name">Detecting problems</field>
             <field name="color">3</field>
+            <field name="sprint_id" ref="project_sprint_1"/>
         </record>
       
         <record id="project_task_2" model="project.task">
@@ -66,6 +110,7 @@
             <field name="project_id" ref="project_project_1"/>
             <field name="name">Define layout</field>
             <field name="color">3</field>
+            <field name="sprint_id" ref="project_sprint_2"/>
         </record>
         
 <!--Project 2-->
@@ -77,51 +122,10 @@
             <field name="project_id" ref="project_project_2"/>
             <field name="name">Test Define layout</field>
             <field name="color">3</field>
+            <field name="sprint_id" ref="project_sprint_4"/>
         </record>
         
-<!-- Sprint -->
-<!--Project 1-->
-        <record id="project_sprint_1" model="project.scrum.sprint">
-            <field name="name">Sprint 1</field>
-            <field name="project_id" ref="project_project_1"/>
-            <field name="date_start" eval="time.strftime('2015-02-18')"/>
-            <field name="date_stop" eval="time.strftime('2015-03-24')"/>
-            <field name="state">pending</field> 
-        </record>
-        
-        <record id="project_sprint_2" model="project.scrum.sprint">
-            <field name="name">Sprint 2</field>
-            <field name="project_id" ref="project_project_1"/>
-            <field name="date_start" eval="time.strftime('2015-02-20')"/>
-            <field name="date_stop" eval="time.strftime('2015-03-30')"/>
-            <field name="state">pending</field> 
-        </record>
-        
-        <record id="project_sprint_3" model="project.scrum.sprint">
-            <field name="name">Sprint 3</field>
-            <field name="project_id" ref="project_project_1"/>
-            <field name="date_start" eval="time.strftime('2015-02-20')"/>
-            <field name="date_stop" eval="time.strftime('2015-03-30')"/>
-            <field name="state">open</field> 
-        </record>
 
-<!--Project 2-->
-        <record id="project_sprint_4" model="project.scrum.sprint">
-            <field name="name">Testing Sprint 1</field>
-            <field name="project_id" ref="project_project_2"/>
-            <field name="date_start" eval="time.strftime('2015-02-20')"/>
-            <field name="date_stop" eval="time.strftime('2015-03-30')"/>
-            <field name="state">open</field> 
-        </record>
-        
-        <record id="project_sprint_5" model="project.scrum.sprint">
-            <field name="name">Testing Sprint 2</field>
-            <field name="project_id" ref="project_project_2"/>
-            <field name="date_start" eval="time.strftime('2015-02-20')"/>
-            <field name="date_stop" eval="time.strftime('2015-03-30')"/>
-            <field name="state">open</field> 
-        </record>
-                
 <!-- User Story -->
 <!--Project 1-->
         <record id="project_us_1" model="project.scrum.us">
@@ -182,7 +186,7 @@
             <field name="sprint_id" ref="project_sprint_1"/> 
             <field name="project_id" ref="project_project_1"/>
             <field name="question_yesterday">yesterday is history</field>
-            <field name="question_today">today is pressent</field>
+            <field name="question_today">today is present</field>
             <field name="question_blocks">tomorrow is a mystery</field>
             <field name="name">Meeting 1</field>
             <field name="description">Meeting Scrum Test</field>
@@ -196,7 +200,7 @@
             <field name="project_id" ref="project_project_1"/>
             <field name="question_yesterday">yesterday is a mystery</field>
             <field name="question_today">today is history</field>
-            <field name="question_blocks">tomorrow is a pressent</field>
+            <field name="question_blocks">tomorrow is a present</field>
             <field name="name">Meeting 2</field>
             <field name="description">Meeting Scrum Test 2</field>
         </record>
