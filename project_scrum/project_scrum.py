@@ -21,19 +21,23 @@ class scrum_sprint(models.Model):
             #~ ('date_stop', '>=', date.today()),
             #~ ('project_id', '=', project_id)
             #~ ])
-        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)])
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='date_start')
         i = 0
         sprint = {}
         for s in sprints:
             if fields.Date.from_string(s.date_start) <= date.today() and fields.Date.from_string(s.date_stop) >= date.today():
                 sprint['current'] = s
-                if i == 0 or i == len(sprints) - 1:
+                if i == 0:
                     sprint['prev'] = None
+                else:
+                    sprint['prev'] = sprints[i-1]
+                if i == len(sprints) - 1:
                     sprint['next'] = None
                 else:
-                    sprint['prev'] = sprint[i-1]
-                    sprint['next'] = sprint[i+1]
+                    sprint['next'] = sprints[i+1]
                 return sprint
+            else:
+                i += 1
         return None
 
     def _compute(self):
@@ -230,6 +234,7 @@ class project_task(models.Model):
     current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
     prev_sprint = fields.Boolean(compute='_current_sprint', string='Prev Sprint', search='_search_prev_sprint')
     next_sprint = fields.Boolean(compute='_current_sprint', string='Next Sprint', search='_search_next_sprint')
+    sprint_type = fields.Char(compute='_sprint_type', string='Sprint Type', store=True)
 
     @api.depends('sprint_id')
     @api.one
@@ -258,6 +263,19 @@ class project_task(models.Model):
     def _search_next_sprint(self, operator, value):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
         return [('sprint_id', '=', sprint['next'] and sprint['next'].id or None)]
+
+    @api.one
+    @api.depends('sprint_id')
+    def _sprint_type(self):
+        sprints = self.get_current_sprint(self.project_id)
+        if self.sprint_id.id == sprints['prev'].id:
+            self.sprint_type = _('Previous Sprint')
+        elif self.sprint_id.id == sprints['current'].id:
+            self.sprint_type = _('Current Sprint')
+        elif self.sprint_id.id == sprints['next'].id:
+            self.sprint_type = _('Next Sprint')
+        else:
+            self.sprint_type = None
 
     @api.multi
     def write(self, vals):
@@ -352,6 +370,11 @@ class project_task(models.Model):
         result.sort(lambda x,y: cmp(ids.index(x[0]), ids.index(y[0])))
         return result, {}
 
+    def _get_sprint_type(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
+        ids = self.pool.get('project.sprint.type').search(cr, uid, [], context=context)
+        result = self.pool.get('project.sprint.type').name_get(cr, uid, ids, context=context)
+        return result, {}
+
     try:
         #group_by_full['sprint_id'] = _read_group_sprint_id
         #_group_by_full['us_id'] = _read_group_us_id
@@ -361,6 +384,7 @@ class project_task(models.Model):
             'us_id': _read_group_us_id,
             'stage_id': _read_group_stage_ids,
             'user_id': _read_group_user_id,
+            #~ 'sprint_type': _get_sprint_type,
         }
     except:
         _group_by_full = {
@@ -392,8 +416,6 @@ class scrum_meeting(models.Model):
     question_blocks = fields.Text(string = 'Description', required=False)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
     company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
-
-
 
     def _compute_meeting_name(self):
         if self.project_id:
@@ -492,4 +514,10 @@ class test_case(models.Model):
     _group_by_full = {
         'user_story_id_test': _read_group_us_id,
         }
+    name = fields.Char()
+
+
+class sprint_type(models.Model):
+    _name = 'project.sprint.type'
+
     name = fields.Char()

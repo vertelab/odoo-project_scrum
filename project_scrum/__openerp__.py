@@ -22,6 +22,7 @@ More information:
         'wizard/project_scrum_test_task_view.xml',
         'security/ir.model.access.csv',
         'security/project_security.xml',
+        'project_scrum_data.xml',
        ],
     #'external_dependencies': {
         #'python' : ['bs4'],
