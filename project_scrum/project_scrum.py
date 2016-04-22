@@ -16,14 +16,29 @@ class scrum_sprint(models.Model):
     _order = 'date_start desc'
 
     def get_current_sprint(self, project_id):
-        sprint = self.env['project.scrum.sprint'].search(['&', '&',
-            ('date_start', '<=', date.today()),
-            ('date_stop', '>=', date.today()),
-            ('project_id', '=', project_id)
-            ])
-        if len(sprint) >0:
-            return sprint[0]
+        #~ sprint = self.env['project.scrum.sprint'].search(['&', '&',
+            #~ ('date_start', '<=', date.today()),
+            #~ ('date_stop', '>=', date.today()),
+            #~ ('project_id', '=', project_id)
+            #~ ])
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)])
+        i = 0
+        sprint = {}
+        for s in sprints:
+            if s.date_start <= date.today() and s.date_stop >= date.today():
+                sprint['current'] = s
+                if i == 0:
+                    sprint['prev'] = None
+                else:
+                    sprint['prev'] = sprint[i-1]                    
+                if i == len(sprints):
+                    sprint['next'] = None
+                else:
+                    sprint['next'] = sprint[i+1]
+                return sprint
         return None
+
+
 
     def _compute(self):
         for record in self:
@@ -217,6 +232,8 @@ class project_task(models.Model):
     use_scrum = fields.Boolean(related='project_id.use_scrum')
     description = fields.Html('Description')
     current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
+    prev_sprint = fields.Boolean(compute='_current_sprint', string='Prev Sprint', search='_search_current_sprint')
+    next_sprint = fields.Boolean(compute='_current_sprint', string='Next Sprint', search='_search_current_sprint')
 
     @api.depends('sprint_id')
     @api.one
@@ -225,8 +242,12 @@ class project_task(models.Model):
         #~ _logger.error('Task computed %r' % self)
         if sprint:
             self.current_sprint = sprint.id == self.sprint_id.id
+            self.prev_sprint    = sprint.id == self.sprint_id.id
+            self.next_sprint    = sprint.id == self.sprint_id.id
         else:
             self.current_sprint = False
+            self.prev_sprint = False
+            self.next_sprint = False
             
     def _search_current_sprint(self, operator, value):
         #~ raise Warning('operator %s value %s' % (operator, value))
@@ -234,9 +255,13 @@ class project_task(models.Model):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(project_id)
         #~ raise Warning('sprint %s csprint %s context %s' % (self.sprint_id, sprint, self.env.context))
         _logger.error('Task %r' % self)
-        return [('sprint_id', '=', sprint and sprint.id or None)]
-            
-    
+        return [('sprint_id', '=', sprint['current'] and sprint.id or None)]
+    def _search_prev_sprint(self, operator, value):
+        sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
+        return [('sprint_id', '=', sprint['prev'] and sprint.id or None)]
+    def _search_next_sprint(self, operator, value):
+        sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
+        return [('sprint_id', '=', sprint['next'] and sprint.id or None)]
 
     @api.multi
     def write(self, vals):
