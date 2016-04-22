@@ -12,6 +12,8 @@
           <separator />
           <filter string="Test" name="filte_by_tag" domain="[('categ_ids','ilike','test')]" />
           <filter string="Current Sprint" name="current_sprint" domain="[('current_sprint','=',True)]" />
+          <filter string="Previous Sprint" name="prev_sprint" domain="[('prev_sprint','=',True)]" />
+          <filter string="Next Sprint" name="next_sprint" domain="[('next_sprint','=',True)]" />
         </filter>
         <field name="project_id" position="after">
           <field name="sprint_id" />
@@ -160,13 +162,13 @@
                         <page string="Retrospective">
                             <!--page for retropective-->
                             <field name="retrospective"/>
-                        </page> 
-                    </notebook> 
+                        </page>
+                    </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
-        
+
         <!--sprint calendar view-->
         <record id="view_ps_sprint_calendar" model="ir.ui.view">
             <field name="name">project.scrum.sprint.calendar</field>
@@ -275,13 +277,13 @@
                     </group>
                     <group col="4">
                         <field name="project_id"/>
-						<field name="sprint_ids" widget="many2many_tags"
+                        <field name="sprint_ids" widget="many2many_tags"
                                context="{'default_project_id': project_id,}"
                                domain="[('project_id', '=' , project_id)]"/>
                     </group>
 
                     <notebook colspan="5">
-                    	<page string="Description">
+                        <page string="Description">
                             <field name="description"/>
                         </page>
                         <page string="Tasks">
@@ -628,8 +630,8 @@
       <field name="context">{"search_default_current": 1}</field>
       <field name="search_view_id" ref="view_ps_sprint_search" />
       <field name="help">
-        The scrum agile methodology is used in software development projects. In this methodology, 
-        a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs. 
+        The scrum agile methodology is used in software development projects. In this methodology,
+        a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs.
         The sprint review is organized when the team presents its work to the customer and product owner.
       </field>
     </record>
@@ -649,8 +651,8 @@
       </field>
       <field name="search_view_id" ref="view_ps_sprint_search" />
       <field name="help">
-        The scrum agile methodology is used in software development projects. In this methodology, 
-        a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs. 
+        The scrum agile methodology is used in software development projects. In this methodology,
+        a sprint is a short period of time (e.g. one month) during which the team implements a list of product backlogs.
         The sprint review is organized when the team presents its work to the customer and product owner.
       </field>
     </record>
