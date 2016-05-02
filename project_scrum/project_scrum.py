@@ -267,7 +267,7 @@ class project_task(models.Model):
     @api.one
     @api.depends('sprint_id')
     def _sprint_type(self):
-        sprints = self.get_current_sprint(self.project_id)
+        sprints = self._current_sprint(self.project_id)
         if self.sprint_id.id == sprints['prev'].id:
             self.sprint_type = _('Previous Sprint')
         elif self.sprint_id.id == sprints['current'].id:
