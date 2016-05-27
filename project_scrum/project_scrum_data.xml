@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!--
+    <data noupdate="1">
+-->
+
+        <record id="ps_type_prev" model="project.sprint.type">
+            <field name="name">Previous Sprint</field>
+        </record>
+
+        <record id="ps_type_current" model="project.sprint.type">
+            <field name="name">Current Sprint</field>
+        </record>
+
+        <record id="ps_type_next" model="project.sprint.type">
+            <field name="name">Next Sprint</field>
+        </record>
+
+    </data>
+</openerp>
