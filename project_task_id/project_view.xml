@@ -45,7 +45,7 @@
             <field name="task_no" />
           </field>
           <field name="name" position="replace">
-            <field name="name" filter_domain="[('display_name','ilike',self)]" />
+            <field name="name" filter_domain="['|',('name','ilike',self),('task_no','=',self)]" />
           </field>
 
       </field>
