@@ -15,7 +15,7 @@ class project_project(models.Model):
     def do_renumber_tasks(self):
         if not self.task_no_next:
             self.task_no_next = 0
-        for t in self.tasks.sorted(key=lamda r: r.create_date):
+        for t in self.tasks.sorted(key=lambda r: r.create_date):
 #            if not t.task_no:
             t.project_id.task_no_next += 1
             t.task_no = t.project_id.task_no_next
