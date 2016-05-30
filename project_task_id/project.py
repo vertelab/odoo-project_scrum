@@ -11,7 +11,15 @@ class project_project(models.Model):
 
     task_no_next = fields.Integer(string="Next Task id",help="Counter to get unique ids for tasks")
     
-
+    @api.one
+    def do_renumber_tasks(self):
+        if not self.task_no_next:
+            self.task_no_next = 0
+        for t in self.tasks:
+            if not t.task_no:
+                t.project_id.task_no_next += 1
+                t.task_no = t.project_id.task_no_next
+                
 class project_task(models.Model):
     _inherit = "project.task"
 
@@ -20,9 +28,9 @@ class project_task(models.Model):
         project = self.env['project.project'].browse(self._context.get('default_project_id'))
         if project:
             project.task_no_next += 1
-            return project.task_no_next
+            return str(project.task_no_next)
             
-    task_no = fields.Integer(string="Task id",help="Unique id for this task",default=_next_task_no)
+    task_no = fields.Char(string="Task id",help="Unique id for this task",default=_next_task_no)  # Char makes it easier to search for
          
     @api.multi
     def name_get(self):

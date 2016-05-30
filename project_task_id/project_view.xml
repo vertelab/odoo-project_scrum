@@ -63,5 +63,26 @@
 
       </field>
     </record>
+    
+    <record model="ir.actions.server" id="action_project_task_renumber">
+        <field name="name">Give tasks a number</field>
+        <field name="state">code</field>
+        <field name="condition" eval="True"/>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="code">for o in object.browse(context.get('active_ids', [])):
+    o.do_renumber_tasks()
+        </field>
+    </record>
+
+    <record model="ir.values" id="action_edifact_read_menu">
+        <field name="name">Give tasks a number</field>
+        <field name="model">project.project</field>
+        <field name="key2">client_action_multi</field>
+        <field name="value" eval="'ir.actions.server,%d' % action_project_task_renumber"/>
+    </record>
+
+
+    
+    
   </data>
 </openerp>
