@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class project_project(models.Model):
     _inherit = "project.project"
 
-    task_no_next = fields.Integer(string="Next Task id",help="Counter to get unique ids for tasks")
+    task_no_next = fields.Integer(string="Next Task id",copy=False,help="Counter to get unique ids for tasks")
     
     @api.one
     def do_renumber_tasks(self):
@@ -30,7 +30,7 @@ class project_task(models.Model):
             project.task_no_next += 1
             return str(project.task_no_next)
             
-    task_no = fields.Char(string="Task id",help="Unique id for this task",default=_next_task_no)  # Char makes it easier to search for
+    task_no = fields.Char(string="Task id",help="Unique id for this task",copy=False,default=_next_task_no)  # Char makes it easier to search for
          
     @api.multi
     def name_get(self):
