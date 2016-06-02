@@ -21,7 +21,7 @@ class scrum_sprint(models.Model):
             #~ ('date_stop', '>=', date.today()),
             #~ ('project_id', '=', project_id)
             #~ ])
-        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id)], order='date_start')
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id,)], order='date_start')
         i = 0
         sprint = {}
         for s in sprints:
@@ -256,26 +256,27 @@ class project_task(models.Model):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(project_id)
         #~ raise Warning('sprint %s csprint %s context %s' % (self.sprint_id, sprint, self.env.context))
         _logger.error('Task %r' % self)
-        return [('sprint_id', '=', sprint['current'] and sprint['current'].id or None)]
+        return [('sprint_id', '=', sprint and sprint['current'] and sprint['current'].id or None)]
     def _search_prev_sprint(self, operator, value):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
-        return [('sprint_id', '=', sprint['prev'] and sprint['prev'].id or None)]
+        return [('sprint_id', '=', sprint and sprint['prev'] and sprint['prev'].id or None)]
     def _search_next_sprint(self, operator, value):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
-        return [('sprint_id', '=', sprint['next'] and sprint['next'].id or None)]
+        return [('sprint_id', '=', sprint and sprint['next'] and sprint['next'].id or None)]
 
     @api.one
     @api.depends('sprint_id')
     def _sprint_type(self):
-        sprints = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
-        if self.sprint_id.id == sprints['prev'].id:
-            self.sprint_type = _('Previous Sprint')
-        elif self.sprint_id.id == sprints['current'].id:
-            self.sprint_type = _('Current Sprint')
-        elif self.sprint_id.id == sprints['next'].id:
-            self.sprint_type = _('Next Sprint')
-        else:
-            self.sprint_type = None
+        if self.use_scrum:
+            sprints = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
+            if sprints and sprints['prev'] and self.sprint_id.id == sprints['prev'].id:
+                self.sprint_type = _('Previous Sprint')
+            elif sprints and sprints['current'] and self.sprint_id.id == sprints['current'].id:
+                self.sprint_type = _('Current Sprint')
+            elif sprints and sprints['next'] and self.sprint_id.id == sprints['next'].id:
+                self.sprint_type = _('Next Sprint')
+            else:
+                self.sprint_type = None
 
     @api.multi
     def write(self, vals):
