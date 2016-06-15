@@ -164,6 +164,9 @@
                             <!--page for retropective-->
                             <field name="retrospective"/>
                         </page>
+                        <page string="Time Report">
+                            <field name="task_ids"/>
+                        </page>
                     </notebook>
                     </sheet>
                 </form>
