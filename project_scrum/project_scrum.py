@@ -25,7 +25,7 @@ class scrum_sprint(models.Model):
         i = 0
         sprint = {}
         for s in sprints:
-            if fields.Date.from_string(s.date_start) <= date.today() and fields.Date.from_string(s.date_stop) >= date.today():
+            if s.date_start and fields.Date.from_string(s.date_start) <= date.today() and s.date_stop and fields.Date.from_string(s.date_stop) >= date.today():
                 sprint['current'] = s
                 if i == 0:
                     sprint['prev'] = None
