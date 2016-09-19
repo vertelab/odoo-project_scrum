@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="project_task_sequence" model="ir.config_parameter">
+            <field name="key">project.task_sequence</field>
+            <field name="value">0</field>
+        </record>
+        <record id="sequence_project_task" model="ir.sequence">
+            <field name="name">Task Sequence</field>
+        </record>
+    </data>
+</openerp>
