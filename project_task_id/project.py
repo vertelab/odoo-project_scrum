@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -13,12 +14,15 @@ class project_project(models.Model):
 
     @api.one
     def do_renumber_tasks(self):
-        if not self.task_no_next:
-            self.task_no_next = 0
-        for t in self.tasks.sorted(key=lambda r: r.create_date):
-#            if not t.task_no:
-            t.project_id.task_no_next += 1
-            t.task_no = t.project_id.task_no_next
+        if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) == 0:
+            if not self.task_no_next:
+                self.task_no_next = 0
+            for t in self.tasks.sorted(key=lambda r: r.create_date):
+                #~ if not t.task_no:
+                t.project_id.task_no_next += 1
+                t.task_no = t.project_id.task_no_next
+        else:
+            raise Warning('You are using same task sequence for all projects. This action cannot be completed.')
 
 class project_task(models.Model):
     _inherit = "project.task"
