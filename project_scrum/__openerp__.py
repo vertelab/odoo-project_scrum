@@ -7,7 +7,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '1.6',
+    'version': '1.7',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in a team.

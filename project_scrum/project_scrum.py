@@ -12,6 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class scrum_sprint(models.Model):
     _name = 'project.scrum.sprint'
+    _inherit = ['mail.thread']
     _description = 'Project Scrum Sprint'
     _order = 'date_start desc'
 
@@ -89,8 +90,8 @@ class scrum_sprint(models.Model):
     name = fields.Char(string = 'Sprint Name', required=True)
     meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
-    date_start = fields.Date(string = 'Starting Date', default=fields.Date.today())
-    date_stop = fields.Date(string = 'Ending Date')
+    date_start = fields.Date(string = 'Starting Date', default=fields.Date.today(), track_visibility='onchange')
+    date_stop = fields.Date(string = 'Ending Date', track_visibility='onchange')
     date_duration = fields.Integer(compute = '_compute', string = 'Duration(in hours)')
     description = fields.Text(string = 'Description', required=False)
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',
@@ -116,6 +117,17 @@ class scrum_sprint(models.Model):
     planned_hours = fields.Float(multi="planned_hours", string='Planned Hours', help='Estimated time to do the task, usually set by the project manager when the task is in draft state.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
     company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+
+    # return all task works from current sprint
+    @api.one
+    @api.depends('task_ids')
+    def _task_work_ids(self):
+        works = []
+        for t in self.task_ids:
+            for w in t.work_ids:
+                works.append(w.id)
+        self.task_work_ids = [(6, 0, works)]
+    task_work_ids = fields.One2many(comodel_name='project.task.work', compute='_task_work_ids')
 
     # Compute: effective_hours, total_hours, progress
     @api.one
