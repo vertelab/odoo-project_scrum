@@ -4,7 +4,7 @@
         <template id="assets_backend" name="module_name assets" inherit_id="web.assets_backend">
             <xpath expr="//link[last()]" position="after">
                 <style>
-                    .list_module  { width: 50% !important; }
+                    .list_module  { width: 58% !important; overflow-wrap: break-word; }
                 </style>
             </xpath>
         </template>
