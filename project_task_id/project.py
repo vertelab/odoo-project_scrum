@@ -26,7 +26,30 @@ class project_project(models.Model):
 
 class project_task(models.Model):
     _inherit = "project.task"
-
+        
+    @api.multi
+    @api.depends('project_id')
+    def _new_task_no(self):
+        if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) == 0:  # Sequence on each project
+            old_task_no = self.task_no
+            self.project_id.task_no_next += 1
+            self.task_no = self.project_id.task_no_next
+            id = self.env['mail.message'].create({
+                    'body': _("Old Task ID %s\nNew Task ID %s" % (old_task_no,self.task_no)),
+                    'subject': "New Task ID",
+                    'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
+                    'res_id': self.id,
+                    'model': self._name,
+                    'type': 'notification',})
+        else:
+            id = self.env['mail.message'].create({
+                    'body': _("New Task ID %s" % (self.task_no)),
+                    'subject': "Nothing changed",
+                    'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
+                    'res_id': self.id,
+                    'model': self._name,
+                    'type': 'notification',})
+        
     @api.model
     def _next_task_no(self):
         if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) > 0:
