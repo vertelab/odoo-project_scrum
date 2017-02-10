@@ -37,6 +37,7 @@ class project_task(models.Model):
                     #~ 'body': _("Old Task ID %s\nNew Task ID %s" % (old_task_no,self.task_no)),
                     #~ 'subject': "New Task ID",
                     #~ 'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
+                    #~ 'partner_ids': [(6, 0, self._get_followers(False, False)[self.id]['message_follower_ids'])],
                     #~ 'res_id': self.id,
                     #~ 'model': self._name,
                     #~ 'type': 'notification',}
