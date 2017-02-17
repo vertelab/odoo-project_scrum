@@ -18,7 +18,7 @@ class scrum_sprint(models.Model):
         for t in self.task_ids:
             for m in t.module_ids:
                 modules.append(m.name)
-                if get_module_path(m.name).split('/')[-2] not in module_path:
+                if m.name.index('/') and get_module_path(m.name).split('/')[-2] not in module_path:
                     module_path.add(get_module_path(m.name).split('/')[-2])
         self.git_projects = ','.join(m for m in module_path)
         self.modules = ','.join(m for m in modules)
