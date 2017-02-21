@@ -1,0 +1,162 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* hr_payroll_messagemenu
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20170102\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-09 15:50+0000\n"
+"PO-Revision-Date: 2017-01-09 15:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_payroll_messagemenu
+#: model:ir.actions.act_window,help:hr_payroll_messagemenu.open_ask_holidays
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to create a new leave request.\n"
+"              </p><p>\n"
+"                Once you have recorded your leave request, it will be sent\n"
+"                to a manager for validation. Be sure to set the right leave\n"
+"                type (recuperation, legal holidays, sickness) and the exact\n"
+"                number of open days related to your leave.\n"
+"              </p>\n"
+"            "
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: model:ir.actions.act_window,name:hr_payroll_messagemenu.action_account_financial_report_tree
+#: model:ir.ui.menu,name:hr_payroll_messagemenu.menu_account_financial_reports_tree
+msgid "Change Project"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: view:messagemenu.change_project:hr_payroll_messagemenu.act_messagemenu_change_project
+msgid "Close"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: field:messagemenu.change_project,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: field:messagemenu.change_project,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: field:messagemenu.change_project,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: field:messagemenu.change_project,id:0
+msgid "ID"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: field:messagemenu.change_project,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: field:messagemenu.change_project,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: field:messagemenu.change_project,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: model:ir.ui.menu,name:hr_payroll_messagemenu.msg_menu_act_hr_timesheet_sheet_form_my_current
+msgid "My Current Timesheet"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: model:ir.actions.act_window,name:hr_payroll_messagemenu.open_ask_holidays
+#: model:ir.ui.menu,name:hr_payroll_messagemenu.menu_open_ask_holidays_new
+msgid "My Leave Requests"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: help:messagemenu.change_project,project_id:0
+msgid "My projects"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: view:messagemenu.change_project:hr_payroll_messagemenu.act_messagemenu_change_project
+#: field:messagemenu.change_project,project_id:0
+msgid "Project"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: code:addons/hr_payroll_messagemenu/hr_payroll_messagemenu.py:77
+#, python-format
+msgid "There is no active attendance"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: model:ir.ui.menu,name:hr_payroll_messagemenu.msg_menu_time_report
+msgid "Time Report"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: model:ir.model,name:hr_payroll_messagemenu.model_hr_timesheet_sheet_sheet
+msgid "Timesheet"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: model:ir.filters,name:hr_payroll_messagemenu.timesheet_validation_filter
+msgid "Timesheet Validation Finished"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: model:ir.actions.server,name:hr_payroll_messagemenu.timesheet_validation_message_action
+msgid "Timesheet Validation Message Action"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: field:hr_timesheet_sheet.sheet,website_message_ids:0
+msgid "Website Messages"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: help:hr_timesheet_sheet.sheet,website_message_ids:0
+msgid "Website communication history"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: code:addons/hr_payroll_messagemenu/hr_payroll_messagemenu.py:40
+#, python-format
+msgid "Week "
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: code:addons/hr_payroll_messagemenu/hr_payroll_messagemenu.py:58
+#, python-format
+msgid "You cannot %s twice"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: code:addons/hr_payroll_messagemenu/hr_payroll_messagemenu.py:51
+#, python-format
+msgid "You lack employment, please contact your HR-officer"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: view:messagemenu.change_project:hr_payroll_messagemenu.act_messagemenu_change_project
+msgid "_Change Project"
+msgstr ""
+
+#. module: hr_payroll_messagemenu
+#: view:messagemenu.change_project:hr_payroll_messagemenu.act_messagemenu_change_project
+msgid "or"
+msgstr ""
+

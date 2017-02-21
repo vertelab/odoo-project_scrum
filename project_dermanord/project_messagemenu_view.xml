@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    
+    
+    
+        <record id="action_marketing_project" model="ir.actions.act_window">
+            <field name="name">Marketing Calendar</field>
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,tree,form,graph,kanban</field>
+            <field name="domain" eval="[('project_id','=',ref('project_dermanord.project_marketing'))]"/>
+             <field name="context" eval="{'search_default_project_id': ref('project_dermanord.project_marketing'),'default_project_id': ref('project_dermanord.project_marketing')}"/>
+            <field name="filter" eval="True"/>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+        </record>
+
+        <menuitem name="Marketing" id="menu_marketing_project" action="action_marketing_project" parent="mail.mail_my_stuff"  sequence="91"/>
+
+        <record id="action_facebook_project" model="ir.actions.act_window">
+            <field name="name">Facebook Calendar</field>
+            <field name="res_model">project.task</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,tree,form,graph,kanban</field>
+            <field name="domain" eval="[('project_id','=',ref('project_dermanord.project_facebook'))]"/>
+             <field name="context" eval="{'search_default_project_id': ref('project_dermanord.project_facebook'),'default_project_id': ref('project_dermanord.project_facebook')}"/>
+            <field name="filter" eval="True"/>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+        </record>
+
+        <menuitem name="Facebook" id="menu_facebook_project" action="action_facebook_project" parent="mail.mail_my_stuff"  sequence="92"/>
+
+
+  </data>
+</openerp>
