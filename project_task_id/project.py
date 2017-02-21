@@ -26,30 +26,32 @@ class project_project(models.Model):
 
 class project_task(models.Model):
     _inherit = "project.task"
-        
+
     @api.multi
-    @api.depends('project_id')
     def _new_task_no(self):
         if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) == 0:  # Sequence on each project
             old_task_no = self.task_no
             self.project_id.task_no_next += 1
-            self.task_no = self.project_id.task_no_next
-            id = self.env['mail.message'].create({
-                    'body': _("Old Task ID %s\nNew Task ID %s" % (old_task_no,self.task_no)),
-                    'subject': "New Task ID",
-                    'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
-                    'res_id': self.id,
-                    'model': self._name,
-                    'type': 'notification',})
-        else:
-            id = self.env['mail.message'].create({
-                    'body': _("New Task ID %s" % (self.task_no)),
-                    'subject': "Nothing changed",
-                    'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
-                    'res_id': self.id,
-                    'model': self._name,
-                    'type': 'notification',})
-        
+            self.task_no = str(self.project_id.task_no_next)
+            #~ vals = {
+                    #~ 'body': _("Old Task ID %s\nNew Task ID %s" % (old_task_no,self.task_no)),
+                    #~ 'subject': "New Task ID",
+                    #~ 'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
+                    #~ 'partner_ids': [(6, 0, self._get_followers(False, False)[self.id]['message_follower_ids'])],
+                    #~ 'res_id': self.id,
+                    #~ 'model': self._name,
+                    #~ 'type': 'notification',}
+            #~ _logger.warn(vals)
+            #~ id = self.env['mail.message'].create(vals)
+        #~ else:
+            #~ id = self.env['mail.message'].create({
+                    #~ 'body': _("New Task ID %s" % (self.task_no)),
+                    #~ 'subject': "Nothing changed",
+                    #~ 'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
+                    #~ 'res_id': self.id,
+                    #~ 'model': self._name,
+                    #~ 'type': 'notification',})
+
     @api.model
     def _next_task_no(self):
         if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) > 0:
@@ -69,6 +71,16 @@ class project_task(models.Model):
             result.append((s.id,'[%s] %s' %(s.task_no,s.name)))
         #raise Warning(result)
         return result
+
+    @api.cr_uid_ids_context
+    def onchange_project(self, cr, uid, id, project_id, context=None):
+        res = super(project_task, self).onchange_project(cr, uid, id, project_id, context)
+        if id:
+            task = self.browse(cr, uid, id, context=context)
+            task.project_id = project_id
+            task._new_task_no()
+            res['value']['task_no'] = task.task_no
+        return res
 
 class project_configuration(models.TransientModel):
     _inherit = 'project.config.settings'
