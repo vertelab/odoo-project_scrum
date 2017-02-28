@@ -29,6 +29,6 @@
 'author': 'Vertel AB',
 'website': 'http://www.vertel.se',
 'depends': ['project',],
-'data': ['project_messagemenu_view.xml', 'project_messagemenu_data.xml',],
+'data': ['project_messagemenu_data.xml', 'project_messagemenu_view.xml',],
 'installable': True,
 }
