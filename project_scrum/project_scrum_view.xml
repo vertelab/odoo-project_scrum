@@ -810,15 +810,19 @@
           <field string="User Story" name= "us_id"  attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" />
         </field>
       </field>
-    </record>
+  </record>
+    <!--main scrum menu -->
+
+    <menuitem sequence="3" name="Scrum"  id="menu_scrum_all" parent="base.menu_main_pm" />
+
     <!--menu for accessing to userstories-->
-    <menuitem sequence="20" action="action_ps_us_all" id="menu_action_ps_us_all" parent="menu_scrum_in_config" />
+    <menuitem sequence="20" action="action_ps_us_all" id="menu_action_ps_us_all" parent="menu_scrum_all" />
     <!--menu for accessing to sprint-->
-    <menuitem sequence="21" action="action_ps_sprint_all" id="menu_action_ps_sprint_all" parent="menu_scrum_in_config" />
+    <menuitem sequence="21" action="action_ps_sprint_all" id="menu_action_ps_sprint_all" parent="menu_scrum_all" />
     <!--menu for accessing to meeting-->
-    <menuitem sequence="22" action="action_ps_meeting_all" id="menu_action_ps_meeting_all" parent="menu_scrum_in_config" />
+    <menuitem sequence="22" action="action_ps_meeting_all" id="menu_action_ps_meeting_all" parent="menu_scrum_all" />
     <!-- menu for accessing to test case-->
-    <menuitem sequence="23" action="action_ps_tc_all" id="menu_action_ps_tc_all" parent="menu_scrum_in_config" />
+    <menuitem sequence="23" action="action_ps_tc_all" id="menu_action_ps_tc_all" parent="menu_scrum_all" />
     <!--user stories and sprints can be seen in project kanban view-->
     <record id="view_ps_kanban" model="ir.ui.view">
       <field name="name">project.scrum.project.kanban</field>
