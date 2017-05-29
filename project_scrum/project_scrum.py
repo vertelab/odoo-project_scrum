@@ -1,5 +1,23 @@
 # -*- coding: utf-8 -*-
-
+##############################################################################
+#
+# OpenERP, Open Source Management Solution, third party addon
+# Copyright (C) 2014- Vertel AB (<http://vertel.se>).
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
 from openerp import models, fields, api, _
 #from bs4 import BeautifulSoup
 import openerp.tools
@@ -52,12 +70,7 @@ class scrum_sprint(models.Model):
             else:
                 record.date_duration = 0
 
-    def _compute_progress(self):
-        for record in self:
-            if record.planned_hours and record.effective_hours and record.planned_hours != 0:
-                record.progress = record.effective_hours / record.planned_hours * 100
-            else:
-                record.progress = 0
+
 
     def time_cal(self):
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
@@ -92,6 +105,12 @@ class scrum_sprint(models.Model):
     user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
     date_start = fields.Date(string = 'Starting Date', default=fields.Date.today(), track_visibility='onchange')
     date_stop = fields.Date(string = 'Ending Date', track_visibility='onchange')
+    def _compute_progress(self):
+        for record in self:
+            if record.planned_hours and record.effective_hours and record.planned_hours != 0:
+                record.progress = record.effective_hours / record.planned_hours * 100
+            else:
+                record.progress = 0
     date_duration = fields.Integer(compute = '_compute', string = 'Duration(in hours)')
     description = fields.Text(string = 'Description', required=False)
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',

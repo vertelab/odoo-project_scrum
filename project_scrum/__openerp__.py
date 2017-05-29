@@ -10,8 +10,8 @@
     'version': '1.7',
     'category': 'Project Management',
     'description': """
-Using Scrum to plan the work in a team.
-=========================================================================================================
+Using Scrum to plan the work in a team
+======================================
 
 More information:
     """,
@@ -20,6 +20,7 @@ More information:
     'depends': ['project', 'mail'],
     'data': ['project_scrum_view.xml',
         'wizard/project_scrum_test_task_view.xml',
+        'wizard/project_scrum_create_iterations.xml',
         'security/ir.model.access.csv',
         'security/project_security.xml',
         'project_scrum_data.xml',
