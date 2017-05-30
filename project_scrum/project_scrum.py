@@ -34,6 +34,89 @@ class scrum_sprint(models.Model):
     _description = 'Project Scrum Sprint'
     _order = 'date_start desc'
 
+    name = fields.Char(string = 'Sprint Name', required=True)
+    meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
+    #~ user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
+    date_start = fields.Date(string = 'Starting Date', default=fields.Date.today(), track_visibility='onchange')
+    date_stop = fields.Date(string = 'Ending Date', track_visibility='onchange')
+
+    @api.one
+    def _progress(self):
+        if self.planned_hours and self.effective_hours:
+            self.progress = self.effective_hours / self.planned_hours * 100
+    progress = fields.Float(compute="_progress", group_operator="avg", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
+
+    def time_cal(self):
+        diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
+        if diff.days <= 0:
+            return 1
+        return diff.days + 1
+
+    @api.one
+    def _date_duration(self):
+        if self.date_start and self.date_stop:
+            if date.today() >= fields.Date.from_string(self.date_stop):
+                self.date_duration = self.time_cal() * 9
+            else:
+                self.date_duration = (date.today() - fields.Date.from_string(self.date_start)).days * 9
+        else:
+            self.date_duration = 0
+    date_duration = fields.Integer(compute = '_date_duration', string = 'Duration(in hours)')
+    
+    description = fields.Text(string = 'Description', required=False)
+    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',
+        change_default=True, required=True, help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
+    #~ product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
+    #~ scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
+    us_ids = fields.Many2many(comodel_name = 'project.scrum.us', string = 'User Stories')
+    @api.one
+    def _task_ids(self):
+        self.task_ids = self.env['project.task'].search([('sprint_ids','in',self.id)])
+        self.task_count = len(self.task_ids)
+    task_ids = fields.Many2many(comodel_name = 'project.task', _compute='_task_ids')
+    task_count = fields.Integer(compute = '_task_ids')
+    #task_test_count = fields.Integer(compute = '_task_test_count')
+    review = fields.Html(string = 'Sprint Review', default="""
+        <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>Has the goal been reached?</ul></h1><br/><br/>
+    """)
+    retrospective = fields.Html(string = 'Sprint Retrospective', default="""
+        <h1 style="color:blue"><ul>What will you start doing in next sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>What will you stop doing in next sprint?</ul></h1><br/><br/>
+        <h1 style="color:blue"><ul>What will you continue doing in next sprint?</ul></h1><br/><br/>
+    """)
+    #~ @api.one
+    #~ @api.depends('date_start')
+    #~ def _sequence(self):
+        #~ self.sequence = self.env['project.scrum.spint'].search([('project_id','=',self.project_id.id)],order='date_start').mapped('id').index(self.id)
+    #~ sequence = fields.Integer('Sequence', compute="_sequence",help="Gives the sequence order when displaying a list of sprints.",store=True)
+    # Compute: effective_hours, total_hours, progress
+    @api.one
+    def _task_work_ids(self):
+        self.task_work_ids = [(6, 0,self.env['project.task.work'].search([('date','>=',self.date_start),('date','<=',self.date_stop)]).mapped('id'))]
+    task_work_ids = fields.One2many(comodel_name='project.task.work', compute='_task_work_ids')
+
+    @api.one
+    def _hours_get(self):
+        self.effective_hours = sum(self.task_work_ids.mapped('hours'))
+    effective_hours = fields.Float(compute="_hours_get", string='Effective hours', help="Computed using the sum of the task work done.")
+    planned_hours = fields.Float(string='Planned Hours',group_operator="sum", help='Estimated time to do the task, usually set by the project manager when the task is in draft state.')
+    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
+    #~ company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+
+    @api.onchange('project_id')
+    def onchange_project_id(self):
+        if self.project_id and self.project_id.manhours:
+            self.planned_hours = self.project_id.manhours
+        else:
+            self.planned_hours = 0.0
+
+    @api.onchange('date_start')
+    def onchange_date_start(self):
+        if self.date_start:
+            if self.project_id:
+                self.date_stop = fields.Date.from_string(self.date_start) + timedelta(days=self.project_id.default_sprintduration)
+
     def get_current_sprint(self, project_id):
         #~ sprint = self.env['project.scrum.sprint'].search(['&', '&',
             #~ ('date_start', '<=', date.today()),
@@ -59,25 +142,6 @@ class scrum_sprint(models.Model):
                 i += 1
         return None
 
-    def _compute(self):
-        for record in self:
-            if record.date_start and record.date_stop:
-                record.progress = float((date.today() - fields.Date.from_string(record.date_start)).days) / float(record.time_cal()) * 100
-                if date.today() >= fields.Date.from_string(record.date_stop):
-                    record.date_duration = record.time_cal() * 9
-                else:
-                    record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days * 9
-            else:
-                record.date_duration = 0
-
-
-
-    def time_cal(self):
-        diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
-        if diff.days <= 0:
-            return 1
-        return diff.days + 1
-
     def test_task(self, cr, uid, sprint, pool):
         tags = pool.get('project.category').search(cr,uid,[('name', '=', 'test')])  # search tags with name "test"
         if len(tags)==0:    # if not exist, then creat a "test" tag into category
@@ -90,93 +154,6 @@ class scrum_sprint(models.Model):
                 'sprint_id': sprint.id,
                 'categ_ids': [(6,_,tags)],
                 })
-
-    #def _task_count(self):    # method that calculate how many tasks exist
-        #for p in self:
-            #p.task_count = len(p.task_ids)
-
-    #def _task_test_count(self):    # method that calculate how many tasks in testing exist
-        #task = self.env['project.task'].search([('categ_ids','ilike','test')])
-        #for p in self:
-            #p.task_test_count = len(p.task_test_ids)
-
-    name = fields.Char(string = 'Sprint Name', required=True)
-    meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
-    user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
-    date_start = fields.Date(string = 'Starting Date', default=fields.Date.today(), track_visibility='onchange')
-    date_stop = fields.Date(string = 'Ending Date', track_visibility='onchange')
-    def _compute_progress(self):
-        for record in self:
-            if record.planned_hours and record.effective_hours and record.planned_hours != 0:
-                record.progress = record.effective_hours / record.planned_hours * 100
-            else:
-                record.progress = 0
-    date_duration = fields.Integer(compute = '_compute', string = 'Duration(in hours)')
-    description = fields.Text(string = 'Description', required=False)
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null', select=True, track_visibility='onchange',
-        change_default=True, required=True, help="If you have [?] in the project name, it means there are no analytic account linked to this project.")
-    product_owner_id = fields.Many2one(comodel_name = 'res.users', string = 'Product Owner', required=False,help="The person who is responsible for the product")
-    scrum_master_id = fields.Many2one(comodel_name = 'res.users', string = 'Scrum Master', required=False,help="The person who is maintains the processes for the product")
-    us_ids = fields.Many2many(comodel_name = 'project.scrum.us', string = 'User Stories')
-    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'sprint_id')
-    #task_count = fields.Integer(compute = '_task_count')
-    #task_test_count = fields.Integer(compute = '_task_test_count')
-    review = fields.Html(string = 'Sprint Review', default="""
-        <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
-        <h1 style="color:blue"><ul>Has the goal been reached?</ul></h1><br/><br/>
-    """)
-    retrospective = fields.Html(string = 'Sprint Retrospective', default="""
-        <h1 style="color:blue"><ul>What will you start doing in next sprint?</ul></h1><br/><br/>
-        <h1 style="color:blue"><ul>What will you stop doing in next sprint?</ul></h1><br/><br/>
-        <h1 style="color:blue"><ul>What will you continue doing in next sprint?</ul></h1><br/><br/>
-    """)
-    sequence = fields.Integer('Sequence', help="Gives the sequence order when displaying a list of tasks.")
-    progress = fields.Float(compute="_compute_progress", group_operator="avg", type='float', multi="progress", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
-    effective_hours = fields.Float(compute="_hours_get", multi="effective_hours", string='Effective hours', help="Computed using the sum of the task work done.")
-    planned_hours = fields.Float(multi="planned_hours", string='Planned Hours', help='Estimated time to do the task, usually set by the project manager when the task is in draft state.')
-    state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
-    company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
-
-    # return all task works from current sprint
-    @api.one
-    @api.depends('task_ids')
-    def _task_work_ids(self):
-        works = []
-        for t in self.task_ids:
-            for w in t.work_ids:
-                works.append(w.id)
-        self.task_work_ids = [(6, 0, works)]
-    task_work_ids = fields.One2many(comodel_name='project.task.work', compute='_task_work_ids')
-
-    # Compute: effective_hours, total_hours, progress
-    @api.one
-    def _hours_get(self):
-        res = {}
-        effective_hours = 0.0
-        planned_hours = 0.0
-        for task in self.task_ids:
-            effective_hours += task.effective_hours or 0.0
-            planned_hours += task.planned_hours or 0.0
-        self.effective_hours = effective_hours
-        # self.planned_hours = planned_hours
-        return True
-
-
-    @api.onchange('project_id')
-    def onchange_project_id(self):
-        if self.project_id and self.project_id.manhours:
-            self.planned_hours = self.project_id.manhours
-        else:
-            self.planned_hours = 0.0
-
-    @api.onchange('date_start')
-    def onchange_date_start(self):
-        if self.date_start:
-            if self.project_id:
-                self.date_stop = fields.Date.from_string(self.date_start) + timedelta(days=self.project_id.default_sprintduration)
-        else:
-            pass
-
 
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
@@ -256,17 +233,13 @@ class project_task(models.Model):
 
     user_id = fields.Many2one('res.users', 'Assigned to', select=True, track_visibility='onchange', default="")
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
-    sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
     date_start = fields.Date(string = 'Starting Date', required=False, default=date.today())
     date_end = fields.Date(string = 'Ending Date', required=False)
     use_scrum = fields.Boolean(related='project_id.use_scrum')
     description = fields.Html('Description')
-    current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
-    prev_sprint = fields.Boolean(compute='_current_sprint', string='Prev Sprint', search='_search_prev_sprint')
-    next_sprint = fields.Boolean(compute='_current_sprint', string='Next Sprint', search='_search_next_sprint')
-    sprint_type = fields.Char(compute='_sprint_type', string='Sprint Type', store=True)
-
+    sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint',track_visibility='onchange')
+    sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint',string="Sprints")
     @api.depends('sprint_id')
     @api.one
     def _current_sprint(self):
@@ -280,6 +253,25 @@ class project_task(models.Model):
             self.current_sprint = False
             self.prev_sprint = False
             self.next_sprint = False
+    current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
+    prev_sprint = fields.Boolean(compute='_current_sprint', string='Prev Sprint', search='_search_prev_sprint')
+    next_sprint = fields.Boolean(compute='_current_sprint', string='Next Sprint', search='_search_next_sprint')
+    @api.one
+    @api.depends('sprint_id')
+    def _sprint_type(self):
+        if self.use_scrum:
+            sprints = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
+            if sprints and sprints['prev'] and self.sprint_id.id == sprints['prev'].id:
+                self.sprint_type = _('Previous Sprint')
+            elif sprints and sprints['current'] and self.sprint_id.id == sprints['current'].id:
+                self.sprint_type = _('Current Sprint')
+            elif sprints and sprints['next'] and self.sprint_id.id == sprints['next'].id:
+                self.sprint_type = _('Next Sprint')
+            else:
+                self.sprint_type = None
+    sprint_type = fields.Char(compute='_sprint_type', string='Sprint Type', store=True)
+
+
 
     def _search_current_sprint(self, operator, value):
         #~ raise Warning('operator %s value %s' % (operator, value))
@@ -295,33 +287,35 @@ class project_task(models.Model):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
         return [('sprint_id', '=', sprint and sprint['next'] and sprint['next'].id or None)]
 
-    @api.one
-    @api.depends('sprint_id')
-    def _sprint_type(self):
-        if self.use_scrum:
-            sprints = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
-            if sprints and sprints['prev'] and self.sprint_id.id == sprints['prev'].id:
-                self.sprint_type = _('Previous Sprint')
-            elif sprints and sprints['current'] and self.sprint_id.id == sprints['current'].id:
-                self.sprint_type = _('Current Sprint')
-            elif sprints and sprints['next'] and self.sprint_id.id == sprints['next'].id:
-                self.sprint_type = _('Next Sprint')
-            else:
-                self.sprint_type = None
 
     @api.multi
     def write(self, vals):
         if vals.get('stage_id') == self.env.ref('project.project_tt_deployment').id:
             vals['date_end'] = fields.datetime.now()
+        #~ raise Warning(vals,self)
+        _logger.warn('Adds sprint_id %s pre pre' % vals.get('sprint_id'))
+        if vals.get('sprint_id'):
+            if not  self.sprint_ids or not vals.get('sprint_id') in self.sprint_ids.mapped('id'):
+                _logger.warn('Adds sprint_id %s pre' % vals.get('sprint_id'))
+                self.sprint_ids = [(4,vals.get('sprint_id'),0)]
+                _logger.warn('Adds sprint_id %s' % vals.get('sprint_id'))
         return super(project_task, self).write(vals)
-
+    
     @api.model
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
         project = self.env['project.project'].browse(self._resolve_project_id_from_context())
 
         if project.use_scrum:
-            sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project.id)], order='sequence').name_get()
-            return sprints, None
+            sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project.id)], order='date_start')
+            sprint_names = sprints.name_get()
+            fold = {s.id: True if s.date_stop <= fields.Date.to_string(date.today()) else False for s in sprints}
+            i = 0
+            for k in sprints.mapped('id'):
+                if not fold[k]:
+                    i += 1
+                if i > 4:
+                    fold[k] = True
+            return sprint_names,fold
         else:
             return [], None
 
@@ -494,6 +488,12 @@ class project(models.Model):
     default_sprintduration = fields.Integer(string = 'Calendar', required=False, default=14,help="Default Sprint time for this project, in days")
     manhours = fields.Integer(string = 'Man Hours', required=False,help="How many hours you expect this project needs before it's finished")
 
+    @api.one
+    @api.depends('sprint_ids')
+    def _planned_hours(self):
+        _logger.warn(self.sprint_ids)
+        self.planned_hours = sum(self.sprint_ids.mapped('planned_hours'))
+    planned_hours = fields.Float(compute='_planned_hours',store=True)
 
     def _sprint_count(self):    # method that calculate how many sprints exist
         for p in self:
