@@ -917,6 +917,7 @@
     </record>
     
     <!-- project.task -->
+<!--
             <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
             <field name="name">Tasks</field>
             <field name="res_model">project.task</field>
@@ -936,6 +937,7 @@
                 </p>
             </field>
         </record>
+-->
 <!--
             <record id="action_view_task" model="ir.actions.act_window">
             <field name="name">Tasks</field>
