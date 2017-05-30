@@ -1,2 +1,2 @@
 import project_scrum_test_task
-import project_scrum_create_iterations
+import project_scrum_create_sprints
