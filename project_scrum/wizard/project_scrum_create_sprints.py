@@ -47,7 +47,7 @@ class project(models.Model):
         
         sprints = []
         last_sprint = project.sprint_ids.sorted(lambda s: s.date_start)[-1] if project.sprint_ids else None
-        _logger.debug('%s : %s' % (last_sprint,last_sprint.date_stop))
+        _logger.debug('%s : %s' % (last_sprint,last_sprint.date_stop if last_sprint else None))
         date_stop = fields.Date.from_string(last_sprint.date_stop if last_sprint else fields.Date.to_string(date.today() - timedelta(days=date.today().weekday()+1)))
         while date_stop < fields.Date.from_string(project.date):
             name = (date_stop + timedelta(days=1)).strftime('v%y%W')

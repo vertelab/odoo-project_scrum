@@ -123,7 +123,8 @@ class scrum_sprint(models.Model):
             #~ ('date_stop', '>=', date.today()),
             #~ ('project_id', '=', project_id)
             #~ ])
-        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id,)], order='date_start')
+        project = self.env['project.project'].browse(project_id)
+        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id),('date_start','<',date.today()-timedelta(days=project.default_sprintduration*2 if project else 14)),('date_stop','>',date.today()+timedelta(days=project.default_sprintduration if project else 7))], order='date_start')
         i = 0
         sprint = {}
         for s in sprints:
@@ -243,24 +244,31 @@ class project_task(models.Model):
     @api.depends('sprint_id')
     @api.one
     def _current_sprint(self):
-        sprint = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
-        #~ _logger.error('Task computed %r' % self)
-        if sprint:
-            self.current_sprint = sprint.id == self.sprint_id.id
-            self.prev_sprint    = sprint.id == self.sprint_id.id
-            self.next_sprint    = sprint.id == self.sprint_id.id
-        else:
-            self.current_sprint = False
-            self.prev_sprint = False
-            self.next_sprint = False
+        if self.sprint_type == 'prev':
+            self.prev_sprint = True
+        if self.sprint_type == 'current':
+            self.current_sprint = True
+        if self.sprint_type == 'next':
+            self.next_sprint = True
+            
+        #~ sprint = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
+        #~ _logger.error('Task computed %s' % sprint)
+        #~ if sprint:
+            #~ self.current_sprint = sprint['current'].id == self.sprint_id.id
+            #~ self.prev_sprint    = sprint['prev'].id == self.sprint_id.id
+            #~ self.next_sprint    = sprint['next'].id == self.sprint_id.id
+        #~ else:
+            #~ self.current_sprint = False
+            #~ self.prev_sprint = False
+            #~ self.next_sprint = False
     current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
     prev_sprint = fields.Boolean(compute='_current_sprint', string='Prev Sprint', search='_search_prev_sprint')
     next_sprint = fields.Boolean(compute='_current_sprint', string='Next Sprint', search='_search_next_sprint')
     @api.one
     @api.depends('sprint_id')
-    def _sprint_type(self):
+    def _get_sprint_type(self):
         if self.use_scrum:
-            sprints = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
+            sprints = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id if self.project_id else None)
             if sprints and sprints['prev'] and self.sprint_id.id == sprints['prev'].id:
                 self.sprint_type = _('Previous Sprint')
             elif sprints and sprints['current'] and self.sprint_id.id == sprints['current'].id:
@@ -269,7 +277,20 @@ class project_task(models.Model):
                 self.sprint_type = _('Next Sprint')
             else:
                 self.sprint_type = None
-    sprint_type = fields.Char(compute='_sprint_type', string='Sprint Type', store=True)
+    @api.one
+    @api.depends('sprint_id')
+    def _set_sprint_type(self):
+        if self.use_scrum:
+            sprints = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id if self.project_id else None)
+            if sprints and sprints['prev'] and self.sprint_id.id == sprints['prev'].id:
+                self.sprint_type = _('Previous Sprint')
+            elif sprints and sprints['current'] and self.sprint_id.id == sprints['current'].id:
+                self.sprint_type = _('Current Sprint')
+            elif sprints and sprints['next'] and self.sprint_id.id == sprints['next'].id:
+                self.sprint_type = _('Next Sprint')
+            else:
+                self.sprint_type = None
+    sprint_type = fields.Char(compute='_sprint_type', string='Sprint Type',)
 
 
 
@@ -373,7 +394,7 @@ class project_task(models.Model):
         result = stage_obj.name_get(cr, access_rights_uid, stage_ids, context=context)
         # restore order of the search
         result.sort(lambda x,y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))
-
+        
         fold = {}
         for stage in stage_obj.browse(cr, access_rights_uid, stage_ids, context=context):
             fold[stage.id] = stage.fold or False
@@ -396,29 +417,45 @@ class project_task(models.Model):
         result.sort(lambda x,y: cmp(ids.index(x[0]), ids.index(y[0])))
         return result, {}
 
-    def _get_sprint_type(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
-        ids = self.pool.get('project.sprint.type').search(cr, uid, [], context=context)
-        result = self.pool.get('project.sprint.type').name_get(cr, uid, ids, context=context)
-        return result, {}
+    @api.model
+    #~ def _get_sprint_type(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
+    #~ def _get_sprint_type(self,ids, domain, read_group_order=None, access_rights_uid=None):
+    def _read_group_sprint_type(self,ids,domain,**kwarg):
+        _logger.warn('%s %s kwarg %s' % (ids,domain,kwarg))
+        #~ ids = self.pool.get('project.sprint.type').search(cr, uid, [], context=context)
+        #~ result = self.pool.get('project.sprint.type').name_get(cr, uid, ids, context=context)
+        #~ return [self.env.ref('project_scrum.ps_type_prev').name_get(),self.env.ref('project_scrum.ps_type_current').name_get(),self.env.ref('project_scrum.ps_type_next').name_get()], {}
+        #~ raise Warning([('P',_('Previous Sprint')),('C',_('XCurrent Sprint')),('N',_('Next Sprint'))][:])
+        #~ return [('P',_('Previous Sprint')),('C',_('Current Sprint')),('N',_('Next Sprint'))][:], {}
+        return self.env['project.sprint.type'].search([]).name_get(), {}
+        return [], {}
 
-    try:
-        #group_by_full['sprint_id'] = _read_group_sprint_id
-        #_group_by_full['us_id'] = _read_group_us_id
+    _group_by_full = {
+        'sprint_id': _read_group_sprint_id,
+        'us_id': _read_group_us_id,
+        'stage_id': _read_group_stage_ids,
+        'user_id': _read_group_user_id,
+        'sprint_type': _read_group_sprint_type,
+    }
 
-        _group_by_full = {
-            'sprint_id': _read_group_sprint_id,
-            'us_id': _read_group_us_id,
-            'stage_id': _read_group_stage_ids,
-            'user_id': _read_group_user_id,
+    #~ try:
+        #~ #group_by_full['sprint_id'] = _read_group_sprint_id
+        #~ #_group_by_full['us_id'] = _read_group_us_id
+
+        #~ _group_by_full = {
+            #~ 'sprint_id': _read_group_sprint_id,
+            #~ 'us_id': _read_group_us_id,
+            #~ 'stage_id': _read_group_stage_ids,
+            #~ 'user_id': _read_group_user_id,
             #~ 'sprint_type': _get_sprint_type,
-        }
-    except:
-        _group_by_full = {
-            'sprint_id': _read_group_sprint_id,
-            'us_id': _read_group_us_id,
-            'stage_id': _read_group_stage_ids,
-            'user_id': _read_group_user_id,
-        }
+        #~ }
+    #~ except:
+        #~ _group_by_full = {
+            #~ 'sprint_id': _read_group_sprint_id,
+            #~ 'us_id': _read_group_us_id,
+            #~ 'stage_id': _read_group_stage_ids,
+            #~ 'user_id': _read_group_user_id,
+        #~ }
 
 class project_actors(models.Model):
     _name = 'project.scrum.actors'
@@ -551,5 +588,7 @@ class test_case(models.Model):
 
 class sprint_type(models.Model):
     _name = 'project.sprint.type'
-
+    _order = 'sequence'
+    
     name = fields.Char()
+    sequence = fields.Integer()

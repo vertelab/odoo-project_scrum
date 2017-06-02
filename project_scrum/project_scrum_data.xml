@@ -7,14 +7,19 @@
 
         <record id="ps_type_prev" model="project.sprint.type">
             <field name="name">Previous Sprint</field>
+            <field name="sequence">1</field>
         </record>
 
         <record id="ps_type_current" model="project.sprint.type">
             <field name="name">Current Sprint</field>
+            <field name="sequence">2</field>
+
         </record>
 
         <record id="ps_type_next" model="project.sprint.type">
             <field name="name">Next Sprint</field>
+            <field name="sequence">3</field>
+
         </record>
 
     </data>
