@@ -290,7 +290,7 @@ class project_task(models.Model):
                 self.sprint_type = _('Next Sprint')
             else:
                 self.sprint_type = None
-    sprint_type = fields.Char(compute='_sprint_type', string='Sprint Type',)
+    sprint_type = fields.Char(compute='_get_sprint_type', string='Sprint Type',)
 
 
 
