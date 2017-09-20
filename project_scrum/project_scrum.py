@@ -215,7 +215,6 @@ class project_task(models.Model):
     date_start = fields.Datetime(string = 'Starting Date', required=False, default=fields.Datetime.now())
     date_end = fields.Datetime(string = 'Ending Date', required=False)
     use_scrum = fields.Boolean(related='project_id.use_scrum')
-    description = fields.Html('Description')
     current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
 
     @api.depends('sprint_id')
