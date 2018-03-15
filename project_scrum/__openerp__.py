@@ -16,6 +16,7 @@ Using Scrum to plan the work in a team
 More information:
     """,
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['project', 'mail'],
     'data': ['project_scrum_view.xml',

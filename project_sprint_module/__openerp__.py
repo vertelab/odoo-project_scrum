@@ -9,6 +9,7 @@
 Adds new page for module list.
     """,
     'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['project'],
     'data': ['project_sprint_module.xml'],
