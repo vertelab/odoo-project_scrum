@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
-    
-    
-    
+
+        <record id="view_task_calendar" model="ir.ui.view">
+            <field name="name">project.task.calendar.start_date</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_calendar"/>
+            <field name="arch" type="xml">
+                <calendar position="attributes">
+                    <attribute name="date_start">date_start</attribute>
+                    <attribute name="date_stop">date_deadline</attribute>
+                </calendar>
+            </field>
+        </record>
+
         <record id="action_marketing_project" model="ir.actions.act_window">
             <field name="name">Marketing Calendar</field>
             <field name="res_model">project.task</field>
@@ -29,7 +39,6 @@
         </record>
 
         <menuitem name="Facebook" id="menu_facebook_project" action="action_facebook_project" parent="mail.mail_my_stuff"  sequence="13"/>
-
 
   </data>
 </openerp>
