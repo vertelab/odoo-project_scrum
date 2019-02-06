@@ -22,7 +22,7 @@
         <filter name="project" position="after">
           <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}" />
           <filter string="User Story" name="group_by_us" context="{'group_by':'us_id'}" />
-          <filter string="Current Sprint" name="group_by_sprint_type" context="{'group_by':'sprint_type'}" />
+          <filter string="Current Sprint" name="group_by_current_sprint" domain="['|', '|', ('current_sprint', '=', True), ('next_sprint', '=', True), ('prev_sprint', '=', True)]" context="{'group_by':'sprint_id', 'current_sprint_group_by': True}" />
         </filter>
       </field>
     </record>

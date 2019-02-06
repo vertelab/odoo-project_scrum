@@ -118,30 +118,12 @@ class scrum_sprint(models.Model):
                 self.date_stop = fields.Date.from_string(self.date_start) + timedelta(days=self.project_id.default_sprintduration)
 
     def get_current_sprint(self, project_id):
-        #~ sprint = self.env['project.scrum.sprint'].search(['&', '&',
-            #~ ('date_start', '<=', date.today()),
-            #~ ('date_stop', '>=', date.today()),
-            #~ ('project_id', '=', project_id)
-            #~ ])
-        project = self.env['project.project'].browse(project_id)
-        sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project_id),('date_start','<',date.today()-timedelta(days=project.default_sprintduration*2 if project else 14)),('date_stop','>',date.today()+timedelta(days=project.default_sprintduration if project else 7))], order='date_start')
-        i = 0
-        sprint = {}
-        for s in sprints:
-            if s.date_start and fields.Date.from_string(s.date_start) <= date.today() and s.date_stop and fields.Date.from_string(s.date_stop) >= date.today():
-                sprint['current'] = s
-                if i == 0:
-                    sprint['prev'] = None
-                else:
-                    sprint['prev'] = sprints[i-1]
-                if i == len(sprints) - 1:
-                    sprint['next'] = None
-                else:
-                    sprint['next'] = sprints[i+1]
-                return sprint
-            else:
-                i += 1
-        return None
+        sprint = self.env['project.scrum.sprint'].search([('project_id', '=', project_id), ('date_start', '<=', fields.Date.today()), ('date_stop', '>=', fields.Date.today())], order='date_start', limit=1)
+        return {
+            'current': sprint or None,
+            'prev': sprint and sprint.search([('project_id', '=', project_id), ('date_stop', '<', sprint.date_start)], order='date_start desc', limit=1) or None,
+            'next': sprint and sprint.search([('project_id', '=', project_id), ('date_start', '>', sprint.date_stop)], order='date_start', limit=1) or None,
+        }
 
     def test_task(self, cr, uid, sprint, pool):
         tags = pool.get('project.category').search(cr,uid,[('name', '=', 'test')])  # search tags with name "test"
@@ -264,6 +246,7 @@ class project_task(models.Model):
     current_sprint = fields.Boolean(compute='_current_sprint', string='Current Sprint', search='_search_current_sprint')
     prev_sprint = fields.Boolean(compute='_current_sprint', string='Prev Sprint', search='_search_prev_sprint')
     next_sprint = fields.Boolean(compute='_current_sprint', string='Next Sprint', search='_search_next_sprint')
+    
     @api.one
     @api.depends('sprint_id')
     def _get_sprint_type(self):
@@ -292,21 +275,21 @@ class project_task(models.Model):
                 self.sprint_type = None
     sprint_type = fields.Char(compute='_get_sprint_type', string='Sprint Type',)
 
-
-
+    @api.model
     def _search_current_sprint(self, operator, value):
-        #~ raise Warning('operator %s value %s' % (operator, value))
         project_id = self.env.context.get('default_project_id', None)
         sprint = self.env['project.scrum.sprint'].get_current_sprint(project_id)
-        #~ raise Warning('sprint %s csprint %s context %s' % (self.sprint_id, sprint, self.env.context))
-        _logger.error('Task %r' % self)
-        return [('sprint_id', '=', sprint and sprint['current'] and sprint['current'].id or None)]
+        return [('sprint_id', '=', sprint and sprint['current'] and sprint['current'].id or 0)]
+    
+    @api.model
     def _search_prev_sprint(self, operator, value):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
-        return [('sprint_id', '=', sprint and sprint['prev'] and sprint['prev'].id or None)]
+        return [('sprint_id', '=', sprint and sprint['prev'] and sprint['prev'].id or 0)]
+    
+    @api.model
     def _search_next_sprint(self, operator, value):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
-        return [('sprint_id', '=', sprint and sprint['next'] and sprint['next'].id or None)]
+        return [('sprint_id', '=', sprint and sprint['next'] and sprint['next'].id or 0)]
 
 
     @api.multi
@@ -314,12 +297,12 @@ class project_task(models.Model):
         if vals.get('stage_id') == self.env.ref('project.project_tt_deployment').id:
             vals['date_end'] = fields.datetime.now()
         #~ raise Warning(vals,self)
-        _logger.warn('Adds sprint_id %s pre pre' % vals.get('sprint_id'))
+        # ~ _logger.warn('Adds sprint_id %s pre pre' % vals.get('sprint_id'))
         if vals.get('sprint_id'):
             if not  self.sprint_ids or not vals.get('sprint_id') in self.sprint_ids.mapped('id'):
-                _logger.warn('Adds sprint_id %s pre' % vals.get('sprint_id'))
+                # ~ _logger.warn('Adds sprint_id %s pre' % vals.get('sprint_id'))
                 self.sprint_ids = [(4,vals.get('sprint_id'),0)]
-                _logger.warn('Adds sprint_id %s' % vals.get('sprint_id'))
+                # ~ _logger.warn('Adds sprint_id %s' % vals.get('sprint_id'))
         return super(project_task, self).write(vals)
     
     @api.model
@@ -327,16 +310,31 @@ class project_task(models.Model):
         project = self.env['project.project'].browse(self._resolve_project_id_from_context())
 
         if project.use_scrum:
-            sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project.id)], order='date_start')
-            sprint_names = sprints.name_get()
-            fold = {s.id: True if s.date_stop <= fields.Date.to_string(date.today()) else False for s in sprints}
-            i = 0
-            for k in sprints.mapped('id'):
-                if not fold[k]:
-                    i += 1
-                if i > 4:
-                    fold[k] = True
-            return sprint_names,fold
+            if self.env.context.get('current_sprint_group_by'):
+                name_map = {
+                    'current': _('Current Sprint'),
+                    'prev': _('Previous Sprint'),
+                    'next': _('Next Sprint'),
+                }
+                current_sprints = self.env['project.scrum.sprint'].get_current_sprint(project.id)
+                sprint_names = []
+                fold = {}
+                for key in ('prev', 'current', 'next'):
+                    sprint = current_sprints[key]
+                    if sprint:
+                        sprint_names.append((sprint.id, name_map[key]))
+                        fold[sprint.id] = False
+            else:
+                sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project.id)], order='date_start')
+                sprint_names = sprints.name_get()
+                fold = {s.id: True if s.date_stop <= fields.Date.to_string(date.today()) else False for s in sprints}
+                i = 0
+                for k in sprints.mapped('id'):
+                    if not fold[k]:
+                        i += 1
+                    if i > 4:
+                        fold[k] = True
+            return sprint_names, fold
         else:
             return [], None
 
@@ -421,7 +419,7 @@ class project_task(models.Model):
     #~ def _get_sprint_type(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
     #~ def _get_sprint_type(self,ids, domain, read_group_order=None, access_rights_uid=None):
     def _read_group_sprint_type(self,ids,domain,**kwarg):
-        _logger.warn('%s %s kwarg %s' % (ids,domain,kwarg))
+        # ~ _logger.warn('%s %s kwarg %s' % (ids,domain,kwarg))
         #~ ids = self.pool.get('project.sprint.type').search(cr, uid, [], context=context)
         #~ result = self.pool.get('project.sprint.type').name_get(cr, uid, ids, context=context)
         #~ return [self.env.ref('project_scrum.ps_type_prev').name_get(),self.env.ref('project_scrum.ps_type_current').name_get(),self.env.ref('project_scrum.ps_type_next').name_get()], {}
@@ -528,7 +526,7 @@ class project(models.Model):
     @api.one
     @api.depends('sprint_ids')
     def _planned_hours(self):
-        _logger.warn(self.sprint_ids)
+        # ~ _logger.warn(self.sprint_ids)
         self.planned_hours = sum(self.sprint_ids.mapped('planned_hours'))
     planned_hours = fields.Float(compute='_planned_hours',store=True)
 

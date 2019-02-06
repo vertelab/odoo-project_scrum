@@ -148,6 +148,16 @@ msgid "Created on"
 msgstr "Skapad den"
 
 #. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:258
+#: code:addons/project_scrum/project_scrum.py:271
+#: code:addons/project_scrum/project_scrum.py:317
+#: view:project.task:project_scrum.view_ps_task_search
+#: field:project.task,current_sprint:0
+#, python-format
+msgid "Current Sprint"
+msgstr "Pågående iteration"
+
+#. module: project_scrum
 #: view:project.scrum.meeting:project_scrum.view_ps_meeting_form
 msgid "Daily Meeting"
 msgstr "Dagligt möte"
@@ -391,6 +401,15 @@ msgid "Planned Hours"
 msgstr "Planerade timmar"
 
 #. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:256
+#: code:addons/project_scrum/project_scrum.py:269
+#: code:addons/project_scrum/project_scrum.py:318
+#: view:project.task:project_scrum.view_ps_task_search
+#, python-format
+msgid "Previous Sprint"
+msgstr "Föregående iteration"
+
+#. module: project_scrum
 #: view:project.project:project_scrum.edit_ps_project
 #: field:project.scrum.sprint,product_owner_id:0
 msgid "Product Owner"
@@ -511,6 +530,16 @@ msgstr "Iterationsmånad"
 #: field:project.scrum.sprint,name:0
 msgid "Sprint Name"
 msgstr "Namn"
+
+#. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:260
+#: code:addons/project_scrum/project_scrum.py:273
+#: code:addons/project_scrum/project_scrum.py:319
+#: view:project.task:project_scrum.view_ps_task_search
+#: field:project.task,next_sprint:0
+#, python-format
+msgid "Next Sprint"
+msgstr "Nästa iteration"
 
 #. module: project_scrum
 #: field:project.scrum.sprint,retrospective:0
