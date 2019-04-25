@@ -27,7 +27,7 @@ class project_project(models.Model):
 class project_task(models.Model):
     _inherit = "project.task"
 
-    @api.multi
+    @api.one
     def _new_task_no(self):
         if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) == 0:  # Sequence on each project
             old_task_no = self.task_no
@@ -72,14 +72,10 @@ class project_task(models.Model):
         #raise Warning(result)
         return result
 
-    @api.cr_uid_ids_context
-    def onchange_project(self, cr, uid, id, project_id, context=None):
-        res = super(project_task, self).onchange_project(cr, uid, id, project_id, context)
-        if id:
-            task = self.browse(cr, uid, id, context=context)
-            task.project_id = project_id
-            task._new_task_no()
-            res['value']['task_no'] = task.task_no
+    def write(self,values):
+        res = super(project_task, self).write(values)
+        if 'project_id' in values:
+            self._new_task_no()
         return res
 
 class project_configuration(models.TransientModel):
