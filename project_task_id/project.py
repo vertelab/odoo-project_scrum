@@ -72,7 +72,8 @@ class project_task(models.Model):
         #raise Warning(result)
         return result
 
-    def write(self,values):
+    @api.multi
+    def write(self, values):
         res = super(project_task, self).write(values)
         if 'project_id' in values:
             self._new_task_no()
