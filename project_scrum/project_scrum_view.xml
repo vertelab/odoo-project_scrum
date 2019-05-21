@@ -148,7 +148,7 @@
                   </tree>
                 </field>
               </page>
-              <page string="Review">
+              <page string="Review" name="review">
                 <!--page for review-->
                 <group col="1">
                   <field name="review" />

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <menuitem id="menu_scrum_in_config" name="Portfolio" parent="project_scrum.menu_scrum_in_config" sequence="3" />
+    <!--task search-->
+    <!--
+         <record id="view_ps_task_search" model="ir.ui.view">
+         <field name="name">project.scrum.sprint.task</field>
+         <field name="model">project.task</field>
+         <field name="inherit_id" ref="project.view_task_search_form" />
+         <field name="arch" type="xml">
+         <filter string="New Mail" position="after">
+         <separator />
+         <filter string="Test" name="filte_by_tag" domain="[('categ_ids','ilike','test')]" />
+         <filter string="Current Sprint" name="current_sprint" domain="[('current_sprint','=',True)]" />
+         <filter string="Previous Sprint" name="prev_sprint" domain="[('prev_sprint','=',True)]" />
+         <filter string="Next Sprint" name="next_sprint" domain="[('next_sprint','=',True)]" />
+         </filter>
+         <field name="project_id" position="after">
+         <field name="sprint_id" />
+         <field name="sprint_ids" />
+         </field>
+         <filter name="project" position="after">
+         <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}" />
+         <filter string="User Story" name="group_by_us" context="{'group_by':'us_id'}" />
+         <filter string="Current Sprint" name="group_by_current_sprint" domain="['|', '|', ('current_sprint', '=', True), ('next_sprint', '=', True), ('prev_sprint', '=', True)]" context="{'group_by':'sprint_id', 'current_sprint_group_by': True}" />
+         </filter>
+         </field>
+         </record>
+    -->
+    <!-- inherit project task tree and show effective_hours -->
+    <record id="view_task_tree2" model="ir.ui.view">
+      <field name="name">project.task.tree.portfolio</field>
+      <field name="model">project.task</field>
+      <field name="inherit_id" ref="project.view_task_tree2" />
+      <field name="arch" type="xml">
+        <field name="stage_id" position="after">
+          <field name="portfolio_id" />
+        </field>
+      </field>
+    </record>
+    <!--Scrum Sprint-->
+    <!--sprint form view-->
+    <record id="view_ps_sprint_form" model="ir.ui.view">
+      <field name="name">project.scrum.sprint.timebox</field>
+      <field name="model">project.scrum.sprint</field>
+      <field name="inherit_id" ref="project_scrum.view_ps_sprint_form" />
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+          <page string="Review" position="after">
+            <page string="Timebox">
+              <field name="timebox_ids" context="{
+                                        'default_project_id': project_id,
+                                        'default_sprint_id': id,
+                                        }">
+                <tree editable="top">
+                  <!--
+                       <field name="name" />
+                  -->
+                  <field name="portfolio_id" />
+                  <field name="planned_hours" sum="Planned Hours" />
+                  <field name="sprint_share"  avg="Share"/>
+                </tree>
+              </field>
+            </page>
+          </page>
+      </field>
+    </record>
+    <!--sprint search bar-->
+    <!--
+         <record id="view_ps_sprint_search" model="ir.ui.view">
+         <field name="name">project.scrum.sprint.search</field>
+         <field name="model">project.scrum.sprint</field>
+         <field name="type">search</field>
+         <field name="arch" type="xml">
+         <search string="Sprints">
+         <field name="name" />
+         <field name="project_id" />
+         <field name="meeting_ids" />
+         <field name="date_start" />
+         <field name="date_stop" />
+         <field name="date_duration" />
+         <field name="us_ids" />
+         <field name="task_ids" />
+         <group string="Filter By...">
+         <filter string="Draft" domain="[('state','=','draft')]" />
+         <separator orientation="vertical" />
+         <filter string="Open" domain="[('state','=','open')]" />
+         <separator orientation="vertical" />
+         <filter string="Pending" domain="[('state','=','pending')]" />
+         <separator orientation="vertical" />
+         <filter string="Cancelled" domain="[('state','=','cancel')]" />
+         <separator orientation="vertical" />
+         <filter string="Done" domain="[('state','=','done')]" />
+         </group>
+         <newline />
+         <group expand="0" string="Group By...">
+         <filter string="Product owner" domain="[]" context="{'group_by':'product_owner_id'}" />
+         <separator orientation="vertical" />
+         <filter string="Scrum Master" domain="[]" context="{'group_by':'scrum_master_id'}" />
+         <separator orientation="vertical" />
+         <filter string="Project" domain="[]" context="{'group_by':'project_id'}" />
+         <separator orientation="vertical" />
+         <filter string="Month" domain="[]" context="{'group_by':'date_start'}" help="Sprint Month" />
+         </group>
+         </search>
+         </field>
+         </record>
+    -->
+  </data>
+</openerp>
