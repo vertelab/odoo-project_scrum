@@ -29,6 +29,11 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+#TODO security
+#TODO tree/form/menu for project.scrum.portfolio, Portfolio-menu preseeding project
+#TODO button (treeview tasks/sprints) portfolio  (treeview sprints  consumed_hours, planned_hours compute using context portfolio_id)
+#TODO task: group by portfolio, search portfolio, kanban use color
+
 class scrum_sprint_portfolio(models.Model):
     _name = 'project.scrum.portfolio'
     _inherit = ['mail.thread']
@@ -47,6 +52,10 @@ class scrum_sprint_portfolio(models.Model):
     # ~ task_count = fields.Integer(compute = '_task_count')
 
     timebox_ids = fields.One2many(comodel_name="project.scrum.timebox",inverse_name = 'portfolio_id')
+    @api.one
+    def _timebox_count(self):
+        self.timebox_count = len(self.timebox_ids)
+    timebox_count = fields.Integer(compute='_timebox_count')
     user_id = fields.Many2one(comodel_name='res.users', string='Product Owner',help="Manager for a product or Focus Area")
     
     @api.one
