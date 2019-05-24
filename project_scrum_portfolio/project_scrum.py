@@ -60,10 +60,10 @@ class scrum_sprint_portfolio(models.Model):
     
     @api.one
     def _planned_hours(self):
-        # ~ self.planned_hours =  sum(self.timebox_ids.filtered(lambda tb:  tb.sprint_id and tb.sprint_id.state == 'draft').mapped('planned_hours'))
-        self.planned_hours =  sum(self.timebox_ids.mapped('planned_hours'))
-        # ~ self.consumed_hours =  sum(self.timebox_ids.filtered(lambda tb: tb.sprint_id and tb.sprint_id.state == 'done').mapped('planned_hours'))
-        self.consumed_hours =  sum(self.timebox_ids.mapped('planned_hours'))
+        self.planned_hours =  sum(self.timebox_ids.filtered(lambda tb:  tb.sprint_id and tb.state in ['draft','']).mapped('planned_hours'))
+        # ~ self.planned_hours =  sum(self.timebox_ids.mapped('planned_hours'))
+        self.consumed_hours =  sum(self.timebox_ids.filtered(lambda tb: tb.sprint_id and tb.state in ['done']).mapped('planned_hours'))
+        # ~ self.consumed_hours =  sum(self.timebox_ids.mapped('planned_hours'))
     planned_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Planned Hours', help="Hours timedboxed for sprints planned",readonly=True)
     consumed_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Consumed Hours', help="Hours consumed for done sprints",readonly=True)
     
@@ -81,18 +81,20 @@ class scrum_sprint_timebox(models.Model):
 
     # ~ name = fields.Char(string = 'Timebox', required=True)
     portfolio_id = fields.Many2one(comodel_name='project.scrum.portfolio')
-    sprint_id = fields.Many2one(comodel_name="project.sprint")
+    sprint_id = fields.Many2one(comodel_name="project.scrum.sprint")
     # ~ task_ids = fields.One2many(comodel_name="project.task",inverse_name = 'timebox_id')
-    
     planned_hours = fields.Float(string="Planned Hours")
     
     @api.one
+    def _state(self):
+        self.state = self.sprint_id.state
+    state = fields.Char(string="State",compute="_state")
+    
+    @api.one
     def _sprint_share(self):
-        self.sprint_share = 10.0
-        #self.sprint_share = round(self.planned_hours / (self.sprint_id.planned_hours if self.sprint_id and self.sprint_id.planned_hours else 1.0) * 100,0) 
+        self.sprint_share = round(self.planned_hours / (self.sprint_id.planned_hours if self.sprint_id and self.sprint_id.planned_hours else 1.0) * 100,0) 
     sprint_share = fields.Float(compute="_sprint_share",readonly=True)
     
-
     # ~ @api.one
     # ~ def _progress(self):
         # ~ if self.planned_hours and self.effective_hours:

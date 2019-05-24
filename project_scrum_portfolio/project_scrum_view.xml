@@ -14,7 +14,7 @@
         </tree>
       </field>
     </record>
-    <!--test case form view-->
+    <!--Portfolio form view-->
     <record id="view_portfolio_form" model="ir.ui.view">
       <field name="name">project.scrum.portfolio.form</field>
       <field name="model">project.scrum.portfolio</field>
@@ -26,7 +26,7 @@
               <field name="name" placeholder="Portfolio..." class="oe_inline" />
             </h1>
             <div class="oe_right oe_button_box" name="buttons" groups="base.group_user">
-              <button class="oe_inline oe_stat_button" type="action" name="%(action_timebox_portfolio)d" icon="fa-tasks">
+              <button class="oe_inline oe_stat_button" type="action" name="%(action_timebox_portfolio)d"   icon="fa-tasks">
                 <field string="Timebox" name="timebox_count" widget="statinfo" />
               </button>
             </div>
@@ -42,6 +42,10 @@
               </page>
             </notebook>
           </sheet>
+           <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
         </form>
       </field>
     </record>
@@ -71,7 +75,7 @@
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="view_id" ref="view_portfolio_tree" />
-      <field name="context">{"search_default_current": 1}</field>
+      <field name="context">{"search_default_portfolio_id": 1}</field>
       <field name="search_view_id" ref="view_portfolio_search" />
       <field name="help">The portfolio of scrum.</field>
     </record>
@@ -187,12 +191,13 @@
       <field name="type">tree</field>
       <field name="arch" type="xml">
         <tree>
+<!--
           <field name="portfolio_id" />
+-->
           <field name="sprint_id" />
-          
+          <field name="state" />
           <field name="planned_hours" sum="Planned Hours" />
           <field name="sprint_share" avg="Share" />
-          
         </tree>
       </field>
     </record>    
@@ -203,13 +208,34 @@
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="view_id" ref="view_timebox_tree" />
-<!--
-      <field name="context">{"search_default_portfolio_id": action_id}</field>
--->
-<!--
-      <field name="search_view_id" ref="view_portfolio_search" />
--->
+      <field name="context">{"search_default_portfolio_id": [action_id]}</field>
+      <field name="search_view_id" ref="view_timebox_search" />
       <field name="help">The timeboxes of portfolio.</field>
     </record>
+    
+    <record id="view_timebox_search" model="ir.ui.view">
+      <field name="name">project.scrum.timebox.search</field>
+      <field name="model">project.scrum.timebox</field>
+      <field name="type">search</field>
+      <field name="arch" type="xml">
+        <search string=">Timebox</search>">
+          <field name="name" />
+          <field name="description" />
+          <field name="portfolio_id" />
+          <field name="sprint_id" />
+          <!--
+               <field name="sprint_ids" />
+          -->
+          <group string="Filter By..." />
+          <newline />
+          <group expand="0" string="Group By...">
+            <filter string="Sprint" name="sprint_id" context="{'group_by':'sprint_id'}" />
+            <filter string="Portfolio" name="portfolio_id" context="{'group_by':'portfolio_id'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+    
+    
   </data>
 </openerp>

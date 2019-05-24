@@ -290,6 +290,11 @@ class project_task(models.Model):
     def _search_next_sprint(self, operator, value):
         sprint = self.env['project.scrum.sprint'].get_current_sprint(self.env.context.get('default_project_id', None))
         return [('sprint_id', '=', sprint and sprint['next'] and sprint['next'].id or 0)]
+    
+    @api.multi
+    def name_get(self):
+        return {s.id: '[%s] %s' % (s.project_id.name,s.name) for s in self}
+
 
 
     @api.multi
