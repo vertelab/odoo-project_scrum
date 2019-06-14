@@ -293,7 +293,8 @@ class project_task(models.Model):
     
     @api.multi
     def name_get(self):
-        return {s.id: '[%s] %s' % (s.project_id.name,s.name) for s in self}
+        # ~ raise Warning('%s' % self.project_id)
+        return [( s.id, '[%s] %s' % (s.project_id.name if s.project_id else '' ,s.name)) for s in self]
 
 
 

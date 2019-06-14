@@ -29,7 +29,6 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-#TODO security
 #TODO tree/form/menu for project.scrum.portfolio, Portfolio-menu preseeding project
 #TODO button (treeview tasks/sprints) portfolio  (treeview sprints  consumed_hours, planned_hours compute using context portfolio_id)
 #TODO task: group by portfolio, search portfolio, kanban use color
