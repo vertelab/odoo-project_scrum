@@ -116,12 +116,16 @@ class project_task(models.Model):
     # ~ def _read_group_sprint_type(self,ids,domain,**kwarg):
         # ~ return self.env['project.sprint.type'].search([]).name_get(), {}
 
-    # ~ _group_by_full = {
-        # ~ 'portfolio_id': _read_group_sprint_id,
-        # ~ 'sprint_id': _read_group_sprint_id,
-        # ~ 'us_id': _read_group_us_id,
-        # ~ 'stage_id': _read_group_stage_ids,
-        # ~ 'user_id': _read_group_user_id,
-        # ~ 'sprint_type': _read_group_sprint_type,
-    # ~ }
+    def _read_group_fill_results(self, cr, uid, domain, groupby, remaining_groupbys,
+                                 aggregated_fields, count_field,
+                                 read_group_result, read_group_order=None, context=None):
+                                    
+        @api.model
+        def _read_group_portfolio_id(self, present_ids, domain, **kwargs):
+            return [(p.id, p.name) for p in self.env['project.scrum.portfolio'].search([])], None
+        self._group_by_full['portfolio_id'] = _read_group_portfolio_id
+       
+        return super(project_task,self)._read_group_fill_results(cr, uid, domain, groupby, remaining_groupbys,
+                                 aggregated_fields, count_field,
+                                 read_group_result, read_group_order, context)
 
