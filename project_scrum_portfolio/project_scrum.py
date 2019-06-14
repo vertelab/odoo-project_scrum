@@ -62,9 +62,15 @@ class scrum_sprint_portfolio(models.Model):
         self.planned_hours =  sum(self.timebox_ids.filtered(lambda tb:  tb.sprint_id and tb.state in ['draft','']).mapped('planned_hours'))
         # ~ self.planned_hours =  sum(self.timebox_ids.mapped('planned_hours'))
         self.consumed_hours =  sum(self.timebox_ids.filtered(lambda tb: tb.sprint_id and tb.state in ['done']).mapped('planned_hours'))
+        if self.env.context.get('sprint_ids'):
+            self.sprint_hours =  sum(self.timebox_ids.filtered(lambda tb: tb.sprint_id.id in tb.env.context.get('sprint_ids')).mapped('planned_hours'))
+        else:
+            self.sprint_hours = 0.0
         # ~ self.consumed_hours =  sum(self.timebox_ids.mapped('planned_hours'))
+        
     planned_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Planned Hours', help="Hours timedboxed for sprints planned",readonly=True)
     consumed_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Consumed Hours', help="Hours consumed for done sprints",readonly=True)
+    sprint_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Sprint Hours', help="Hours timedboxed for current sprints",readonly=True)
     
     # ~ @api.one
     # ~ def _progress(self):
@@ -112,17 +118,25 @@ class project_task(models.Model):
     portfolio_id = fields.Many2one(comodel_name="project.scrum.portfolio")
     # ~ timebox_id = fields.Many2one(comodel_name="project.scrum.timebox")
 
-    # ~ @api.model
-    # ~ def _read_group_sprint_type(self,ids,domain,**kwarg):
-        # ~ return self.env['project.sprint.type'].search([]).name_get(), {}
-
     def _read_group_fill_results(self, cr, uid, domain, groupby, remaining_groupbys,
                                  aggregated_fields, count_field,
                                  read_group_result, read_group_order=None, context=None):
-                                    
+    
         @api.model
         def _read_group_portfolio_id(self, present_ids, domain, **kwargs):
-            return [(p.id, p.name) for p in self.env['project.scrum.portfolio'].search([])], None
+            sprints = []
+            # ~ if len(present_ids)>0:
+                # ~ tasks = self.env['project.task'].browse(present_ids)
+                # ~ _logger.warn('portfolio-> %s' % tasks)
+                
+                # ~ sprints = [self.env['project.task'].browse(t).sprint_id and self.env['project.task'].browse(t).sprint_id.id for t in present_ids]
+                # ~ if sprints:
+                    # ~ _logger.warn('portfolio-> %s' % spints)
+                    # ~ sprints = set(tasks.mapped('sprint_id'))
+            
+            # ~ sprints = set(self.env['project.task'].browse(present_ids).mapped('sprint_id'))
+            # ~ _logger.warn('portfolio-> %s %s %s %s' % (present_ids,domain, kwargs,sprints))
+            return [(p.id, '%s (%s)' % (p.name,p.sprint_hours)) for p in self.env['project.scrum.portfolio'].with_context(sprint_ids=sprints).search([])], None
         self._group_by_full['portfolio_id'] = _read_group_portfolio_id
        
         return super(project_task,self)._read_group_fill_results(cr, uid, domain, groupby, remaining_groupbys,

@@ -19,9 +19,7 @@
             <field name="res_model">project.scrum.timebox</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <!--
-                 <field name="context">{"search_default_portfolio_id": [action_id]}</field>
-            -->
+                 <field name="context">{"search_default_portfolio_id": [active_id]}</field>
             <field name="help">The timeboxes of portfolio.</field>
         </record>
         <!--Portfolio form view-->
@@ -85,9 +83,9 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_portfolio_tree" />
-            <!--
-                 <field name="context">{"search_default_portfolio_id": 1}</field>
-            -->
+<!--
+                 <field name="context">{"search_default_portfolio_id": [active_id]}</field>
+-->
             <field name="search_view_id" ref="view_portfolio_search" />
             <field name="help">The portfolio of scrum.</field>
         </record>
@@ -134,9 +132,9 @@
             <field name="arch" type="xml">
                 <page string="Review" position="after">
                     <page string="Timebox">
-                        <!--
+<!--
                              <field name="timebox_ids" context="{'default_project_id': project_id,'default_sprint_id': id,}">
-                        -->
+-->
                         <field name="timebox_ids">
                             <tree editable="top">
                                 <!--
@@ -197,9 +195,9 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_timebox_tree" />
-            <!--
-                 <field name="context">{"search_default_portfolio_id": [action_id]}</field>
-            -->
+<!--
+                 <field name="context">{"search_default_portfolio_id": [active_id]}</field>
+-->
             <field name="search_view_id" ref="view_timebox_search" />
             <field name="help">The timeboxes of portfolio.</field>
         </record>
