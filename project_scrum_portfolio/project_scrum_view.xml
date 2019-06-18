@@ -110,6 +110,9 @@
                 <group position="inside">
                     <filter string="Portfolio" name="portfolio" context="{'group_by':'portfolio_id'}" />
                 </group>
+                <field name="stage_id" position="after">
+                        <field name="portfolio_id" />
+                </field>
             </field>
         </record>
         <record id="view_task_form2" model="ir.ui.view">

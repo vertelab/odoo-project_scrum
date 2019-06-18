@@ -37,16 +37,7 @@
         </field>
       </field>
     </record>
-    <record id="view_task_form2" model="ir.ui.view">
-      <field name="name">project.task.form.portfolio</field>
-      <field name="model">project.task</field>
-      <field name="inherit_id" ref="project.view_task_form2" />
-      <field name="arch" type="xml">
-        <field name="partner_id" position="after">
-          <field name="portfolio_id" />
-        </field>
-      </field>
-    </record>
+
     <!--access to task kanban view from sprint-->
     <record id="action_ps_sprint_backlog" model="ir.actions.act_window">
       <field name="name">Sprint Backlog</field>

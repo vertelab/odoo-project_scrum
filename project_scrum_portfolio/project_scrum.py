@@ -30,8 +30,8 @@ _logger = logging.getLogger(__name__)
 
 
 #TODO tree/form/menu for project.scrum.portfolio, Portfolio-menu preseeding project
-#TODO button (treeview tasks/sprints) portfolio  (treeview sprints  consumed_hours, planned_hours compute using context portfolio_id)
-#TODO task: group by portfolio, search portfolio, kanban use color
+#TODO button (treeview tasks/sprints) portfolio  (treeview sprints  consumed_hours, planned_hours, compute using context portfolio_id)
+#TODO task: group by portfolio, search portfolio, kanban use color, sprint id
 
 class scrum_sprint_portfolio(models.Model):
     _name = 'project.scrum.portfolio'
@@ -65,7 +65,7 @@ class scrum_sprint_portfolio(models.Model):
         if self.env.context.get('sprint_ids'):
             self.sprint_hours =  sum(self.timebox_ids.filtered(lambda tb: tb.sprint_id.id in tb.env.context.get('sprint_ids')).mapped('planned_hours'))
         else:
-            self.sprint_hours = 0.0
+            self.sprint_hours = sum(self.timebox_ids.mapped('planned_hours')) if self.timebox_ids else 0.0
         # ~ self.consumed_hours =  sum(self.timebox_ids.mapped('planned_hours'))
         
     planned_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Planned Hours', help="Hours timedboxed for sprints planned",readonly=True)
@@ -118,13 +118,14 @@ class project_task(models.Model):
     portfolio_id = fields.Many2one(comodel_name="project.scrum.portfolio")
     # ~ timebox_id = fields.Many2one(comodel_name="project.scrum.timebox")
 
-    def _read_group_fill_results(self, cr, uid, domain, groupby, remaining_groupbys,
-                                 aggregated_fields, count_field,
-                                 read_group_result, read_group_order=None, context=None):
-    
+    # ~ def _read_group_fill_results(self, cr, uid, domain, groupby, remaining_groupbys,
+                                 # ~ aggregated_fields, count_field,
+                                 # ~ read_group_result, read_group_order=None, context=None):
+
+    def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
+
         @api.model
         def _read_group_portfolio_id(self, present_ids, domain, **kwargs):
-            sprints = []
             # ~ if len(present_ids)>0:
                 # ~ tasks = self.env['project.task'].browse(present_ids)
                 # ~ _logger.warn('portfolio-> %s' % tasks)
@@ -134,12 +135,17 @@ class project_task(models.Model):
                     # ~ _logger.warn('portfolio-> %s' % spints)
                     # ~ sprints = set(tasks.mapped('sprint_id'))
             
+            sprints = [ s.id for s in self.env['project.task'].search(domain).mapped('sprint_id') ]
+            
             # ~ sprints = set(self.env['project.task'].browse(present_ids).mapped('sprint_id'))
-            # ~ _logger.warn('portfolio-> %s %s %s %s' % (present_ids,domain, kwargs,sprints))
+            _logger.warn('portfolio-> %s %s %s %s' % (present_ids,domain, kwargs, sprints))
             return [(p.id, '%s (%s)' % (p.name,p.sprint_hours)) for p in self.env['project.scrum.portfolio'].with_context(sprint_ids=sprints).search([])], None
         self._group_by_full['portfolio_id'] = _read_group_portfolio_id
        
-        return super(project_task,self)._read_group_fill_results(cr, uid, domain, groupby, remaining_groupbys,
-                                 aggregated_fields, count_field,
-                                 read_group_result, read_group_order, context)
+        # ~ return super(project_task,self)._read_group_fill_results(cr, uid, domain, groupby, remaining_groupbys,
+                                 # ~ aggregated_fields, count_field,
+                                 # ~ read_group_result, read_group_order, context)
+        return super(project_task,self).read_group(cr, uid, domain, fields, groupby, offset, limit, context, orderby, lazy)
+                                 
+                                 
 
