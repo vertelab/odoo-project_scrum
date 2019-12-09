@@ -62,7 +62,8 @@ class project_task(models.Model):
                 project.task_no_next += 1
                 return str(project.task_no_next)
 
-    task_no = fields.Char(string="Task id",help="Unique id for this task",copy=False,default=_next_task_no) # Char makes it easier to search for
+    task_no = fields.Char(string="Task id",help="Unique id for this task",copy=False) # Char makes it easier to search for
+    # task_no = fields.Char(string="Task id",help="Unique id for this task",copy=False,default=_next_task_no) # Char makes it easier to search for
 
     @api.multi
     def name_get(self):
@@ -78,6 +79,22 @@ class project_task(models.Model):
         if 'project_id' in values:
             self._new_task_no()
         return res
+
+    @api.model
+    def create(self, values):
+
+        if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) > 0:
+            task_no = self.env['ir.sequence'].next_by_id(self.env.ref('project_task_id.sequence_project_task').id)
+        else:
+            project = self.env['project.project'].browse(self._context.get('default_project_id'))
+            if project:
+                project.task_no_next += 1
+                task_no = str(project.task_no_next)
+
+        values['task_no'] = task_no
+
+        task_id = super(project_task, self).create(values)
+        return task_id
 
 class project_configuration(models.TransientModel):
     _inherit = 'project.config.settings'
