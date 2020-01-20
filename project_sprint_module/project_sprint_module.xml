@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <template id="assets_backend" name="module_name assets" inherit_id="web.assets_backend">
             <xpath expr="//link[last()]" position="after">
@@ -36,4 +36,4 @@
             </field>
         </record>
     </data>
-</openerp>
+</odoo>

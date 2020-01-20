@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<openerp>
+<odoo>
     <data>
     
     <record model="ir.rule" id="ps_sprint_rule">
@@ -49,4 +49,4 @@
     </record>
 
     </data>
-</openerp>
+</odoo>

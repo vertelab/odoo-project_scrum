@@ -18,9 +18,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 #from bs4 import BeautifulSoup
-import openerp.tools
+import odoo.tools
 import re
 import time
 from datetime import date, datetime, timedelta

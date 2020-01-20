@@ -2,7 +2,7 @@
 
 {
     'name': 'Project Sprint Modules',
-    'version': '1.0',
+    'version': '10.0.1.0',
     'category': 'Project',
     'summary': 'Adds new page for module list',
     'description': """

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import openerp
-from openerp.tests import common
+import odoo
+from odoo.tests import common
 
 class test_something(common.TransactionCase):
     def setUp(self):

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <record id="view_portfolio_tree" model="ir.ui.view">
             <field name="name">project.scrum.portfolio.tree</field>
@@ -205,4 +205,4 @@
             <field name="help">The timeboxes of portfolio.</field>
         </record>
     </data>
-</openerp>
+</odoo>

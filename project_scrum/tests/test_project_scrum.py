@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp.tests import common
+from odoo.tests import common
 
 class TestProjectScrum(common.TransactionCase):
 	def test_project_scrum(self)
