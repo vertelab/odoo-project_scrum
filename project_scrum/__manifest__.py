@@ -7,7 +7,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '1.7',
+    'version': '1.8',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in a team
@@ -19,17 +19,18 @@ More information:
     'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['project', 'mail'],
-    'data': ['project_scrum_view.xml',
+    'data': [
+        'views/project_scrum_view.xml',
         'wizard/project_scrum_test_task_view.xml',
         'wizard/project_scrum_create_sprints.xml',
         'security/ir.model.access.csv',
         'security/project_security.xml',
-        'project_scrum_data.xml',
+        'data/project_scrum_data.xml',
        ],
     #'external_dependencies': {
         #'python' : ['bs4'],
     #},
-    'demo': ['project_scrum_demo.xml'],
+    'demo': ['demo/project_scrum_demo.xml'],
     'installable': True,
 }
 

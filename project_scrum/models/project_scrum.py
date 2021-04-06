@@ -18,15 +18,16 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 #from bs4 import BeautifulSoup
-import openerp.tools
+import odoo.tools
 import re
 import time
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import logging
 _logger = logging.getLogger(__name__)
+
 
 class scrum_sprint(models.Model):
     _name = 'project.scrum.sprint'
@@ -91,18 +92,18 @@ class scrum_sprint(models.Model):
         #~ self.sequence = self.env['project.scrum.spint'].search([('project_id','=',self.project_id.id)],order='date_start').mapped('id').index(self.id)
     #~ sequence = fields.Integer('Sequence', compute="_sequence",help="Gives the sequence order when displaying a list of sprints.",store=True)
     # Compute: effective_hours, total_hours, progress
-    @api.one
-    def _task_work_ids(self):
-        self.task_work_ids = [(6, 0,self.env['project.task.work'].search([('date','>=',self.date_start),('date','<=',self.date_stop)]).mapped('id'))]
-    task_work_ids = fields.One2many(comodel_name='project.task.work', compute='_task_work_ids')
+    # @api.one
+    # def _task_work_ids(self):
+    #     self.task_work_ids = [(6, 0,self.env['project.task.work'].search([('date','>=',self.date_start),('date','<=',self.date_stop)]).mapped('id'))]
+    # task_work_ids = fields.One2many(comodel_name='project.task.work', compute='_task_work_ids')
 
-    @api.one
-    def _hours_get(self):
-        self.effective_hours = sum(self.task_work_ids.mapped('hours'))
-    effective_hours = fields.Float(compute="_hours_get", string='Effective hours', help="Computed using the sum of the task work done.")
+    # @api.one
+    # def _hours_get(self):
+    #     self.effective_hours = sum(self.task_work_ids.mapped('hours'))
+    effective_hours = fields.Float(string='Effective hours', help="Computed using the sum of the task work done.")
     planned_hours = fields.Float(string='Planned Hours',group_operator="sum", help='Estimated time to do the task, usually set by the project manager when the task is in draft state.')
     state = fields.Selection([('draft','Draft'),('open','Open'),('pending','Pending'),('cancel','Cancelled'),('done','Done')], string='State', required=False)
-    company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+    company_id = fields.Many2one(related='project_id.company_id')
 
     @api.onchange('project_id')
     def onchange_project_id(self):
@@ -125,12 +126,12 @@ class scrum_sprint(models.Model):
             'next': sprint and sprint.search([('project_id', '=', project_id), ('date_start', '>', sprint.date_stop)], order='date_start', limit=1) or None,
         }
 
-    def test_task(self, cr, uid, sprint, pool):
-        tags = pool.get('project.category').search(cr,uid,[('name', '=', 'test')])  # search tags with name "test"
+    def test_task(self, sprint):
+        tags = self.env['project.category'].search([('name', '=', 'test')])  # search tags with name "test"
         if len(tags)==0:    # if not exist, then creat a "test" tag into category
-            tags.append(pool.get('project.category').create(cr,uid,{'name':'test'}))
+            tags.append(self.env['project.category'].create({'name':'test'}))
         for tc in sprint.project_id.test_case_ids:  # loop through each test cases to creat task
-            pool.get('project.task').create(cr, uid,{
+            self.env['project.task'].create({
                 'name': '[TC] %s' % tc.name,
                 'description': tc.description_test,
                 'project_id': tc.project_id.id,
@@ -158,7 +159,7 @@ class project_user_stories(models.Model):
     test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
     test_count = fields.Integer(compute = '_test_count', store=True)
     sequence = fields.Integer('Sequence')
-    company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+    company_id = fields.Many2one(related='project_id.company_id')
     #has_task = fields.Boolean()
     #has_test = fields.Boolean()
 
@@ -182,18 +183,19 @@ class project_user_stories(models.Model):
         for p in self:
             p.test_count = len(p.test_ids)
 
-    def _resolve_project_id_from_context(self, cr, uid, context=None):
+    def _resolve_project_id_from_context(self):
         """ Returns ID of project based on the value of 'default_project_id'
             context key, or None if it cannot be resolved to a single
             project.
         """
-        if context is None:
-            context = {}
+        # if context is None:
+        #     context = {}
+        context = self._context
         if type(context.get('default_project_id')) in (int, long):
             return context['default_project_id']
         if isinstance(context.get('default_project_id'), basestring):
             project_name = context['default_project_id']
-            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
+            project_ids = self.env['project.project'].name_search(name=project_name)
             if len(project_ids) == 1:
                 return project_ids[0][0]
         return None
@@ -383,19 +385,19 @@ class project_task(models.Model):
         #self._group_by_full['us_id'] = _read_group_us_id
         #super(project_task, self)._auto_init(cr, context)
 
-    def _read_group_stage_ids(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
-        stage_obj = self.pool.get('project.task.type')
+    def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None, context=None):
+        stage_obj = self.env['project.task.type']
         order = stage_obj._order
-        access_rights_uid = access_rights_uid or uid
+        access_rights_uid = access_rights_uid or self.env.uid
         if read_group_order == 'stage_id desc':
             order = '%s desc' % order
         search_domain = []
-        project_id = self._resolve_project_id_from_context(cr, uid, context=context)
+        project_id = self._resolve_project_id_from_context(context=context)
         if project_id:
             search_domain += ['|', ('project_ids', '=', project_id)]
-        search_domain += [('id', 'in', ids)]
-        stage_ids = stage_obj._search(cr, uid, search_domain, order=order, access_rights_uid=access_rights_uid, context=context)
-        result = stage_obj.name_get(cr, access_rights_uid, stage_ids, context=context)
+        search_domain += [('id', 'in', '')]
+        stage_ids = stage_obj._search(search_domain, order=order, access_rights_uid=access_rights_uid, context=context)
+        result = stage_obj.name_get(access_rights_uid, stage_ids, context=context)
         # restore order of the search
         result.sort(lambda x,y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))
         
@@ -404,21 +406,21 @@ class project_task(models.Model):
             fold[stage.id] = stage.fold or False
         return result, fold
 
-    def _read_group_user_id(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
-        res_users = self.pool.get('res.users')
-        project_id = self._resolve_project_id_from_context(cr, uid, context=context)
-        access_rights_uid = access_rights_uid or uid
+    def _read_group_user_id(self, domain, read_group_order=None, access_rights_uid=None, context=None):
+        res_users = self.env['res.users']
+        project_id = self._resolve_project_id_from_context(context=context)
+        access_rights_uid = access_rights_uid or self.env.uid
         if project_id:
-            ids += self.pool.get('project.project').read(cr, access_rights_uid, project_id, ['members'], context=context)['members']
+            ids = self.env['project.project'].read(access_rights_uid, project_id, ['members'], context=context)['members']
             order = res_users._order
             # lame way to allow reverting search, should just work in the trivial case
             if read_group_order == 'user_id desc':
                 order = '%s desc' % order
             # de-duplicate and apply search order
-            ids = res_users._search(cr, uid, [('id','in',ids)], order=order, access_rights_uid=access_rights_uid, context=context)
-        result = res_users.name_get(cr, access_rights_uid, ids, context=context)
+            ids = res_users._search([('id','in',ids)], order=order, access_rights_uid=access_rights_uid, context=context)
+        result = res_users.name_get(access_rights_uid, context=context)
         # restore order of the search
-        result.sort(lambda x,y: cmp(ids.index(x[0]), ids.index(y[0])))
+        result.sort(lambda x,y: self.cmp(ids.index(x[0]), ids.index(y[0])))
         return result, {}
 
     @api.model
@@ -470,7 +472,7 @@ class project_actors(models.Model):
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
-    _inherit = ['mail.thread', 'ir.needaction_mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='set null',
         select=True, track_visibility='onchange', change_default=True)
@@ -482,7 +484,7 @@ class scrum_meeting(models.Model):
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=False)
     question_backlog = fields.Selection([('yes','Yes'),('no','No')], string='Backlog Accurate?', required=False, default = 'yes')
-    company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+    company_id = fields.Many2one(related='project_id.company_id')
 
     def _compute_meeting_name(self):
         if self.project_id:
@@ -564,16 +566,16 @@ class test_case(models.Model):
     description_test = fields.Html(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence', select=True)
     stats_test = fields.Selection([('draft','Draft'),('in progress','In Progress'),('cancel','Cancelled')], string='State', required=False)
-    company_id = fields.Many2one(related='project_id.analytic_account_id.company_id')
+    company_id = fields.Many2one(related='project_id.company_id')
 
-    def _resolve_project_id_from_context(self, cr, uid, context=None):
-        if context is None:
-            context = {}
+    def _resolve_project_id_from_context(self):
+
+        context = self.env.context
         if type(context.get('default_project_id')) in (int, long):
             return context['default_project_id']
         if isinstance(context.get('default_project_id'), basestring):
             project_name = context['default_project_id']
-            project_ids = self.pool.get('project.project').name_search(cr, uid, name=project_name, context=context)
+            project_ids = self.ev['project.project'].name_search(name=project_name)
             if len(project_ids) == 1:
                 return project_ids[0][0]
         return None
@@ -587,7 +589,6 @@ class test_case(models.Model):
     _group_by_full = {
         'user_story_id_test': _read_group_us_id,
         }
-    name = fields.Char()
 
 
 class sprint_type(models.Model):

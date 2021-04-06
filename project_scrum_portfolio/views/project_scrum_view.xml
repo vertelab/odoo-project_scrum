@@ -133,7 +133,7 @@
             <field name="inherit_id" ref="project_scrum.view_ps_sprint_form" />
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <page string="Review" position="after">
+                <page name="review" position="after">
                     <page string="Timebox">
 <!--
                              <field name="timebox_ids" context="{'default_project_id': project_id,'default_sprint_id': id,}">

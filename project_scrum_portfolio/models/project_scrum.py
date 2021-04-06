@@ -18,9 +18,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 #from bs4 import BeautifulSoup
-import openerp.tools
+import odoo.tools
 import re
 import time
 from datetime import date, datetime, timedelta
@@ -51,9 +51,11 @@ class scrum_sprint_portfolio(models.Model):
     # ~ task_count = fields.Integer(compute = '_task_count')
 
     timebox_ids = fields.One2many(comodel_name="project.scrum.timebox",inverse_name = 'portfolio_id')
+
     @api.one
     def _timebox_count(self):
         self.timebox_count = len(self.timebox_ids)
+
     timebox_count = fields.Integer(compute='_timebox_count')
     user_id = fields.Many2one(comodel_name='res.users', string='Product Owner',help="Manager for a product or Focus Area")
     
@@ -122,30 +124,30 @@ class project_task(models.Model):
                                  # ~ aggregated_fields, count_field,
                                  # ~ read_group_result, read_group_order=None, context=None):
 
-    def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
-
-        @api.model
-        def _read_group_portfolio_id(self, present_ids, domain, **kwargs):
-            # ~ if len(present_ids)>0:
-                # ~ tasks = self.env['project.task'].browse(present_ids)
-                # ~ _logger.warn('portfolio-> %s' % tasks)
-                
-                # ~ sprints = [self.env['project.task'].browse(t).sprint_id and self.env['project.task'].browse(t).sprint_id.id for t in present_ids]
-                # ~ if sprints:
-                    # ~ _logger.warn('portfolio-> %s' % spints)
-                    # ~ sprints = set(tasks.mapped('sprint_id'))
-            
-            sprints = [ s.id for s in self.env['project.task'].search(domain).mapped('sprint_id') ]
-            
-            # ~ sprints = set(self.env['project.task'].browse(present_ids).mapped('sprint_id'))
-            _logger.warn('portfolio-> %s %s %s %s' % (present_ids,domain, kwargs, sprints))
-            return [(p.id, '%s (%s)' % (p.name,p.sprint_hours)) for p in self.env['project.scrum.portfolio'].with_context(sprint_ids=sprints).search([])], None
-        self._group_by_full['portfolio_id'] = _read_group_portfolio_id
-       
-        # ~ return super(project_task,self)._read_group_fill_results(cr, uid, domain, groupby, remaining_groupbys,
-                                 # ~ aggregated_fields, count_field,
-                                 # ~ read_group_result, read_group_order, context)
-        return super(project_task,self).read_group(cr, uid, domain, fields, groupby, offset, limit, context, orderby, lazy)
-                                 
+    # def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
+    #
+    #     @api.model
+    #     def _read_group_portfolio_id(self, present_ids, domain, **kwargs):
+    #         # ~ if len(present_ids)>0:
+    #             # ~ tasks = self.env['project.task'].browse(present_ids)
+    #             # ~ _logger.warn('portfolio-> %s' % tasks)
+    #
+    #             # ~ sprints = [self.env['project.task'].browse(t).sprint_id and self.env['project.task'].browse(t).sprint_id.id for t in present_ids]
+    #             # ~ if sprints:
+    #                 # ~ _logger.warn('portfolio-> %s' % spints)
+    #                 # ~ sprints = set(tasks.mapped('sprint_id'))
+    #
+    #         sprints = [ s.id for s in self.env['project.task'].search(domain).mapped('sprint_id') ]
+    #
+    #         # ~ sprints = set(self.env['project.task'].browse(present_ids).mapped('sprint_id'))
+    #         _logger.warn('portfolio-> %s %s %s %s' % (present_ids,domain, kwargs, sprints))
+    #         return [(p.id, '%s (%s)' % (p.name,p.sprint_hours)) for p in self.env['project.scrum.portfolio'].with_context(sprint_ids=sprints).search([])], None
+    #     self._group_by_full['portfolio_id'] = _read_group_portfolio_id
+    #
+    #     # ~ return super(project_task,self)._read_group_fill_results(cr, uid, domain, groupby, remaining_groupbys,
+    #                              # ~ aggregated_fields, count_field,
+    #                              # ~ read_group_result, read_group_order, context)
+    #     return super(project_task,self).read_group(cr, uid, domain, fields, groupby, offset, limit, context, orderby, lazy)
+    #
                                  
 

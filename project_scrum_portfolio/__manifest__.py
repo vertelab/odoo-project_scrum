@@ -7,7 +7,7 @@
 
 {
     'name': 'Project Scrum Portfolio',
-    'version': '1.7',
+    'version': '1.8',
     'category': 'Project Management',
     'description': """
 Adding Portfilio managent to Project Scrum
@@ -52,7 +52,8 @@ https://innolution.com/essential-scrum/table-of-contents/chapter-16-portfolio-pl
     'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['project_scrum'],
-    'data': ['project_scrum_view.xml',
+    'data': [
+        'views/project_scrum_view.xml',
         'security/ir.model.access.csv',
 #        'security/project_security.xml',
        ],

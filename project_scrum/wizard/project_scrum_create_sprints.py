@@ -18,10 +18,10 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 import time
 from datetime import date, datetime, timedelta
-from openerp.exceptions import Warning
+from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
