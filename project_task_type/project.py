@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -38,8 +38,6 @@ class Task(models.Model):
 
     type_id = fields.Many2one('project.task.type', string='Stage', track_visibility='onchange', index=True,
         default=_get_default_stage_id, domain="[('project_ids', '=', project_id)]", copy=False)
-
-
 
 
     def stage_find(self, section_id, domain=[], order='sequence'):

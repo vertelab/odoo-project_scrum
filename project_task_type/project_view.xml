@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
-      
-      
-      
-      
-      
-      
-      
               <!-- Task types -->
         <record id="task_type_search" model="ir.ui.view">
             <field name="name">project.task.type.search</field>
@@ -95,12 +88,7 @@
             </field>
         </record>
 
-        <menuitem action="open_task_type_form" id="menu_project_config_project" name="Stages" parent="base.menu_definitions" sequence="3" groups="project.group_project_manager" />
-
-      
-      
-      
-      
+        <menuitem action="open_task_type_form" id="menu_project_config_project" name="Stages" parent="project.menu_project_config" sequence="3" groups="project.group_project_manager" />
 
   </data>
 </openerp>

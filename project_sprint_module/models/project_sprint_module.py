@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from openerp import models, fields, api, _
-from openerp.modules import get_module_path
-from openerp.exceptions import Warning
+from odoo import models, fields, api, _
+from odoo.modules import get_module_path
+from odoo.exceptions import Warning
 
 import logging
 _logger = logging.getLogger(__name__)

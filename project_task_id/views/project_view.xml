@@ -6,7 +6,7 @@
       <field name="model">project.project</field>
       <field name="inherit_id" ref="project.edit_project" />
       <field name="arch" type="xml">
-        <field name="parent_id" position="after">
+        <field name="user_id" position="after">
           <field name="task_no_next" />
         </field>
       </field>
@@ -54,9 +54,8 @@
     <record model="ir.ui.view" id="view_task_kanban">
       <field name="name">project.task.kanban</field>
       <field name="model">project.task</field>
-            <field name= "inherit_id"  ref="project.view_task_kanban" />
+      <field name= "inherit_id"  ref="project.view_task_kanban" />
       <field name="arch" type="xml">
-
           <field name="name" position="replace">
             <field name="display_name" />
           </field>
@@ -74,24 +73,24 @@
         </field>
     </record>
 
-    <record model="ir.values" id="action_edifact_read_menu">
-        <field name="name">Give tasks a number</field>
-        <field name="model">project.project</field>
-        <field name="key2">client_action_multi</field>
-        <field name="value" eval="'ir.actions.server,%d' % action_project_task_renumber"/>
-    </record>
+<!--    <record model="ir.values" id="action_edifact_read_menu">-->
+<!--        <field name="name">Give tasks a number</field>-->
+<!--        <field name="model">project.project</field>-->
+<!--        <field name="key2">client_action_multi</field>-->
+<!--        <field name="value" eval="'ir.actions.server,%d' % action_project_task_renumber"/>-->
+<!--    </record>-->
 
     <record id="view_config_settings" model="ir.ui.view">
         <field name="name">project settings.inherit</field>
-        <field name="model">project.config.settings</field>
-        <field name="inherit_id" ref="project.view_config_settings"/>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="project.res_config_settings_view_form"/>
         <field name="arch" type="xml">
-            <div position="inside">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
                 <div>
                     <field name="task_sequence" class="oe_inline" readonly="0"/>
                     <label for="task_sequence"/>
                 </div>
-            </div>
+            </xpath>
         </field>
     </record>
 

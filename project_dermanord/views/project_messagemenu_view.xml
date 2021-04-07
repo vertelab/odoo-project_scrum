@@ -25,7 +25,7 @@
             <field name="search_view_id" ref="project.view_task_search_form"/>
         </record>
 
-        <menuitem name="Marketing" id="menu_marketing_project" action="action_marketing_project" parent="mail.mail_my_stuff"  sequence="12"/>
+        <menuitem name="Marketing" id="menu_marketing_project" action="action_marketing_project" parent="project.menu_project_config"  sequence="12"/>
 
         <record id="action_facebook_project" model="ir.actions.act_window">
             <field name="name">Facebook Calendar</field>
@@ -38,7 +38,7 @@
             <field name="search_view_id" ref="project.view_task_search_form"/>
         </record>
 
-        <menuitem name="Facebook" id="menu_facebook_project" action="action_facebook_project" parent="mail.mail_my_stuff"  sequence="13"/>
+        <menuitem name="Facebook" id="menu_facebook_project" action="action_facebook_project" parent="project.menu_project_config"  sequence="13"/>
 
   </data>
 </openerp>

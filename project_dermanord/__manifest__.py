@@ -20,7 +20,7 @@
 ##############################################################################
 {
 'name': 'Project Message Menu',
-'version': '0.1',
+'version': '0.2',
 'summary': 'Menu for projects in message menu',
 'category': 'project',
 'description': """Menu for project calendar in message menu
@@ -28,7 +28,10 @@
 """,
 'author': 'Vertel AB',
 'website': 'http://www.vertel.se',
-'depends': ['project',],
-'data': ['project_messagemenu_data.xml', 'project_messagemenu_view.xml',],
+'depends': ['project', 'mail'],
+'data': [
+    'views/project_messagemenu_data.xml',
+    'views/project_messagemenu_view.xml',
+],
 'installable': True,
 }

@@ -8,10 +8,9 @@
             <field name="type">normal</field>
             <field name="name">Marketing Project</field>
             <field name="color">3</field>
-            <field name="parent_id" ref="project.all_projects_account"/>
-            <field name="privacy_visibility">public</field>
+            <field name="privacy_visibility">followers</field>
             <field name="description">Implement Marketing project.</field>
-            <field name="alias_model">project.task</field>
+            <field name="alias_model_id" ref="project.model_project_task"/>
         </record>
 
         <record id="project_facebook" model="project.project">
@@ -20,10 +19,9 @@
             <field name="type">normal</field>
             <field name="name">Facebook Campaigns</field>
             <field name="color">3</field>
-            <field name="parent_id" ref="project.all_projects_account"/>
-            <field name="privacy_visibility">public</field>
+            <field name="privacy_visibility">followers</field>
             <field name="description">Implement Facebook project.</field>
-            <field name="alias_model">project.task</field>
+            <field name="alias_model_id" ref="project.model_project_task"/>
         </record>
 
 

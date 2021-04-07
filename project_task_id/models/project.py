@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from odoo import models, fields, api, _
+from odoo.exceptions import Warning
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -96,8 +96,9 @@ class project_task(models.Model):
         task_id = super(project_task, self).create(values)
         return task_id
 
+
 class project_configuration(models.TransientModel):
-    _inherit = 'project.config.settings'
+    _inherit = 'res.config.settings'
 
     task_sequence = fields.Boolean(string='Only use one task sequence')
 

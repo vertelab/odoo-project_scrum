@@ -748,7 +748,7 @@
             <field name="meeting_count" widget="statinfo" />
           </button>
         </button>
-        <field name="name" position="before">
+        <field name="name" position="after">
           <field name="use_scrum" class="oe_inline"/>
           <label for="use_scrum" string="Use Scrum"/>
         </field>

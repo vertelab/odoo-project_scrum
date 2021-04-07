@@ -1,1 +1,2 @@
-import project
+from . import models
+

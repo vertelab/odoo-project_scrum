@@ -12,7 +12,7 @@ Adds new page for module list.
     'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['project'],
-    'data': ['project_sprint_module.xml'],
+    'data': ['views/project_sprint_module.xml'],
     'demo': [],
     'installable': True,
 }

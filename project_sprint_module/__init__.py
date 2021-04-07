@@ -1,1 +1,2 @@
-import project_sprint_module
+from . import models
+

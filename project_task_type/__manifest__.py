@@ -12,7 +12,9 @@ Adds a type to task.
     'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
     'depends': ['project'],
-    'data': ['project_view.xml',
+    'data': [
+        'project_view.xml',
+        'security/ir.model.access.csv'
        ],
     #'external_dependencies': {
         #'python' : ['bs4'],

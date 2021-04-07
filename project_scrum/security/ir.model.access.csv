@@ -9,3 +9,4 @@ access_project_actor_manager,res.groups,model_project_scrum_actors,project.group
 access_project_actor,res.groups,model_project_scrum_actors,project.group_project_user,1,1,1,0
 access_project_test_manager,res.groups,model_project_scrum_test,project.group_project_manager,1,1,1,1
 access_project_test,res.groups,model_project_scrum_test,project.group_project_user,1,1,1,0
+access_project_sprint_type,project.sprint.type,model_project_sprint_type,project.group_project_user,1,1,1,1
