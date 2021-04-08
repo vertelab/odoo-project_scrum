@@ -66,7 +66,6 @@
     <record model="ir.actions.server" id="action_project_task_renumber">
         <field name="name">Give tasks a number</field>
         <field name="state">code</field>
-        <field name="condition" eval="True"/>
         <field name="model_id" ref="project.model_project_project"/>
         <field name="code">for o in object.browse(context.get('active_ids', [])):
     o.do_renumber_tasks()

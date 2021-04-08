@@ -42,7 +42,6 @@
     <record id="action_ps_sprint_backlog" model="ir.actions.act_window">
       <field name="name">Sprint Backlog</field>
       <field name="res_model">project.task</field>
-      <field name="view_type">form</field>
       <field name="view_mode">kanban,tree,form</field>
       <field name="context">
         {
@@ -58,7 +57,6 @@
     <record id="action_ps_tc" model="ir.actions.act_window">
       <field name="name">Sprint Test Case</field>
       <field name="res_model">project.task</field>
-      <field name="view_type">form</field>
       <field name="view_mode">tree,form</field>
       <field name="context">
         {
@@ -77,9 +75,9 @@
       <field name="model">project.scrum.sprint</field>
 <!--      <field name="type">tree</field>-->
       <field name="arch" type="xml">
-        <tree colors="black:state in ('draft'); orange:state in ('pending'); blue:state in('open');
-                grey:state in ('cancel'); green:state in('done')" string="Scrum Sprint">
-<!--          <tree string="Scrum Sprint">-->
+<!--        <tree colors="black:state in ('draft'); orange:state in ('pending'); blue:state in('open');-->
+<!--                grey:state in ('cancel'); green:state in('done')" string="Scrum Sprint">-->
+          <tree string="Scrum Sprint">
             <field name="name" />
           <!--name of sprint-->
           <field name="project_id" />
@@ -454,8 +452,9 @@
       <field name="name">project.scrum.test.tree</field>
       <field name="model">project.scrum.test</field>
       <field name="arch" type="xml">
-        <tree colors="black:stats_test in ('draft'); blue:stats_test in ('pending');
-                grey:stats_test in ('cancel'); green:stats_test in('done')">
+<!--        <tree colors="black:stats_test in ('draft'); blue:stats_test in ('pending');-->
+<!--                grey:stats_test in ('cancel'); green:stats_test in('done')">-->
+        <tree>
           <field name="name" />
           <field name="sequence_test" />
           <field name="project_id" />
@@ -611,7 +610,6 @@
     <record id="action_ps_sprint_all" model="ir.actions.act_window">
       <field name="name">Sprints</field>
       <field name="res_model">project.scrum.sprint</field>
-      <field name="view_type">form</field>
       <field name="view_mode">tree,form,calendar,graph,gantt</field>
       <field name="view_id" ref="view_ps_sprint_tree" />
       <field name="context">{"search_default_current": 1}</field>
@@ -647,7 +645,6 @@
     <record id="action_ps_meeting_all" model="ir.actions.act_window">
       <field name="name">Meetings</field>
       <field name="res_model">project.scrum.meeting</field>
-      <field name="view_type">form</field>
       <field name="view_mode">tree,form,calendar</field>
       <field name="view_id" ref="view_ps_meeting_calendar" />
       <field name="context">{"search_default_current": 1}</field>
@@ -658,7 +655,6 @@
     <record id="action_ps_meeting_current" model="ir.actions.act_window">
       <field name="name">Meetings</field>
       <field name="res_model">project.scrum.meeting</field>
-      <field name="view_type">form</field>
       <field name="view_mode">tree,form,calendar</field>
       <field name="view_id" ref="view_ps_meeting_calendar" />
       <field name="context">
@@ -675,7 +671,6 @@
     <record id="action_ps_us_all" model="ir.actions.act_window">
       <field name="name">User Stories</field>
       <field name="res_model">project.scrum.us</field>
-      <field name="view_type">form</field>
       <field name="view_mode">kanban,tree,form</field>
       <field name="view_id" ref="view_ps_us_tree" />
       <field name="context">{"search_default_current": 1}</field>
@@ -686,7 +681,6 @@
     <record id="action_ps_us_current" model="ir.actions.act_window">
       <field name="name">User Stories</field>
       <field name="res_model">project.scrum.us</field>
-      <field name="view_type">form</field>
       <field name="view_mode">kanban,tree,form</field>
       <field name="view_id" ref="view_ps_us_kanban" />
       <field name="context">
@@ -704,7 +698,6 @@
     <record id="action_ps_tc_all" model="ir.actions.act_window">
       <field name="name">Test Case</field>
       <field name="res_model">project.scrum.test</field>
-      <field name="view_type">form</field>
       <field name="view_mode">kanban,tree,form</field>
       <field name="view_id" ref="view_ps_tc_kanban" />
       <field name="context">{"search_default_current": 1}</field>
@@ -715,7 +708,6 @@
     <record id="action_ps_tc_current" model="ir.actions.act_window">
       <field name="name">Test Case</field>
       <field name="res_model">project.scrum.test</field>
-      <field name="view_type">form</field>
       <field name="view_mode">kanban,tree,form</field>
       <field name="view_id" ref="view_ps_tc_kanban" />
       <field name="context">

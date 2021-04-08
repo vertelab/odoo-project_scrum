@@ -12,8 +12,8 @@ class project_project(models.Model):
 
     task_no_next = fields.Integer(string="Next Task id",copy=False,help="Counter to get unique ids for tasks")
 
-    @api.one
     def do_renumber_tasks(self):
+        self.ensure_one()
         if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) == 0:
             if not self.task_no_next:
                 self.task_no_next = 0
@@ -27,8 +27,8 @@ class project_project(models.Model):
 class project_task(models.Model):
     _inherit = "project.task"
 
-    @api.one
     def _new_task_no(self):
+        self.ensure_one()
         if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) == 0:  # Sequence on each project
             old_task_no = self.task_no
             self.project_id.task_no_next += 1
@@ -65,7 +65,6 @@ class project_task(models.Model):
     task_no = fields.Char(string="Task id",help="Unique id for this task",copy=False) # Char makes it easier to search for
     # task_no = fields.Char(string="Task id",help="Unique id for this task",copy=False,default=_next_task_no) # Char makes it easier to search for
 
-    @api.multi
     def name_get(self):
         result = []
         for s in self:
@@ -73,7 +72,6 @@ class project_task(models.Model):
         #raise Warning(result)
         return result
 
-    @api.multi
     def write(self, values):
         res = super(project_task, self).write(values)
         if 'project_id' in values:
@@ -106,6 +104,6 @@ class project_configuration(models.TransientModel):
     def get_default_task_sequence(self, fields):
         return {'task_sequence': int(self.env['ir.config_parameter'].get_param('project_task_sequence')) > 0}
 
-    @api.one
     def set_task_sequence(self):
+        self.ensure_one()
         self.env['ir.config_parameter'].set_param('project_task_sequence', '1' if self.task_sequence else '0')

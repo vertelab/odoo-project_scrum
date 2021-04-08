@@ -17,7 +17,6 @@
         <record id="action_timebox_portfolio_button" model="ir.actions.act_window">
             <field name="name">Timebox</field>
             <field name="res_model">project.scrum.timebox</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
                  <field name="context">{"search_default_portfolio_id": [active_id]}</field>
             <field name="help">The timeboxes of portfolio.</field>
@@ -80,7 +79,6 @@
         <record id="action_portfolio_all" model="ir.actions.act_window">
             <field name="name">Portfolio</field>
             <field name="res_model">project.scrum.portfolio</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_portfolio_tree" />
 <!--
@@ -195,7 +193,6 @@
         <record id="action_timebox_portfolio" model="ir.actions.act_window">
             <field name="name">Timebox</field>
             <field name="res_model">project.scrum.timebox</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_timebox_tree" />
 <!--

@@ -15,7 +15,6 @@
             <field name="state">code</field>
             <field name="type">ir.actions.server</field>
             <field name="code">model.create_sprints()</field>
-            <field name="condition">True</field>
 <!--            <field name="menu_ir_values_id" ref="ps_create_sprints"/>-->
         </record>
 <!--        -->

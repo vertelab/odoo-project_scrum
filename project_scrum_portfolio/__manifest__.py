@@ -7,10 +7,10 @@
 
 {
     'name': 'Project Scrum Portfolio',
-    'version': '1.8',
+    'version': '1.9',
     'category': 'Project Management',
     'description': """
-Adding Portfilio managent to Project Scrum
+Adding Portfilio management to Project Scrum
 ==========================================
 
 Most organizations want or need to produce more than one product (focus 

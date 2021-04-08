@@ -10,17 +10,17 @@ _logger = logging.getLogger(__name__)
 class scrum_sprint(models.Model):
     _inherit = "project.scrum.sprint"
 
-    @api.one
     @api.depends('task_ids')
     def _modules(self):
-        modules = []
-        module_path = set()
-        for t in self.task_ids:
-            for m in t.module_ids:
-                modules.append(m.name)
-                module_path.add(get_module_path(m.name).split('/')[-2])
-        self.git_projects = ','.join(m for m in module_path)
-        self.modules = ','.join(m for m in modules)
+        for rec in self:
+            modules = []
+            module_path = set()
+            for t in rec.task_ids:
+                for m in t.module_ids:
+                    modules.append(m.name)
+                    module_path.add(get_module_path(m.name).split('/')[-2])
+            rec.git_projects = ','.join(m for m in module_path)
+            rec.modules = ','.join(m for m in modules)
 
     git_projects = fields.Text(compute='_modules', string="Git Projects")
     modules = fields.Text(compute='_modules', string="Modules")
