@@ -210,7 +210,6 @@ class project_user_stories(models.Model):
     _group_by_full = {
         'sprint_ids': _read_group_sprint_id,
         }
-    name = fields.Char()
 
 class project_task(models.Model):
     _inherit = "project.task"
@@ -297,11 +296,11 @@ class project_task(models.Model):
     
     def name_get(self):
         # ~ raise Warning('%s' % self.project_id)
-        return [( s.id, '[%s] %s' % (s.project_id.name if s.project_id else '' ,s.name)) for s in self]
+        return [( s.id, '[%s] %s' % (s.project_id.name if s.project_id else '', s.name)) for s in self]
 
     def write(self, vals):
-        if vals.get('stage_id') == self.env.ref('project.project_tt_deployment').id:
-            vals['date_end'] = fields.datetime.now()
+        # if vals.get('stage_id') == self.env.ref('project.project_tt_deployment').id:
+        vals['date_end'] = fields.datetime.now()
         #~ raise Warning(vals,self)
         # ~ _logger.warn('Adds sprint_id %s pre pre' % vals.get('sprint_id'))
         if vals.get('sprint_id'):
@@ -383,26 +382,27 @@ class project_task(models.Model):
         #self._group_by_full['us_id'] = _read_group_us_id
         #super(project_task, self)._auto_init(cr, context)
 
-    def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None, context=None):
-        stage_obj = self.env['project.task.type']
-        order = stage_obj._order
-        access_rights_uid = access_rights_uid or self.env.uid
-        if read_group_order == 'stage_id desc':
-            order = '%s desc' % order
-        search_domain = []
-        project_id = self._resolve_project_id_from_context(context=context)
-        if project_id:
-            search_domain += ['|', ('project_ids', '=', project_id)]
-        search_domain += [('id', 'in', '')]
-        stage_ids = stage_obj._search(search_domain, order=order, access_rights_uid=access_rights_uid, context=context)
-        result = stage_obj.name_get(access_rights_uid, stage_ids, context=context)
-        # restore order of the search
-        result.sort(lambda x,y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))
-        
-        fold = {}
-        for stage in stage_obj.browse(cr, access_rights_uid, stage_ids, context=context):
-            fold[stage.id] = stage.fold or False
-        return result, fold
+    # def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None, context=None):
+    #     stage_obj = self.env['project.task.type']
+    #     order = stage_obj._order
+    #     access_rights_uid = access_rights_uid or self.env.uid
+    #     if read_group_order == 'stage_id desc':
+    #         order = '%s desc' % order
+    #     search_domain = []
+    #     # project_id = self._resolve_project_id_from_context(context=context)
+    #     # if project_id:
+    #     #     search_domain += ['|', ('project_ids', '=', project_id)]
+    #     search_domain += [('id', 'in', '')]
+    #     stage_ids = stage_obj._search(search_domain, order=order)
+    #     result = stage_obj.name_get()
+    #     # restore order of the search
+    #     result.sort()
+    #     # result.sort(lambda x,y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))
+    #
+    #     fold = {}
+    #     for stage in stage_obj.browse(stage_ids):
+    #         fold[stage.id] = stage.fold or False
+    #     return result, fold
 
     def _read_group_user_id(self, domain, read_group_order=None, access_rights_uid=None, context=None):
         res_users = self.env['res.users']
@@ -437,7 +437,7 @@ class project_task(models.Model):
     _group_by_full = {
         'sprint_id': _read_group_sprint_id,
         'us_id': _read_group_us_id,
-        'stage_id': _read_group_stage_ids,
+        # 'stage_id': _read_group_stage_ids,
         'user_id': _read_group_user_id,
         'sprint_type': _read_group_sprint_type,
     }
