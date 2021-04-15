@@ -42,27 +42,27 @@ class scrum_sprint(models.Model):
     date_stop = fields.Date(string = 'Ending Date', track_visibility='onchange')
 
     def _progress(self):
-        self.ensure_one()
-        if self.planned_hours and self.effective_hours:
-            self.progress = self.effective_hours / self.planned_hours * 100
+        for record in self:
+            if record.planned_hours and record.effective_hours:
+                record.progress = record.effective_hours / record.planned_hours * 100
     progress = fields.Float(compute="_progress", group_operator="avg", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
 
     def time_cal(self):
-        self.ensure_one()
-        diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
-        if diff.days <= 0:
-            return 1
-        return diff.days + 1
+        for record in self:
+            diff = fields.Date.from_string(record.date_stop) - fields.Date.from_string(record.date_start)
+            if diff.days <= 0:
+                return 1
+            return diff.days + 1
 
     def _date_duration(self):
-        self.ensure_one()
-        if self.date_start and self.date_stop:
-            if date.today() >= fields.Date.from_string(self.date_stop):
-                self.date_duration = self.time_cal() * 9
+        for record in self:
+            if record.date_start and record.date_stop:
+                if date.today() >= fields.Date.from_string(record.date_stop):
+                    record.date_duration = record.time_cal() * 9
+                else:
+                    record.date_duration = (date.today() - fields.Date.from_string(record.date_start)).days * 9
             else:
-                self.date_duration = (date.today() - fields.Date.from_string(self.date_start)).days * 9
-        else:
-            self.date_duration = 0
+                record.date_duration = 0
     date_duration = fields.Integer(compute = '_date_duration', string = 'Duration(in hours)')
     
     description = fields.Text(string = 'Description', required=False)
@@ -73,9 +73,9 @@ class scrum_sprint(models.Model):
     us_ids = fields.Many2many(comodel_name = 'project.scrum.us', string = 'User Stories')
 
     def _task_ids(self):
-        self.ensure_one()
-        self.task_ids = self.env['project.task'].search([('sprint_ids','in',self.id)])
-        self.task_count = len(self.task_ids)
+        for record in self:
+            record.task_ids = self.env['project.task'].search([('sprint_ids','in',record.id)])
+            record.task_count = len(record.task_ids)
     task_ids = fields.Many2many(comodel_name = 'project.task', _compute='_task_ids')
     task_count = fields.Integer(compute = '_task_ids')
     #task_test_count = fields.Integer(compute = '_task_test_count')
