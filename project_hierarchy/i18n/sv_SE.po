@@ -1,0 +1,117 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#   * project_issue_sudo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0-20171009\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-13 12:42+0000\n"
+"PO-Revision-Date: 2019-03-13 13:47+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: sv_SE\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: project_issue_sudo
+#: view:project.issue.sudo.login.url:project_issue_sudo.sudo_login_url_form
+msgid "Copy"
+msgstr "Kopiera"
+
+#. module: project_issue_sudo
+#: view:project.issue.sudo.login.url:project_issue_sudo.sudo_login_url_form
+#: help:project.issue.sudo.login.url,sudo_login_url:0
+msgid "Copy the link above to an incognito window or a new web browser to login."
+msgstr "Kopiera länken ovan till ett inkognito fönster eller en ny webbläsare för att logga in."
+
+#. module: project_issue_sudo
+#: field:project.issue.sudo.login.url,create_uid:0
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: project_issue_sudo
+#: field:project.issue.sudo.login.url,create_date:0
+msgid "Created on"
+msgstr "Skapad på"
+
+#. module: project_issue_sudo
+#: field:project.issue.sudo.login.url,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: project_issue_sudo
+#: field:project.issue.sudo.login.url,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: project_issue_sudo
+#: field:project.issue.sudo.login.url,__last_update:0
+msgid "Last Modified on"
+msgstr "Senast ändrad den"
+
+#. module: project_issue_sudo
+#: field:project.issue.sudo.login.url,write_uid:0
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: project_issue_sudo
+#: field:project.issue.sudo.login.url,write_date:0
+msgid "Last Updated on"
+msgstr "Senast uppdaterad den"
+
+#. module: project_issue_sudo
+#: field:project.issue,sudo_id:0
+msgid "Login as"
+msgstr "Logga in som"
+
+#. module: project_issue_sudo
+#: view:project.issue:project_issue_sudo.project_issue_form_view
+msgid "Login link"
+msgstr "Logga in länk"
+
+#. module: project_issue_sudo
+#: code:addons/project_issue_sudo/project_issue.py:56
+#: code:addons/project_issue_sudo/project_issue.py:68
+#, python-format
+msgid "Need a user for login"
+msgstr "Behöver en användare för inloggning"
+
+#. module: project_issue_sudo
+#: model:ir.model,name:project_issue_sudo.model_project_issue
+msgid "Project Issue"
+msgstr "Projektärenden"
+
+#. module: project_issue_sudo
+#: code:addons/project_issue_sudo/project_issue.py:74
+#, python-format
+msgid "Sudo Login URL"
+msgstr "Sudo Logga in URL"
+
+#. module: project_issue_sudo
+#: field:project.issue.sudo.login.url,sudo_login_url:0
+msgid "Sudo Login url"
+msgstr "Sudo Login url"
+
+#. module: project_issue_sudo
+#: field:res.users,sudo_pw:0
+msgid "Sudo pw"
+msgstr "Sudo pw"
+
+#. module: project_issue_sudo
+#: view:website:web.database_select
+msgid "db or ''"
+msgstr "db or ''"
+
+#. module: project_issue_sudo
+#: view:website:web.login
+msgid "password or ''"
+msgstr "password or ''"
+
+#. module: project_issue_sudo
+#: view:project.issue:project_issue_sudo.project_issue_form_view
+msgid "⇒ Login as"
+msgstr "⇒ Logga in som"
