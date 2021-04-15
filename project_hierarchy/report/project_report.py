@@ -13,13 +13,13 @@ class ReportProjectTaskUser(models.Model):
     portfolio_id = fields.Many2one(string="Portfolio", comodel_name="project.project")
 
 
-    # def _select(self):
-    #     return super(ReportProjectTaskUser,self)._select() + \
-    #         """,\n
-    #         t.portfolio_id as portfolio_id
-    #         """
+    def _select(self):
+        return super(ReportProjectTaskUser,self)._select() + \
+            """,\n
+            t.portfolio_id as portfolio_id
+            """
 
-    # def _group_by(self):
-    #     return super(ReportProjectTaskUser,self)._group_by() + \
-    #         """,\n
-    #         t.portfolio_id"""
+    def _group_by(self):
+        return super(ReportProjectTaskUser,self)._group_by() + \
+            """,\n
+            t.portfolio_id"""

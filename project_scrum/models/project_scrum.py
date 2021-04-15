@@ -48,6 +48,7 @@ class scrum_sprint(models.Model):
     progress = fields.Float(compute="_progress", group_operator="avg", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
 
     def time_cal(self):
+        self.ensure_one()
         diff = fields.Date.from_string(self.date_stop) - fields.Date.from_string(self.date_start)
         if diff.days <= 0:
             return 1

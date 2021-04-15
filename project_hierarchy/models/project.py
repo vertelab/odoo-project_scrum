@@ -53,4 +53,5 @@ class Project(models.Model):
 class ProjectTask(models.Model):
     _inherit = "project.task"
 
-    portfolio_id = fields.Many2one(comodel_name="project.project", related="project_id.portfolio_id")
+    # TODO: do we need to trigger the relation manually with store=True? 
+    portfolio_id = fields.Many2one(comodel_name="project.project", related="project_id.portfolio_id", store=True)
