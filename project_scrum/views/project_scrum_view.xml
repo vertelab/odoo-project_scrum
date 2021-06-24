@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
   <data>
     <menuitem id="menu_scrum_in_config" name="Scrum" parent="project.menu_main_pm" sequence="3" />
     <!--task search-->
@@ -10,7 +10,7 @@
       <field name="arch" type="xml">
         <filter name="inactive" position="after">
           <separator />
-          <filter string="Test" name="filte_by_tag" domain="[('categ_ids','ilike','test')]" />
+<!--          <filter string="Test" name="filte_by_tag" domain="[('categ_ids','ilike','test')]" />-->
           <filter string="Current Sprint" name="current_sprint" domain="[('current_sprint','=',True)]" />
           <filter string="Previous Sprint" name="prev_sprint" domain="[('prev_sprint','=',True)]" />
           <filter string="Next Sprint" name="next_sprint" domain="[('next_sprint','=',True)]" />
@@ -399,22 +399,15 @@
           <templates>
             <t t-name="kanban-box">
               <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
-                  <span class="oe_e">í</span>
-                  <ul class="oe_dropdown_menu">
-                    <li>
-                      <t t-if="widget.view.is_action_enabled('edit')">
-                        <li>
-                          <a type="edit">Edit...</a>
-                        </li>
-                      </t>
-                      <t t-if="widget.view.is_action_enabled('delete')">
-                        <li>
-                          <a type="delete">Delete</a>
-                        </li>
-                      </t>
-                    </li>
-                  </ul>
+                  <div class="o_dropdown_kanban dropdown">
+                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                        <span class="fa fa-ellipsis-v"/>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                    </div>
                 </div>
                 <div class="oe_kanban_content">
                   <div>
@@ -914,4 +907,4 @@
 -->
     
   </data>
-</openerp>
+</odoo>
