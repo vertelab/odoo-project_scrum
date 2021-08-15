@@ -2,10 +2,11 @@
 
 {
     'name': 'Project Task Id',
-    'version': '1.6',
+    'version': '14.0.1.6.1',
     'category': 'Project Management',
     'summary': 'Adds id to task',
     'description': """
+This module is maintained from https://github.com/vertelab/odoo-project_scrum/tree/14.0/project_task_id. \n
 Adds an id to task using a counter on each projekt.
     """,
     'author': 'Vertel AB',
