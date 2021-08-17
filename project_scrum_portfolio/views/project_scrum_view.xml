@@ -9,6 +9,7 @@
                 <tree>
                     <field name="name" />
                     <field name="user_id" />
+                    <field name="color" />
                     <field name="planned_hours" />
                     <field name="consumed_hours" />
                 </tree>
