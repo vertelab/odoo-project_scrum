@@ -51,15 +51,15 @@ https://innolution.com/essential-scrum/table-of-contents/chapter-16-portfolio-pl
     'author': 'Vertel AB',
     'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
-    'depends': ['project_scrum'],
+    'depends': ['project', 'project_scrum'],
     'data': [
         'views/project_scrum_view.xml',
         'security/ir.model.access.csv',
-#        'security/project_security.xml',
-       ],
-    #'external_dependencies': {
-        #'python' : ['bs4'],
-    #},
+        #        'security/project_security.xml',
+    ],
+    # 'external_dependencies': {
+    # 'python' : ['bs4'],
+    # },
     # ~ 'demo': ['project_scrum_demo.xml'],
     'installable': True,
 }
