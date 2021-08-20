@@ -7,8 +7,8 @@ from odoo.exceptions import Warning
 import logging
 _logger = logging.getLogger(__name__)
 
-class scrum_sprint(models.Model):
-    _inherit = "project.scrum.sprint"
+class ScrumSprint(models.Model):
+    _inherit = 'project.scrum.sprint'
 
     @api.depends('task_ids')
     def _modules(self):
@@ -26,7 +26,7 @@ class scrum_sprint(models.Model):
     modules = fields.Text(compute='_modules', string="Modules")
 
 
-class project_task(models.Model):
-    _inherit = "project.task"
+class ProjectTask(models.Model):
+    _inherit = 'project.task'
 
     module_ids = fields.Many2many(comodel_name='ir.module.module', string="Modules")
