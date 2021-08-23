@@ -106,7 +106,7 @@
         <form string="Scrum Sprint">
           <!--Header States-->
           <header>
-            <field name="state" string="State" widget="statusbar" clickable="True" />
+            <field name="state" string="State" widget="statusbar" options="{'clickable': '1'}" />
           </header>
           <sheet string="Sprint">
             <h1>
