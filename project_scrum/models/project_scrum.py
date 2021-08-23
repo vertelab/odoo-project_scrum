@@ -25,6 +25,7 @@ import re
 import time
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError, ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -250,18 +251,15 @@ class project_task(models.Model):
     date_end = fields.Date(string = 'Ending Date', required=False)
     use_scrum = fields.Boolean(related='project_id.use_scrum')
     description = fields.Html('Description')
-    sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
-    sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint',string="Sprints")
+    sprint_id = fields.Many2one(comodel_name='project.scrum.sprint', string='Sprint')
+    sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprints')
 
     @api.depends('sprint_id')
     def _current_sprint(self):
         for rec in self:
-            if rec.sprint_type == 'prev':
-                rec.prev_sprint = True
-            if rec.sprint_type == 'current':
-                rec.current_sprint = True
-            if rec.sprint_type == 'next':
-                rec.next_sprint = True
+            rec.current_sprint = rec.sprint_type == 'current'
+            rec.prev_sprint = rec.sprint_type == 'prev'
+            rec.next_sprint = rec.sprint_type == 'next'
             
         #~ sprint = self.env['project.scrum.sprint'].get_current_sprint(self.project_id.id)
         #~ _logger.error('Task computed %s' % sprint)
@@ -289,7 +287,9 @@ class project_task(models.Model):
                 elif sprints and sprints['next'] and rec.sprint_id.id == sprints['next'].id:
                     rec.sprint_type = _('Next Sprint')
                 else:
-                    rec.sprint_type = None
+                    raise UserError('No sprint type found')
+            else:
+                rec.sprint_type = None
 
     @api.depends('sprint_id')
     def _set_sprint_type(self):
