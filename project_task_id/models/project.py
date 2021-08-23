@@ -62,7 +62,7 @@ class project_task(models.Model):
                 project.task_no_next += 1
                 return str(project.task_no_next)
 
-    task_no = fields.Char(string="Task id",help="Unique id for this task",copy=False) # Char makes it easier to search for
+    task_no = fields.Char(string="Task id", help="Unique id for this task", copy=False) # Char makes it easier to search for
     # task_no = fields.Char(string="Task id",help="Unique id for this task",copy=False,default=_next_task_no) # Char makes it easier to search for
 
     def name_get(self):
@@ -80,6 +80,7 @@ class project_task(models.Model):
 
     @api.model
     def create(self, values):
+        task_no = False
 
         if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) > 0:
             task_no = self.env['ir.sequence'].next_by_id(self.env.ref('project_task_id.sequence_project_task').id)
