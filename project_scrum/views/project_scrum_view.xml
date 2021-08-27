@@ -95,6 +95,8 @@
           <field name="date_duration" />
           <!--duration time = stop time - start time-->
           <field name="state" />
+          <field name="user_id" />
+          <field name="date_deadline" />
         </tree>
       </field>
     </record>
