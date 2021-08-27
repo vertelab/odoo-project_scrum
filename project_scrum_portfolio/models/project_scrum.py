@@ -39,8 +39,8 @@ class scrum_sprint_portfolio(models.Model):
     _description = 'Project Scrum Portfolio'
     _order = 'name desc'
 
-    name = fields.Char(string = 'Portfolio Name', required=True,help='Product or focus area')
-    description = fields.Text(string = 'Description', required=False)
+    name = fields.Char(string='Portfolio Name', required=True, help='Product or focus area')
+    description = fields.Text(string='Description', required=False)
     color = fields.Integer(string='Color Index')
     # ~ project_ids = fields.One2many(comodel_name='project.project', invserse_name = 'portfolio_id')
     # ~ sprint_ids = fields.One2many(comodel_name="project.sprint",invserse_name = 'portfolio_id')
@@ -50,69 +50,87 @@ class scrum_sprint_portfolio(models.Model):
         # ~ self.task_count = len(self.task_ids)
     # ~ task_count = fields.Integer(compute = '_task_count')
 
-    timebox_ids = fields.One2many(comodel_name="project.scrum.timebox",inverse_name = 'portfolio_id')
+    timebox_ids = fields.One2many(comodel_name="project.scrum.timebox", inverse_name='portfolio_id')
 
+    @api.depends('timebox_ids')
     def _timebox_count(self):
-        self.ensure_one()
-        self.timebox_count = len(self.timebox_ids)
+        for rec in self:
+            if rec.timebox_ids:
+                rec.timebox_count = len(rec.timebox_ids)
+            else:
+                rec.timebox_count = 0
 
     timebox_count = fields.Integer(compute='_timebox_count')
-    user_id = fields.Many2one(comodel_name='res.users', string='Product Owner',help="Manager for a product or Focus Area")
+    user_id = fields.Many2one(comodel_name='res.users', string='Product Owner', help="Manager for a product or Focus Area")
     
+    @api.depends('timebox_ids')
     def _planned_hours(self):
-        self.ensure_one()
-        self.planned_hours =  sum(self.timebox_ids.filtered(lambda tb:  tb.sprint_id and tb.state in ['draft','']).mapped('planned_hours'))
-        # ~ self.planned_hours =  sum(self.timebox_ids.mapped('planned_hours'))
-        self.consumed_hours =  sum(self.timebox_ids.filtered(lambda tb: tb.sprint_id and tb.state in ['done']).mapped('planned_hours'))
-        if self.env.context.get('sprint_ids'):
-            self.sprint_hours =  sum(self.timebox_ids.filtered(lambda tb: tb.sprint_id.id in tb.env.context.get('sprint_ids')).mapped('planned_hours'))
-        else:
-            self.sprint_hours = sum(self.timebox_ids.mapped('planned_hours')) if self.timebox_ids else 0.0
-        # ~ self.consumed_hours =  sum(self.timebox_ids.mapped('planned_hours'))
-        
-    planned_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Planned Hours', help="Hours timedboxed for sprints planned",readonly=True)
-    consumed_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Consumed Hours', help="Hours consumed for done sprints",readonly=True)
-    sprint_hours = fields.Float(compute="_planned_hours",group_operator="sum", string='Sprint Hours', help="Hours timedboxed for current sprints",readonly=True)
+        for rec in self:
+            if rec.timebox_ids:
+                rec.planned_hours = sum(rec.timebox_ids.filtered(
+                    lambda tb: tb.sprint_id and tb.state in ['draft', '']).mapped('planned_hours'))
+                rec.consumed_hours = sum(rec.timebox_ids.filtered(
+                    lambda tb: tb.sprint_id and tb.state in ['done']).mapped('planned_hours'))
+            else:
+                rec.planned_hours = 0
+                rec.consumed_hours = 0
+
+            if rec.env.context.get('sprint_ids'):
+                rec.sprint_hours = sum(rec.timebox_ids.filtered(
+                    lambda tb: tb.sprint_id.id in tb.env.context.get('sprint_ids')).mapped('planned_hours'))
+            else:
+                rec.sprint_hours = sum(rec.timebox_ids.mapped('planned_hours')) if rec.timebox_ids else 0.0
+
+    planned_hours = fields.Float(compute="_planned_hours", group_operator="sum", string='Planned Hours',
+                                 help="Hours timedboxed for sprints planned", readonly=True)
+    consumed_hours = fields.Float(compute="_planned_hours", group_operator="sum", string='Consumed Hours',
+                                  help="Hours consumed for done sprints", readonly=True)
+    sprint_hours = fields.Float(compute="_planned_hours", group_operator="sum", string='Sprint Hours',
+                                help="Hours timedboxed for current sprints", readonly=True)
     
     # ~ @api.one
     # ~ def _progress(self):
         # ~ if self.planned_hours and self.effective_hours:
             # ~ self.progress = self.effective_hours / self.planned_hours * 100
     # ~ progress = fields.Float(compute="_progress", group_operator="avg", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
-      
 
 
 class scrum_sprint_timebox(models.Model):
     _name = 'project.scrum.timebox'
     _description = 'Project Scrum Timebox'
 
-    # ~ name = fields.Char(string = 'Timebox', required=True)
     portfolio_id = fields.Many2one(comodel_name='project.scrum.portfolio')
     sprint_id = fields.Many2one(comodel_name="project.scrum.sprint")
-    # ~ task_ids = fields.One2many(comodel_name="project.task",inverse_name = 'timebox_id')
     planned_hours = fields.Float(string="Planned Hours")
     
+    @api.depends('sprint_id')
     def _state(self):
-        self.ensure_one()
-        self.state = self.sprint_id.state
+        for rec in self:
+            if rec.sprint_id:
+                rec.state = rec.sprint_id.state
+            else:
+                rec.state = False
 
-    state = fields.Char(string="State",compute="_state")
+    state = fields.Char(string="State", compute="_state")
     
+    @api.depends('planned_hours', 'sprint_id')
     def _sprint_share(self):
-        self.ensure_one()
-        self.sprint_share = round(self.planned_hours / (self.sprint_id.planned_hours if self.sprint_id and self.sprint_id.planned_hours else 1.0) * 100,0) 
-    sprint_share = fields.Float(compute="_sprint_share",readonly=True)
-    
-    # ~ @api.one
-    # ~ def _progress(self):
-        # ~ if self.planned_hours and self.effective_hours:
-            # ~ self.progress = self.effective_hours / self.planned_hours * 100
-    # ~ progress = fields.Float(compute="_progress", group_operator="avg", string='Progress (0-100)', help="Computed as: Time Spent / Total Time.")
+        for rec in self:
+            if rec.planned_hours:
+                rec.sprint_share = round(
+                    rec.planned_hours / (rec.sprint_id.planned_hours if rec.sprint_id and rec.sprint_id.planned_hours else
+                                         1.0) * 100.0)
+            else:
+                rec.sprint_share = 0
+
+    sprint_share = fields.Float(compute="_sprint_share", readonly=True)
+
 
 class scrum_sprint(models.Model):
     _inherit = 'project.scrum.sprint'
 
-    timebox_ids = fields.One2many(comodel_name="project.scrum.timebox",inverse_name = 'sprint_id')
+    timebox_ids = fields.One2many(comodel_name="project.scrum.timebox", inverse_name='sprint_id')
+
 
 class project_task(models.Model):
     _inherit = "project.task"

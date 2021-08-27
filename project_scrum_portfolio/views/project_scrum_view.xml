@@ -9,6 +9,7 @@
                 <tree>
                     <field name="name" />
                     <field name="user_id" />
+                    <field name="color" />
                     <field name="planned_hours" />
                     <field name="consumed_hours" />
                 </tree>
@@ -87,7 +88,7 @@
             <field name="search_view_id" ref="view_portfolio_search" />
             <field name="help">The portfolio of scrum.</field>
         </record>
-        <menuitem sequence="-1" action="action_portfolio_all" id="menu_action_portfolio_all" parent="project.menu_project_management" />
+        <menuitem sequence="-1" action="action_portfolio_all" id="menu_action_portfolio_all" parent="project.menu_main_pm" />
         <!-- inherit project task tree and show effective_hours -->
         <record id="view_task_tree2" model="ir.ui.view">
             <field name="name">project.task.tree.portfolio</field>
