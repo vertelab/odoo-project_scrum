@@ -523,6 +523,8 @@
             <filter string="Project" name="project" domain="[]" context="{'group_by':'project_id'}" />
             <separator orientation="vertical" />
             <filter string="Month" name="month" domain="[]" context="{'group_by':'date_start'}" help="Sprint Month" />
+              <separator orientation="vertical" />
+            <filter string="Deadline" name="date_deadline" domain="[]" context="{'group_by':'date_deadline'}" help="Deadline" />
           </group>
         </search>
       </field>
