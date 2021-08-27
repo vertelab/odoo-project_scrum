@@ -30,6 +30,14 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
+class scrum_sprint_tags(models.Model):
+    _name = 'project.scrum.tags'
+    _description = 'Project Scrum Tags'
+
+    name = fields.Char(string="Name")
+    color = fields.Integer(string="Color")
+
+
 class scrum_sprint(models.Model):
     _name = 'project.scrum.sprint'
     _inherit = ['mail.thread']
@@ -37,10 +45,12 @@ class scrum_sprint(models.Model):
     _order = 'date_start desc'
 
     name = fields.Char(string='Sprint Name', required=True)
-    meeting_ids = fields.One2many(comodel_name = 'project.scrum.meeting', inverse_name = 'sprint_id', string ='Daily Scrum')
-    #~ user_id = fields.Many2one(comodel_name='res.users', string='Assigned to')
-    date_start = fields.Date(string = 'Starting Date', default=fields.Date.today())
-    date_stop = fields.Date(string = 'Ending Date')
+    meeting_ids = fields.One2many(comodel_name='project.scrum.meeting', inverse_name='sprint_id', string='Daily Scrum')
+    date_start = fields.Date(string='Starting Date', default=fields.Date.today())
+    date_stop = fields.Date(string='Ending Date')
+    user_id = fields.Many2one('res.users', string="Assigned to")
+    date_deadline = fields.Date(string='Deadline')
+    tag_ids = fields.Many2many('project.scrum.tags', string="Tags")
 
     @api.depends('planned_hours', 'effective_hours')
     def _progress(self):
