@@ -18,7 +18,7 @@ More information:
     'author': 'Vertel AB',
     'license': 'AGPL-3',
     'website': 'http://www.vertel.se',
-    'depends': ['project', 'mail', 'hr_timesheet'],
+    'depends': ['project', 'mail', 'hr_timesheet', 'project_category'],
     'data': [
         'views/project_scrum_view.xml',
         'wizard/project_scrum_test_task_view.xml',

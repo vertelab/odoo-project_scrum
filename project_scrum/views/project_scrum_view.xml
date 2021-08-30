@@ -287,6 +287,14 @@
                                    context="{'default_project_id': project_id,}"
                                    domain="[('project_id', '=' , project_id)]"/>
                         </group>
+                        <group col="4">
+                            <field name="user_id" />
+                            <field name="date_deadline" />
+                        </group>
+
+                        <group>
+                            <field name="tag_ids" widget="many2many_tags"/>
+                        </group>
 
                         <notebook colspan="5">
                             <page string="Description">
@@ -332,6 +340,8 @@
           <field name="actor_ids" />
           <field name="sprint_ids" />
           <field name="project_id" />
+          <field name="user_id" />
+          <field name="date_deadline" />
         </tree>
       </field>
     </record>
@@ -461,6 +471,8 @@
           <field name="user_story_id_test" />
           <field name="description_test" />
           <field name="stats_test" />
+          <field name="user_id" />
+          <field name="date_deadline" />
         </tree>
       </field>
     </record>
@@ -479,6 +491,11 @@
               <field name="sequence_test" />
               <field name="project_id" />
               <field name="user_story_id_test" domain="[('project_id', '=', project_id)]" context="{'default_project_id': project_id}" />
+            </group>
+            <group col="4">
+              <field name="user_id" />
+              <field name="date_deadline" />
+              <field name="tag_ids" widget="many2many_tags"/>
             </group>
             <notebook>
               <page string="Description">
@@ -566,6 +583,8 @@
             <filter string="Sprint" name="sprint" context="{'group_by':'sprint_ids'}"/>
             <separator orientation="vertical"/>
             <filter string="Project" name="project" domain="[]" context="{'group_by':'project_id'}"/>
+            <separator orientation="vertical" />
+            <filter string="Deadline" name="date_deadline" domain="[]" context="{'group_by':'date_deadline'}" help="Deadline" />
           </group>
         </search>
       </field>
@@ -593,6 +612,8 @@
             <filter string="Project" name="group_by_project" context="{'group_by':'project_id'}" />
             <separator orientation="vertical" />
             <filter string="User Story" name="group_by_us_test" context="{'group_by':'user_story_id_test'}" />
+              <separator orientation="vertical" />
+            <filter string="Deadline" name="date_deadline" domain="[]" context="{'group_by':'date_deadline'}" help="Deadline" />
           </group>
         </search>
       </field>
