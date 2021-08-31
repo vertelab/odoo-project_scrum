@@ -14,10 +14,8 @@
             <field name="model_id" ref="model_project_scrum_sprint"/>
             <field name="state">code</field>
             <field name="type">ir.actions.server</field>
-<!--            <field name="view_mode">form</field>-->
             <field name="code">model.test_task()</field>
             <field name="binding_model_id" ref="project_scrum.model_project_scrum_sprint" />
-<!--            <field name="menu_ir_values_id" ref="ps_make_test_task"/>-->
         </record>
         
 <!--        <record model="ir.values" id="ps_make_test_task">-->
