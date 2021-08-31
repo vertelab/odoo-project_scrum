@@ -50,7 +50,7 @@ class scrum_sprint(models.Model):
     date_stop = fields.Date(string='Ending Date')
     user_id = fields.Many2one('res.users', string="Assigned to")
     date_deadline = fields.Date(string='Deadline')
-    tag_ids = fields.Many2many('project.scrum.tags', string="Tags")
+    tag_ids = fields.Many2many('project.tags', string="Tags")
 
     @api.depends('planned_hours', 'effective_hours')
     def _progress(self):
@@ -165,18 +165,21 @@ class scrum_sprint(models.Model):
             'next': sprint and sprint.search([('project_id', '=', project_id), ('date_start', '>', sprint.date_stop)], order='date_start', limit=1) or None,
         }
 
-    def test_task(self, sprint):
-        tags = self.env['project.category'].search([('name', '=', 'test')])  # search tags with name "test"
+    def test_task(self):
+        # tags = self.env['project.category'].search([('name', '=', 'test')])  # search tags with name "test"
+        tags = self.env['project.type'].search([('name', '=', 'test')])  # search tags with name "test"
         if len(tags) == 0:    # if not exist, then creat a "test" tag into category
-            tags.append(self.env['project.category'].create({'name':'test'}))
-        for tc in sprint.project_id.test_case_ids:  # loop through each test cases to creat task
+            # tags.append(self.env['project.category'].create({'name': 'test'}))
+            tags = self.env['project.type'].create({'name': 'test'})
+        for tc in self.project_id.test_case_ids:  # loop through each test cases to creat task
             self.env['project.task'].create({
                 'name': '[TC] %s' % tc.name,
                 'description': tc.description_test,
                 'project_id': tc.project_id.id,
-                'sprint_id': sprint.id,
-                'categ_ids': [(6, _ ,tags)],
-                })
+                'sprint_id': self.id,
+                'categ_ids': [(6, _, tags)],
+            })
+
 
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
@@ -199,8 +202,10 @@ class project_user_stories(models.Model):
     test_count = fields.Integer(compute = '_test_count', store=True)
     sequence = fields.Integer('Sequence')
     company_id = fields.Many2one(related='project_id.company_id')
-    #has_task = fields.Boolean()
-    #has_test = fields.Boolean()
+
+    user_id = fields.Many2one('res.users', string="Assigned to")
+    date_deadline = fields.Date(string='Deadline')
+    tag_ids = fields.Many2many('project.tags', string="Tags")
 
     def _conv_html2text(self):  # method that return a short text from description of user story
         self.ensure_one()
@@ -600,6 +605,10 @@ class test_case(models.Model):
     sequence_test = fields.Integer(string = 'Sequence')
     stats_test = fields.Selection([('draft','Draft'),('in progress','In Progress'),('cancel','Cancelled')], string='State', required=False)
     company_id = fields.Many2one(related='project_id.company_id')
+
+    user_id = fields.Many2one('res.users', string="Assigned to")
+    date_deadline = fields.Date(string='Deadline')
+    tag_ids = fields.Many2many('project.tags', string="Tags")
 
     def _resolve_project_id_from_context(self):
 
