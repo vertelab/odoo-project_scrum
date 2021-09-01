@@ -342,8 +342,8 @@ class project_task(models.Model):
         return [(s.id, '[%s] %s' % (s.project_id.name if s.project_id else '', s.name)) for s in self]
 
     def write(self, vals):
-        if (vals.get('stage_id') == self.env.ref('project.project_stage_2').id):
-            vals['date_end'] = fields.datetime.now()
+        # if (vals.get('stage_id') == self.env.ref('project.project_stage_2').id):
+        #     vals['date_end'] = fields.datetime.now()
         if vals.get('sprint_id'):
             if not self.sprint_ids or not vals.get('sprint_id') in self.sprint_ids.mapped('id'):
                 self.sprint_ids = [(4, vals.get('sprint_id'), 0)]

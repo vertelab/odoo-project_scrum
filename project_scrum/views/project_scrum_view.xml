@@ -111,15 +111,18 @@
             <field name="state" string="State" widget="statusbar" options="{'clickable': '1'}" />
           </header>
           <sheet string="Sprint">
+              <div class="oe_button_box" name="button_box">
+                <button class="oe_stat_button" type="action" name="%(action_ps_sprint_backlog)d" groups="sales_team.group_sale_salesman" icon="fa-tasks" context="{'default_project_id': project_id}">
+                    <field string="Backlog Tasks" name="task_count" widget="statinfo"/>
+                </button>
+                <button class="oe_inline oe_stat_button" type="action" icon="fa-tasks" name="%(action_ps_tc)d" string="[TC] Tasks" context="{'default_project_id': project_id}">
+
+                </button>
+              </div>
             <h1>
               <field name="name" placeholder="Sprint..." class="oe_inline" />
             </h1>
-            <button class="oe_inline oe_stat_button" type="action" icon="fa-tasks" name="%(action_ps_sprint_backlog)d" string="Backlog" context="{'default_project_id': project_id}">
-                   <field name="task_count" widget="statinfo" string="Tasks"/>
-            </button>
-            <button class="oe_inline oe_stat_button" type="action" icon="fa-tasks" name="%(action_ps_tc)d" string="[TC] Tasks" context="{'default_project_id': project_id}">
 
-            </button>
             <group colspan="4" col="4">
               <field name="project_id" />
               <field name="progress" widget="progressbar" />
