@@ -45,6 +45,7 @@ class scrum_sprint(models.Model):
     _order = 'date_start desc'
 
     name = fields.Char(string='Sprint Name', required=True)
+    sequence = fields.Integer('Sequence')
     meeting_ids = fields.One2many(comodel_name='project.scrum.meeting', inverse_name='sprint_id', string='Daily Scrum')
     date_start = fields.Date(string='Starting Date', default=fields.Date.today())
     date_stop = fields.Date(string='Ending Date')
@@ -190,22 +191,24 @@ class project_user_stories(models.Model):
     color = fields.Integer('Color Index')
     description = fields.Html(string='Description')
     description_short = fields.Text(compute='_conv_html2text', store=True)
-    actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
+    actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string='Actor')
     project_id = fields.Many2one(comodel_name='project.project', string='Project', ondelete='cascade',
                                  change_default=True)
-    sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprint')
-    #sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
-    task_ids = fields.One2many(comodel_name = 'project.task', inverse_name = 'us_id')
-    task_test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
-    task_count = fields.Integer(compute = '_task_count', store=True)
-    test_ids = fields.One2many(comodel_name = 'project.scrum.test', inverse_name = 'user_story_id_test')
-    test_count = fields.Integer(compute = '_test_count', store=True)
+    sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprint IDs')
+    sprint_id = fields.Many2one(comodel_name='project.scrum.sprint', string='Sprint')
+    task_ids = fields.One2many(comodel_name='project.task', inverse_name='us_id')
+    task_test_ids = fields.One2many(comodel_name='project.scrum.test', inverse_name='user_story_id_test')
+    task_count = fields.Integer(compute='_task_count', store=True)
+    test_ids = fields.One2many(comodel_name='project.scrum.test', inverse_name='user_story_id_test')
+    test_count = fields.Integer(compute='_test_count', store=True)
     sequence = fields.Integer('Sequence')
     company_id = fields.Many2one(related='project_id.company_id')
 
     user_id = fields.Many2one('res.users', string="Assigned to")
     date_deadline = fields.Date(string='Deadline')
-    tag_ids = fields.Many2many('project.tags', string="Tags")
+    tag_ids = fields.Many2many('project.tags', string="Label")
+    stage_id = fields.Many2one('project.task.type', string="Stage")
+    business_process_id = fields.Many2one('project.scrum.business.process', string="Business Process")
 
     def _conv_html2text(self):  # method that return a short text from description of user story
         self.ensure_one()
@@ -500,23 +503,26 @@ class project_task(models.Model):
             #~ 'user_id': _read_group_user_id,
         #~ }
 
+
 class project_actors(models.Model):
     _name = 'project.scrum.actors'
     _description = 'Actors in user stories'
 
     name = fields.Char(string='Name', size=60)
 
+
 class scrum_meeting(models.Model):
     _name = 'project.scrum.meeting'
     _description = 'Project Scrum Daily Meetings'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='cascade',
-       change_default=True)
+    project_id = fields.Many2one(comodel_name='project.project', string='Project', ondelete='cascade',
+                                 change_default=True)
     name = fields.Char(string='Meeting', compute='_compute_meeting_name', size=60)
     sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
     date_meeting = fields.Date(string = 'Date', required=True, default=date.today())
-    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True, default=lambda self: self.env.user)
+    user_id_meeting = fields.Many2one(comodel_name = 'res.users', string = 'Name', required=True,
+                                      default=lambda self: self.env.user)
     question_yesterday = fields.Text(string = 'Description', required=True)
     question_today = fields.Text(string = 'Description', required=True)
     question_blocks = fields.Text(string = 'Description', required=False)
@@ -639,4 +645,13 @@ class sprint_type(models.Model):
     _description = 'Sprint Type'
     
     name = fields.Char()
+    sequence = fields.Integer()
+
+
+class project_sprint_business_process(models.Model):
+    _name = 'project.scrum.business.process'
+    _order = 'sequence'
+    _description = 'Business Process'
+
+    name = fields.Char(string="Description")
     sequence = fields.Integer()
