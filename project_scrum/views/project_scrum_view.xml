@@ -78,6 +78,7 @@
 <!--        <tree colors="black:state in ('draft'); orange:state in ('pending'); blue:state in('open');-->
 <!--                grey:state in ('cancel'); green:state in('done')" string="Scrum Sprint">-->
           <tree string="Scrum Sprint">
+              <field name="sequence" widget="handle"/>
             <field name="name" />
           <!--name of sprint-->
           <field name="project_id" />
@@ -123,29 +124,27 @@
               <field name="name" placeholder="Sprint..." class="oe_inline" />
             </h1>
 
-            <group colspan="4" col="4">
-              <field name="project_id" />
-              <field name="progress" widget="progressbar" />
-              <field name="planned_hours" widget="float_time" />
-              <field name="effective_hours" widget="float_time" />
-            </group>
-            <group colspan="4" col="6">
-              <field name="date_start" />
-              <field name="date_stop" />
-              <field name="date_duration" />
-            </group>
-            <group>
-                <field name="user_id" />
-                <field name="date_deadline" />
-                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
-            </group>
+              <group>
+                  <group>
+                      <field name="project_id" />
+                      <field name="progress" widget="progressbar" />
+                      <field name="planned_hours" widget="float_time" />
+                      <field name="effective_hours" widget="float_time" />
+                      <field name="date_deadline" />
+                  </group>
+                  <group>
+                      <field name="user_id" />
+                      <field name="date_start" />
+                      <field name="date_stop" />
+                      <field name="date_duration" />
+                      <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                  </group>
+              </group>
+
             <notebook colspan="5">
               <!--User Stories-->
               <page string="User Story">
-                <field colspan="2" col="1" name="us_ids" context="{
-                                        'default_project_id': project_id,
-                                        'default_sprint_id': id,
-                                        }">
+                <field colspan="2" col="1" name="us_ids" context="{'default_project_id': project_id, 'default_sprint_id': id,}">
                   <tree>
                     <field name="name" />
                     <field name="actor_ids" />
@@ -156,30 +155,28 @@
               </page>
               <page string="Review" name="review">
                 <!--page for review-->
-                <group col="1">
-                  <field name="review" />
-                </group>
-                <group col="1">
-                  <field name="task_ids" string="Task" context="{
-                                            'default_project_id': project_id,
-                                            'default_sprint_ids': id,
-                                            'default_us_ids': us_ids,
-                                            }">
-                                    <tree>
-                                        <field name="sequence" widget="handle"/>
-                                        <field name="priority"/>
-                                        <field name="name"/>
-                                        <field name="user_id"/>
-                                        <field name="date_deadline"/>
-                                        <field name="stage_id"/>
-                                    </tree>
-                                </field>
-                            </group>
-                        </page>
-                        <page string="Retrospective">
-                            <!--page for retropective-->
-                            <field name="retrospective"/>
-                        </page>
+                  <group>
+                      <label for="review"/>
+                      <field name="review" nolabel="1"/>
+
+                      <field name="task_ids" string="Task" context="{'default_project_id': project_id, 'default_sprint_ids': id, 'default_us_ids': us_ids, }">
+                          <tree>
+                              <field name="sequence" widget="handle"/>
+                              <field name="priority"/>
+                              <field name="name"/>
+                              <field name="user_id"/>
+                              <field name="date_deadline"/>
+                              <field name="stage_id"/>
+                          </tree>
+                      </field>
+                  </group>
+
+
+                </page>
+                <page string="Retrospective">
+                    <!--page for retropective-->
+                    <field name="retrospective"/>
+                </page>
 <!--                        <page string="Time Report">-->
 <!--                            <field name="task_work_ids" sum="Total time"/>-->
 <!--                        </page>-->
@@ -280,23 +277,21 @@
                         <h1>
                             <field name="name" placeholder="User Story..." class="oe_inline"/>
                         </h1>
-                        <group col="4">
-                            <field name="sequence"/>
-                            <field name="actor_ids" widget="many2many_tags"/>
-                        </group>
-                        <group col="4">
-                            <field name="project_id"/>
-                            <field name="sprint_ids" widget="many2many_tags"
-                                   context="{'default_project_id': project_id,}"
-                                   domain="[('project_id', '=' , project_id)]"/>
-                        </group>
-                        <group col="4">
-                            <field name="user_id" />
-                            <field name="date_deadline" />
-                        </group>
-
                         <group>
-                            <field name="tag_ids" widget="many2many_tags"/>
+                            <group>
+                                <field name="sequence" invisible="1"/>
+                                <field name="actor_ids" widget="many2many_tags"/>
+                                <field name="user_id" />
+                                <field name="stage_id" />
+                                <field name="project_id"/>
+                            </group>
+                            <group>
+                                <field name="business_process_id"/>
+                                <field name="sprint_id" context="{'default_project_id': project_id,}" domain="[('project_id', '=' , project_id)]"/>
+                                <field name="sprint_ids" widget="many2many_tags" context="{'default_project_id': project_id,}" domain="[('project_id', '=' , project_id)]"/>
+                                <field name="date_deadline" />
+                                <field name="tag_ids" widget="many2many_tags"/>
+                            </group>
                         </group>
 
                         <notebook colspan="5">
@@ -339,12 +334,13 @@
       <field name="model">project.scrum.us</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="name" />
-          <field name="actor_ids" />
-          <field name="sprint_ids" />
-          <field name="project_id" />
-          <field name="user_id" />
-          <field name="date_deadline" />
+            <field name="sequence" widget="handle"/>
+            <field name="name" />
+            <field name="actor_ids" />
+            <field name="sprint_ids" />
+            <field name="project_id" />
+            <field name="user_id" />
+            <field name="date_deadline" />
         </tree>
       </field>
     </record>
@@ -437,6 +433,9 @@
                   </div>
                   <div>
                     <field name="stats_test" />
+                  </div>
+                  <div class="o_text_overflow" t-if="record.user_story_id_test.raw_value">
+                    <field name="user_story_id_test" />
                   </div>
                 </div>
                 <div class="oe_clear" />
@@ -581,9 +580,10 @@
           <field name="project_id"/>
           <field name="sprint_ids"/>
           <field name="task_ids"/>
+          <field name="tag_ids"/>
           <field name="test_ids"/>
           <group expand="0" string="Group By">
-            <filter string="Sprint" name="sprint" context="{'group_by':'sprint_ids'}"/>
+            <filter string="Sprint" name="sprint" context="{'group_by':'sprint_id'}"/>
             <separator orientation="vertical"/>
             <filter string="Project" name="project" domain="[]" context="{'group_by':'project_id'}"/>
             <separator orientation="vertical" />
@@ -949,45 +949,75 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="project_scrum_tags_form_view">
-            <field name="name">Tags</field>
-            <field name="model">project.scrum.tags</field>
+        <record model="ir.ui.view" id="project_scrum_actors_form_view">
+            <field name="name">Actors</field>
+            <field name="model">project.scrum.actors</field>
             <field name="arch" type="xml">
                 <form string="Tags">
                     <sheet>
                         <group>
                             <field name="name"/>
-                            <field name="color" widget="color_picker"/>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
 
-        <record model="ir.ui.view" id="project_scrum_tags_tree_view">
-            <field name="name">Tags</field>
-            <field name="model">project.scrum.tags</field>
+        <record model="ir.ui.view" id="project_scrum_actors_tree_view">
+            <field name="name">Actors</field>
+            <field name="model">project.scrum.actors</field>
             <field name="arch" type="xml">
-                <tree string="Tags" editable="bottom" sample="1">
+                <tree string="Actors" editable="bottom" sample="1">
                     <field name="name"/>
-                    <field name="color" widget="color_picker"/>
                 </tree>
             </field>
         </record>
 
-        <record id="project_scrum_tags_action" model="ir.actions.act_window">
-            <field name="name">Scrum Tags</field>
-            <field name="res_model">project.scrum.tags</field>
+        <record id="project_scrum_actors_action" model="ir.actions.act_window">
+            <field name="name">Actors</field>
+            <field name="res_model">project.scrum.actors</field>
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
-                No tags found. Let's create one!
-              </p>
-              <p>
-                  Tags are perfect to categorize your tasks.
+                No actors found. Let's create one!
               </p>
             </field>
         </record>
-        <menuitem action="project_scrum_tags_action" id="menu_project_scrum_tags_act" parent="project.menu_project_config"/>
+        <menuitem action="project_scrum_actors_action" id="menu_project_scrum_action_act" parent="project.menu_project_config"/>
+
+      <record model="ir.ui.view" id="project_scrum_business_process_form_view">
+            <field name="name">Business Process</field>
+            <field name="model">project.scrum.business.process</field>
+            <field name="arch" type="xml">
+                <form string="Business Process">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="project_scrum_business_process_tree_view">
+            <field name="name">Business Process</field>
+            <field name="model">project.scrum.business.process</field>
+            <field name="arch" type="xml">
+                <tree string="Business Process" editable="bottom" sample="1">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_scrum_business_process_action" model="ir.actions.act_window">
+            <field name="name">Business Process</field>
+            <field name="res_model">project.scrum.business.process</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No Business Process found. Let's create one!
+              </p>
+            </field>
+        </record>
+        <menuitem action="project_scrum_business_process_action" id="menu_project_scrum_business_process_act" parent="project.menu_project_config"/>
     
   </data>
 </odoo>
