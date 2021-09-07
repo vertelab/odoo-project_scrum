@@ -18,7 +18,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, SUPERUSER_ID
 #from bs4 import BeautifulSoup
 import odoo.tools
 import re
@@ -263,13 +263,13 @@ class project_task(models.Model):
     _order = "sequence"
 
     user_id = fields.Many2one('res.users', 'Assigned to', default="")
-    actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string = 'Actor')
-    us_id = fields.Many2one(comodel_name = 'project.scrum.us', string = 'User Stories')
-    date_start = fields.Date(string = 'Starting Date', required=False, default=date.today())
-    date_end = fields.Date(string = 'Ending Date', required=False)
+    actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string='Actor')
+    us_id = fields.Many2one(comodel_name='project.scrum.us', string='User Stories')
+    date_start = fields.Date(string='Starting Date', required=False, default=date.today())
+    date_end = fields.Date(string='Ending Date', required=False)
     use_scrum = fields.Boolean(related='project_id.use_scrum')
     description = fields.Html('Description')
-    sprint_id = fields.Many2one(comodel_name='project.scrum.sprint', string='Sprint')
+    sprint_id = fields.Many2one(comodel_name='project.scrum.sprint', string='Sprint', group_expand='_read_group_sprint_id')
     sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprints')
 
     @api.depends('sprint_id')
@@ -352,38 +352,42 @@ class project_task(models.Model):
                 self.sprint_ids = [(4, vals.get('sprint_id'), 0)]
         return super(project_task, self).write(vals)
     
-    @api.model
-    def _read_group_sprint_id(self, present_ids, domain, **kwargs):
-        project = self.env['project.project'].browse(self._resolve_project_id_from_context())
+    def _read_group_sprint_id(self, sprint_id, domain, order):
+        sprint_ids = sprint_id._search([], order=order, access_rights_uid=SUPERUSER_ID)
+        return sprint_id.browse(sprint_ids)
 
-        if project.use_scrum:
-            if self.env.context.get('current_sprint_group_by'):
-                name_map = {
-                    'current': _('Current Sprint'),
-                    'prev': _('Previous Sprint'),
-                    'next': _('Next Sprint'),
-                }
-                current_sprints = self.env['project.scrum.sprint'].get_current_sprint(project.id)
-                sprint_names = []
-                fold = {}
-                for key in ('prev', 'current', 'next'):
-                    sprint = current_sprints[key]
-                    if sprint:
-                        sprint_names.append((sprint.id, name_map[key]))
-                        fold[sprint.id] = False
-            else:
-                sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project.id)], order='date_start')
-                sprint_names = sprints.name_get()
-                fold = {s.id: True if s.date_stop <= fields.Date.to_string(date.today()) else False for s in sprints}
-                i = 0
-                for k in sprints.mapped('id'):
-                    if not fold[k]:
-                        i += 1
-                    if i > 4:
-                        fold[k] = True
-            return sprint_names, fold
-        else:
-            return [], None
+    # Not sure what this is for. Keep here
+    #     project = self.env['project.project'].browse(self._resolve_project_id_from_context())
+    #     print("sprint", project)
+    # 
+    #     if project.use_scrum:
+    #         if self.env.context.get('current_sprint_group_by'):
+    #             name_map = {
+    #                 'current': _('Current Sprint'),
+    #                 'prev': _('Previous Sprint'),
+    #                 'next': _('Next Sprint'),
+    #             }
+    #             current_sprints = self.env['project.scrum.sprint'].get_current_sprint(project.id)
+    #             sprint_names = []
+    #             fold = {}
+    #             for key in ('prev', 'current', 'next'):
+    #                 sprint = current_sprints[key]
+    #                 if sprint:
+    #                     sprint_names.append((sprint.id, name_map[key]))
+    #                     fold[sprint.id] = False
+    #         else:
+    #             sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project.id)], order='date_start')
+    #             sprint_names = sprints.name_get()
+    #             fold = {s.id: True if s.date_stop <= fields.Date.to_string(date.today()) else False for s in sprints}
+    #             i = 0
+    #             for k in sprints.mapped('id'):
+    #                 if not fold[k]:
+    #                     i += 1
+    #                 if i > 4:
+    #                     fold[k] = True
+    #         return sprint_names, fold
+    #     else:
+    #         return [], None
 
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
@@ -424,6 +428,12 @@ class project_task(models.Model):
         #self._group_by_full['us_id'] = _read_group_us_id
         #super(project_task, self)._auto_init(cr, context)
 
+    @api.model
+    def _read_group_stage_ids(self, stages, domain, order):
+        """ Always display all stages """
+        return stages.search([], order=order)
+
+
     # def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None, context=None):
     #     stage_obj = self.env['project.task.type']
     #     order = stage_obj._order
@@ -432,8 +442,8 @@ class project_task(models.Model):
     #         order = '%s desc' % order
     #     search_domain = []
     #     # project_id = self._resolve_project_id_from_context(context=context)
-    #     # if project_id:
-    #     #     search_domain += ['|', ('project_ids', '=', project_id)]
+        # if project_id:
+        #     search_domain += ['|', ('project_ids', '=', project_id)]
     #     search_domain += [('id', 'in', '')]
     #     stage_ids = stage_obj._search(search_domain, order=order)
     #     result = stage_obj.name_get()
@@ -477,7 +487,7 @@ class project_task(models.Model):
         return [], {}
 
     _group_by_full = {
-        'sprint_id': _read_group_sprint_id,
+        # 'sprint_id': _read_group_sprint_id,
         'us_id': _read_group_us_id,
         # 'stage_id': _read_group_stage_ids,
         'user_id': _read_group_user_id,
