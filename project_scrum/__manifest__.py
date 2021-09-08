@@ -7,10 +7,10 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.9.0',
+    'version': '14.0.1.10.0',
     'category': 'Project Management',
     'description': """
-Using Scrum to plan the work in a team
+Using Scrum to plan the work in teams
 ======================================
 
 More information:
@@ -27,9 +27,6 @@ More information:
         'security/project_security.xml',
         'data/project_scrum_data.xml',
        ],
-    #'external_dependencies': {
-        #'python' : ['bs4'],
-    #},
     'demo': ['demo/project_scrum_demo.xml'],
     'installable': True,
 }
