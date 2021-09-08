@@ -14,7 +14,7 @@ Using Scrum to plan the work in teams
 ======================================
 
 More information:
-    v14.0.1.10.0 Fixed the sortorder on the Project Tasks kanbanview by Sprints. Added Labels, Stages, and sortorder to Userstories. Added a new attribute: Business Process to Userstories and various minor improvements.\n
+    v14.0.1.10.0 Added Labels, Stages, to Userstories. Added a new attribute: Business Process to Userstories and various minor improvements.\n
     
     This module is maintained from: https://github.com/vertelab/odoo-project_scrum/edit/14.0/project_scrum \n
     
