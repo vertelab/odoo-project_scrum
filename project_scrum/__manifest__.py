@@ -31,9 +31,6 @@ More information:
         'security/project_security.xml',
         'data/project_scrum_data.xml',
        ],
-    #'external_dependencies': {
-    #'python' : ['bs4'],
-    #},
     'demo': ['demo/project_scrum_demo.xml'],
     'installable': True,
 }
