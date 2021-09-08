@@ -42,7 +42,7 @@ class scrum_sprint(models.Model):
     _name = 'project.scrum.sprint'
     _inherit = ['mail.thread']
     _description = 'Project Scrum Sprint'
-    _order = 'date_start desc'
+    _order = 'date_start asc'
 
     name = fields.Char(string='Sprint Name', required=True)
     sequence = fields.Integer('Sequence')
@@ -353,7 +353,7 @@ class project_task(models.Model):
         return super(project_task, self).write(vals)
     
     def _read_group_sprint_id(self, sprint_id, domain, order):
-        sprint_ids = sprint_id._search([], order=order, access_rights_uid=SUPERUSER_ID)
+        sprint_ids = sprint_id._search([], order='date_start asc', access_rights_uid=SUPERUSER_ID)
         return sprint_id.browse(sprint_ids)
 
     # Not sure what this is for. Keep here
