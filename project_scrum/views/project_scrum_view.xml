@@ -1023,6 +1023,16 @@
             </field>
         </record>
         <menuitem action="project_scrum_business_process_action" id="menu_project_scrum_business_process_act" parent="project.menu_project_config"/>
+
+
+      <record id="merge_project_stages_action" model="ir.actions.server">
+            <field name="name">Merge Stages</field>
+            <field name="model_id" ref="project.model_project_task_type"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = model.merge_tasks()
+            </field>
+        </record>
     
   </data>
 </odoo>

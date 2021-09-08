@@ -665,3 +665,30 @@ class project_sprint_business_process(models.Model):
 
     name = fields.Char(string="Description")
     sequence = fields.Integer()
+
+
+class project_task_type(models.Model):
+    _inherit = 'project.task.type'
+
+    def merge_tasks(self):
+        active_ids = self.env.context.get('active_ids')
+        task_type_ids = self.env['project.task.type'].browse(active_ids)
+        if task_type_ids:
+            associated_project_ids = task_type_ids.mapped(lambda x_project: x_project.project_ids)
+
+            default_values = {
+                'name': task_type_ids[0].name,
+                'sequence': task_type_ids[0].sequence,
+                'project_ids': associated_project_ids.ids
+            }
+            new_task_type = task_type_ids[0].copy(default=default_values)
+
+            task_ids = associated_project_ids.mapped(lambda x_task: x_task.task_ids.filtered(
+                lambda x_type: x_type.stage_id in task_type_ids))
+            for task in task_ids:
+                task.stage_id = new_task_type.id
+
+        for rec in task_type_ids:
+            rec.active = False
+
+
