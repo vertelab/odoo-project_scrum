@@ -7,13 +7,17 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.9.0',
+    'version': '14.0.1.10.0',
     'category': 'Project Management',
     'description': """
-Using Scrum to plan the work in a team
+Using Scrum to plan the work in teams
 ======================================
 
 More information:
+    v14.0.1.10.0 Fixed the sortorder on the Project Tasks kanbanview by Sprints. Added Labels, Stages, and sortorder to Userstories. Added a new attribute: Business Process to Userstories and various minor improvements.\n
+    
+    This module is maintained from: https://github.com/vertelab/odoo-project_scrum/edit/14.0/project_scrum \n
+    
     """,
     'author': 'Vertel AB',
     'license': 'AGPL-3',
@@ -28,7 +32,7 @@ More information:
         'data/project_scrum_data.xml',
        ],
     #'external_dependencies': {
-        #'python' : ['bs4'],
+    #'python' : ['bs4'],
     #},
     'demo': ['demo/project_scrum_demo.xml'],
     'installable': True,
