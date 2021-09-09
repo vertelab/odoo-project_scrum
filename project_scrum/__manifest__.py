@@ -7,7 +7,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.10.0',
+    'version': '14.0.1.11.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -18,11 +18,13 @@ More information:
     
     This module is maintained from: https://github.com/vertelab/odoo-project_scrum/edit/14.0/project_scrum \n
     
+    v14.0.1.11.0 Added Chatter to Userstories and limit to stages .\n
+    
     """,
     'author': 'Vertel AB',
     'license': 'AGPL-3',
-    'website': 'http://www.vertel.se',
-    'depends': ['project', 'mail', 'hr_timesheet', 'project_category'],
+    'website': 'https://www.vertel.se',
+    'depends': ['project', 'mail', 'hr_timesheet', 'project_category', 'sales_team'],
     'data': [
         'views/project_scrum_view.xml',
         'wizard/project_scrum_test_task_view.xml',

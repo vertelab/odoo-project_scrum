@@ -184,6 +184,7 @@ class scrum_sprint(models.Model):
 
 class project_user_stories(models.Model):
     _name = 'project.scrum.us'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Project Scrum Use Stories'
     _order = 'sequence'
 
@@ -194,7 +195,7 @@ class project_user_stories(models.Model):
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string='Actor')
     project_id = fields.Many2one(comodel_name='project.project', string='Project', ondelete='cascade',
                                  change_default=True)
-    sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprint IDs')
+    sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprint(s)')
     sprint_id = fields.Many2one(comodel_name='project.scrum.sprint', string='Sprint')
     task_ids = fields.One2many(comodel_name='project.task', inverse_name='us_id')
     task_test_ids = fields.One2many(comodel_name='project.scrum.test', inverse_name='user_story_id_test')
@@ -204,10 +205,10 @@ class project_user_stories(models.Model):
     sequence = fields.Integer('Sequence')
     company_id = fields.Many2one(related='project_id.company_id')
 
-    user_id = fields.Many2one('res.users', string="Assigned to")
+    user_id = fields.Many2one('res.users', string="Assigned to", tracking=1)
     date_deadline = fields.Date(string='Deadline')
     tag_ids = fields.Many2many('project.tags', string="Label")
-    stage_id = fields.Many2one('project.task.type', string="Stage")
+    stage_id = fields.Many2one('project.task.type', string="Stage", tracking=2)
     business_process_id = fields.Many2one('project.scrum.business.process', string="Business Process")
 
     def _conv_html2text(self):  # method that return a short text from description of user story
@@ -428,10 +429,19 @@ class project_task(models.Model):
         #self._group_by_full['us_id'] = _read_group_us_id
         #super(project_task, self)._auto_init(cr, context)
 
+    # @api.model
+    # def _read_group_stage_ids(self, stages, domain, order):
+    #     """ Always display all stages """
+    #     return stages.search([], order=order)
+
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
-        """ Always display all stages """
-        return stages.search([], order=order)
+        search_domain = [('id', 'in', stages.ids)]
+        if 'default_project_id' in self.env.context:
+            search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
+
+        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+        return stages.browse(stage_ids)
 
 
     # def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None, context=None):
@@ -476,7 +486,7 @@ class project_task(models.Model):
     @api.model
     #~ def _get_sprint_type(self, cr, uid, ids, domain, read_group_order=None, access_rights_uid=None, context=None):
     #~ def _get_sprint_type(self,ids, domain, read_group_order=None, access_rights_uid=None):
-    def _read_group_sprint_type(self,ids,domain,**kwarg):
+    def _read_group_sprint_type(self, ids, domain, **kwarg):
         # ~ _logger.warn('%s %s kwarg %s' % (ids,domain,kwarg))
         #~ ids = self.pool.get('project.sprint.type').search(cr, uid, [], context=context)
         #~ result = self.pool.get('project.sprint.type').name_get(cr, uid, ids, context=context)

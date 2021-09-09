@@ -120,9 +120,11 @@
 
                 </button>
               </div>
-            <h1>
-              <field name="name" placeholder="Sprint..." class="oe_inline" />
-            </h1>
+              <div class="oe_title">
+                  <h1>
+                      <field name="name" placeholder="Sprint..." class="oe_inline" />
+                  </h1>
+              </div>
 
               <group>
                   <group>
@@ -279,9 +281,11 @@
             <field name="arch" type="xml">
                 <form string="User Stories">
                     <sheet string="User Story">
-                        <h1>
-                            <field name="name" placeholder="User Story..." class="oe_inline"/>
-                        </h1>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="User Story..."/>
+                            </h1>
+                        </div>
                         <group>
                             <group>
                                 <field name="sequence" invisible="1"/>
@@ -330,6 +334,11 @@
                              </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
