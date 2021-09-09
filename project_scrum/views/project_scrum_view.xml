@@ -281,7 +281,7 @@
             <field name="arch" type="xml">
                 <form string="User Stories">
                     <sheet string="User Story">
-                        <div class="oe_title">
+                        <div class="oe_title" style="max-width: 1070px !important; min-width: 688px !important;">
                             <h1>
                                 <field name="name" placeholder="User Story..."/>
                             </h1>
