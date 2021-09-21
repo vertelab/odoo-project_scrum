@@ -7,7 +7,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.11.0',
+    'version': '14.0.1.12.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -19,6 +19,9 @@ More information:
     This module is maintained from: https://github.com/vertelab/odoo-project_scrum/edit/14.0/project_scrum \n
     
     v14.0.1.11.0 Added Chatter to Userstories and limit to stages .\n
+    
+    v14.0.1.12.0 Added Merging of project stages .\n
+    So if you have duplicate stages in project, you can select the duplicate stages, click on Merge from the Action
     
     """,
     'author': 'Vertel AB',
