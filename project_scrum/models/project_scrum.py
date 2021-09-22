@@ -188,6 +188,32 @@ class project_user_stories(models.Model):
     _description = 'Project Scrum Use Stories'
     _order = 'sequence'
 
+    def _get_default_stage_id(self):
+        """ Gives default stage_id """
+        project_id = self.env.context.get('default_project_id')
+        if not project_id:
+            return False
+        return self.stage_find(project_id, [('fold', '=', False), ('is_closed', '=', False)])
+
+    @api.model
+    def _read_group_stage_ids(self, stages, domain, order):
+        search_domain = [('id', 'in', stages.ids)]
+        if 'default_project_id' in self.env.context:
+            search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
+
+        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+        return stages.browse(stage_ids)
+
+    @api.depends('project_id')
+    def _compute_stage_id(self):
+        for story in self:
+            if story.project_id:
+                if story.project_id not in story.stage_id.project_ids:
+                    story.stage_id = story.stage_find(story.project_id.id, [
+                        ('fold', '=', False), ('is_closed', '=', False)])
+            else:
+                story.stage_id = False
+
     name = fields.Char(string='User Story', required=True)
     color = fields.Integer('Color Index')
     description = fields.Html(string='Description')
@@ -208,8 +234,37 @@ class project_user_stories(models.Model):
     user_id = fields.Many2one('res.users', string="Assigned to", tracking=1)
     date_deadline = fields.Date(string='Deadline')
     tag_ids = fields.Many2many('project.tags', string="Label")
-    stage_id = fields.Many2one('project.task.type', string="Stage", tracking=2)
+    # stage_id = fields.Many2one('project.task.type', string="Stage", tracking=2)
+    stage_id = fields.Many2one('project.task.type', string='Stage', compute='_compute_stage_id',
+        store=True, readonly=False, ondelete='restrict', tracking=True, index=True,
+        default=_get_default_stage_id, group_expand='_read_group_stage_ids',
+        domain="[('project_ids', '=', project_id)]", copy=False)
+
     business_process_id = fields.Many2one('project.scrum.business.process', string="Business Process")
+
+    def stage_find(self, section_id, domain=[], order='sequence'):
+        """ Override of the base.stage method
+            Parameter of the stage search taken from the lead:
+            - section_id: if set, stages must belong to this section or
+              be a default stage; if not set, stages must be default
+              stages
+        """
+        # collect all section_ids
+        section_ids = []
+        if section_id:
+            section_ids.append(section_id)
+        section_ids.extend(self.mapped('project_id').ids)
+        search_domain = []
+        if section_ids:
+            search_domain = [('|')] * (len(section_ids) - 1)
+            for section_id in section_ids:
+                search_domain.append(('project_ids', '=', section_id))
+        search_domain += list(domain)
+        # perform search, return the first found
+        return self.env['project.task.type'].search(search_domain, order=order, limit=1).id
+
+    def action_assign_to_me(self):
+        self.write({'user_id': self.env.user.id})
 
     def _conv_html2text(self):  # method that return a short text from description of user story
         self.ensure_one()
@@ -265,7 +320,8 @@ class project_task(models.Model):
 
     user_id = fields.Many2one('res.users', 'Assigned to', default="")
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string='Actor')
-    us_id = fields.Many2one(comodel_name='project.scrum.us', string='User Stories')
+    us_id = fields.Many2one(comodel_name='project.scrum.us', string='User Story')
+    us_ids = fields.Many2many(comodel_name='project.scrum.us', string='User Stories')
     date_start = fields.Date(string='Starting Date', required=False, default=date.today())
     date_end = fields.Date(string='Ending Date', required=False)
     use_scrum = fields.Boolean(related='project_id.use_scrum')

@@ -7,7 +7,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.12.0',
+    'version': '14.0.1.13.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -21,7 +21,11 @@ More information:
     v14.0.1.11.0 Added Chatter to Userstories and limit to stages .\n
     
     v14.0.1.12.0 Added Merging of project stages .\n
-    So if you have duplicate stages in project, you can select the duplicate stages, click on Merge from the Action
+    So if you have duplicate stages in project, you can select the duplicate stages, click on Merge from the Action\n
+    
+    v14.0.1.13.0 \n 
+    1. Added User Stories (many2many) on project task.\n
+    2. Added Project stages to header and as clickable stages.\n
     
     """,
     'author': 'Vertel AB',

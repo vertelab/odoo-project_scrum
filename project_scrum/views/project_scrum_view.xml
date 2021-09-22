@@ -280,6 +280,10 @@
             <field name="model">project.scrum.us</field>
             <field name="arch" type="xml">
                 <form string="User Stories">
+                    <header>
+                        <button name="action_assign_to_me" string="Assign to Me" type="object" class="oe_highlight" attrs="{'invisible' : [('user_id', '!=', False)]}"/>
+                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>
+                    </header>
                     <sheet string="User Story">
                         <div class="oe_title" style="max-width: 1070px !important; min-width: 688px !important;">
                             <h1>
@@ -291,7 +295,6 @@
                                 <field name="sequence" invisible="1"/>
                                 <field name="actor_ids" widget="many2many_tags"/>
                                 <field name="user_id" />
-                                <field name="stage_id" />
                                 <field name="project_id"/>
                             </group>
                             <group>
@@ -833,6 +836,9 @@
           <field name= "sprint_ids" widget="many2many_tags"  attrs="{'invisible': [('use_scrum', '=', False)]}"/>
           <field string="User Story" name= "us_id"  attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" />
         </field>
+          <field name="partner_id" position="after">
+              <field string="User Stories" name= "us_ids"  attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" widget="many2many_tags" />
+          </field>
       </field>
     </record>
     <!--menu for accessing to userstories-->
