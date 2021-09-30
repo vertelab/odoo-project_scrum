@@ -362,9 +362,7 @@ class project_task(models.Model):
                 elif sprints and sprints['next'] and rec.sprint_id.id == sprints['next'].id:
                     rec.sprint_type = _('Next Sprint')
                 else:
-                    raise UserError('No sprint type found')
-            else:
-                rec.sprint_type = None
+                    rec.sprint_type = None
 
     @api.depends('sprint_id')
     def _set_sprint_type(self):
