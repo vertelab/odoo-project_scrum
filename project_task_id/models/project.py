@@ -14,7 +14,7 @@ class project_project(models.Model):
 
     def do_renumber_tasks(self):
         self.ensure_one()
-        if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) == 0:
+        if int(self.env['ir.config_parameter'].sudo().get_param('project_task_sequence')) == 0:
             if not self.task_no_next:
                 self.task_no_next = 0
             for t in self.tasks.sorted(key=lambda r: r.create_date):
@@ -29,7 +29,7 @@ class project_task(models.Model):
 
     def _new_task_no(self):
         self.ensure_one()
-        if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) == 0:  # Sequence on each project
+        if int(self.env['ir.config_parameter'].sudo().get_param('project_task_sequence')) == 0:  # Sequence on each project
             old_task_no = self.task_no
             self.project_id.task_no_next += 1
             self.task_no = str(self.project_id.task_no_next)
@@ -54,7 +54,7 @@ class project_task(models.Model):
 
     @api.model
     def _next_task_no(self):
-        if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) > 0:
+        if int(self.env['ir.config_parameter'].sudo().get_param('project_task_sequence')) > 0:
             return self.env['ir.sequence'].next_by_id(self.env.ref('project_task_id.sequence_project_task').id)
         else:
             project = self.env['project.project'].browse(self._context.get('default_project_id'))
@@ -82,7 +82,7 @@ class project_task(models.Model):
     def create(self, values):
         task_no = False
 
-        if int(self.env['ir.config_parameter'].get_param('project_task_sequence')) > 0:
+        if int(self.env['ir.config_parameter'].sudo().get_param('project_task_sequence')) > 0:
             task_no = self.env['ir.sequence'].next_by_id(self.env.ref('project_task_id.sequence_project_task').id)
         else:
             project = self.env['project.project'].browse(self._context.get('default_project_id'))
@@ -103,7 +103,7 @@ class project_configuration(models.TransientModel):
 
     @api.model
     def get_default_task_sequence(self, fields):
-        return {'task_sequence': int(self.env['ir.config_parameter'].get_param('project_task_sequence')) > 0}
+        return {'task_sequence': int(self.env['ir.config_parameter'].sudo().get_param('project_task_sequence')) > 0}
 
     def set_task_sequence(self):
         self.ensure_one()
