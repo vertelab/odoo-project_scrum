@@ -55,7 +55,7 @@ class project_task(models.Model):
     @api.model
     def _next_task_no(self):
         if int(self.env['ir.config_parameter'].sudo().get_param('project_task_sequence')) > 0:
-            return self.env['ir.sequence'].next_by_id(self.env.ref('project_task_id.sequence_project_task').id)
+            return self.env['ir.sequence'].sudo().next_by_id(self.env.ref('project_task_id.sequence_project_task').id)
         else:
             project = self.env['project.project'].browse(self._context.get('default_project_id'))
             if project:
@@ -99,12 +99,35 @@ class project_task(models.Model):
 class project_configuration(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    task_sequence = fields.Boolean(string='Only use one task sequence')
+    task_sequence = fields.Boolean(string='Only use one task sequence', config_parameter="project_task_id.task_sequence")
 
-    @api.model
-    def get_default_task_sequence(self, fields):
-        return {'task_sequence': int(self.env['ir.config_parameter'].sudo().get_param('project_task_sequence')) > 0}
+    # NO DOCUMENTATION ON THIS PART.
+    # EXAMPLE PROJECT:
+    # https://github.com/vertelab/odoo-project/blob/Dev-12.0-Fenix-Sprint-02/task_interpreter_ipf_client/models/res_config_settings.py
+    # EXAMPLE:
+    # https://www.odoo.com/forum/help-1/res-config-settings-documentation-173740
 
-    def set_task_sequence(self):
-        self.ensure_one()
-        self.env['ir.config_parameter'].set_param('project_task_sequence', '1' if self.task_sequence else '0')
+
+    # ~ @api.model
+    # ~ def set_task_sequence(self):
+        # ~ self.ensure_one()
+        # ~ self.env['ir.config_parameter'].sudo().set_param('project_task_sequence', '1' if self.task_sequence else '0')
+
+    # ~ def get_default_task_sequence(self, fields):
+        # ~ return {'task_sequence': int(self.env['ir.config_parameter'].sudo().get_param('project_task_sequence')) > 0}
+
+
+    # CODE TAKEN FROM VIDEO:
+    # How to add settings for custom module in Odoo 14?
+    # https://www.youtube.com/watch?v=3E1B-wAquLc
+    # ~ def set_values(self):
+        # ~ super(project_configuration, self).set_values()
+        # ~ self.env['ir.config_parameter'].sudo().set_param('task_sequence')
+        
+    # ~ def get_values(self):
+        # ~ res = super(project_configuration, self).get_values()
+        # ~ value = self.env['ir.config_parameter'].sudo().get_param('task_sequence')
+        # ~ res.update({
+            # ~ 'task_sequence' : task_sequence
+        # ~ })
+        # ~ return res

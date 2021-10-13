@@ -1,97 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-  <data>
-    <record id="edit_project_task_id" model="ir.ui.view">
-      <field name="name">project.form.task_id</field>
-      <field name="model">project.project</field>
-      <field name="inherit_id" ref="project.edit_project" />
-      <field name="arch" type="xml">
-        <field name="user_id" position="after">
-          <field name="task_no_next" />
-        </field>
-      </field>
-    </record>
-    <record id="view_task_form2_task_id" model="ir.ui.view">
-      <field name="name">project.task.form.task_id</field>
-      <field name="model">project.task</field>
-      <field name= "inherit_id"  ref="project.view_task_form2" />
-      <field name="arch" type="xml">
-        <field name="name" position="replace">
-          <field name="name" class="oe_edit_only" />
-          <field name="display_name" class="oe_read_only" />
-        </field>
-        <field name="sequence" position="after">
-          <field name="task_no" />
-        </field>
-      </field>
-    </record>
-
-    <record id="view_task_tree2" model="ir.ui.view">
-      <field name="name">project.task.tree.task_no</field>
-      <field name="model">project.task</field>
-      <field name= "inherit_id"  ref="project.view_task_tree2" />
-      <field name="arch" type="xml">
-        <field name="name" position="replace">
-          <field name="display_name" />
-        </field>
-      </field>
-    </record>
-    <record id="view_task_search_form" model="ir.ui.view">
-      <field name="name">project.task.search.form.task_no</field>
-      <field name="model">project.task</field>
-      <field name= "inherit_id"  ref="project.view_task_search_form" />
-      <field name="arch" type="xml">
-          <field name="name" position="after">
-            <field name="task_no" />
-          </field>
-          <field name="name" position="replace">
-            <field name="name" filter_domain="['|',('name','ilike',self),('task_no','=',self)]" />
-          </field>
-
-      </field>
-    </record>
-
-    <record model="ir.ui.view" id="view_task_kanban">
-      <field name="name">project.task.kanban</field>
-      <field name="model">project.task</field>
-      <field name= "inherit_id"  ref="project.view_task_kanban" />
-      <field name="arch" type="xml">
-          <field name="name" position="replace">
-            <field name="display_name" />
-          </field>
-
-      </field>
-    </record>
-
-    <record model="ir.actions.server" id="action_project_task_renumber">
-        <field name="name">Give tasks a number</field>
-        <field name="state">code</field>
-        <field name="model_id" ref="project.model_project_project"/>
-        <field name="code">for o in object.browse(context.get('active_ids', [])):
-    o.do_renumber_tasks()
-        </field>
-    </record>
-
-<!--    <record model="ir.values" id="action_edifact_read_menu">-->
-<!--        <field name="name">Give tasks a number</field>-->
-<!--        <field name="model">project.project</field>-->
-<!--        <field name="key2">client_action_multi</field>-->
-<!--        <field name="value" eval="'ir.actions.server,%d' % action_project_task_renumber"/>-->
-<!--    </record>-->
-
-    <record id="view_config_settings" model="ir.ui.view">
-        <field name="name">project settings.inherit</field>
-        <field name="model">res.config.settings</field>
-        <field name="inherit_id" ref="project.res_config_settings_view_form"/>
-        <field name="arch" type="xml">
-            <xpath expr="//div[hasclass('settings')]" position="inside">
-                <div>
-                    <field name="task_sequence" class="oe_inline" readonly="0"/>
-                    <label for="task_sequence"/>
-                </div>
-            </xpath>
-        </field>
-    </record>
-
-  </data>
-</openerp>
+<odoo>
+    <data>
+        <record id="edit_project_task_id" model="ir.ui.view">
+            <field name="name">project.form.task_id</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project" />
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="task_no_next" />
+                </field>
+            </field>
+        </record>
+        <record id="view_task_form2_task_id" model="ir.ui.view">
+            <field name="name">project.task.form.task_id</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id"  ref="project.view_task_form2" />
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="name" class="oe_edit_only" />
+                    <field name="display_name" class="oe_read_only" />
+                </field>
+                <field name="sequence" position="after">
+                    <field name="task_no" />
+                </field>
+            </field>
+        </record>
+        <record id="view_task_tree2" model="ir.ui.view">
+            <field name="name">project.task.tree.task_no</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id"  ref="project.view_task_tree2" />
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="display_name" />
+                </field>
+            </field>
+        </record>
+        <record id="view_task_search_form" model="ir.ui.view">
+            <field name="name">project.task.search.form.task_no</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id"  ref="project.view_task_search_form" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="task_no" />
+                </field>
+                <field name="name" position="replace">
+                    <field name="name" filter_domain="['|',('name','ilike',self),('task_no','=',self)]" />
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_task_kanban">
+            <field name="name">project.task.kanban</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id"  ref="project.view_task_kanban" />
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="display_name" />
+                </field>
+            </field>
+        </record>
+        <record model="ir.actions.server" id="action_project_task_renumber">
+            <field name="name">Give tasks a number</field>
+            <field name="state">code</field>
+            <field name="model_id" ref="project.model_project_project" />
+            <field name="code">
+                for o in object.browse(context.get('active_ids', [])):
+                o.do_renumber_tasks()
+            </field>
+        </record>
+        <!--    <record model="ir.values" id="action_edifact_read_menu">-->
+        <!--        <field name="name">Give tasks a number</field>-->
+        <!--        <field name="model">project.project</field>-->
+        <!--        <field name="key2">client_action_multi</field>-->
+        <!--        <field name="value" eval="'ir.actions.server,%d' % action_project_task_renumber"/>-->
+        <!--    </record>-->
+<!--
+        <record id="action_project_config" model="ir.action.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'project_task_id'}</field>
+        </record>
+-->
+        <record id="view_config_settings" model="ir.ui.view">
+            <field name="name">project.settings.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="project.res_config_settings_view_form" />
+            <field name="priority" eval="30" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data_string="Task Management" string="Task Management" data-key="project_task_id">
+                        <H2>Task Management xxx</H2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_left_pane" />
+                                <div class="">
+                                    <span class="o_form_label">Task Management</span>
+                                    <div class="text-muted">Select task sequence. Sequence at project level or at domain level.</div>
+                                    <div>
+                                        <field name="task_sequence" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+<!--
+        <menuitem id="configuration" sequence="20" name="Configuration" parent="project_menu_root" />
+        <menuitem id="settings" sequence="2" name="Settings" parent="configuration" action="action_project_config" />
+-->
+    </data>
+</odoo>
