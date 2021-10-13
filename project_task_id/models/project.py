@@ -101,10 +101,10 @@ class project_configuration(models.TransientModel):
 
     task_sequence = fields.Boolean(string='Only use one task sequence', config_parameter="project_task_id.task_sequence")
 
-    # NO DOCUMENTATION ON THIS PART.
-    # EXAMPLE PROJECT:
+    # ONE LINE SAVING. NO DOCUMENTATION ON THIS PART.
+    # EXAMPLE, PROJECT:
     # https://github.com/vertelab/odoo-project/blob/Dev-12.0-Fenix-Sprint-02/task_interpreter_ipf_client/models/res_config_settings.py
-    # EXAMPLE:
+    # EXAMPLE, LINK:
     # https://www.odoo.com/forum/help-1/res-config-settings-documentation-173740
 
 
