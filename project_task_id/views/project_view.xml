@@ -54,7 +54,12 @@
             <field name= "inherit_id"  ref="project.view_task_kanban" />
             <field name="arch" type="xml">
                 <field name="name" position="replace">
-                    <field name="display_name" />
+		    <!--
+			I have readded the name field but made invisiable unless debug is on.
+			This is done since project_key tries to x_path to this field and crashes if when it can't find it since we have replaced it.
+		    -->
+                    <field name="name" groups="base.group_no_one"/> 
+		    <field name="display_name" />
                 </field>
             </field>
         </record>
