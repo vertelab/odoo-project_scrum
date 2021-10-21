@@ -5,6 +5,11 @@
 #
 ##############################################################################
 
+# https://www.youtube.com/watch?v=a5y50EwZj8I
+# Project Scrum for Odoo 8. 
+# Mars 18, 2019
+
+
 {
     'name': 'Project Scrum',
     'version': '1.6',
