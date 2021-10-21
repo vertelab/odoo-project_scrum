@@ -9,7 +9,7 @@ The project_scrum module depends on an OCA module (https://github.com/OCA/projec
 
 
 ```
-# Project Scrum for Odoo 8. 
-https://www.youtube.com/watch?v=a5y50EwZj8I
-Mars 18, 2019
+# https://www.youtube.com/watch?v=a5y50EwZj8I
+# Project Scrum for Odoo 8.
+# Mars 18, 2019
 ```
