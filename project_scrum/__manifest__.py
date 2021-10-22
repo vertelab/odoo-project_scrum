@@ -34,7 +34,7 @@ More information:
     """,
     'author': 'Vertel AB',
     'license': 'AGPL-3',
-    'website': 'https://www.vertel.se',
+    'website': 'https://vertel.se',
     'depends': ['project', 'mail', 'hr_timesheet', 'project_category', 'sales_team'],
     'data': [
         'views/project_scrum_view.xml',
