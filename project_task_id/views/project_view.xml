@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="edit_project_task_id" model="ir.ui.view">
-            <field name="name">project.form.task_id</field>
+        <record id="view_project_kanban_nr" model="ir.ui.view">
+            <field name="name">project.project.kanban</field>
             <field name="model">project.project</field>
-            <field name="inherit_id" ref="project.edit_project" />
+            <field name="inherit_id" ref="project.view_project_kanban" />
             <field name="arch" type="xml">
-                <field name="user_id" position="after">
-                    <field name="task_no_next" />
+                <field name="name" position="after">
+                    <field name="display_name" />
                 </field>
+                <xpath expr="//t[@t-esc='record.name.value']" position="replace">
+                    <t t-esc="record.display_name.value"/>
+                </xpath>
             </field>
         </record>
         <record id="view_task_form2_task_id" model="ir.ui.view">
@@ -55,39 +58,15 @@
             <field name="arch" type="xml">
                 <field name="name" position="replace">
 		    <!--
-			I have readded the name field but made invisiable unless debug is on.
-			This is done since project_key tries to x_path to this field and crashes if when it can't find it since we have replaced it.
+			I have readded the name field but made it invisiable.
+			This is done since project_key tries to x_path to this field
+            and crashes if when it can't find it since we have replaced it.
 		    -->
-                    <field name="name" groups="base.group_no_one"/> 
-		    <field name="display_name" />
+                    <field name="name" invisible="1" groups="base.group_no_one"/>
+		            <field name="display_name" />
                 </field>
             </field>
         </record>
-        <record model="ir.actions.server" id="action_project_task_renumber">
-            <field name="name">Give tasks a number</field>
-            <field name="state">code</field>
-            <field name="model_id" ref="project.model_project_project" />
-            <field name="code">
-                for o in object.browse(context.get('active_ids', [])):
-                o.do_renumber_tasks()
-            </field>
-        </record>
-        <!--    <record model="ir.values" id="action_edifact_read_menu">-->
-        <!--        <field name="name">Give tasks a number</field>-->
-        <!--        <field name="model">project.project</field>-->
-        <!--        <field name="key2">client_action_multi</field>-->
-        <!--        <field name="value" eval="'ir.actions.server,%d' % action_project_task_renumber"/>-->
-        <!--    </record>-->
-        <!--
-             <record id="action_project_config" model="ir.action.act_window">
-             <field name="name">Settings</field>
-             <field name="type">ir.actions.act_window</field>
-             <field name="res_model">res.config.settings</field>
-             <field name="view_mode">form</field>
-             <field name="target">inline</field>
-             <field name="context">{'module' : 'project_task_id'}</field>
-             </record>
-        -->
         <record id="view_config_settings" model="ir.ui.view">
             <field name="name">project.settings.inherit</field>
             <field name="model">res.config.settings</field>
@@ -113,49 +92,5 @@
                 </xpath>
             </field>
         </record>
-        <!--
-             
-             <div class="col-12 col-lg-6 o_setting_box" id="recurring_tasks_setting">
-             <div class="o_setting_left_pane">
-             <field name="group_project_recurring_tasks"/>
-             </div>
-             <div class="o_setting_right_pane">
-             <label for="group_project_recurring_tasks"/>
-             <div class="text-muted">
-             Auto-generate tasks for regular activities
-             </div>
-             </div>
-             </div>
-             
-             <div class="row mt16 o_settings_container">
-             <div class="col-12 col-lg-6 o_setting_box">
-             <div class="o_setting_left_pane" />
-             <div class="">
-             <span class="o_form_label">Task Management</span>
-             <div class="text-muted">Select task sequence. Sequence at project level or at domain level.</div>
-             <div>
-             <field name="task_sequence" />
-             </div>
-             </div>
-             </div>
-             </div>
-             
-             
-             <div class="col-12 col-lg-6 o_setting_box" id="recurring_tasks_setting">
-             <div class="o_setting_left_pane">
-             <field name="group_project_recurring_tasks"/>
-             </div>
-             <div class="o_setting_right_pane">
-             <label for="group_project_recurring_tasks"/>
-             <div class="text-muted">
-             Auto-generate tasks for regular activities
-             </div>
-             </div>
-             </div>
-        -->
-        <!--
-             <menuitem id="configuration" sequence="20" name="Configuration" parent="project_menu_root" />
-             <menuitem id="settings" sequence="2" name="Settings" parent="configuration" action="action_project_config" />
-        -->
     </data>
 </odoo>
