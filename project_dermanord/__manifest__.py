@@ -27,7 +27,7 @@
 
 """,
 'author': 'Vertel AB',
-'website': 'http://www.vertel.se',
+'website': 'https://vertel.se',
 'depends': ['project', 'mail'],
 'data': [
     'views/project_messagemenu_data.xml',
