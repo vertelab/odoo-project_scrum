@@ -15,7 +15,7 @@ This module i fairly similar to https://github.com/OCA/project/tree/14.0/project
     """,
     'author': 'Vertel AB',
     'license': 'AGPL-3',
-    'website': 'https://www.vertel.se',
+    'website': 'https://vertel.se',
     'depends': ['project'],
     'data': [
         'views/project_view.xml',
