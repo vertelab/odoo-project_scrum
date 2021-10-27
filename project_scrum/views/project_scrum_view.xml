@@ -282,7 +282,8 @@
                 <form string="User Stories">
                     <header>
                         <button name="action_assign_to_me" string="Assign to Me" type="object" class="oe_highlight" attrs="{'invisible' : [('user_id', '!=', False)]}"/>
-                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+<!--                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>-->
                     </header>
                     <sheet string="User Story">
                         <div class="oe_title" style="max-width: 1070px !important; min-width: 688px !important;">
@@ -331,7 +332,7 @@
                                                         }">
                                   <tree name="test_ids" string="Test Cases">
                                     <field name="name" />
-                                    <field name="stats_test" />
+                                    <field name="state" />
                                   </tree>
                                 </field>
                              </page>
@@ -428,7 +429,7 @@
           <field name="project_id" />
           <field name="user_story_id_test" />
           <field name="description_test" />
-          <field name="stats_test" />
+          <field name="state" />
           <templates>
             <t t-name="kanban-box">
               <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
@@ -449,7 +450,7 @@
                     </b>
                   </div>
                   <div>
-                    <field name="stats_test" />
+                    <field name="state" />
                   </div>
                   <div class="o_text_overflow" t-if="record.user_story_id_test.raw_value">
                     <field name="user_story_id_test" />
@@ -481,15 +482,15 @@
       <field name="name">project.scrum.test.tree</field>
       <field name="model">project.scrum.test</field>
       <field name="arch" type="xml">
-<!--        <tree colors="black:stats_test in ('draft'); blue:stats_test in ('pending');-->
-<!--                grey:stats_test in ('cancel'); green:stats_test in('done')">-->
+<!--        <tree colors="black:state in ('draft'); blue:state in ('pending');-->
+<!--                grey:state in ('cancel'); green:state in('done')">-->
         <tree>
           <field name="name" />
           <field name="sequence_test" />
           <field name="project_id" />
           <field name="user_story_id_test" />
           <field name="description_test" />
-          <field name="stats_test" />
+          <field name="state" />
           <field name="user_id" />
           <field name="date_deadline" />
         </tree>
@@ -501,12 +502,14 @@
       <field name="model">project.scrum.test</field>
       <field name="arch" type="xml">
         <form string="Test Cases">
+            <header>
+                <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+            </header>
           <sheet string="Test Cases">
             <h1>
               <field name="name" placeholder="Test Case..." class="oe_inline" />
             </h1>
             <group col="4">
-              <field name="stats_test" />
               <field name="sequence_test" />
               <field name="project_id" />
               <field name="user_story_id_test" domain="[('project_id', '=', project_id)]" context="{'default_project_id': project_id}" />
@@ -605,6 +608,8 @@
             <filter string="Project" name="project" domain="[]" context="{'group_by':'project_id'}"/>
             <separator orientation="vertical" />
             <filter string="Deadline" name="date_deadline" domain="[]" context="{'group_by':'date_deadline'}" help="Deadline" />
+            <separator orientation="vertical" />
+            <filter string="State" name="group_by_state" domain="[]" context="{'group_by':'state'}" />
           </group>
         </search>
       </field>
@@ -619,13 +624,13 @@
           <field name="project_id" />
           <field name="user_story_id_test" />
           <field name="description_test" />
-          <field name="stats_test" />
+          <field name="state" />
           <group string="Filter By">
-            <filter string="Draft" name="draft" domain="[('stats_test','=','draft')]" />
+            <filter string="New" name="new" domain="[('state','=','new')]" />
             <separator orientation="vertical" />
-            <filter string="In Progress" name="in_progress" domain="[('stats_test','=','in progress')]" />
+            <filter string="Testing" name="testing" domain="[('state','=','testing')]" />
             <separator orientation="vertical" />
-            <filter string="Cancelled" name="cancelled" domain="[('stats_test','=','cancel')]" />
+            <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]" />
           </group>
           <newline />
           <group expand="0" string="Group By">
@@ -634,6 +639,8 @@
             <filter string="User Story" name="group_by_us_test" context="{'group_by':'user_story_id_test'}" />
               <separator orientation="vertical" />
             <filter string="Deadline" name="date_deadline" domain="[]" context="{'group_by':'date_deadline'}" help="Deadline" />
+               <separator orientation="vertical" />
+            <filter string="State" name="group_by_state" domain="[]" context="{'group_by':'state'}" />
           </group>
         </search>
       </field>
@@ -716,7 +723,7 @@
       <field name="res_model">project.scrum.us</field>
       <field name="view_mode">kanban,tree,form</field>
       <field name="view_id" ref="view_ps_us_tree" />
-      <field name="context">{"search_default_current": 1}</field>
+      <field name="context">{"search_default_current": 1, "search_default_group_by_state": 1}</field>
       <field name="search_view_id" ref="view_ps_us_search" />
       <field name="help">The user stories of scrum.</field>
     </record>
@@ -743,7 +750,7 @@
       <field name="res_model">project.scrum.test</field>
       <field name="view_mode">kanban,tree,form</field>
       <field name="view_id" ref="view_ps_tc_kanban" />
-      <field name="context">{"search_default_current": 1}</field>
+      <field name="context">{"search_default_current": 1, "search_default_group_by_state": 1}</field>
       <field name="search_view_id" ref="view_ps_tc_search" />
       <field name="help">The test case.</field>
     </record>
@@ -758,6 +765,7 @@
         'search_default_project_id': [active_id],
         'default_project_id': active_id,
         'active_test': False,
+          "search_default_group_by_state": 1
         }
       </field>
       <field name="search_view_id" ref="view_ps_tc_search" />

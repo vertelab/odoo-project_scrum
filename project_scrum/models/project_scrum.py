@@ -188,6 +188,18 @@ class project_user_stories(models.Model):
     _description = 'Project Scrum Use Stories'
     _order = 'sequence'
 
+    def create_test_case_from_us(self):
+        active_ids = self.env['project.scrum.us'].browse(self.env.context.get('active_ids'))
+        if not active_ids:
+            active_ids = self
+        for active_rec in active_ids:
+            self.env['project.scrum.test'].create({
+                'name': active_rec.name,
+                'project_id': active_rec.project_id.id,
+                'user_story_id_test': active_rec.id,
+                'state': 'new'
+            })
+
     def _get_default_stage_id(self):
         """ Gives default stage_id """
         project_id = self.env.context.get('default_project_id')
@@ -241,6 +253,15 @@ class project_user_stories(models.Model):
         domain="[('project_ids', '=', project_id)]", copy=False)
 
     business_process_id = fields.Many2one('project.scrum.business.process', string="Business Process")
+
+    state = fields.Selection([
+        ('new', 'New'),
+        ('testing', 'Testing'),
+        ('faulty', 'Faulty'),
+        ('retesting', 'Retesting'),
+        ('done', 'Done'),
+        ('cancelled', 'Cancelled'),
+    ], string='State', default='new')
 
     def stage_find(self, section_id, domain=[], order='sequence'):
         """ Override of the base.stage method
@@ -671,6 +692,7 @@ class project(models.Model):
         for p in self:
             p.test_case_count = len(p.test_case_ids)
 
+
 class test_case(models.Model):
     _name = 'project.scrum.test'
     _order = 'sequence_test'
@@ -683,7 +705,14 @@ class test_case(models.Model):
     user_story_id_test = fields.Many2one(comodel_name = "project.scrum.us", string = "User Story")
     description_test = fields.Html(string = 'Description')
     sequence_test = fields.Integer(string = 'Sequence')
-    stats_test = fields.Selection([('draft','Draft'),('in progress','In Progress'),('cancel','Cancelled')], string='State', required=False)
+    state = fields.Selection([
+        ('new', 'New'),
+        ('testing', 'Testing'),
+        ('faulty', 'Faulty'),
+        ('retesting', 'Retesting'),
+        ('done', 'Done'),
+        ('cancelled', 'Cancelled'),
+    ], string='State', default='new')
     company_id = fields.Many2one(related='project_id.company_id')
 
     user_id = fields.Many2one('res.users', string="Assigned to")
