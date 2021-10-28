@@ -610,6 +610,9 @@
             <filter string="Deadline" name="date_deadline" domain="[]" context="{'group_by':'date_deadline'}" help="Deadline" />
             <separator orientation="vertical" />
             <filter string="State" name="group_by_state" domain="[]" context="{'group_by':'state'}" />
+
+              <separator orientation="vertical" />
+            <filter string="Stage" name="group_by_stage_id" domain="[]" context="{'group_by':'stage_id'}" />
           </group>
         </search>
       </field>
@@ -640,7 +643,7 @@
               <separator orientation="vertical" />
             <filter string="Deadline" name="date_deadline" domain="[]" context="{'group_by':'date_deadline'}" help="Deadline" />
                <separator orientation="vertical" />
-            <filter string="State" name="group_by_state" domain="[]" context="{'group_by':'state'}" />
+            <filter string="Test Stages" name="group_by_state" domain="[]" context="{'group_by':'state'}" />
           </group>
         </search>
       </field>
@@ -723,7 +726,7 @@
       <field name="res_model">project.scrum.us</field>
       <field name="view_mode">kanban,tree,form</field>
       <field name="view_id" ref="view_ps_us_tree" />
-      <field name="context">{"search_default_current": 1, "search_default_group_by_state": 1}</field>
+      <field name="context">{"search_default_current": 1, "search_default_group_by_stage_id": 1}</field>
       <field name="search_view_id" ref="view_ps_us_search" />
       <field name="help">The user stories of scrum.</field>
     </record>
@@ -847,6 +850,21 @@
           <field name="partner_id" position="after">
               <field string="User Stories" name= "us_ids"  attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" widget="many2many_tags" />
           </field>
+
+          <page name="description_page" position="after">
+              <page string="Related Tickets" name="related_tickets">
+                  <group>
+                      <group>
+                          <field name="external_ticket_id"/>
+                          <field name="external_ticket_url" widget="url"/>
+                      </group>
+                      <group>
+                          <field name="external_ticket_assigned_id"/>
+                          <field name="external_ticket_state"/>
+                      </group>
+                  </group>
+              </page>
+          </page>
       </field>
     </record>
     <!--menu for accessing to userstories-->

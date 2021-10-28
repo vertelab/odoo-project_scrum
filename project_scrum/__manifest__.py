@@ -11,7 +11,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.14.0',
+    'version': '14.0.1.15.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -33,7 +33,11 @@ More information:
     
     v14.0.1.14.0 \n
     1. Added the default group-by stage on user stories and test cases \n  
-    2. Added the server action to create test cases from user stories\n  
+    2. Added the server action to create test cases from user stories\n 
+    
+    v14.0.1.15.0 \n 
+    1. Modified user stories stages
+    2. Added external ticket tab and the related fields 
     
     """,
     'author': 'Vertel AB',
