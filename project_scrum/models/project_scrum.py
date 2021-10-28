@@ -335,6 +335,22 @@ class project_user_stories(models.Model):
         }
 
 
+class RelatedTicketLines(models.Model):
+    _name = 'related.ticket.lines'
+    _description = 'Related Ticket Lines'
+
+    name = fields.Char(string="External Ticket ID")
+    external_ticket_url = fields.Char(string="External Ticket URL")
+    external_ticket_assigned_id = fields.Many2one('res.users', string="External Ticket Assigned User")
+    external_ticket_state = fields.Selection([
+        ('new', 'New'),
+        ('progress', 'In Progress'),
+        ('done', 'Done'),
+        ('cancelled', 'Cancelled'),
+    ], string="External Ticket State")
+    project_task_id = fields.Many2one('project.task', string="Project Task")
+
+
 class project_task(models.Model):
     _inherit = "project.task"
     _order = "sequence"
@@ -350,15 +366,7 @@ class project_task(models.Model):
     sprint_id = fields.Many2one(comodel_name='project.scrum.sprint', string='Sprint', group_expand='_read_group_sprint_id')
     sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprints')
 
-    external_ticket_id = fields.Char(string="External Ticket ID")
-    external_ticket_url = fields.Char(string="External Ticket URL")
-    external_ticket_assigned_id = fields.Many2one('res.users', string="External Ticket Assigned User")
-    external_ticket_state = fields.Selection([
-        ('new', 'New'),
-        ('progress', 'In Progress'),
-        ('done', 'Done'),
-        ('cancelled', 'Cancelled'),
-    ], string="External Ticket State")
+    external_ticket_ids = fields.One2many('related.ticket.lines', 'project_task_id', string="External Ticket")
 
     @api.depends('sprint_id')
     def _current_sprint(self):

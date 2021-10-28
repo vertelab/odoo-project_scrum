@@ -12,3 +12,4 @@ access_project_test_manager,project.scrum.test,model_project_scrum_test,project.
 access_project_test,project.scrum.test,model_project_scrum_test,project.group_project_user,1,1,1,0
 access_project_sprint_type,project.sprint.type,model_project_sprint_type,project.group_project_user,1,1,1,1
 access_project_scrum_business_process,project.scrum.business.process,model_project_scrum_business_process,project.group_project_user,1,1,1,1
+access_related_ticket_lines,access_related_ticket_lines,model_related_ticket_lines,project.group_project_user,1,1,1,1

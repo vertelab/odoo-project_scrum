@@ -11,7 +11,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.15.0',
+    'version': '14.0.1.16.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -38,6 +38,9 @@ More information:
     v14.0.1.15.0 \n 
     1. Modified user stories stages
     2. Added external ticket tab and the related fields 
+    
+    v14.0.1.16.0 \n 
+    1. Modified related ticket to one2many 
     
     """,
     'author': 'Vertel AB',
