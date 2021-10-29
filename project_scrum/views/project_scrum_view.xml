@@ -336,6 +336,20 @@
                                   </tree>
                                 </field>
                              </page>
+
+                            <page string="Related Tickets" name="related_tickets">
+                              <group>
+                                  <field name="external_ticket_ids" nolabel="1">
+                                      <tree editable="bottom">
+                                          <field name="name"/>
+                                          <field name="external_ticket_url" widget="url"/>
+                                          <field name="external_ticket_assigned_id"/>
+                                          <field name="external_ticket_state"/>
+                                          <field name="project_scrum_us_id" invisible="1"/>
+                                      </tree>
+                                  </field>
+                              </group>
+                          </page>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">

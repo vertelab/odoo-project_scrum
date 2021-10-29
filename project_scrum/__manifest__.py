@@ -11,7 +11,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.16.0',
+    'version': '14.0.1.17.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -36,11 +36,14 @@ More information:
     2. Added the server action to create test cases from user stories\n 
     
     v14.0.1.15.0 \n 
-    1. Modified user stories stages
-    2. Added external ticket tab and the related fields 
+    1. Modified user stories stages\n
+    2. Added external ticket tab and the related fields\n 
     
     v14.0.1.16.0 \n 
-    1. Modified related ticket to one2many 
+    1. Modified related ticket to one2many \n
+    
+    v14.0.1.17.0 \n 
+    1. Added Related Ticket field to user stories\n
     
     """,
     'author': 'Vertel AB',

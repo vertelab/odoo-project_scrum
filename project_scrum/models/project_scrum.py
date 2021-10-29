@@ -263,6 +263,8 @@ class project_user_stories(models.Model):
         ('cancelled', 'Cancelled'),
     ], string='State', default='new')
 
+    external_ticket_ids = fields.One2many('related.ticket.lines', 'project_scrum_us_id', string="External Ticket")
+
     def stage_find(self, section_id, domain=[], order='sequence'):
         """ Override of the base.stage method
             Parameter of the stage search taken from the lead:
@@ -349,6 +351,7 @@ class RelatedTicketLines(models.Model):
         ('cancelled', 'Cancelled'),
     ], string="External Ticket State")
     project_task_id = fields.Many2one('project.task', string="Project Task")
+    project_scrum_us_id = fields.Many2one('project.scrum.us', string="User Stories")
 
 
 class project_task(models.Model):
