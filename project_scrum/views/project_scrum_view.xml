@@ -282,8 +282,8 @@
                 <form string="User Stories">
                     <header>
                         <button name="action_assign_to_me" string="Assign to Me" type="object" class="oe_highlight" attrs="{'invisible' : [('user_id', '!=', False)]}"/>
-                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
-<!--                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>-->
+<!--                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>-->
+                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>
                     </header>
                     <sheet string="User Story">
                         <div class="oe_title" style="max-width: 1070px !important; min-width: 688px !important;">
@@ -342,7 +342,7 @@
                                   <field name="external_ticket_ids" nolabel="1">
                                       <tree editable="bottom">
                                           <field name="name"/>
-                                          <field name="external_ticket_url" widget="url"/>
+                                          <field name="external_ticket_url" widget="url" class="text-truncate"/>
                                           <field name="external_ticket_assigned_id"/>
                                           <field name="external_ticket_state"/>
                                           <field name="project_scrum_us_id" invisible="1"/>
@@ -739,7 +739,7 @@
       <field name="name">User Stories</field>
       <field name="res_model">project.scrum.us</field>
       <field name="view_mode">kanban,tree,form</field>
-      <field name="view_id" ref="view_ps_us_tree" />
+      <field name="view_id" ref="view_ps_us_kanban" />
       <field name="context">{"search_default_current": 1, "search_default_group_by_stage_id": 1}</field>
       <field name="search_view_id" ref="view_ps_us_search" />
       <field name="help">The user stories of scrum.</field>
@@ -871,7 +871,7 @@
                       <field name="external_ticket_ids" nolabel="1">
                           <tree editable="bottom">
                               <field name="name"/>
-                              <field name="external_ticket_url" widget="url"/>
+                              <field name="external_ticket_url" widget="url" class="text-truncate"/>
                               <field name="external_ticket_assigned_id"/>
                               <field name="external_ticket_state"/>
                               <field name="project_task_id" invisible="1"/>

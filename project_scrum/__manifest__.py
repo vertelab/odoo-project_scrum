@@ -11,7 +11,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.17.0',
+    'version': '14.0.1.18.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -44,6 +44,11 @@ More information:
     
     v14.0.1.17.0 \n 
     1. Added Related Ticket field to user stories\n
+    
+    v14.0.1.18.0 \n
+    1. Changes User Stories from state to stage_ids \n
+    2. Default the view to kanban view \n
+    3. Added the class to truncate the url \n 
     
     """,
     'author': 'Vertel AB',
