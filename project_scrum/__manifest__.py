@@ -11,7 +11,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.18.0',
+    'version': '14.0.1.19.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -49,6 +49,12 @@ More information:
     1. Changes User Stories from state to stage_ids \n
     2. Default the view to kanban view \n
     3. Added the class to truncate the url \n 
+    
+    v14.0.1.19.0 \n 
+    1. Added description when "create test-cases" from "User stories \n
+    2. Added oe_chatter-widet under test-cases \n
+    3. Filtered on "My testcases" where: "assigned user = current user" \n
+    4. Saved the changed sequence when a kanban-ticket is moved in a column. \n
     
     """,
     'author': 'Vertel AB',

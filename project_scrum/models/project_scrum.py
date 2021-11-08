@@ -197,7 +197,8 @@ class project_user_stories(models.Model):
                 'name': active_rec.name,
                 'project_id': active_rec.project_id.id,
                 'user_story_id_test': active_rec.id,
-                'state': 'new'
+                'state': 'new',
+                'description_test': active_rec.description
             })
 
     def _get_default_stage_id(self):
@@ -716,16 +717,17 @@ class project(models.Model):
 
 class test_case(models.Model):
     _name = 'project.scrum.test'
-    _order = 'sequence_test'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'sequence'
     _description = "Project Scrum Test"
 
     name = fields.Char(string='Name', required=True)
     color = fields.Integer('Color Index')
-    project_id = fields.Many2one(comodel_name = 'project.project', string = 'Project', ondelete='cascade', change_default=True)
-    sprint_id = fields.Many2one(comodel_name = 'project.scrum.sprint', string = 'Sprint')
-    user_story_id_test = fields.Many2one(comodel_name = "project.scrum.us", string = "User Story")
-    description_test = fields.Html(string = 'Description')
-    sequence_test = fields.Integer(string = 'Sequence')
+    project_id = fields.Many2one(comodel_name='project.project', string='Project', ondelete='cascade', change_default=True)
+    sprint_id = fields.Many2one(comodel_name='project.scrum.sprint', string='Sprint')
+    user_story_id_test = fields.Many2one(comodel_name="project.scrum.us", string="User Story")
+    description_test = fields.Html(string='Description')
+    sequence = fields.Integer(string='Sequence')
     state = fields.Selection([
         ('new', 'New'),
         ('testing', 'Testing'),
