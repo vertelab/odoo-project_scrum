@@ -729,13 +729,19 @@ class test_case(models.Model):
     description_test = fields.Html(string='Description')
     sequence = fields.Integer(string='Sequence')
     state = fields.Selection([
-        ('new', 'New'),
-        ('testing', 'Testing'),
-        ('faulty', 'Faulty'),
-        ('retesting', 'Retesting'),
-        ('done', 'Done'),
-        ('cancelled', 'Cancelled'),
-    ], string='State', default='new')
+        ('new', 'New Old'),
+        ('testing', 'Testing Old'),
+        ('faulty', 'Faulty Old'),
+        ('retesting', 'Retesting Old'),
+        ('done', 'Done Old'),
+        ('cancelled', 'Cancelled Old'),
+        ('1_new', 'New'),
+        ('2_testing', 'Testing'),
+        ('3_faulty', 'Faulty'),
+        ('4_retesting', 'Retesting'),
+        ('5_done', 'Done'),
+        ('6_cancelled', 'Cancelled'),
+    ], string='State', default='1_new')
     company_id = fields.Many2one(related='project_id.company_id')
 
     user_id = fields.Many2one('res.users', string="Assigned to")
@@ -743,7 +749,6 @@ class test_case(models.Model):
     tag_ids = fields.Many2many('project.tags', string="Tags")
 
     def _resolve_project_id_from_context(self):
-
         context = self.env.context
         if type(context.get('default_project_id')) in (int, long):
             return context['default_project_id']
