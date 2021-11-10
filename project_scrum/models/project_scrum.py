@@ -729,12 +729,6 @@ class test_case(models.Model):
     description_test = fields.Html(string='Description')
     sequence = fields.Integer(string='Sequence')
     state = fields.Selection([
-        ('new', 'New Old'),
-        ('testing', 'Testing Old'),
-        ('faulty', 'Faulty Old'),
-        ('retesting', 'Retesting Old'),
-        ('done', 'Done Old'),
-        ('cancelled', 'Cancelled Old'),
         ('1_new', 'New'),
         ('2_testing', 'Testing'),
         ('3_faulty', 'Faulty'),

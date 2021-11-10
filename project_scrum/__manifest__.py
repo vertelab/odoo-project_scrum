@@ -6,7 +6,7 @@
 ##############################################################################
 
 # https://www.youtube.com/watch?v=a5y50EwZj8I
-# Project Scrum for Odoo 8. 
+# Project Scrum for Odoo 14.
 # Mars 18, 2019
 
 {
@@ -52,9 +52,12 @@ More information:
     
     v14.0.1.19.0 \n 
     1. Added description when "create test-cases" from "User stories \n
-    2. Added oe_chatter-widet under test-cases \n
+    2. Added oe_chatter-widget under test-cases \n
     3. Filtered on "My testcases" where: "assigned user = current user" \n
     4. Saved the changed sequence when a kanban-ticket is moved in a column. \n
+    
+    v14.0.1.20.0 \n
+    1. Change Project Scrum Test State \n
     
     """,
     'author': 'Vertel AB',
