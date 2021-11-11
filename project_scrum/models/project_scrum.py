@@ -197,7 +197,7 @@ class project_user_stories(models.Model):
                 'name': active_rec.name,
                 'project_id': active_rec.project_id.id,
                 'user_story_id_test': active_rec.id,
-                'state': 'new',
+                'state': '1_new',
                 'description_test': active_rec.description
             })
 
