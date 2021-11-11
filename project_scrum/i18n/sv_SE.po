@@ -1274,3 +1274,14 @@ msgstr "Ja"
 #: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_sprint_form
 msgid "[TC] Tasks"
 msgstr "[Testfall] Uppgifter"
+
+
+#. module: project_scrum
+#: model_terms:ir.ui.view,arch_db:project_scrum.timesheet_ids
+msgid "Timesheet"
+msgstr "Tidrapport"
+
+#. module: project_scrum
+#: model_terms:ir.ui.view,arch_db:project_scrum.timesheet_ids
+msgid "Hours"
+msgstr "Timmar"

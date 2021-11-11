@@ -746,7 +746,7 @@ class TestCase(models.Model):
     date_deadline = fields.Date(string='Deadline')
     tag_ids = fields.Many2many('project.tags', string="Tags")
 
-    timesheet_ids = fields.One2many('account.analytic.line', 'project_scrum_test_id', 'Associated Timesheets')
+    timesheet_ids = fields.One2many('account.analytic.line', 'project_scrum_test_id', 'Timesheets')
 
     @api.depends('project_id')
     def _compute_task_id(self):
