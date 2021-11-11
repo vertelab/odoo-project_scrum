@@ -540,7 +540,7 @@
                                 <field name="description_test" />
                             </page>
                             <page string="Timesheet">
-                                <field name="timesheet_ids" context="{'default_project_id':parent.project_id}">
+                                <field name="timesheet_ids" context="{'default_project_id':parent.project_id, 'default_task_id':parent.task_id}">
                                     <tree editable="bottom" string="Timesheet Activities" default_order="date">
                                         <field name="date"/>
                                         <field name="project_id" context="{'default_project_id': parent.project_id}"/>
