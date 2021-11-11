@@ -11,7 +11,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.20.0',
+    'version': '14.0.1.21.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -58,6 +58,9 @@ More information:
     
     v14.0.1.20.0 \n
     1. Change Project Scrum Test State \n
+    
+    v14.0.1.21.0 \n
+    1. Added timesheet to Project Test Cases \n
     
     """,
     'author': 'Vertel AB',

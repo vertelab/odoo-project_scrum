@@ -715,7 +715,7 @@ class project(models.Model):
             p.test_case_count = len(p.test_case_ids)
 
 
-class test_case(models.Model):
+class TestCase(models.Model):
     _name = 'project.scrum.test'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'sequence'
@@ -724,6 +724,10 @@ class test_case(models.Model):
     name = fields.Char(string='Name', required=True)
     color = fields.Integer('Color Index')
     project_id = fields.Many2one(comodel_name='project.project', string='Project', ondelete='cascade', change_default=True)
+    task_id = fields.Many2one(
+        'project.task', 'Task', compute='_compute_task_id', store=True, readonly=False, index=True,
+        domain="[('company_id', '=', company_id), ('project_id.allow_timesheets', '=', True), "
+               "('project_id', '=?', project_id)]")
     sprint_id = fields.Many2one(comodel_name='project.scrum.sprint', string='Sprint')
     user_story_id_test = fields.Many2one(comodel_name="project.scrum.us", string="User Story")
     description_test = fields.Html(string='Description')
@@ -741,6 +745,13 @@ class test_case(models.Model):
     user_id = fields.Many2one('res.users', string="Assigned to")
     date_deadline = fields.Date(string='Deadline')
     tag_ids = fields.Many2many('project.tags', string="Tags")
+
+    timesheet_ids = fields.One2many('account.analytic.line', 'project_scrum_test_id', 'Associated Timesheets')
+
+    @api.depends('project_id')
+    def _compute_task_id(self):
+        for line in self.filtered(lambda line: not line.project_id):
+            line.task_id = False
 
     def _resolve_project_id_from_context(self):
         context = self.env.context
