@@ -57,11 +57,11 @@ class ProjectTask(models.Model):
         return result
 
     def _new_task_no(self):
-        self.ensure_one()
-        if bool(
-            self.env["ir.config_parameter"].sudo().get_param("project.task_sequence")
-        ):
-            seq_code = f"project.task.{self.project_id.id}"
-            self.task_no = self.env["ir.sequence"].next_by_code(seq_code)
-        else:
-            self.task_no = self.env["ir.sequence"].next_by_code("project.task.common")
+        for rec in self:
+            if bool(
+                self.env["ir.config_parameter"].sudo().get_param("project.task_sequence")
+            ):
+                seq_code = f"project.task.{rec.project_id.id}"
+                rec.task_no = self.env["ir.sequence"].next_by_code(seq_code)
+            else:
+                rec.task_no = self.env["ir.sequence"].next_by_code("project.task.common")
