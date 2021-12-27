@@ -16,7 +16,7 @@ This module i fairly similar to https://github.com/OCA/project/tree/14.0/project
     "author": "Vertel AB",
     "license": "AGPL-3",
     "website": "https://www.vertel.se",
-    "depends": ["project"],
+    "depends": ["project","project_scrum"],
     "data": [
         "views/project_view.xml",
         "data/ir_config_parameter_data.xml",

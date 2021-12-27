@@ -10,4 +10,9 @@
             <field name="value">0</field>
         </record>
     </data>
+    <data>
+        <function model="project.project" name="set_sequences_numbers_for_all_projects">
+         </function>
+    </data>
+    
 </odoo>
