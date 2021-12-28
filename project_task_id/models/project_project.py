@@ -34,6 +34,7 @@ class ProjectProject(models.Model):
         res = super(ProjectProject,self).write(values)
         if values.get('use_scrum'):
             self.set_project_no_write()
+            self.task_ids._new_task_no()
         return res
         
 

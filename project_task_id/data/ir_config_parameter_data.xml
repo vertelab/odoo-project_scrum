@@ -10,9 +10,14 @@
             <field name="value">0</field>
         </record>
     </data>
-    <data>
-        <function model="project.project" name="set_sequences_numbers_for_all_projects">
-         </function>
-    </data>
     
+    <data>
+        
+        <function model="project.project" name="set_sequences_numbers_for_all_projects">
+        </function>
+        
+        <function model="project.task" name="set_sequences_numbers_for_all_project_tasks">
+        </function>
+    
+    </data>
 </odoo>

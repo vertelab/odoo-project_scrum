@@ -12,11 +12,19 @@ class ProjectTask(models.Model):
     _inherit = "project.task"
 
     task_no = fields.Char(string="Task id", help="Unique id for this task", copy=False)
+    
+    @api.model
+    def set_sequences_numbers_for_all_project_tasks(self):
+        records = self.env["project.task"].search([("project_id.use_scrum","=",True),("task_no","=",False)])
+        records._new_task_no()
 
     def name_get(self):
         res_list = []
         for task in self:
-            res_list.append((task.id, f"[{task.task_no}] {task.name}"))
+            if task.task_no and task.project_id.use_scrum:
+                res_list.append((task.id, f"[{task.task_no}] {task.name}"))
+            else:
+                res_list.append((task.id, f"{task.name}"))
         return res_list
 
     def write(self, values):
@@ -27,13 +35,9 @@ class ProjectTask(models.Model):
 
     @api.model
     def create(self, vals):
-        if bool(
-            self.env["ir.config_parameter"].sudo().get_param("project.task_sequence")
-        ):
+        if bool(self.env["ir.config_parameter"].sudo().get_param("project.task_sequence")):
             # use common sequence
-            vals["task_no"] = self.env["ir.sequence"].next_by_code(
-                "project.task.common"
-            )
+            vals["task_no"] = self.env["ir.sequence"].next_by_code("project.task.common")
         else:
             # use project specific sequence
             project_id = vals.get("project_id")
@@ -58,10 +62,12 @@ class ProjectTask(models.Model):
 
     def _new_task_no(self):
         for rec in self:
-            if bool(
-                self.env["ir.config_parameter"].sudo().get_param("project.task_sequence")
-            ):
-                seq_code = f"project.task.{rec.project_id.id}"
-                rec.task_no = self.env["ir.sequence"].next_by_code(seq_code)
-            else:
-                rec.task_no = self.env["ir.sequence"].next_by_code("project.task.common")
+            if rec.task_no == False:
+                if bool(self.env["ir.config_parameter"].sudo().get_param("project.task_sequence")):
+                    # use common sequence
+                    rec.task_no = self.env["ir.sequence"].next_by_code("project.task.common")
+                else:
+                    # create new sequence and use it
+                    vals["task_no"] = self.env["ir.sequence"].next_by_code("project.task.common")
+                    seq_code = f"project.task.{rec.project_id.id}"
+                    rec.task_no = self.env["ir.sequence"].next_by_code(seq_code)
