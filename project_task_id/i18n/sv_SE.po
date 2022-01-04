@@ -84,7 +84,7 @@ msgstr "Aktivitet"
 #. module: project_task_id
 #: model_terms:ir.ui.view,arch_db:project_task_id.view_config_settings
 msgid "Task Management"
-msgstr "Hantera Ärenden"
+msgstr "Ärenden"
 
 #. module: project_task_id
 #: model:ir.model.fields,field_description:project_task_id.field_project_task__task_no
