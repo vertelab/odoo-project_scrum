@@ -2,6 +2,7 @@
 <odoo>
     <data>
     
+<!--
         <record model="ir.rule" id="ps_sprint_rule">
             <field name="name">Sprint</field>
             <field name="model_id" ref="model_project_scrum_sprint"/>
@@ -35,6 +36,7 @@
             <field name="model_id" ref="model_project_scrum_actors"/>
             <field name="global" eval="True"/>
         </record>
+-->
 
     </data>
 </odoo>
