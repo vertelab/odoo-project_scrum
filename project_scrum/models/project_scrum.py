@@ -809,7 +809,7 @@ class project_task_type(models.Model):
             }
             new_task_type = task_type_ids[0].copy(default=default_values)
 
-            task_ids = associated_project_ids.mapped(lambda x_task: x_task.task_ids.filtered(
+            task_ids = associated_project_ids.mapped(lambda x_task: x_task.tasks.filtered(
                 lambda x_type: x_type.stage_id in task_type_ids))
             for task in task_ids:
                 task.stage_id = new_task_type.id
