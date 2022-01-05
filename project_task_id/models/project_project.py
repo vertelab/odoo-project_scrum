@@ -28,7 +28,10 @@ class ProjectProject(models.Model):
             self.env["ir.config_parameter"].sudo().get_param("project.project_sequence")
         ):
             for project in self:
-                res_list.append((project.id, f"[{project.project_no}] {project.name}"))
+                if project.use_scrum:
+                    res_list.append((project.id, f"[{project.project_no}] {project.name}"))
+                else:
+                    res_list.append((project.id, f"{project.name}"))
         else:
             res_list = super(ProjectProject, self).name_get()
         return res_list
