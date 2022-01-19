@@ -92,5 +92,26 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="edit_ps_project_task" model="ir.ui.view">
+            <field name="name">project.project.form.etend</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options_active']/div[last()]" position="before">
+                    <div>
+                        <field name="use_project_no" class="oe_inline oe_input_align"/>
+                        <label for="use_project_no" class="oe_inline" string="Use Project No"/>
+                    </div>
+                </xpath>
+                <field name="name" position="replace">
+                    <div>
+                        <field name="project_no" class="oe_inline oe_input_align" attrs="{'invisible':[('use_project_no', '=', False)]}"/>
+                        <field name="name" class="oe_inline"/>
+                    </div>
+<!--                    <field name="display_name" readonly="False"/>-->
+                </field>
+            </field>
+        </record>
     </data>
 </odoo>

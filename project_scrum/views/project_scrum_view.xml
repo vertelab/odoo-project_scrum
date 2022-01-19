@@ -832,10 +832,17 @@
                         <field name="meeting_count" widget="statinfo" />
                     </button>
                 </button>
-                <field name="name" position="after">
-                    <field name="use_scrum" class="oe_inline"/>
-                    <label for="use_scrum" string="Use Scrum"/>
-                </field>
+<!--                <field name="name" position="after">-->
+<!--                    <field name="use_scrum" class="oe_inline"/>-->
+<!--                    <label for="use_scrum" string="Use Scrum"/>-->
+<!--                </field>-->
+
+                <xpath expr="//div[@name='options_active']/div[last()]" position="before">
+                    <div>
+                        <field name="use_scrum" class="oe_inline oe_input_align"/>
+                        <label for="use_scrum" class="oe_inline" string="Use Scrum"/>
+                    </div>
+                </xpath>
 
                 <!--        <field name="user_id" position="replace">-->
                 <!--          <label for="user_id" string="Scrum Master" attrs="{'invisible': [('use_scrum', '=', False)]}" />-->

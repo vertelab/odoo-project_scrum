@@ -12,16 +12,18 @@ class ProjectTask(models.Model):
     _inherit = "project.task"
 
     task_no = fields.Char(string="Task id", help="Unique id for this task", copy=False)
+
+    use_project_no = fields.Boolean(string="Use Project No")
     
     @api.model
     def set_sequences_numbers_for_all_project_tasks(self):
-        records = self.env["project.task"].search([("project_id.use_scrum","=",True),("task_no","=",False)])
+        records = self.env["project.task"].search([("project_id.use_project_no", "=", True), ("task_no", "=", False)])
         records._new_task_no()
 
     def name_get(self):
         res_list = []
         for task in self:
-            if task.task_no and task.project_id.use_scrum:
+            if task.task_no and task.project_id.use_project_no:
                 res_list.append((task.id, f"[{task.task_no}] {task.name}"))
             else:
                 res_list.append((task.id, f"{task.name}"))
@@ -68,6 +70,8 @@ class ProjectTask(models.Model):
                     rec.task_no = self.env["ir.sequence"].next_by_code("project.task.common")
                 else:
                     # create new sequence and use it
-                    vals["task_no"] = self.env["ir.sequence"].next_by_code("project.task.common")
+                    # vals["task_no"] = self.env["ir.sequence"].next_by_code("project.task.common")
+                    rec.task_no = self.env["ir.sequence"].next_by_code("project.task.common")
                     seq_code = f"project.task.{rec.project_id.id}"
                     rec.task_no = self.env["ir.sequence"].next_by_code(seq_code)
+
