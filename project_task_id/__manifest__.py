@@ -2,7 +2,7 @@
 
 {
     "name": "Project Task Id",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.0.1",
     "category": "Project Management",
     "summary": "Adds id to task",
     "description": """
@@ -12,6 +12,10 @@ It can give one global sequence or one sequence per project. \n
 Toggle which to use through Project -> Configuration -> Settings -> Only use one task sequence
 
 This module i fairly similar to https://github.com/OCA/project/tree/14.0/project_key. \n
+    14.0.2.0.1\n
+     - Added use_project_no to project and make project number show based on that
+     - Showed project number to show on project.project form view 
+    
     """,
     "author": "Vertel AB",
     "license": "AGPL-3",

@@ -11,7 +11,7 @@
 
 {
     'name': 'Project Scrum',
-    'version': '14.0.1.23.0',
+    'version': '14.0.1.24.0',
     'category': 'Project Management',
     'description': """
 Using Scrum to plan the work in teams
@@ -67,6 +67,10 @@ More information:
     
     v14.0.1.23.0 \n
      - Added project manager to merge stages and also improved the merge stages function \n
+     
+    14.0.1.24.0\n
+      - Moved use_scrum to the new line
+    
     """,
     'author': 'Vertel AB',
     'license': 'AGPL-3',
