@@ -15,3 +15,11 @@ class ResConfigSettings(models.TransientModel):
         string="Only use one task sequence",
         config_parameter="project_task_id.task_sequence",
     )
+    
+    default_use_project_no = fields.Boolean(
+        string="If true then all created projects will have its use_project_no field set to True",
+        config_parameter="project_task_id.default_use_project_no",
+        default_model = "project.project"
+    )
+
+

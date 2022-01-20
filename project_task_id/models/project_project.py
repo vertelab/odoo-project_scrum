@@ -19,14 +19,15 @@ class ProjectProject(models.Model):
         for record in records:
             record.project_no = self.env["ir.sequence"].next_by_code("project.project")
                 
-    project_no = fields.Char(string="Project Number", readonly=True)
+    project_no = fields.Char(string="Project Number")
     task_no_next = fields.Integer(
         string="Next Task id", copy=False, help="Counter to get unique ids for tasks"
     )
 
     @api.model
     def create(self, vals):
-        vals["project_no"] = self.env["ir.sequence"].next_by_code("project.project")
+        if not vals.get("project_no"):#It is possible that when we create project that we want to set a project_no manually, like when we import projects, at which we don't want to use the ir.sequence.
+            vals["project_no"] = self.env["ir.sequence"].next_by_code("project.project")
         result = super(ProjectProject, self).create(vals)
         return result
 

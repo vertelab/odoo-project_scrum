@@ -90,6 +90,21 @@
                         </div>
                     </div>
                 </xpath>
+                <xpath expr="//div[@data-key='project']" position="inside">
+                        <H2>Project Numbers</H2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="recurring_tasks_setting">
+                                <div class="o_setting_left_pane" />
+                                <div class="">
+                                    <span class="o_form_label">Project Numbers</span>
+                                    <div class="text-muted">Use Project Numbers by Default.</div>
+                                    <div>
+                                        <field name="default_use_project_no" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </xpath>
             </field>
         </record>
 
@@ -100,9 +115,15 @@
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='options_active']/div[last()]" position="before">
                     <div>
-                        <field name="use_project_no" class="oe_inline oe_input_align"/>
                         <label for="use_project_no" class="oe_inline" string="Use Project No"/>
+                        <field name="use_project_no" class="oe_inline oe_input_align"/>
                     </div>
+<!--
+                    <div>
+                        <label for="project_no" class="oe_inline" string="Project Number"/>
+                        <field name="project_no" class="oe_inline oe_input_align"/>
+                    </div>
+-->
                 </xpath>
                 <field name="name" position="replace">
                     <div>
