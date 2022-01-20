@@ -106,10 +106,11 @@
                 </xpath>
                 <field name="name" position="replace">
                     <div>
-                        <field name="project_no" class="oe_inline oe_input_align" attrs="{'invisible':[('use_project_no', '=', False)]}"/>
+                        <span class="oe_inline" attrs="{'invisible':[('use_project_no', '=', False)]}">
+                            [<field name="project_no" class="oe_inline oe_input_align" attrs="{'invisible':[('use_project_no', '=', False)]}"/>]
+                        </span>
                         <field name="name" class="oe_inline"/>
                     </div>
-<!--                    <field name="display_name" readonly="False"/>-->
                 </field>
             </field>
         </record>
