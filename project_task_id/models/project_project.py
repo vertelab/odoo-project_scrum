@@ -18,8 +18,8 @@ class ProjectProject(models.Model):
         records = self.env["project.project"].search([("use_project_no", "=", True), ("project_no", "=", False)])
         for record in records:
             record.project_no = self.env["ir.sequence"].next_by_code("project.project")
-                
-    project_no = fields.Char(string="Project Number")
+
+    project_no = fields.Char(string="Project Number", copy=False)
     task_no_next = fields.Integer(
         string="Next Task id", copy=False, help="Counter to get unique ids for tasks"
     )
