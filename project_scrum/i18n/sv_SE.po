@@ -4,11 +4,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20210929\n"
+"Project-Id-Version: Odoo Server 14.0-20210312\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-11 06:04+0000\n"
-"PO-Revision-Date: 2021-11-11 06:04+0000\n"
-"Last-Translator: Fredrik Arvas\n"
+"POT-Creation-Date: 2022-03-24 13:25+0000\n"
+"PO-Revision-Date: 2022-03-24 13:25+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -106,6 +106,11 @@ msgstr "Aktör"
 #: model:ir.model,name:project_scrum.model_project_scrum_actors
 msgid "Actors in user stories"
 msgstr "Aktörer i användarfallen"
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Objektrad"
 
 #. module: project_scrum
 #: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_meeting_form
@@ -315,6 +320,7 @@ msgid "Description Short"
 msgstr "Kortbeskrivning"
 
 #. module: project_scrum
+#: model:ir.model.fields,field_description:project_scrum.field_account_analytic_line__display_name
 #: model:ir.model.fields,field_description:project_scrum.field_project_project__display_name
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_actors__display_name
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_business_process__display_name
@@ -461,11 +467,17 @@ msgid "Group By"
 msgstr "Gruppera på"
 
 #. module: project_scrum
+#: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_tc_form
+msgid "Hours"
+msgstr ""
+
+#. module: project_scrum
 #: model:ir.model.fields,help:project_scrum.field_project_project__manhours
 msgid "How many hours you expect this project needs before it's finished"
 msgstr "Antal timmar som den här projektet väntas ta."
 
 #. module: project_scrum
+#: model:ir.model.fields,field_description:project_scrum.field_account_analytic_line__id
 #: model:ir.model.fields,field_description:project_scrum.field_project_project__id
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_actors__id
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_business_process__id
@@ -550,6 +562,7 @@ msgid "Label"
 msgstr ""
 
 #. module: project_scrum
+#: model:ir.model.fields,field_description:project_scrum.field_account_analytic_line____last_update
 #: model:ir.model.fields,field_description:project_scrum.field_project_project____last_update
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_actors____last_update
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_business_process____last_update
@@ -644,13 +657,6 @@ msgstr "Meddelanden"
 #: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_sprint_search
 msgid "Month"
 msgstr "Månad"
-
-#. module: project_scrum
-#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__my_activity_date_deadline
-#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_test__my_activity_date_deadline
-#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_us__my_activity_date_deadline
-msgid "My Activity Deadline"
-msgstr "Min aktivitetstidsfrist"
 
 #. module: project_scrum
 #: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_tc_search
@@ -856,6 +862,7 @@ msgstr "Scrumtaggar"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_scrum_test
+#: model:ir.model.fields,field_description:project_scrum.field_account_analytic_line__project_scrum_test_id
 msgid "Project Scrum Test"
 msgstr "Scrumtest"
 
@@ -1069,6 +1076,7 @@ msgstr "Ettikett"
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_task
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__task_ids
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_test__task_id
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_us__task_ids
 #: model_terms:ir.ui.view,arch_db:project_scrum.edit_ps_project
 #: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_sprint_form
@@ -1093,6 +1101,8 @@ msgid "Task Test"
 msgstr "Testfall"
 
 #. module: project_scrum
+#: model:project.project,label_tasks:project_scrum.project_project_1
+#: model:project.project,label_tasks:project_scrum.project_project_2
 #: model_terms:ir.ui.view,arch_db:project_scrum.edit_ps_project
 #: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_us_form
 #: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_us_kanban
@@ -1170,6 +1180,21 @@ msgstr "Testfallet"
 #: model_terms:ir.actions.act_window,help:project_scrum.action_ps_us_current
 msgid "The user stories of scrum."
 msgstr "Scrums användarfall"
+
+#. module: project_scrum
+#: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_tc_form
+msgid "Timesheet"
+msgstr ""
+
+#. module: project_scrum
+#: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_tc_form
+msgid "Timesheet Activities"
+msgstr ""
+
+#. module: project_scrum
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_test__timesheet_ids
+msgid "Timesheets"
+msgstr "Fakturerad tid"
 
 #. module: project_scrum
 #: model:ir.model.fields,help:project_scrum.field_project_scrum_meeting__activity_exception_decoration
@@ -1274,14 +1299,3 @@ msgstr "Ja"
 #: model_terms:ir.ui.view,arch_db:project_scrum.view_ps_sprint_form
 msgid "[TC] Tasks"
 msgstr "[Testfall] Uppgifter"
-
-
-#. module: project_scrum
-#: model_terms:ir.ui.view,arch_db:project_scrum.timesheet_ids
-msgid "Timesheet"
-msgstr "Tidrapport"
-
-#. module: project_scrum
-#: model_terms:ir.ui.view,arch_db:project_scrum.timesheet_ids
-msgid "Hours"
-msgstr "Timmar"
