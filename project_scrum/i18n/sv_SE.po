@@ -1194,7 +1194,7 @@ msgstr ""
 #. module: project_scrum
 #: model:ir.model.fields,field_description:project_scrum.field_project_scrum_test__timesheet_ids
 msgid "Timesheets"
-msgstr "Fakturerad tid"
+msgstr ""
 
 #. module: project_scrum
 #: model:ir.model.fields,help:project_scrum.field_project_scrum_meeting__activity_exception_decoration
