@@ -28,7 +28,7 @@
     'description': 'Menu for project calendar in message menu.',
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project-scrum/project_dermanord',
+    'website': 'https://vertel.se/apps/odoo-project_scrum/project_dermanord',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
