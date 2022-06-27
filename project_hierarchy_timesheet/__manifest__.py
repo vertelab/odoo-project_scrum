@@ -29,7 +29,7 @@
     'description': '>> Description',
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project-scrum/project_hierarchy_timesheet',
+    'website': 'https://vertel.se/apps/odoo-project_scrum/project_hierarchy_timesheet',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
