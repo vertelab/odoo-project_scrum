@@ -16,7 +16,7 @@
    version="1.1"
    id="SVGRoot"
    sodipodi:docname="icon_140x140.svg"
-   inkscape:export-filename="/usr/share/odoo-project_scrum/project_dermanord/static/description/icon.png"
+   inkscape:export-filename="/usr/share/odoo-project_scrum/project_task_type/static/description/icon.png"
    inkscape:export-xdpi="92"
    inkscape:export-ydpi="92"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
@@ -48,7 +48,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="207.72067"
+     inkscape:cx="27.408446"
      inkscape:cy="-31.191402"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
