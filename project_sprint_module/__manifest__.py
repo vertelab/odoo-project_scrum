@@ -28,7 +28,7 @@
     'description': 'Adds new page for module list.',
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project-scrum/project_sprint_module',
+    'website': 'https://vertel.se/apps/odoo-project_scrum/project_sprint_module',
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
