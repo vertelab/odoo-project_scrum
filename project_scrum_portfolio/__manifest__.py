@@ -74,7 +74,6 @@ https://innolution.com/essential-scrum/table-of-contents/chapter-16-portfolio-pl
     """,
     'author': 'Vertel AB',
     'license': 'AGPL-3',
-    'website': 'https://vertel.se',
     'depends': ['project', 'project_scrum'],
     'data': [
         'views/project_scrum_view.xml',

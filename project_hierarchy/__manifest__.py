@@ -37,7 +37,7 @@
     'depends': [
         'project',
         'hr_timesheet',
-        'planning_ce'
+        # ~ 'planning_ce'
     ],
     'data': [
         'views/project_views.xml',
