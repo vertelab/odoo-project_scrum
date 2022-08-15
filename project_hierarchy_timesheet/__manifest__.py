@@ -45,7 +45,7 @@
     ],
     'test': [
     ],
-    'installable': False,
+    # ~ 'installable': False,
     'auto_install': False,
     'application': True,
 }
