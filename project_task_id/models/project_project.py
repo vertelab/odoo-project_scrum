@@ -2,10 +2,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-
-import logging
-
-_logger = logging.getLogger(__name__)
+from odoo.osv import expression
 
 
 class ProjectProject(models.Model):
@@ -57,3 +54,20 @@ class ProjectProject(models.Model):
         else:
             res_list = super(ProjectProject, self).name_get()
         return res_list
+
+    @api.model
+    def search(self, args, offset=0, limit=80, order='id', count=False):
+        """Override to be able to search project_no"""
+        for arg in args.copy():
+            if 'name' in arg:
+                args = expression.OR((
+                    expression.normalize_domain(args),
+                    [('project_no', 'ilike', arg[2])], 
+                ))
+        return super().search(
+            args,
+            offset=offset,
+            limit=limit,
+            order=order,
+            count=count
+        )
