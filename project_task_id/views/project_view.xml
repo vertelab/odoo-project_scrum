@@ -14,6 +14,15 @@
                 </xpath>
             </field>
         </record>
+        <record id="view_project_project_filter" model="ir.ui.view">
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_project_filter" />
+            <field name="arch" type="xml">
+                <search position="inside">
+                    <field name="project_no" string="Project number" />
+                </search>
+            </field>
+        </record>
         <record id="view_task_form2_task_id" model="ir.ui.view">
             <field name="name">project.task.form.task_id</field>
             <field name="model">project.task</field>
