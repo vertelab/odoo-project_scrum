@@ -57,7 +57,7 @@ class ProjectProject(models.Model):
 
     @api.model
     def search(self, args, offset=0, limit=80, order='id', count=False):
-        """Override to be able to search project_no"""
+        """Override to extend searching project_no when searching name"""
         for arg in args.copy():
             if 'name' in arg:
                 args = expression.OR((
