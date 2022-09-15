@@ -24,7 +24,7 @@
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds new page for module list.',
-    'category': 'Productivity',
+    'category': 'Project',
     'description': 'Adds new page for module list.',
     #'sequence': '1',
     'author': 'Vertel AB',
@@ -33,7 +33,7 @@
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-project-scrum',
+    'repository': 'https://github.com/vertelab/odoo-project_scrum',
     'depends': ['project', 'project_scrum'],
     'data': ['views/project_sprint_module.xml'],
     'demo': [],
