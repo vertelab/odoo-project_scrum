@@ -28,7 +28,7 @@
     'version': '14.0.1.24.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Using Scrum to plan the work in teams',
-    'category': 'Productivity',
+    'category': 'Project',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_scrum',
@@ -36,7 +36,7 @@
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-project-scrum',
+    'repository': 'https://github.com/vertelab/odoo-project_scrum',
     'description': """
 Using Scrum to plan the work in teams
 ======================================
