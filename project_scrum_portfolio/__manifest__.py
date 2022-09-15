@@ -24,7 +24,7 @@
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adding Portfilio management to Project Scrum.',
-    'category': 'Productivity',
+    'category': 'Project',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_scrum_portfolio',
@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-project-scrum',
+    'repository': 'https://github.com/vertelab/odoo-project_scrum',
     'description': """
 Adding Portfilio management to Project Scrum
 ==========================================
