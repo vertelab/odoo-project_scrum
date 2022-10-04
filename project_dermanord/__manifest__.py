@@ -27,7 +27,9 @@
     Menu for projects in message menu
     """,
     'category': 'Project',
-    'description': 'Menu for project calendar in message menu.',
+    'description': """
+    Menu for project calendar in message menu.
+    """,
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_dermanord',
