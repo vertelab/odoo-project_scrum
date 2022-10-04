@@ -26,7 +26,7 @@
     'summary': 'Adds Id to task.',
     'category': 'Project',
     #'sequence': '1',
-    "description": """
+    'description': """
 This module is maintained from https://github.com/vertelab/odoo-project_scrum/tree/14.0/project_task_id. \n
 Adds an id to task using a counter on each projekt. \n
 It can give one global sequence or one sequence per project. \n
