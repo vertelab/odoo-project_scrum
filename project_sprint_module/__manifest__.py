@@ -25,7 +25,9 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds new page for module list.',
     'category': 'Project',
-    'description': 'Adds new page for module list.',
+    'description': """
+    Adds new page for module list.
+    """,
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_sprint_module',
