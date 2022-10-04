@@ -26,13 +26,6 @@
     'summary': 'Adds Id to task.',
     'category': 'Project',
     #'sequence': '1',
-    'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project_scrum/project_task_id',
-    'images': ['static/description/banner.png'], # 560x280 px.
-    'license': 'AGPL-3',
-    'contributor': '',
-    'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-project_scrum',
     "description": """
 This module is maintained from https://github.com/vertelab/odoo-project_scrum/tree/14.0/project_task_id. \n
 Adds an id to task using a counter on each projekt. \n
@@ -45,6 +38,13 @@ This module i fairly similar to https://github.com/OCA/project/tree/14.0/project
      - Showed project number to show on project.project form view 
     
     """,
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-project_scrum/project_task_id',
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-project_scrum',
     "depends": ["project"],
     "data": [
         "views/project_view.xml",
