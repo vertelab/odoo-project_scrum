@@ -23,7 +23,9 @@
     'name': 'Project Scrum: Project Message Menu',
     'version': '14.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Menu for projects in message menu',
+    'summary': """
+    Menu for projects in message menu
+    """,
     'category': 'Project',
     'description': 'Menu for project calendar in message menu.',
     #'sequence': '1',
