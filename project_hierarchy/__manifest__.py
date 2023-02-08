@@ -36,11 +36,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
-    'depends': [
-        'project',
-        'hr_timesheet',
-        # ~ 'planning_ce'
-    ],
+    'depends': ['project','hr_timesheet',],  # ~ 'planning_ce'
     'data': [
         'views/project_views.xml',
     ],
