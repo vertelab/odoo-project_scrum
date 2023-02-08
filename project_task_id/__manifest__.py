@@ -45,7 +45,7 @@ This module i fairly similar to https://github.com/OCA/project/tree/14.0/project
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
-    "depends": ["project"],
+    'depends': ['project'],
     "data": [
         "views/project_view.xml",
         "data/ir_config_parameter_data.xml",
