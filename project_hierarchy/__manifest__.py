@@ -36,11 +36,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
-    'depends': [
-        'project',
-        'hr_timesheet',
-        # ~ 'planning_ce'
-    ],
+    'depends': ['project','hr_timesheet',],  # ~ 'planning_ce'
     'data': [
         'views/project_views.xml',
     ],
@@ -50,3 +46,4 @@
     'auto_install': False,
     'application': True,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
