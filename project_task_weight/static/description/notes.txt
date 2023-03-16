@@ -1,0 +1,28 @@
+odoo-project / project_task_offer_action
+2022-09-13
+
+Be aware of these!
+[project]/[module]/static/description/banner.png
+[project]/[module]/static/description/icon.png
+
+Icon: "project-diagram"
+Icons may be found at: https://fontawesome.com/v5/cheatsheet
+
+Odoo banner: 560 x 280
+Odoo icon: 140 x 140
+
+HEX
+#930a57
+
+#8105a7
+
+
+Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
+
+Guide:
+1. Use Inkscape to create a colored background. (Import)
+2. Odoo icon: 140 x 140, 560 x 280.
+3. Pick icon at fontawesome and paste in a text field.
+4. Save in ordinary / plain svg format.
+5. In Inkscape, choose Generate PNG image and "Export as...".
+6. Write a filename of choice and choose "Export".

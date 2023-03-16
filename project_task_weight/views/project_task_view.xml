@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="view_task_form2" model="ir.ui.view">
+    <field name="name">project.task.form</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_form2" />
+    <field name="arch" type="xml">
+      <field name="partner_id" position="after">
+        <field name="weight" />
+      </field>
+    </field>
+  </record>
+  <record id="quick_create_task_form" model="ir.ui.view">
+    <field name="name">project.task.form.quick_create</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.quick_create_task_form" />
+    <field name="arch" type="xml">
+      <field name="project_id" position="before">
+        <field name="weight" />
+      </field>
+    </field>
+  </record>
+  <!-- Project Task Kanban View -->
+  
+  <record model="ir.ui.view" id="view_task_kanban">
+    <field name="name">project.task.kanban</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_kanban" />
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='partner_id']" position="after">
+        <field name="weight" />
+      </xpath>
+      <xpath expr="//div[hasclass('dropdown-menu')]" position="inside">
+        <div class="o_kanban_card_manage_section">
+          <div role="menuitem">
+            
+            <a name="set_weight_easy" type="object" class="dropdown-item"><span t-if="record.weight.raw_value == '1'">*</span> Easy</a>
+          </div>
+          <div role="menuitem">
+           
+            <a name="set_weight_medium" type="object" class="dropdown-item"> <span t-if="record.weight.raw_value == '2'">*</span> Medium</a>
+          </div>
+          <div role="menuitem">
+           
+            <a name="set_weight_hard" type="object" class="dropdown-item"> <span t-if="record.weight.raw_value == '4'">*</span> Hard</a>
+          </div>
+          <div role="menuitem">
+           
+            <a name="set_weight_challenging" type="object" class="dropdown-item"><span t-if="record.weight.raw_value == '8'">*</span> Challenging</a>
+          </div>
+          <div role="menuitem">
+           
+            <a name="set_weight_exhausting" type="object" class="dropdown-item"> <span t-if="record.weight.raw_value == '16'">*</span> Exhausting</a>
+          </div>
+        </div>
+      </xpath>
+      
+<!--
+       <xpath expr="//div[hasclass('oe_kanban_bottom_right')]" position="inside">
+           <field name="weight" widget="state_selection" />
+        </xpath>
+      
+-->
+    </field>
+  </record>
+  <record id="view_task_tree2" model="ir.ui.view">
+    <field name="name">project.task.tree</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_tree2" />
+    <field name="arch" type="xml">
+      <field name="stage_id" position="before">
+        <field name="weight" optional="show" />
+      </field>
+    </field>
+  </record>
+  <record id="view_task_calendar" model="ir.ui.view">
+    <field name="name">project.task.calendar</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_calendar" />
+    <field name="arch" type="xml">
+      <field name="stage_id" position="before">
+        <field name="weight" optional="show" />
+      </field>
+    </field>
+  </record>
+  
+</odoo>
