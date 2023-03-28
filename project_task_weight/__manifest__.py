@@ -31,12 +31,12 @@
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_task_weight',
+    'website': 'https://vertel.se/apps/odoo-project_scrum/project_task_weight',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'repository': 'https://github.com/vertelab/odoo-project',
+    'repository': 'https://github.com/vertelab/odoo-project_scrum',
     'depends': ['project',],
     'data': [
         "views/project_task_view.xml"
