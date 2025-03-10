@@ -10,7 +10,6 @@
             <field name="arch" type="xml">
                 <filter name="inactive" position="after">
                     <separator />
-                    <!--          <filter string="Test" name="filte_by_tag" domain="[('categ_ids','ilike','test')]" />-->
                     <filter string="Current Sprint" name="current_sprint" domain="[('current_sprint','=',True)]" />
                     <filter string="Previous Sprint" name="prev_sprint" domain="[('prev_sprint','=',True)]" />
                     <filter string="Next Sprint" name="next_sprint" domain="[('next_sprint','=',True)]" />
@@ -20,23 +19,13 @@
                     <field name="sprint_ids" />
                 </field>
                 <filter name="project" position="after">
-                    <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}" />
+                    <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}" domain="[('project_id', '=', 1)]" />
                     <filter string="User Story" name="group_by_us" context="{'group_by':'us_id'}" />
-                    <filter string="Current Sprint" name="group_by_current_sprint" domain="['|', '|', ('current_sprint', '=', True), ('next_sprint', '=', True), ('prev_sprint', '=', True)]" context="{'group_by':'sprint_id', 'current_sprint_group_by': True}" />
+<!--                    <filter string="Current Sprint" name="group_by_current_sprint" domain="['|', '|', ('current_sprint', '=', True), ('next_sprint', '=', True), ('prev_sprint', '=', True)]" context="{'group_by':'sprint_id', 'current_sprint_group_by': True}" />-->
+                    <filter string="Active Sprint" name="group_by_active_sprint" domain="['|', '|', ('current_sprint', '=', True), ('next_sprint', '=', True), ('sprint_id', '=', False)]" context="{'group_by':'sprint_id', 'current_sprint_group_by': True}" />
                 </filter>
             </field>
         </record>
-        <!-- inherit project task tree and show effective_hours -->
-        <!--    <record id="view_task_tree2" model="ir.ui.view">-->
-        <!--      <field name="name">project.task.tree.inherit</field>-->
-        <!--      <field name="model">project.task</field>-->
-        <!--      <field name="inherit_id" ref="project.view_task_tree2" />-->
-        <!--      <field name="arch" type="xml">-->
-        <!--        <field name="project_id" position="attributes">-->
-        <!--          <attribute name="invisible">0</attribute>-->
-        <!--        </field>-->
-        <!--      </field>-->
-        <!--    </record>-->
 
         <!--access to task kanban view from sprint-->
         <record id="action_ps_sprint_backlog" model="ir.actions.act_window">
@@ -45,10 +34,10 @@
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">
                 {
-                'search_default_sprint_ids': [active_id],
-                'default_sprint_ids': active_id,
-                'search_default_User': 1,
-                'active_test': False,
+                    'search_default_sprint_ids': [active_id],
+                    'default_sprint_ids': active_id,
+                    'search_default_User': 1,
+                    'active_test': False,
                 }
             </field>
             <field name="search_view_id" ref="view_ps_task_search" />
@@ -60,41 +49,31 @@
             <field name="view_mode">tree,form</field>
             <field name="context">
                 {
-                'search_default_sprint_ids': [active_id],
-                'default_sprint_ids': active_id,
-                'search_default_filte_by_tag': 1,
-                'active_test': False,
+                    'search_default_sprint_ids': [active_id],
+                    'default_sprint_ids': active_id,
+                    'search_default_filte_by_tag': 1,
+                    'active_test': False,
                 }
             </field>
             <field name="search_view_id" ref="view_ps_task_search" />
         </record>
         <!--Scrum Sprint-->
+
         <!--sprint tree view-->
         <record id="view_ps_sprint_tree" model="ir.ui.view">
             <field name="name">project.scrum.sprint.tree</field>
             <field name="model">project.scrum.sprint</field>
-            <!--      <field name="type">tree</field>-->
             <field name="arch" type="xml">
-                <!--        <tree colors="black:state in ('draft'); orange:state in ('pending'); blue:state in('open');-->
-                <!--                grey:state in ('cancel'); green:state in('done')" string="Scrum Sprint">-->
                 <tree string="Scrum Sprint">
                     <field name="sequence" widget="handle"/>
                     <field name="name" />
-                    <!--name of sprint-->
                     <field name="project_id" />
-                    <!--name of project-->
-                    <!--
-                         <field name="scrum_master_id"/>
-                         <field name="product_owner_id" invisible="1"/>
-                    -->
                     <field name="date_start" />
                     <field name="date_stop" />
-                    <!--time to stop-->
                     <field name="planned_hours" widget="float_time" />
                     <field name="effective_hours" widget="float_time" />
                     <field name="progress" widget="progressbar" />
                     <field name="date_duration" />
-                    <!--duration time = stop time - start time-->
                     <field name="state" />
                     <field name="user_id" />
                     <field name="date_deadline" />
@@ -107,7 +86,6 @@
             <field name="model">project.scrum.sprint</field>
             <field name="arch" type="xml">
                 <form string="Scrum Sprint">
-                    <!--Header States-->
                     <header>
                         <field name="state" string="State" widget="statusbar" options="{'clickable': '1'}" />
                     </header>
@@ -118,6 +96,12 @@
                             </button>
                             <button class="oe_inline oe_stat_button" type="action" icon="fa-tasks" name="%(action_ps_tc)d" string="[TC] Tasks" context="{'default_project_id': project_id}">
 
+                            </button>
+                            <button name="action_view_sprint_calendar" type="object"
+                                    class="oe_stat_button" icon="fa-bars"
+                                    attrs="{'invisible': [('calender_event_count','=', 0)]}">
+                                <field name="calender_event_count"/>
+                                <span>Calendar</span>
                             </button>
                         </div>
                         <div class="oe_title">
@@ -176,12 +160,8 @@
 
                             </page>
                             <page string="Retrospective">
-                                <!--page for retropective-->
                                 <field name="retrospective"/>
                             </page>
-                            <!--                        <page string="Time Report">-->
-                            <!--                            <field name="task_work_ids" sum="Total time"/>-->
-                            <!--                        </page>-->
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
@@ -241,18 +221,10 @@
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
                                 <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
-                                    <!--                                <span class="oe_e">í</span>-->
                                     <div class="dropdown-menu" role="menu">
                                         <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit...</a></t>
                                         <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
-                                        <!--                                    <ul class="oe_kanban_colorpicker" data-field="color"/>-->
                                     </div>
-                                    <!--                                <ul class="oe_dropdown_menu">-->
-                                    <!--                                    <li>-->
-                                    <!--                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>-->
-                                    <!--                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>-->
-                                    <!--                                    </li>-->
-                                    <!--                                </ul>-->
                                 </div>
                                 <div class="oe_kanban_content">
                                     <div><b><field name="name"/></b></div>
@@ -260,13 +232,14 @@
                                 </div>
                                 <div>
                                     <a t-if="record.task_count.raw_value">
-                                        <t t-raw="record.task_count.raw_value"/> Tasks</a>
+                                        <t t-raw="record.task_count.raw_value"/> Tasks
+                                    </a>
                                 </div>
                                 <div>
                                     <a t-if="record.test_count.raw_value">
                                         <t t-raw="record.test_count.raw_value"/> Test Cases</a>
                                 </div>
-                                <div class="oe_clear"></div>
+                                <div class="oe_clear"/>
                             </div>
                         </t>
                     </templates>
@@ -282,7 +255,6 @@
                 <form string="User Stories">
                     <header>
                         <button name="action_assign_to_me" string="Assign to Me" type="object" class="oe_highlight" attrs="{'invisible' : [('user_id', '!=', False)]}"/>
-                        <!--                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>-->
                         <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>
                     </header>
                     <sheet string="User Story">
@@ -389,6 +361,7 @@
                 </tree>
             </field>
         </record>
+
         <!--daily meeting form view-->
         <record id="view_ps_meeting_form" model="ir.ui.view">
             <field name="name">project.scrum.meeting.form</field>
@@ -477,6 +450,7 @@
                 </kanban>
             </field>
         </record>
+
         <!--project tree view-->
         <record id="project_ps_view" model="ir.ui.view">
             <field name="name">project.project.tree</field>
@@ -491,6 +465,7 @@
                 </field>
             </field>
         </record>
+
         <!--test case tree view-->
         <record id="view_ps_tc_tree" model="ir.ui.view">
             <field name="name">project.scrum.test.tree</field>
@@ -508,6 +483,7 @@
                 </tree>
             </field>
         </record>
+
         <!--test case form view-->
         <record id="view_ps_tc_form" model="ir.ui.view">
             <field name="name">project.scrum.test.form</field>
@@ -563,6 +539,7 @@
                 </form>
             </field>
         </record>
+
         <!--sprint search bar-->
         <record id="view_ps_sprint_search" model="ir.ui.view">
             <field name="name">Project Scrum</field>
@@ -718,10 +695,10 @@
             <field name="view_id" ref="view_ps_sprint_tree"/>
             <field name="context">
                 {
-                'search_default_project_id': [active_id],
-                'default_project_id': active_id,
-                'search_default_group_by_sprint': 1,
-                'active_test': False,
+                    'search_default_project_id': [active_id],
+                    'default_project_id': active_id,
+                    'search_default_group_by_sprint': 1,
+                    'active_test': False,
                 }
             </field>
             <field name="search_view_id" ref="view_ps_sprint_search" />
@@ -749,9 +726,9 @@
             <field name="view_id" ref="view_ps_meeting_calendar" />
             <field name="context">
                 {
-                'search_default_project_id': [active_id],
-                'default_project_id': active_id,
-                'active_test': False,
+                    'search_default_project_id': [active_id],
+                    'default_project_id': active_id,
+                    'active_test': False,
                 }
             </field>
             <field name="search_view_id" ref="view_ps_meeting_search" />
@@ -802,11 +779,11 @@
             <field name="view_id" ref="view_ps_tc_kanban" />
             <field name="context">
                 {
-                'search_default_project_id': [active_id],
-                'default_project_id': active_id,
-                'active_test': False,
-                "search_default_group_by_state": 1,
-                "search_default_my_test_cases": 1
+                    'search_default_project_id': [active_id],
+                    'default_project_id': active_id,
+                    'active_test': False,
+                    "search_default_group_by_state": 1,
+                    "search_default_my_test_cases": 1
                 }
             </field>
             <field name="search_view_id" ref="view_ps_tc_search" />
@@ -831,11 +808,13 @@
                     <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_ps_meeting_current)d">
                         <field name="meeting_count" widget="statinfo" />
                     </button>
+                    <button name="action_view_project_sprint_calendar" type="object"
+                            class="oe_stat_button" icon="fa-bars"
+                            attrs="{'invisible': [('sprint_calender_event_count','=', 0)]}">
+                        <field name="sprint_calender_event_count"/>
+                        <span>Sprint Calendar</span>
+                    </button>
                 </button>
-<!--                <field name="name" position="after">-->
-<!--                    <field name="use_scrum" class="oe_inline"/>-->
-<!--                    <label for="use_scrum" string="Use Scrum"/>-->
-<!--                </field>-->
 
                 <xpath expr="//div[@name='options_active']/div[last()]" position="before">
                     <div>
@@ -844,16 +823,6 @@
                     </div>
                 </xpath>
 
-                <!--        <field name="user_id" position="replace">-->
-                <!--          <label for="user_id" string="Scrum Master" attrs="{'invisible': [('use_scrum', '=', False)]}" />-->
-                <!--          <label for="user_id" attrs="{'invisible': [('use_scrum', '=', True)]}" />-->
-                <!--          <field name="user_id" nolabel="1" />-->
-                <!--        </field>-->
-                <!--        <field name="partner_id" position="replace">-->
-                <!--          <label for="partner_id" string="Product Owner" attrs="{'invisible': [('use_scrum', '=', False)]}" />-->
-                <!--          <label for="partner_id" attrs="{'invisible': [('use_scrum', '=', True)]}" />-->
-                <!--          <field name="partner_id" nolabel="1" />-->
-                <!--        </field>-->
 
                 <page name="settings" position="after">
                     <page name="tasks" string="Tasks">
@@ -935,39 +904,6 @@
                     <field name="test_case_count" />
                     <field name="use_scrum" />
                 </field>
-                <!--        <a name="%(project.act_project_project_2_project_task_all)d" position="replace">-->
-                <!--          <a t-if="record.use_tasks.raw_value" name="%(project.act_project_project_2_project_task_all)d" type="action" style="margin-right: 10px">-->
-                <!--            <t t-raw="record.task_count.raw_value" />-->
-                <!--            <t t-if="record.use_scrum.raw_value">Items</t>-->
-                <!--            <t t-if="! record.use_scrum.raw_value">Tasks</t>-->
-                <!--          </a>-->
-                <!--        </a>-->
-                <!--        <a name="attachment_tree_view" position="before">-->
-                <!--          <div>-->
-                <!--            <a t-if="record.sprint_count.raw_value" name="%(action_ps_sprint_current)d" type="action" style="margin-right: 10px">-->
-                <!--              <t t-raw="record.sprint_count.raw_value" />-->
-                <!--              Sprints-->
-                <!--            </a>-->
-                <!--          </div>-->
-                <!--          <div>-->
-                <!--            <a t-if="record.user_story_count.raw_value" name="%(action_ps_us_current)d" type="action" style="margin-right: 10px">-->
-                <!--              <t t-raw="record.user_story_count.raw_value" />-->
-                <!--              User Stories-->
-                <!--            </a>-->
-                <!--          </div>-->
-                <!--          <div>-->
-                <!--            <a t-if="record.meeting_count.raw_value" name="%(action_ps_meeting_current)d" type="action" style="margin-right: 10px">-->
-                <!--              <t t-raw="record.meeting_count.raw_value" />-->
-                <!--              Meetings-->
-                <!--            </a>-->
-                <!--          </div>-->
-                <!--          <div>-->
-                <!--            <a t-if="record.test_case_count.raw_value" name="%(action_ps_tc_current)d" type="action" style="margin-right: 10px">-->
-                <!--              <t t-raw="record.test_case_count.raw_value" />-->
-                <!--              Test Cases-->
-                <!--            </a>-->
-                <!--          </div>-->
-                <!--        </a>-->
             </field>
         </record>
         <!--email_template for daily meeting-->
@@ -994,43 +930,6 @@
             </field>
         </record>
 
-        <!-- project.task -->
-        <!--
-                    <record id="project.act_project_project_2_project_task_all" model="ir.actions.act_window">
-                    <field name="name">Tasks</field>
-                    <field name="res_model">project.task</field>
-                    <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field>
-                    <field name="context">{
-                        'search_default_group_by_sprint': True,
-                        'search_default_project_id': [active_id],
-                        'default_project_id': active_id,
-                        'active_test': False,
-                    }</field>
-                    <field name="search_view_id" ref="project.view_task_search_form"/>
-                    <field name="help" type="html">
-                        <p>
-                            Odoo's project management allows you to manage the pipeline
-                            of tasks in order to get things done efficiently. You can
-                            track progress, discuss on tasks, attach documents, etc.
-                        </p>
-                    </field>
-                </record>
-        -->
-        <!--
-                    <record id="action_view_task" model="ir.actions.act_window">
-                    <field name="name">Tasks</field>
-                    <field name="res_model">project.task</field>
-                    <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field>
-                    <field name="search_view_id" ref="view_task_search_form"/>
-                    <field name="help" type="html">
-                        <p>
-                            Odoo's project management allows you to manage the pipeline
-                            of tasks in order to get things done efficiently. You can
-                            track progress, discuss on tasks, attach documents, etc.
-                        </p>
-                    </field>
-                </record>
-        -->
         <!-- Tags -->
         <record model="ir.ui.view" id="project_tags_search_view">
             <field name="name">Tags</field>

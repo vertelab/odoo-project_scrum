@@ -98,9 +98,10 @@ More information:
     """,
     'author': 'Vertel AB',
     'license': 'AGPL-3',
-    'depends': ['project', 'mail', 'hr_timesheet', 'project_category', 'sales_team'],
+    'depends': ['project', 'mail', 'hr_timesheet', 'project_category', 'sales_team', 'calendar'],
     'data': [
         'views/project_scrum_view.xml',
+        'views/calendar_event_view.xml',
         'wizard/project_scrum_test_task_view.xml',
         'wizard/project_scrum_create_sprints.xml',
         'security/ir.model.access.csv',

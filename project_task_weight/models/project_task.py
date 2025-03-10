@@ -13,7 +13,7 @@ class ProjectTask(models.Model):
                 ('4', 'Hard'),
                 ('8', 'Challenging'),
                 ('16', 'Exhausting'),
-                ('0', 'Not Set')],group_expand='_read_group_weight',help="This is a simple way to estimate the scope of a task")
+                ('0', 'Not Set')],help="This is a simple way to estimate the scope of a task", default="0")
 
 
     @api.onchange('weight')
