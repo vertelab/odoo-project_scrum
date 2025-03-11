@@ -456,12 +456,9 @@ class ProjectTask(models.Model):
         return super(ProjectTask, self).write(vals)
     
     def _read_group_sprint_id(self, sprint_id, domain, order):
-        print("domain", domain)
-        print("order", order)
         sprint_ids = sprint_id._search([
             ('project_id', '=', self.project_id.id)
         ], order='date_start asc', access_rights_uid=SUPERUSER_ID)
-        print("sprint_ids", sprint_ids)
         return sprint_id.browse(sprint_ids)
 
     # Not sure what this is for. Keep here
@@ -531,15 +528,6 @@ class ProjectTask(models.Model):
         #else:
           #  return [], None"""
 
-    #def _auto_init(self, cr, context=None):
-        #self._group_by_full['sprint_id'] = _read_group_sprint_id
-        #self._group_by_full['us_id'] = _read_group_us_id
-        #super(project_task, self)._auto_init(cr, context)
-
-    # @api.model
-    # def _read_group_stage_ids(self, stages, domain, order):
-    #     """ Always display all stages """
-    #     return stages.search([], order=order)
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
@@ -550,28 +538,6 @@ class ProjectTask(models.Model):
         stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
 
-
-    # def _read_group_stage_ids(self, domain, read_group_order=None, access_rights_uid=None, context=None):
-    #     stage_obj = self.env['project.task.type']
-    #     order = stage_obj._order
-    #     access_rights_uid = access_rights_uid or self.env.uid
-    #     if read_group_order == 'stage_id desc':
-    #         order = '%s desc' % order
-    #     search_domain = []
-    #     # project_id = self._resolve_project_id_from_context(context=context)
-        # if project_id:
-        #     search_domain += ['|', ('project_ids', '=', project_id)]
-    #     search_domain += [('id', 'in', '')]
-    #     stage_ids = stage_obj._search(search_domain, order=order)
-    #     result = stage_obj.name_get()
-    #     # restore order of the search
-    #     result.sort()
-    #     # result.sort(lambda x,y: cmp(stage_ids.index(x[0]), stage_ids.index(y[0])))
-    #
-    #     fold = {}
-    #     for stage in stage_obj.browse(stage_ids):
-    #         fold[stage.id] = stage.fold or False
-    #     return result, fold
 
     def _read_group_user_id(self, domain, read_group_order=None, access_rights_uid=None, context=None):
         res_users = self.env['res.users']
