@@ -98,10 +98,17 @@
                             <button class="oe_inline oe_stat_button" type="action" icon="fa-tasks" name="%(action_ps_tc)d" string="[TC] Tasks" context="{'default_project_id': project_id}">
                             </button>
 
+                            <!-- #if VERSION <= "16.0" -->
                             <button name="action_view_sprint_calendar" type="object" class="oe_stat_button" icon="fa-bars" attrs="{'invisible': [('calender_event_count','=', 0)]}">
                                 <field name="calender_event_count"/>
                                 <span>Calendar</span>
                             </button>
+                            <!-- #else -->
+                            <button name="action_view_sprint_calendar" type="object" class="oe_stat_button" icon="fa-bars" invisible="calender_event_count == 0">
+                                <field name="calender_event_count"/>
+                                <span>Calendar</span>
+                            </button>
+                            <!-- #endif -->
                         </div>
                         <div class="oe_title">
                             <h1>
@@ -253,9 +260,17 @@
             <field name="arch" type="xml">
                 <form string="User Stories">
                     <header>
+                        <!-- #if VERSION <= "16.0" -->
                         <button name="action_assign_to_me" string="Assign to Me" type="object" class="oe_highlight" attrs="{'invisible' : [('user_id', '!=', False)]}"/>
+                        <!-- #else -->
+                        <button name="action_assign_to_me" string="Assign to Me" type="object" class="oe_highlight" invisible="user_id != False"/>
+                        <!-- #endif -->
 
+                        <!-- #if VERSION <= "16.0" -->
                         <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" attrs="{'invisible': [('project_id', '=', False)]}"/>
+                        <!-- #else -->
+                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" invisible="project_id != False" />
+                        <!-- #endif -->
                     </header>
                     <sheet string="User Story">
                         <div class="oe_title" style="max-width: 1070px !important; min-width: 688px !important;">
@@ -796,28 +811,61 @@
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
                 <button name="attachment_tree_view" position="before">
+                    <!-- #if VERSION <= "16.0" -->
                     <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_ps_us_current)d">
                         <field name="user_story_count" widget="statinfo" />
                     </button>
+                    <!-- #else -->
+                    <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" invisible="use_scrum == False" name="%(action_ps_us_current)d">
+                        <field name="user_story_count" widget="statinfo" />
+                    </button>
+                    <!-- #endif -->
 
+                    <!-- #if VERSION <= "16.0"-->
                     <button class="oe_inline oe_stat_button" type="action" icon="fa-tasks" attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_ps_sprint_current)d">
                         <field name="sprint_count" widget="statinfo" />
                     </button>
+                    <!-- #else -->
+                    <button class="oe_inline oe_stat_button" type="action" icon="fa-tasks" invisible="use_scrum == False" name="%(action_ps_sprint_current)d">
+                        <field name="sprint_count" widget="statinfo" />
+                    </button>
+                    <!-- #endif -->
 
+                    <!-- #if VERSION <= "16.0" -->
                     <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_ps_tc_current)d">
                         <field name="test_case_count" widget="statinfo" />
                     </button>
+                    <!-- #else -->
+                    <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" invisible="use_scrum == False" name="%(action_ps_tc_current)d">
+                        <field name="test_case_count" widget="statinfo" />
+                    </button>
+                    <!-- #endif -->
 
+                    <!-- #if VERSION <= "16.0"-->
                     <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_ps_meeting_current)d">
                         <field name="meeting_count" widget="statinfo" />
                     </button>
+                    <!-- #else -->
+                    <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" invisible="use_scrum == False" name="%(action_ps_meeting_current)d">
+                        <field name="meeting_count" widget="statinfo" />
+                    </button>
+                    <!-- #endif -->
 
+                    <!-- #if VERSION <= "16.0" -->
                     <button name="action_view_project_sprint_calendar" type="object"
                             class="oe_stat_button" icon="fa-bars"
                             attrs="{'invisible': [('sprint_calender_event_count','=', 0)]}">
                         <field name="sprint_calender_event_count"/>
                         <span>Sprint Calendar</span>
                     </button>
+                    <!-- #else -->
+                    <button name="action_view_project_sprint_calendar" type="object"
+                            class="oe_stat_button" icon="fa-bars"
+                            invisible="sprint_calender_event_count == 0">
+                        <field name="sprint_calender_event_count"/>
+                        <span>Sprint Calendar</span>
+                    </button>
+                    <!-- #endif -->
                 </button>
 
                 <xpath expr="//div[@name='options_active']/div[last()]" position="before">
@@ -862,14 +910,30 @@
             <field name="arch" type="xml">
                 <field name="date_deadline" position="before">
                     <field name="use_scrum" invisible="1" readonly="1" />
+                    <!-- #if VERSION <= "16.0"-->
                     <field string="Sprint" name= "sprint_id"  context="{'default_project_id':project_id}" attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" />
+                    <!--#else-->
+                    <field string="Sprint" name= "sprint_id"  context="{'default_project_id':project_id}" invisible="use_scrum == False" domain="[('project_id', '=', project_id)]" />
+                    <!--#endif-->
 
+                    <!-- #if VERSION <= "16.0"-->
                     <field name= "sprint_ids" widget="many2many_tags"  attrs="{'invisible': [('use_scrum', '=', False)]}"/>
+                    <!--#else-->
+                    <field name= "sprint_ids" widget="many2many_tags"  invisible="use_scrum == False"/>
+                    <!--#endif-->
 
+                    <!-- #if VERSION <= "16.0"-->
                     <field string="User Story" name= "us_id"  attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" />
+                    <!--#else-->
+                    <field string="User Story" name= "us_id"  invisible="use_scrum == False" domain="[('project_id', '=', project_id)]" />
+                    <!--#endif-->
                 </field>
                 <field name="partner_id" position="after">
+                    <!-- #if VERSION <= "16.0"-->
                     <field string="User Stories" name= "us_ids"  attrs="{'invisible': [('use_scrum', '=', False)]}" domain="[('project_id', '=', project_id)]" widget="many2many_tags" />
+                    <!-- #else -->
+                    <field string="User Stories" name= "us_ids"  invisible="use_scrum == False" domain="[('project_id', '=', project_id)]" widget="many2many_tags" />
+                    <!-- #endif -->
                 </field>
 
                 <page name="description_page" position="after">
