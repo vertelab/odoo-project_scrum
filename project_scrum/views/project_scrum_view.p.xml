@@ -273,7 +273,13 @@
                                 </div>
                                 <div>
                                     <a t-if="record.test_count.raw_value">
-                                        <t t-raw="record.test_count.raw_value"/> Test Cases</a>
+                                        <!-- #if VERSION <= "17.0" -->
+                                        <t t-raw="record.test_count.raw_value"/> Test Cases
+                                        <!-- #else -->
+                                        <t t-out="record.test_count.raw_value"/> Test Cases
+                                        <!-- #endif -->
+                                    </a>
+
                                 </div>
                                 <div class="oe_clear"/>
                             </div>
