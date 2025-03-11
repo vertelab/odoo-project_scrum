@@ -820,7 +820,7 @@
 
                 <page name="settings" position="after">
                     <page name="tasks" string="Tasks">
-                        <field name="task_ids" string="Task" context="{'default_project_id': active_id,}">
+                        <field name="task_ids" string="Task">
                             <list>
                                 <field name="sequence" widget="handle" />
                                 <field name="priority" />
@@ -831,7 +831,8 @@
                             </list>
                         </field>
                     </page>
-                    <page string="Scrum" attrs="{'invisible': [('use_scrum', '=', False)]}">
+
+                    <page string="Scrum" invisible="use_scrum == False">
                         <!--Page for scrum-->
                         <group string="Sprint" name="sprint">
                             <field name="manhours" />
