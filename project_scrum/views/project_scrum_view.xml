@@ -794,7 +794,7 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
-                <button name="attachment_tree_view" position="before">
+                <button name="project_update_all_action" position="after">
                     <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" invisible="use_scrum == False" name="%(action_ps_us_current)d">
                         <field name="user_story_count" widget="statinfo" />
                     </button>
