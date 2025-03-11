@@ -545,7 +545,11 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.view_project"/>
             <field name="arch" type="xml">
+                <!-- #if VERSION <= "17.0" -->
                 <field name="label_tasks" position="before">
+                <!-- #else -->
+                <field name="company_id" position="before">
+                <!-- #endif -->
                     <field name="use_scrum" string="Using Scrum" optional="show"/>
                 </field>
                 <field name="user_id" position="attributes">
