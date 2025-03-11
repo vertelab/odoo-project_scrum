@@ -22,7 +22,7 @@
 {
     'name': 'Project Scrum: Task Weight',
     # # if VERSION ==  "14.0"
-    'version': '14.0.1.24.0',
+    'version': '14.0.0.1.0',
     # # else
     'version': '1.0',
     # # endif
