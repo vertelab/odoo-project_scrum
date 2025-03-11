@@ -810,12 +810,12 @@
                     </button>
                 </button>
 
-                <xpath expr="//div[@name='options_active']/div[last()]" position="before">
+                <field name="label_tasks" position="before">
                     <div>
                         <field name="use_scrum" class="oe_inline oe_input_align"/>
                         <label for="use_scrum" class="oe_inline" string="Use Scrum"/>
                     </div>
-                </xpath>
+                </field>
 
 
                 <page name="settings" position="after">
