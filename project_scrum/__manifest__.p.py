@@ -102,7 +102,15 @@ More information:
     """,
     'author': 'Vertel AB',
     'license': 'AGPL-3',
-    'depends': ['project', 'mail', 'hr_timesheet', 'project_category', 'sales_team', 'calendar'],
+    'depends': [
+        'project',
+        'mail', 'hr_timesheet',
+        # # if VERSION ==  "14.0"
+        'project_category',
+        # # endif
+        'sales_team',
+        'calendar'
+    ],
     'data': [
         'views/project_scrum_view.xml',
         'views/calendar_event_view.xml',
