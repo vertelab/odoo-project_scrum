@@ -72,13 +72,6 @@
                     </div>
                 </div>
             </xpath>
-
-            <!--
-                   <xpath expr="//div[hasclass('oe_kanban_bottom_right')]" position="inside">
-                       <field name="weight" widget="state_selection" />
-                    </xpath>
-
-            -->
         </field>
     </record>
     <record id="view_task_tree2" model="ir.ui.view">
