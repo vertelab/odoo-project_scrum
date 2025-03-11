@@ -184,14 +184,6 @@
         </record>
 
         <!--sprint gantt view-->
-        <record id="view_ps_sprint_gantt" model="ir.ui.view">
-            <field name="name">project.scrum.sprint.gantt</field>
-            <field name="model">project.scrum.sprint</field>
-            <field name="arch" type="xml">
-                <gantt date_start="date_start" date_stop="date_stop" progress="progress" string="Projects">
-                </gantt>
-            </field>
-        </record>
 
         <!--sprint graph view-->
         <record id="view_ps_sprint_graph" model="ir.ui.view">
