@@ -183,7 +183,6 @@
             </field>
         </record>
 
-        <!--sprint gantt view-->
 
         <!--sprint graph view-->
         <record id="view_ps_sprint_graph" model="ir.ui.view">
@@ -223,7 +222,7 @@
                                 </div>
                                 <div>
                                     <a t-if="record.task_count.raw_value">
-                                        <t t-raw="record.task_count.raw_value"/> Tasks
+                                        <t t-out="record.task_count.raw_value"/> Tasks
                                     </a>
                                 </div>
                                 <div>
