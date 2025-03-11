@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_portfolio_list" model="ir.ui.view">
-            <field name="name">project.scrum.portfolio.list</field>
+        <record id="view_portfolio_tree" model="ir.ui.view">
+            <field name="name">project.scrum.portfolio.tree</field>
             <field name="model">project.scrum.portfolio</field>
+            <field name="type">tree</field>
             <field name="arch" type="xml">
-                <list>
+                <tree>
                     <field name="name" />
                     <field name="user_id" />
                     <field name="color" />
                     <field name="planned_hours" />
                     <field name="consumed_hours" />
-                </list>
+                </tree>
             </field>
         </record>
-
         <record id="action_timebox_portfolio_button" model="ir.actions.act_window">
             <field name="name">Timebox</field>
             <field name="res_model">project.scrum.timebox</field>
-            <field name="view_mode">list,form</field>
+            <field name="view_mode">tree,form</field>
             <field name="context">{"search_default_portfolio_id": [active_id]}</field>
             <field name="help">The timeboxes of portfolio.</field>
         </record>
-
+        <!--Portfolio form view-->
         <record id="view_portfolio_form" model="ir.ui.view">
             <field name="name">project.scrum.portfolio.form</field>
             <field name="model">project.scrum.portfolio</field>
@@ -57,7 +57,6 @@
                 </form>
             </field>
         </record>
-
         <record id="view_portfolio_search" model="ir.ui.view">
             <field name="name">project.scrum.portfolio.search</field>
             <field name="model">project.scrum.portfolio</field>
@@ -67,6 +66,9 @@
                     <field name="name" />
                     <field name="user_id" />
                     <field name="description" />
+                    <!--
+                         <field name="sprint_ids" />
+                    -->
                     <group string="Filter By..." />
                     <newline />
                     <group expand="0" string="Group By...">
@@ -75,29 +77,30 @@
                 </search>
             </field>
         </record>
-
         <record id="action_portfolio_all" model="ir.actions.act_window">
             <field name="name">Portfolio</field>
             <field name="res_model">project.scrum.portfolio</field>
-            <field name="view_mode">list,form</field>
-            <field name="view_id" ref="view_portfolio_list" />
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_portfolio_tree" />
+            <!--
+                 <field name="context">{"search_default_portfolio_id": [active_id]}</field>
+            -->
             <field name="search_view_id" ref="view_portfolio_search" />
             <field name="help">The portfolio of scrum.</field>
         </record>
-
         <menuitem sequence="-1" action="action_portfolio_all" id="menu_action_portfolio_all" parent="project.menu_main_pm" />
-
-        <record id="open_view_my_tasks_list_view" model="ir.ui.view">
-            <field name="name">project.task.list.portfolio</field>
+        <!-- inherit project task tree and show effective_hours -->
+        <record id="view_task_tree2" model="ir.ui.view">
+            <field name="name">project.task.tree.portfolio</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.open_view_my_tasks_list_view" />
+            <field name="inherit_id" ref="project.view_task_tree2" />
             <field name="arch" type="xml">
                 <field name="stage_id" position="after">
                     <field name="portfolio_id" />
                 </field>
             </field>
         </record>
-
+        <!-- inherit project task tree and show effective_hours -->
         <record id="view_task_search_form" model="ir.ui.view">
             <field name="name">project.task.search.portfolio</field>
             <field name="model">project.task</field>
@@ -111,7 +114,6 @@
                 </field>
             </field>
         </record>
-
         <record id="view_task_form2" model="ir.ui.view">
             <field name="name">project.task.form.portfolio</field>
             <field name="model">project.task</field>
@@ -122,8 +124,8 @@
                 </field>
             </field>
         </record>
-
-
+        <!--Scrum Sprint-->
+        <!--sprint form view-->
         <record id="view_ps_sprint_form" model="ir.ui.view">
             <field name="name">project.scrum.sprint.timebox</field>
             <field name="model">project.scrum.sprint</field>
@@ -132,41 +134,54 @@
             <field name="arch" type="xml">
                 <page name="review" position="after">
                     <page string="Timebox">
+                        <!--
+                             <field name="timebox_ids" context="{'default_project_id': project_id,'default_sprint_id': id,}">
+                        -->
                         <field name="timebox_ids">
-                            <list editable="top">
+                            <tree editable="top">
+                                <!--
+                                     <field name="name" />
+                                -->
                                 <field name="portfolio_id" />
                                 <field name="planned_hours" sum="Planned Hours" />
                                 <field name="sprint_share" avg="Share" />
-                            </list>
+                            </tree>
                         </field>
                     </page>
                 </page>
             </field>
         </record>
-
-        <record id="view_timebox_list" model="ir.ui.view">
-            <field name="name">project.scrum.timebox.list</field>
+        <record id="view_timebox_tree" model="ir.ui.view">
+            <field name="name">project.scrum.timebox.tree</field>
             <field name="model">project.scrum.timebox</field>
-            <field name="type">list</field>
+            <field name="type">tree</field>
             <field name="arch" type="xml">
-                <list>
+                <tree>
                     <field name="portfolio_id" />
                     <field name="sprint_id" />
                     <field name="state" />
                     <field name="planned_hours" sum="Planned Hours" />
                     <field name="sprint_share" avg="Share" />
-                </list>
+                </tree>
             </field>
         </record>
-
         <record id="view_timebox_search" model="ir.ui.view">
             <field name="name">project.scrum.timebox.search</field>
             <field name="model">project.scrum.timebox</field>
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Timebox">
+                    <!--
+                         <field name="name" />
+                    -->
+                    <!--
+                         <field name="description" />
+                    -->
                     <field name="portfolio_id" />
                     <field name="sprint_id" />
+                    <!--
+                         <field name="sprint_ids" />
+                    -->
                     <group string="Filter By..." />
                     <newline />
                     <group expand="0" string="Group By...">
@@ -176,13 +191,16 @@
                 </search>
             </field>
         </record>
-
         <record id="action_timebox_portfolio" model="ir.actions.act_window">
             <field name="name">Timebox</field>
             <field name="res_model">project.scrum.timebox</field>
-            <field name="view_mode">list,form</field>
-            <field name="view_id" ref="view_timebox_list" />
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_timebox_tree" />
+            <!--
+                 <field name="context">{"search_default_portfolio_id": [active_id]}</field>
+            -->
             <field name="search_view_id" ref="view_timebox_search" />
+            <field name="help">The timeboxes of portfolio.</field>
         </record>
     </data>
 </odoo>
