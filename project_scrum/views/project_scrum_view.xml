@@ -266,7 +266,6 @@
                 <form string="User Stories">
                     <header>
                         <button name="action_assign_to_me" string="Assign to Me" type="object" class="oe_highlight" invisible="user_id != False"/>
-                        <!--                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>-->
                         <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" invisible="project_id != False" />
                     </header>
                     <sheet string="User Story">
@@ -331,6 +330,14 @@
                                         <field name="project_scrum_us_id" invisible="1"/>
                                     </list>
                                 </field>
+                            </page>
+
+                            <page string="Mermaid Editor" name="scrum_mermaid">
+                                <field name="mermaid_editor"/>
+                            </page>
+
+                            <page string="Mermaid Diagram" name="scrum_mermaid">
+                                <field name="mermaid_diagram" widget="mermaid"/>
                             </page>
                         </notebook>
                     </sheet>

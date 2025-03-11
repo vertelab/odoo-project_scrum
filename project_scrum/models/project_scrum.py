@@ -23,10 +23,13 @@ from odoo import models, fields, api, _, SUPERUSER_ID
 import odoo.tools
 import re
 import time
+from bs4 import BeautifulSoup
+import html
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError, ValidationError
 import logging
+
 _logger = logging.getLogger(__name__)
 
 
@@ -335,7 +338,35 @@ class project_user_stories(models.Model):
 
     _group_by_full = {
         'sprint_ids': _read_group_sprint_id,
-        }
+    }
+
+    mermaid_editor = fields.Html(string="Editor")
+
+    @api.depends('mermaid_editor')
+    def _compute_mermaid_editor(self):
+        for rec in self:
+            if rec.mermaid_editor:
+                # Parse the HTML content
+                soup = BeautifulSoup(rec.mermaid_editor, "html.parser")
+
+                lines = []
+                for element in soup.find_all("div"):
+                    raw_text = "".join(str(child) for child in element.contents)  # Get raw HTML inside div
+
+                    # Convert &nbsp; to spaces while preserving indentation
+                    text_with_spaces = raw_text.replace("&nbsp;", " ")
+
+                    # Extract plain text and unescape HTML entities (&gt; -> >, etc.)
+                    cleaned_text = html.unescape(BeautifulSoup(text_with_spaces, "html.parser").get_text())
+
+                    lines.append(cleaned_text.rstrip())  # Trim trailing spaces but keep leading spaces
+                print("\n".join(lines))
+
+                rec.mermaid_diagram = "\n".join(lines)
+            else:
+                rec.mermaid_diagram = ""
+
+    mermaid_diagram = fields.Text(string="Diagram", compute=_compute_mermaid_editor)
 
 
 class RelatedTicketLines(models.Model):
