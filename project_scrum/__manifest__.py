@@ -101,6 +101,7 @@ More information:
     'depends': ['project', 'mail', 'hr_timesheet', 'sales_team'],
     'data': [
         'views/project_scrum_view.xml',
+        'views/calendar_event_view.xml',
         'wizard/project_scrum_test_task_view.xml',
         'wizard/project_scrum_create_sprints.xml',
         'security/ir.model.access.csv',
