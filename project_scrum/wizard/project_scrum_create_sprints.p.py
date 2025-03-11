@@ -21,7 +21,7 @@
 from odoo import models, fields, api, _
 import time
 from datetime import date, datetime, timedelta
-from odoo.exceptions import Warning, UserError
+from odoo.exceptions import UserError
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -43,7 +43,7 @@ class project(models.Model):
         elif project.sprint_ids and project.sprint_ids[-1].date_stop >= project.date:
             dmessage.append(_('Project %s has enough sprints\n' % project.name))
         if dmessage:
-            raise Warning(' '.join(dmessage))
+            raise UserError(' '.join(dmessage))
         #raise UserError("wat")
         sprints = []
         last_sprint = project.sprint_ids.sorted(lambda s: s.date_start)[-1] if project.sprint_ids else None
