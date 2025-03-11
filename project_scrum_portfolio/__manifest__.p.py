@@ -21,7 +21,11 @@
 
 {
     'name': 'Project Scrum: Scrum Portfolio',
+    # # if VERSION ==  "14.0"
     'version': '14.0.0.0.0',
+    # # else
+    'version': '1.0',
+    # # endif
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adding Portfilio management to Project Scrum.',
     'category': 'Project',
