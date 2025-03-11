@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="module_name assets" inherit_id="web.assets_backend">
+            <xpath expr="//link[last()]" position="after">
+                <style>
+                    .list_module  { width: 58% !important; overflow-wrap: break-word; }
+                </style>
+            </xpath>
+        </template>
+        <record id="view_task_form2" model="ir.ui.view">
+            <field name="name">project.sprint.module.inherit.project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="module_ids" widget="many2many_tags" />
+                </field>
+            </field>
+        </record>
+        <record id="view_ps_sprint_form" model="ir.ui.view">
+            <field name="name">project.sprint.module.inherit.project.scrum.sprint.form</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="inherit_id" ref="project_scrum.view_ps_sprint_form" />
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Modules">
+                        <group>
+                            <field name="git_projects" />
+                        </group>
+                        <group>
+                            <field name="modules" class="list_module" />
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</openerp>

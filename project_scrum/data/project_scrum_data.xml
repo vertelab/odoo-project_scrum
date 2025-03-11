@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="ps_type_prev" model="project.sprint.type">
+            <field name="name">Previous Sprint</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="ps_type_current" model="project.sprint.type">
+            <field name="name">Current Sprint</field>
+            <field name="sequence">2</field>
+
+        </record>
+
+        <record id="ps_type_next" model="project.sprint.type">
+            <field name="name">Next Sprint</field>
+            <field name="sequence">3</field>
+        </record>
+
+        <record model="ir.actions.server" id="ps_action_server_create_test_case_from_us">
+            <field name="name">Create Test Cases</field>
+            <field name="model_id" ref="model_project_scrum_us"/>
+            <field name="state">code</field>
+            <field name="type">ir.actions.server</field>
+            <field name="code">model.create_test_case_from_us()</field>
+            <field name="binding_model_id" ref="project_scrum.model_project_scrum_us"/>
+            <field name="binding_view_types">form,list</field>
+        </record>
+
+    </data>
+</openerp>
