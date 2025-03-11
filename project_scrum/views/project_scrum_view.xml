@@ -227,7 +227,9 @@
                                 </div>
                                 <div>
                                     <a t-if="record.test_count.raw_value">
-                                        <t t-raw="record.test_count.raw_value"/> Test Cases</a>
+                                        <t t-out="record.test_count.raw_value"/> Test Cases
+                                    </a>
+
                                 </div>
                                 <div class="oe_clear"/>
                             </div>
