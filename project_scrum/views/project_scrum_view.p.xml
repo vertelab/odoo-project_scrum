@@ -903,7 +903,11 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
+                <!-- #if VERSION <= "16.0" -->
                 <button name="attachment_tree_view" position="before">
+                <!-- #else -->
+                <button name="project_update_all_action" position="after">
+                <!-- #endif -->
                     <!-- #if VERSION <= "16.0" -->
                     <button class="oe_inline oe_stat_button" type="action" icon="fa-files-o" attrs="{'invisible': [('use_scrum', '=', False)]}" name="%(action_ps_us_current)d">
                         <field name="user_story_count" widget="statinfo" />
