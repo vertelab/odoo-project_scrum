@@ -26,7 +26,6 @@
     # # else
     'version': '1.24',
     # # endif
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds new page for module list.',
     'category': 'Project',
     'description': """
