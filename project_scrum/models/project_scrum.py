@@ -360,7 +360,7 @@ class project_user_stories(models.Model):
                     cleaned_text = html.unescape(BeautifulSoup(text_with_spaces, "html.parser").get_text())
 
                     lines.append(cleaned_text.rstrip())  # Trim trailing spaces but keep leading spaces
-                print("\n".join(lines))
+                _logger.info("\n".join(lines))
 
                 rec.mermaid_diagram = "\n".join(lines)
             else:
