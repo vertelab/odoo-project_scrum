@@ -64,7 +64,10 @@
             <field name="name">project.scrum.sprint.tree</field>
             <field name="model">project.scrum.sprint</field>
             <field name="arch" type="xml">
+                <!-- #if VERSION <= "17.0" -->
                 <tree string="Scrum Sprint">
+                <!-- #else -->
+                <list>
                     <field name="sequence" widget="handle"/>
                     <field name="name" />
                     <field name="project_id" />
@@ -77,7 +80,10 @@
                     <field name="state" />
                     <field name="user_id" />
                     <field name="date_deadline" />
+                <!-- #if VERSION <= "17.0" -->
                 </tree>
+                <!-- #else -->
+                </list>
             </field>
         </record>
         <!--sprint form view-->
@@ -337,27 +343,40 @@
                                 </field>
                             </page>
                             <page string="Test Cases">
-                                <field name="test_ids" string="Test Case" context="{
-                                                        'default_project_id': project_id,
-                                                        'default_user_story_id_test': id,
-                                                        }">
+                                <field name="test_ids" string="Test Case" context="{'default_project_id': project_id, 'default_user_story_id_test': id, }">
+                                    <!-- #if VERSION <= "17.0" -->
                                     <tree name="test_ids" string="Test Cases">
+                                    <!-- #else -->
+                                    <list name="test_ids" string="Test Cases">
+                                    <!-- #endif -->
                                         <field name="name" />
                                         <field name="state" />
+                                    <!-- #if VERSION <= "17.0" -->
                                     </tree>
+                                    <!-- #else -->
+                                    </list>
+                                    <!-- #endif -->
                                 </field>
                             </page>
 
                             <page string="Related Tickets" name="related_tickets">
                                 <group>
                                     <field name="external_ticket_ids" nolabel="1">
+                                        <!-- #if VERSION <= "17.0" -->
                                         <tree editable="bottom">
+                                        <!-- #else -->
+                                        <list editable="bottom">
+                                        <!-- #endif -->
                                             <field name="name"/>
                                             <field name="external_ticket_url" widget="url" class="text-truncate"/>
                                             <field name="external_ticket_assigned_id"/>
                                             <field name="external_ticket_state"/>
                                             <field name="project_scrum_us_id" invisible="1"/>
+                                        <!-- #if VERSION <= "17.0" -->
                                         </tree>
+                                        <!-- #else -->
+                                        </list>
+                                        <!-- #endif -->
                                     </field>
                                 </group>
                             </page>
@@ -401,11 +420,19 @@
             <field name="name">project.scrum.meeting.tree</field>
             <field name="model">project.scrum.meeting</field>
             <field name="arch" type="xml">
+                <!-- #if VERSION <= "17.0" -->
                 <tree string="Scrum Meeting">
+                <!-- #else -->
+                <list string="Scrum Meeting">
+                <!-- #endif -->
                     <field name="date_meeting" />
                     <field name="user_id_meeting" />
                     <field name="sprint_id" />
+                <!-- #if VERSION <= "17.0" -->
                 </tree>
+                <!-- #else -->
+                </list>
+                <!-- #endif -->
             </field>
         </record>
 
@@ -572,7 +599,11 @@
                             </page>
                             <page string="Timesheet">
                                 <field name="timesheet_ids" context="{'default_project_id':parent.project_id, 'default_task_id':parent.task_id}">
+                                    <!-- #if VERSION <= "17.0" -->
                                     <tree editable="bottom" string="Timesheet Activities" default_order="date">
+                                    <!-- #else -->
+                                    <list>
+                                    <!-- #endif -->
                                         <field name="date"/>
                                         <field name="project_id" context="{'default_project_id': parent.project_id}"/>
                                         <field name="task_id" domain="[('project_id', '=', project_id)]" context="{'default_project_id': project_id}"/>
@@ -581,7 +612,11 @@
                                         <field name="name" required="0"/>
                                         <field name="unit_amount" widget="timesheet_uom" decoration-danger="unit_amount &gt; 24" string="Hours"/>
                                         <field name="company_id" invisible="1"/>
+                                    <!-- #if VERSION <= "17.0" -->
                                     </tree>
+                                    <!-- #else -->
+                                    </list>
+                                    <!-- #endif -->
                                 </field>
                             </page>
                         </notebook>
@@ -986,13 +1021,21 @@
                     <page string="Related Tickets" name="related_tickets">
                         <group>
                             <field name="external_ticket_ids" nolabel="1">
+                                <!-- #if VERSION <= "17.0" -->
                                 <tree editable="bottom">
+                                <!-- #else -->
+                                <list>
+                                <!-- #endif -->
                                     <field name="name"/>
                                     <field name="external_ticket_url" widget="url" class="text-truncate"/>
                                     <field name="external_ticket_assigned_id"/>
                                     <field name="external_ticket_state"/>
                                     <field name="project_task_id" invisible="1"/>
+                                <!-- #if VERSION <= "17.0" -->
                                 </tree>
+                                <!-- #else -->
+                                </list>
+                                <!-- #endif -->
                             </field>
                         </group>
                     </page>
@@ -1075,9 +1118,16 @@
             <field name="name">Actors</field>
             <field name="model">project.scrum.actors</field>
             <field name="arch" type="xml">
+                <!-- #if VERSION <= "17.0" -->
                 <tree string="Actors" editable="bottom" sample="1">
+                <!-- #else -->
+                <list>
+                <!-- #endif -->
                     <field name="name"/>
+                <!-- #if VERSION <= "17.0" -->
                 </tree>
+                <!-- #else -->
+                </list>
             </field>
         </record>
 
@@ -1110,9 +1160,15 @@
             <field name="name">Business Process</field>
             <field name="model">project.scrum.business.process</field>
             <field name="arch" type="xml">
+                <!-- #if VERSION <= "17.0" -->
                 <tree string="Business Process" editable="bottom" sample="1">
+                <!-- #else -->
+                <list>
                     <field name="name"/>
+                <!-- #if VERSION <= "17.0" -->
                 </tree>
+                <!-- #else -->
+                </list>
             </field>
         </record>
 
