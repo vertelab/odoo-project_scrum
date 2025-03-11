@@ -1095,7 +1095,11 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.view_project_kanban"/>
             <field name="arch" type="xml">
+                <!-- #if VERSION <= "17.0" -->
                 <field name="rating_status" position="before">
+                <!-- #else -->
+                <field name="rating_count" position="before">
+                <!-- #endif -->
                     <field name="user_story_count" />
                     <field name="sprint_count" />
                     <field name="meeting_count" />
