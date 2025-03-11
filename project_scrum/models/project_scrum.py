@@ -64,6 +64,7 @@ class ScrumSprint(models.Model):
     progress = fields.Float(compute="_progress", group_operator="avg", string='Progress (0-100)',
                             help="Computed as: Time Spent / Total Time.")
 
+
     def time_cal(self):
         for record in self:
             diff = fields.Date.from_string(record.date_stop) - fields.Date.from_string(record.date_start)
@@ -123,6 +124,7 @@ class ScrumSprint(models.Model):
     planned_hours = fields.Float(string='Planned Hours', group_operator="sum",
                                  help='Estimated time to do the task, usually set by the project manager when the task'
                                       'is in draft state.')
+
     state = fields.Selection([('draft', 'Draft'), ('open', 'Open'), ('pending', 'Pending'), ('cancel', 'Cancelled'),
                               ('done', 'Done')], string='State', required=False)
     company_id = fields.Many2one(related='project_id.company_id')
