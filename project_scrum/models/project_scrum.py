@@ -61,7 +61,7 @@ class ScrumSprint(models.Model):
             else:
                 record.progress = 0
 
-    progress = fields.Float(compute="_progress", group_operator="avg", string='Progress (0-100)',
+    progress = fields.Float(compute="_progress", aggregator="avg", string='Progress (0-100)',
                             help="Computed as: Time Spent / Total Time.")
 
     def time_cal(self):
@@ -120,9 +120,10 @@ class ScrumSprint(models.Model):
 
     effective_hours = fields.Float(string='Effective hours', help="Computed using the sum of the task work done.",
                                    compute=_hours_get)
-    planned_hours = fields.Float(string='Planned Hours', group_operator="sum",
+    planned_hours = fields.Float(string='Planned Hours', aggregator="sum",
                                  help='Estimated time to do the task, usually set by the project manager when the task'
                                       'is in draft state.')
+
     state = fields.Selection([('draft', 'Draft'), ('open', 'Open'), ('pending', 'Pending'), ('cancel', 'Cancelled'),
                               ('done', 'Done')], string='State', required=False)
     company_id = fields.Many2one(related='project_id.company_id')

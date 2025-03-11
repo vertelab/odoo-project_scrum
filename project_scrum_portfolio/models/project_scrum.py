@@ -81,12 +81,14 @@ class scrum_sprint_portfolio(models.Model):
             else:
                 rec.sprint_hours = sum(rec.timebox_ids.mapped('planned_hours')) if rec.timebox_ids else 0.0
 
-    planned_hours = fields.Float(compute="_planned_hours", group_operator="sum", string='Planned Hours',
-                                 help="Hours timedboxed for sprints planned", readonly=True)
-    consumed_hours = fields.Float(compute="_planned_hours", group_operator="sum", string='Consumed Hours',
+    planned_hours = fields.Float(compute="_planned_hours", aggregator="sum", string='Planned Hours',
+                                 help="Hours timeboxed for sprints planned", readonly=True)
+
+    consumed_hours = fields.Float(compute="_planned_hours", aggregator="sum", string='Consumed Hours',
                                   help="Hours consumed for done sprints", readonly=True)
-    sprint_hours = fields.Float(compute="_planned_hours", group_operator="sum", string='Sprint Hours',
-                                help="Hours timedboxed for current sprints", readonly=True)
+
+    sprint_hours = fields.Float(compute="_planned_hours", aggregator="sum", string='Sprint Hours',
+                                help="Hours timeboxed for current sprints", readonly=True)
     
     # ~ @api.one
     # ~ def _progress(self):
