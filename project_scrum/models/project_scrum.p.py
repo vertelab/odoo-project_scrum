@@ -19,7 +19,8 @@
 #
 ##############################################################################
 from odoo import models, fields, api, _, SUPERUSER_ID
-#from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
+import html
 import odoo.tools
 import re
 import time
@@ -240,12 +241,12 @@ class ProjectUserStories(models.Model):
         return self.stage_find(project_id, [('fold', '=', False), ('is_closed', '=', False)])
 
     @api.model
-    def _read_group_stage_ids(self, stages, domain, order):
+    def _read_group_stage_ids(self, stages, domain):
         search_domain = [('id', 'in', stages.ids)]
         if 'default_project_id' in self.env.context:
             search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
 
-        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+        stage_ids = stages.sudo()._search(search_domain, order=stages._order)
         return stages.browse(stage_ids)
 
     @api.depends('project_id')
@@ -362,6 +363,34 @@ class ProjectUserStories(models.Model):
     _group_by_full = {
         'sprint_ids': _read_group_sprint_id,
     }
+
+    mermaid_editor = fields.Html(string="Editor")
+
+    @api.depends('mermaid_editor')
+    def _compute_mermaid_editor(self):
+        for rec in self:
+            if rec.mermaid_editor:
+                # Parse the HTML content
+                soup = BeautifulSoup(rec.mermaid_editor, "html.parser")
+
+                lines = []
+                for element in soup.find_all("div"):
+                    raw_text = "".join(str(child) for child in element.contents)  # Get raw HTML inside div
+
+                    # Convert &nbsp; to spaces while preserving indentation
+                    text_with_spaces = raw_text.replace("&nbsp;", " ")
+
+                    # Extract plain text and unescape HTML entities (&gt; -> >, etc.)
+                    cleaned_text = html.unescape(BeautifulSoup(text_with_spaces, "html.parser").get_text())
+
+                    lines.append(cleaned_text.rstrip())  # Trim trailing spaces but keep leading spaces
+                _logger.info("\n".join(lines))
+
+                rec.mermaid_diagram = "\n".join(lines)
+            else:
+                rec.mermaid_diagram = ""
+
+    mermaid_diagram = fields.Text(string="Diagram", compute=_compute_mermaid_editor)
 
 
 class RelatedTicketLines(models.Model):
@@ -543,12 +572,12 @@ class ProjectTask(models.Model):
 
 
     @api.model
-    def _read_group_stage_ids(self, stages, domain, order):
+    def _read_group_stage_ids(self, stages, domain):
         search_domain = [('id', 'in', stages.ids)]
         if 'default_project_id' in self.env.context:
             search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
 
-        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+        stage_ids = stages._search(search_domain, order=stages._order)
         return stages.browse(stage_ids)
 
 
