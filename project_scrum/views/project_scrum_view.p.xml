@@ -213,6 +213,7 @@
         </record>
 
         <!--sprint gantt view-->
+        <!-- #if VERSION == "17.0" -->
         <record id="view_ps_sprint_gantt" model="ir.ui.view">
             <field name="name">project.scrum.sprint.gantt</field>
             <field name="model">project.scrum.sprint</field>
@@ -221,6 +222,7 @@
                 </gantt>
             </field>
         </record>
+        <!-- #endif-->
 
         <!--sprint graph view-->
         <record id="view_ps_sprint_graph" model="ir.ui.view">
