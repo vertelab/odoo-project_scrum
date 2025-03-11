@@ -831,6 +831,7 @@
                             </tree>
                         </field>
                     </page>
+
                     <page string="Scrum" attrs="{'invisible': [('use_scrum', '=', False)]}">
                         <!--Page for scrum-->
                         <group string="Sprint" name="sprint">

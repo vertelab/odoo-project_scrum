@@ -983,7 +983,11 @@
 
                 <page name="settings" position="after">
                     <page name="tasks" string="Tasks">
+                        <!-- #if VERSION <= "17.0" -->
                         <field name="task_ids" string="Task" context="{'default_project_id': active_id,}">
+                         <!-- #else -->
+                        <field name="task_ids" string="Task">
+                        <!-- #endif -->
                             <!-- #if VERSION <= "17.0" -->
                             <tree>
                             <!-- #else -->
@@ -1002,7 +1006,12 @@
                             <!-- #endif -->
                         </field>
                     </page>
+
+                    <!-- #if VERSION <= "17.0" -->
                     <page string="Scrum" attrs="{'invisible': [('use_scrum', '=', False)]}">
+                    <!-- #else -->
+                    <page string="Scrum" invisible="use_scrum == False">
+                    <!-- #endif -->
                         <!--Page for scrum-->
                         <group string="Sprint" name="sprint">
                             <field name="manhours" />
