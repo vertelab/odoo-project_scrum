@@ -130,12 +130,12 @@
                             <!--User Stories-->
                             <page string="User Story">
                                 <field colspan="2" col="1" name="us_ids" context="{'default_project_id': project_id, 'default_sprint_id': id,}">
-                                    <tree>
+                                    <list>
                                         <field name="name" />
                                         <field name="actor_ids" />
                                         <field name="sprint_ids" />
                                         <field name="project_id" />
-                                    </tree>
+                                    </list>
                                 </field>
                             </page>
                             <page string="Review" name="review">
@@ -145,14 +145,14 @@
                                     <field name="review" nolabel="1"/>
 
                                     <field name="task_ids" string="Task" context="{'default_project_id': project_id, 'default_sprint_ids': id, 'default_us_ids': us_ids, }">
-                                        <tree>
+                                        <list>
                                             <field name="sequence" widget="handle"/>
                                             <field name="priority"/>
                                             <field name="name"/>
                                             <field name="user_id"/>
                                             <field name="date_deadline"/>
                                             <field name="stage_id"/>
-                                        </tree>
+                                        </list>
                                     </field>
                                 </group>
 
@@ -288,13 +288,13 @@
                                             'default_project_id': project_id,
                                             'default_us_id': id,
                                             }">
-                                    <tree>
+                                    <list>
                                         <field name="sequence" widget="handle" />
                                         <field name="name" />
                                         <field name="user_id" />
                                         <field name="date_deadline" />
                                         <field name="stage_id" />
-                                    </tree>
+                                    </list>
                                 </field>
                             </page>
                             <page string="Test Cases">
@@ -337,7 +337,7 @@
             <field name="name">project.scrum.us.tree</field>
             <field name="model">project.scrum.us</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="sequence" widget="handle"/>
                     <field name="name" />
                     <field name="actor_ids" />
@@ -345,7 +345,7 @@
                     <field name="project_id" />
                     <field name="user_id" />
                     <field name="date_deadline" />
-                </tree>
+                </list>
             </field>
         </record>
         <!--Scrum Meeting-->
@@ -471,7 +471,7 @@
             <field name="name">project.scrum.test.tree</field>
             <field name="model">project.scrum.test</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="sequence" widget="handle"/>
                     <field name="name" />
                     <field name="project_id" />
@@ -480,7 +480,7 @@
                     <field name="state" />
                     <field name="user_id" />
                     <field name="date_deadline" />
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -830,17 +830,15 @@
 
                 <page name="settings" position="after">
                     <page name="tasks" string="Tasks">
-                        <field name="task_ids" string="Task" context="{
-                                        'default_project_id': active_id,
-                                        }">
-                            <tree>
+                        <field name="task_ids" string="Task" context="{'default_project_id': active_id,}">
+                            <list>
                                 <field name="sequence" widget="handle" />
                                 <field name="priority" />
                                 <field name="name" />
                                 <field name="user_id" />
                                 <field name="date_deadline" />
                                 <field name="stage_id" />
-                            </tree>
+                            </list>
                         </field>
                     </page>
                     <page string="Scrum" attrs="{'invisible': [('use_scrum', '=', False)]}">
