@@ -965,12 +965,20 @@
                     <!-- #endif -->
                 </button>
 
+                <!-- #if VERSION <= "17.0" -->
                 <xpath expr="//div[@name='options_active']/div[last()]" position="before">
+                <!-- #else -->
+                <field name="label_tasks" position="before">
+                <!-- #endif -->
                     <div>
                         <field name="use_scrum" class="oe_inline oe_input_align"/>
                         <label for="use_scrum" class="oe_inline" string="Use Scrum"/>
                     </div>
+                <!-- #if VERSION <= "17.0" -->
                 </xpath>
+                <!-- #else -->
+                </field>
+                <!-- #endif -->
 
 
                 <page name="settings" position="after">
