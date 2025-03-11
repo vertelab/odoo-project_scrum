@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="view_calendar_event_form" model="ir.ui.view">
+            <field name="name">calendar.event.form</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <field name="location" position="after">
+                    <!-- #if VERSION <=  "16.0" -->
+                    <field name="sprint_id" attrs="{'invisible':[('sprint_id', '=', False)]}"/>
+                    <!-- #else -->
+                    <field name="sprint_id" invisible="sprint_id == False"/>
+                    <!-- #endif -->
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

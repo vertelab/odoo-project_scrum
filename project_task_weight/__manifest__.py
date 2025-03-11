@@ -20,26 +20,29 @@
 ##############################################################################
 
 {
-    'name': 'Project Scrum: Project Sprint Module',
-    'version': '14.0.0.0.0',
+    'name': 'Project Scrum: Task Weight',
+    'version': '14.0.0.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Adds new page for module list.',
+    'summary': 'Measure the scope of the activity',
     'category': 'Project',
     'description': """
-    Adds new page for module list.
+        Drop down on the kanban-view with standard scopes 
+        This is a simple way to estimate the scope of a task
     """,
     #'sequence': '1',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project_scrum/project_sprint_module',
+    'website': 'https://vertel.se/apps/odoo-project_scrum/project_task_weight',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
-    'depends': ['project', 'project_scrum'],
-    'data': ['views/project_sprint_module.xml'],
-    'demo': [],
-    'installable': True,
+    'depends': ['project',],
+    'data': [
+        "views/project_task_view.xml"
+    ],
+    "demo": [],
+    "installable": True,
+    "application": False,
 }
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
