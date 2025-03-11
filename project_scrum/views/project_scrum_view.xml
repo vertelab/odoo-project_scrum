@@ -88,6 +88,7 @@
                 <form string="Scrum Sprint">
                     <header>
                         <field name="state" string="State" widget="statusbar" options="{'clickable': '1'}" />
+                        <button name="action_create_sprint_calendar" string="Add to Calendar" class="btn btn-primary" type="object"/>
                     </header>
                     <sheet string="Sprint">
                         <div class="oe_button_box" name="button_box">

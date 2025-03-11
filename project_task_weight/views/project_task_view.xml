@@ -46,7 +46,7 @@
                 <field name="weight" />
             </xpath>
             <xpath expr="//progressbar[@field='kanban_state']" position="after">
-                <progressbar field="weight" sum_field="remaining_hours" colors="{&quot;1&quot;: &quot;success&quot;,  &quot;2&quot;: &quot;primary&quot;, &quot;4&quot;: &quot;warning&quot;, &quot;8&quot;: &quot;danager&quot;, &quot;16&quot;: &quot;danager&quot;}"/>
+                <progressbar field="weight" sum_field="remaining_hours" colors='{"1": "success", "2": "info", "4": "primary", "8": "warning", "16": "danger"}'/>
             </xpath>
             <xpath expr="//div[hasclass('dropdown-menu')]" position="inside">
                 <div class="o_kanban_card_manage_section">

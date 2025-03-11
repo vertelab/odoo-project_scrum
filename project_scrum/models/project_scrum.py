@@ -187,8 +187,17 @@ class ScrumSprint(models.Model):
             'type': 'ir.actions.act_window',
             'view_id': view_id.id,
             'views': [(view_id.id, 'calendar'), (False, 'tree'), (False, 'form')],
-            'view_mode': 'kanban,tree,form',
+            'view_mode': 'calendar,tree,form',
         }
+
+    def action_create_sprint_calendar(self):
+        self.env['calendar.event'].create({
+            'name': self.name,
+            'start_date': self.date_start,
+            'stop_date': self.date_stop,
+            'allday': True,
+            'sprint_id': self.id,
+        })
 
 
 class ProjectUserStories(models.Model):
@@ -335,7 +344,6 @@ class ProjectUserStories(models.Model):
         project_id = self._resolve_project_id_from_context()
         sprints = self.env['project.scrum.sprint'].search([
             ('project_id', '=', project_id)], order='sequence').name_get()
-        print("sprints", sprints)
         return sprints, None
 
     _group_by_full = {
