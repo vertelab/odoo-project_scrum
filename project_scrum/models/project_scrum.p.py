@@ -200,12 +200,12 @@ class ScrumSprint(models.Model):
             'res_model': 'calendar.event',
             'type': 'ir.actions.act_window',
             'view_id': view_id.id,
-            # #if VERSION <  "17.0"
+            # #if VERSION <=  "17.0"
             'views': [(view_id.id, 'calendar'), (False, 'tree'), (False, 'form')],
             # #else
             'views': [(view_id.id, 'calendar'), (False, 'list'), (False, 'form')],
             # #endif
-            # #if VERSION <  "17.0"
+            # #if VERSION <=  "17.0"
             'view_mode': 'calendar,tree,form',
             # #else
             'view_mode': 'calendar,list,form',
@@ -249,12 +249,20 @@ class ProjectUserStories(models.Model):
         return self.stage_find(project_id, [('fold', '=', False), ('is_closed', '=', False)])
 
     @api.model
+    # #if VERSION <=  "17.0"
+    def _read_group_stage_ids(self, stages, domain, order):
+    # # else
     def _read_group_stage_ids(self, stages, domain):
+    # # endif
         search_domain = [('id', 'in', stages.ids)]
         if 'default_project_id' in self.env.context:
             search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
 
+        # #if VERSION <=  "17.0"
+        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+        # # else
         stage_ids = stages.sudo()._search(search_domain, order=stages._order)
+        # # endif
         return stages.browse(stage_ids)
 
     @api.depends('project_id')
@@ -580,12 +588,20 @@ class ProjectTask(models.Model):
 
 
     @api.model
+    # #if VERSION <=  "17.0"
+    def _read_group_stage_ids(self, stages, domain, order):
+    # # else
     def _read_group_stage_ids(self, stages, domain):
+    # #endif
         search_domain = [('id', 'in', stages.ids)]
         if 'default_project_id' in self.env.context:
             search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
 
-        stage_ids = stages._search(search_domain, order=stages._order)
+        # #if VERSION <=  "17.0"
+        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+        # # else
+        stage_ids = stages.sudo()._search(search_domain, order=stages._order)
+        # #endif
         return stages.browse(stage_ids)
 
 
@@ -741,12 +757,12 @@ class ProjectProject(models.Model):
             'res_model': 'calendar.event',
             'type': 'ir.actions.act_window',
             'view_id': view_id.id,
-            # #if VERSION <  "17.0"
+            # #if VERSION <=  "17.0"
             'views': [(view_id.id, 'calendar'), (False, 'tree'), (False, 'form')],
             # #else
             'views': [(view_id.id, 'calendar'), (False, 'list'), (False, 'form')],
             # #endif
-            # #if VERSION <  "17.0"
+            # #if VERSION <=  "17.0"
             'view_mode': 'kanban,tree,form',
             # #else
             'view_mode': 'kanban,list,form',
