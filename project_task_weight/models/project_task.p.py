@@ -24,7 +24,7 @@ class ProjectTask(models.Model):
 
     @api.model
     def _read_group_weight(self, stages, domain, order):
-        # returns columnes for each weight/scope
+        # returns columns for each weight/scope
        
         return domain
 
