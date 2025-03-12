@@ -227,7 +227,7 @@
             </field>
         </record>
 
-        <!-- #if VERSION == "17.0" -->
+        <!-- #if VERSION <= "17.0" -->
         <!--sprint gantt view-->
         <record id="view_ps_sprint_gantt" model="ir.ui.view">
             <field name="name">project.scrum.sprint.gantt</field>
