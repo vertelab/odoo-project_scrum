@@ -368,7 +368,7 @@
                             <field name="user_id_meeting" />
                             <field name="project_id" />
                             <field name="sprint_id" domain="[('project_id', '=', project_id)]" context="{'default_project_id': project_id}" />
-                            <button name="send_email" string="Send Email" type="object" icon="terp-mail-message-new" />
+                            <button name="send_email" string="Send Email" type="object" icon="fa fa-mail" />
                         </group>
                         <group>
                             <separator colspan="4" string="What did you do since the last meeting?" />
@@ -509,7 +509,7 @@
                                 <field name="description_test" />
                             </page>
                             <page string="Timesheet">
-                                <field name="timesheet_ids" context="{'default_project_id':parent.project_id, 'default_task_id':parent.task_id}">
+                                <field name="timesheet_ids">
                                     <list>
                                         <field name="date"/>
                                         <field name="project_id" context="{'default_project_id': parent.project_id}"/>
@@ -666,7 +666,7 @@
         <record id="action_ps_sprint_all" model="ir.actions.act_window">
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
-            <field name="view_mode">list,form,calendar,graph,gantt</field>
+            <field name="view_mode">list,form,calendar,graph</field>
             <field name="view_id" ref="view_ps_sprint_tree" />
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_ps_sprint_search" />
@@ -680,7 +680,7 @@
         <record id="action_ps_sprint_current" model="ir.actions.act_window">
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
-            <field name="view_mode">list,form,calendar,graph,gantt</field>
+            <field name="view_mode">list,form,calendar,graph</field>
             <field name="view_id" ref="view_ps_sprint_tree"/>
             <field name="context">
                 {
