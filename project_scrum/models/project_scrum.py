@@ -189,8 +189,8 @@ class ScrumSprint(models.Model):
             'res_model': 'calendar.event',
             'type': 'ir.actions.act_window',
             'view_id': view_id.id,
-            'views': [(view_id.id, 'calendar'), (False, 'list'), (False, 'form')],
-            'view_mode': 'calendar,list,form',
+            'views': [(view_id.id, 'calendar'), (False, 'tree'), (False, 'form')],
+            'view_mode': 'calendar,tree,form',
         }
 
     def action_create_sprint_calendar(self):
@@ -230,12 +230,12 @@ class ProjectUserStories(models.Model):
         return self.stage_find(project_id, [('fold', '=', False), ('is_closed', '=', False)])
 
     @api.model
-    def _read_group_stage_ids(self, stages, domain):
+    def _read_group_stage_ids(self, stages, domain, order):
         search_domain = [('id', 'in', stages.ids)]
         if 'default_project_id' in self.env.context:
             search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
 
-        stage_ids = stages.sudo()._search(search_domain, order=stages._order)
+        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
 
     @api.depends('project_id')
@@ -561,12 +561,12 @@ class ProjectTask(models.Model):
 
 
     @api.model
-    def _read_group_stage_ids(self, stages, domain):
+    def _read_group_stage_ids(self, stages, domain, order):
         search_domain = [('id', 'in', stages.ids)]
         if 'default_project_id' in self.env.context:
             search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
 
-        stage_ids = stages._search(search_domain, order=stages._order)
+        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
 
 
@@ -722,8 +722,8 @@ class ProjectProject(models.Model):
             'res_model': 'calendar.event',
             'type': 'ir.actions.act_window',
             'view_id': view_id.id,
-            'views': [(view_id.id, 'calendar'), (False, 'list'), (False, 'form')],
-            'view_mode': 'kanban,list,form',
+            'views': [(view_id.id, 'calendar'), (False, 'tree'), (False, 'form')],
+            'view_mode': 'kanban,tree,form',
         }
 
 
