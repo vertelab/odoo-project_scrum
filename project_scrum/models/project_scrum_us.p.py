@@ -116,7 +116,7 @@ class ProjectUserStories(models.Model):
         if section_ids:
             search_domain = ['|'] * (len(section_ids) - 1)
             for section_id in section_ids:
-                search_domain.extend(['project_ids', '=', section_id])
+                search_domain.extend([('project_ids', '=', section_id)])
         search_domain += list(domain)
         # perform search, return the first found
         return self.env['project.task.type'].search(search_domain, order=order, limit=1).id
