@@ -311,7 +311,6 @@
                                 </group>
                             </page>
 
-
                             <page string="Mermaid Editor" name="scrum_mermaid">
                                 <field name="mermaid_editor"/>
                             </page>

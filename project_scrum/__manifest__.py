@@ -102,7 +102,8 @@ More information:
         'project',
         'mail', 'hr_timesheet',
         'sales_team',
-        'calendar'
+        'calendar',
+        'web_widget_mermaid_field' # https://github.com/VictorHachard/odoo-modules/tree/17.0/web_widget_mermaid_field,
     ],
     'data': [
         'views/project_scrum_view.xml',
