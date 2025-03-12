@@ -177,23 +177,29 @@ class ProjectUserStories(models.Model):
     def _compute_mermaid_editor(self):
         for rec in self:
             if rec.mermaid_editor:
+                print(rec.mermaid_editor)
                 # Parse the HTML content
                 soup = BeautifulSoup(rec.mermaid_editor, "html.parser")
 
                 lines = []
-                for element in soup.find_all("div"):
-                    raw_text = "".join(str(child) for child in element.contents)  # Get raw HTML inside div
 
-                    # Convert &nbsp; to spaces while preserving indentation
-                    text_with_spaces = raw_text.replace("&nbsp;", " ")
+                # Check for block elements (div, p)
+                block_elements = soup.find_all(["div", "p"])
 
-                    # Extract plain text and unescape HTML entities (&gt; -> >, etc.)
-                    cleaned_text = html.unescape(BeautifulSoup(text_with_spaces, "html.parser").get_text())
-
-                    lines.append(cleaned_text.rstrip())  # Trim trailing spaces but keep leading spaces
-                _logger.info("\n".join(lines))
+                if block_elements:
+                    for element in block_elements:
+                        raw_text = "".join(str(child) for child in element.contents)  # Get raw HTML inside
+                        text_with_spaces = raw_text.replace("&nbsp;", " ")  # Preserve indentation
+                        cleaned_text = html.unescape(BeautifulSoup(text_with_spaces, "html.parser").get_text())
+                        lines.append(cleaned_text.rstrip())  # Keep leading spaces, remove trailing
+                else:
+                    # Fallback: Extract text from entire soup if no block elements exist
+                    text = html.unescape(soup.get_text("\n"))
+                    lines = [line.rstrip() for line in text.split("\n") if line.strip()]
 
                 rec.mermaid_diagram = "\n".join(lines)
+
+                _logger.info("Extracted Mermaid Diagram:\n%s", rec.mermaid_diagram)
             else:
                 rec.mermaid_diagram = ""
 
