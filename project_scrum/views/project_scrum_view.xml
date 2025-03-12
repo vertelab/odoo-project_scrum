@@ -384,7 +384,7 @@
                             <field name="user_id_meeting" />
                             <field name="project_id" />
                             <field name="sprint_id" domain="[('project_id', '=', project_id)]" context="{'default_project_id': project_id}" />
-                            <button name="send_email" string="Send Email" type="object" icon="terp-mail-message-new" />
+                            <button name="send_email" string="Send Email" type="object" icon="fa fa-mail" />
                         </group>
                         <group>
                             <separator colspan="4" string="What did you do since the last meeting?" />
