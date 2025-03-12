@@ -342,7 +342,7 @@ class ProjectUserStories(models.Model):
         return None
 
     @api.model
-    def _read_group_sprint_id(self, present_ids, domain, **kwargs):
+    def _read_group_sprint_id(self, present_ids, domain):
         project_id = self._resolve_project_id_from_context()
         sprints = self.env['project.scrum.sprint'].search([
             ('project_id', '=', project_id)], order='sequence').name_get()
@@ -484,11 +484,9 @@ class ProjectTask(models.Model):
             if not self.sprint_ids or not vals.get('sprint_id') in self.sprint_ids.mapped('id'):
                 self.sprint_ids = [(4, vals.get('sprint_id'), 0)]
         return super(ProjectTask, self).write(vals)
-    
+
     def _read_group_sprint_id(self, sprint_id, domain):
-        sprint_ids = sprint_id.sudo()._search([
-            ('project_id', '=', self.project_id.id)
-        ], order='date_start asc')
+        sprint_ids = sprint_id.sudo()._search([('project_id', '=', self.project_id.id)], order='date_start asc')
         return sprint_id.browse(sprint_ids)
 
     # Not sure what this is for. Keep here
