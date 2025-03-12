@@ -203,7 +203,6 @@ class ScrumSprint(models.Model):
 
 
 
-
 class RelatedTicketLines(models.Model):
     _name = 'related.ticket.lines'
     _description = 'Related Ticket Lines'
@@ -219,7 +218,6 @@ class RelatedTicketLines(models.Model):
     ], string="External Ticket State")
     project_task_id = fields.Many2one('project.task', string="Project Task")
     project_scrum_us_id = fields.Many2one('project.scrum.us', string="User Stories")
-
 
 
 
@@ -279,7 +277,6 @@ class ScrumMeeting(models.Model):
             'target': 'new',
             'context': ctx,
         }
-
 
 
 
@@ -360,7 +357,6 @@ class ProjectSprintBusinessProcess(models.Model):
 
     name = fields.Char(string="Description")
     sequence = fields.Integer()
-
 
 
 

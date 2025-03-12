@@ -231,3 +231,4 @@ class ProjectTaskType(models.Model):
 
         for rec in task_type_ids:
             rec.active = False
+

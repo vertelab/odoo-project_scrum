@@ -1,5 +1,8 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
+from bs4 import BeautifulSoup
+import html
 import odoo.tools
+import re
 from odoo.exceptions import UserError, ValidationError
 import logging
 
