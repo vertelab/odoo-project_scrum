@@ -200,8 +200,16 @@ class ScrumSprint(models.Model):
             'res_model': 'calendar.event',
             'type': 'ir.actions.act_window',
             'view_id': view_id.id,
+            # #if VERSION <  "17.0"
             'views': [(view_id.id, 'calendar'), (False, 'tree'), (False, 'form')],
+            # #else
+            'views': [(view_id.id, 'calendar'), (False, 'list'), (False, 'form')],
+            # #endif
+            # #if VERSION <  "17.0"
             'view_mode': 'calendar,tree,form',
+            # #else
+            'view_mode': 'calendar,list,form',
+            # #endif
         }
 
     def action_create_sprint_calendar(self):
@@ -733,8 +741,16 @@ class ProjectProject(models.Model):
             'res_model': 'calendar.event',
             'type': 'ir.actions.act_window',
             'view_id': view_id.id,
+            # #if VERSION <  "17.0"
             'views': [(view_id.id, 'calendar'), (False, 'tree'), (False, 'form')],
+            # #else
+            'views': [(view_id.id, 'calendar'), (False, 'list'), (False, 'form')],
+            # #endif
+            # #if VERSION <  "17.0"
             'view_mode': 'kanban,tree,form',
+            # #else
+            'view_mode': 'kanban,list,form',
+            # #endif
         }
 
 
