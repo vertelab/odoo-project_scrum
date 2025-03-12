@@ -45,10 +45,19 @@
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="weight" />
             </xpath>
+            <!-- #if VERSION <= "17.0" -->
             <xpath expr="//progressbar[@field='kanban_state']" position="after">
+            <!-- #else -->
+            <xpath expr="//progressbar[@field='state']" position="after">
+            <!-- #endif -->
                 <progressbar field="weight" sum_field="remaining_hours" colors='{"1": "success", "2": "info", "4": "primary", "8": "warning", "16": "danger"}'/>
             </xpath>
+            <!-- #if VERSION <= "17.0" -->
             <xpath expr="//div[hasclass('dropdown-menu')]" position="inside">
+            <!-- #else -->
+            <xpath expr="//t[@t-name='menu']/field[@name='color']" position="after">
+                <div role="separator" class="dropdown-divider"></div>
+            <!-- #endif -->
                 <div class="o_kanban_card_manage_section">
                     <div role="menuitem">
 
