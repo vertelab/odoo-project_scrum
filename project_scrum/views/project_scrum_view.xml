@@ -31,7 +31,7 @@
         <record id="action_ps_sprint_backlog" model="ir.actions.act_window">
             <field name="name">Sprint Backlog</field>
             <field name="res_model">project.task</field>
-            <field name="view_mode">kanban,list,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="context">
                 {
                     'search_default_sprint_ids': [active_id],
@@ -46,7 +46,7 @@
         <record id="action_ps_tc" model="ir.actions.act_window">
             <field name="name">Sprint Test Case</field>
             <field name="res_model">project.task</field>
-            <field name="view_mode">list,form</field>
+            <field name="view_mode">tree,form</field>
             <field name="context">
                 {
                     'search_default_sprint_ids': [active_id],
@@ -218,7 +218,7 @@
                                 </div>
                                 <div class="oe_kanban_content">
                                     <div><b><field name="name"/></b></div>
-<!--                                    <p><font color="#BDBDBD"><field name="description_short"/></font></p>-->
+                                    <p><font color="#BDBDBD"><field name="description_short"/></font></p>
                                 </div>
                                 <div>
                                     <a t-if="record.task_count.raw_value">
@@ -312,6 +312,7 @@
                                     </field>
                                 </group>
                             </page>
+
 
                             <page string="Mermaid Editor" name="scrum_mermaid">
                                 <field name="mermaid_editor"/>
@@ -675,7 +676,7 @@
         <record id="action_ps_sprint_all" model="ir.actions.act_window">
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
-            <field name="view_mode">list,form,calendar,graph,gantt</field>
+            <field name="view_mode">tree,form,calendar,graph,gantt</field>
             <field name="view_id" ref="view_ps_sprint_tree" />
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_ps_sprint_search" />
@@ -689,7 +690,7 @@
         <record id="action_ps_sprint_current" model="ir.actions.act_window">
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
-            <field name="view_mode">list,form,calendar,gantt,graph</field>
+            <field name="view_mode">tree,form,calendar,gantt,graph</field>
             <field name="view_id" ref="view_ps_sprint_tree"/>
             <field name="context">
                 {
@@ -710,7 +711,7 @@
         <record id="action_ps_meeting_all" model="ir.actions.act_window">
             <field name="name">Meetings</field>
             <field name="res_model">project.scrum.meeting</field>
-            <field name="view_mode">list,form,calendar</field>
+            <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="view_ps_meeting_calendar" />
             <field name="context">{"search_default_current": 1}</field>
             <field name="search_view_id" ref="view_ps_meeting_search" />
@@ -720,7 +721,7 @@
         <record id="action_ps_meeting_current" model="ir.actions.act_window">
             <field name="name">Meetings</field>
             <field name="res_model">project.scrum.meeting</field>
-            <field name="view_mode">list,form,calendar</field>
+            <field name="view_mode">tree,form,calendar</field>
             <field name="view_id" ref="view_ps_meeting_calendar" />
             <field name="context">
                 {
@@ -736,7 +737,7 @@
         <record id="action_ps_us_all" model="ir.actions.act_window">
             <field name="name">User Stories</field>
             <field name="res_model">project.scrum.us</field>
-            <field name="view_mode">kanban,list,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="view_ps_us_kanban" />
             <field name="context">{"search_default_current": 1, "search_default_group_by_stage_id": 1}</field>
             <field name="search_view_id" ref="view_ps_us_search" />
@@ -746,7 +747,7 @@
         <record id="action_ps_us_current" model="ir.actions.act_window">
             <field name="name">User Stories</field>
             <field name="res_model">project.scrum.us</field>
-            <field name="view_mode">kanban,list,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="view_ps_us_kanban" />
             <field name="context">
                 {
@@ -763,7 +764,7 @@
         <record id="action_ps_tc_all" model="ir.actions.act_window">
             <field name="name">Test Case</field>
             <field name="res_model">project.scrum.test</field>
-            <field name="view_mode">kanban,list,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="view_ps_tc_kanban" />
             <field name="context">{"search_default_current": 1, "search_default_group_by_state": 1, "search_default_my_test_cases": 1}</field>
             <field name="search_view_id" ref="view_ps_tc_search" />
@@ -773,7 +774,7 @@
         <record id="action_ps_tc_current" model="ir.actions.act_window">
             <field name="name">Test Case</field>
             <field name="res_model">project.scrum.test</field>
-            <field name="view_mode">kanban,list,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="view_ps_tc_kanban" />
             <field name="context">
                 {
