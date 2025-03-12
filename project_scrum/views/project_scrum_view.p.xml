@@ -202,10 +202,15 @@
                             </page>
                         </notebook>
                     </sheet>
+
+                    <!-- #if VERSION <= "17.0" -->
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
                         <field name="message_ids" widget="mail_thread"/>
                     </div>
+                    <!-- #else -->
+                    <chatter/>
+                    <!-- #endif -->
                 </form>
             </field>
         </record>
@@ -415,11 +420,15 @@
                             <!-- #endif -->
                         </notebook>
                     </sheet>
+                    <!-- #if VERSION <= "17.0" -->
                     <div class="oe_chatter">
                         <field name="message_follower_ids" groups="base.group_user"/>
                         <field name="activity_ids"/>
                         <field name="message_ids"/>
                     </div>
+                    <!-- #else -->
+                    <chatter/>
+                    <!-- #endif -->
                 </form>
             </field>
         </record>
@@ -658,11 +667,15 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <!-- #if VERSION <= "17.0" -->
                     <div class="oe_chatter">
                         <field name="message_follower_ids"/>
                         <field name="activity_ids"/>
                         <field name="message_ids"/>
                     </div>
+                    <!-- #else -->
+                    <chatter/>
+                    <!-- #endif -->
                 </form>
             </field>
         </record>
