@@ -394,6 +394,17 @@
                                     </field>
                                 </group>
                             </page>
+
+                            <!-- #if VERSION >= "16.0" -->
+
+                            <page string="Mermaid Editor" name="scrum_mermaid">
+                                <field name="mermaid_editor"/>
+                            </page>
+
+                            <page string="Mermaid Diagram" name="scrum_mermaid">
+                                <field name="mermaid_diagram" widget="mermaid"/>
+                            </page>
+                            <!-- #endif -->
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
