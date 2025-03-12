@@ -682,7 +682,7 @@
         <record id="action_ps_sprint_current" model="ir.actions.act_window">
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
-            <field name="view_mode">tree,form,calendar,gantt,graph</field>
+            <field name="view_mode">tree,form,calendar,graph,gantt</field>
             <field name="view_id" ref="view_ps_sprint_tree"/>
             <field name="context">
                 {
