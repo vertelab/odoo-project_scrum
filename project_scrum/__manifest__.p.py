@@ -109,7 +109,12 @@ More information:
         'project_category',
         # # endif
         'sales_team',
-        'calendar'
+        'calendar',
+        # # if VERSION ==  "14.0"
+        'web_widget_mermaid', # https://github.com/OCA/web/tree/14.0/web_widget_mermaid
+        # # else
+        'web_widget_mermaid_field' # https://github.com/VictorHachard/odoo-modules/tree/17.0/web_widget_mermaid_field,
+        # # endif
     ],
     'data': [
         'views/project_scrum_view.xml',

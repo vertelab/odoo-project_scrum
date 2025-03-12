@@ -103,7 +103,8 @@ More information:
         'mail', 'hr_timesheet',
         'project_category',
         'sales_team',
-        'calendar'
+        'calendar',
+        'web_widget_mermaid', # https://github.com/OCA/web/tree/14.0/web_widget_mermaid
     ],
     'data': [
         'views/project_scrum_view.xml',

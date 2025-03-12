@@ -323,6 +323,13 @@
                                 </group>
                             </page>
 
+                            <page string="Mermaid Editor" name="scrum_mermaid">
+                                <field name="mermaid_editor"/>
+                            </page>
+
+                            <page string="Mermaid Diagram" name="scrum_mermaid">
+                                <field name="mermaid_diagram" widget="mermaid"/>
+                            </page>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
