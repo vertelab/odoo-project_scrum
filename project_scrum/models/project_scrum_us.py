@@ -162,7 +162,7 @@ class ProjectUserStories(models.Model):
         'sprint_ids': _read_group_sprint_id,
     }
 
-    mermaid_editor = fields.Html(string="Editor")
+    mermaid_editor = fields.Html(string="Editor", copy=False)
 
     def wrap_mermaid_in_pre(self, mermaid_editor):
         """
