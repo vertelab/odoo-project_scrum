@@ -15,6 +15,9 @@ class ProjectUserStories(models.Model):
     _description = 'Project Scrum Use Stories'
     _order = 'sequence'
 
+    _mermaid_keywords = r"^(graph|sequenceDiagram|classDiagram|stateDiagram|" \
+                        r"erDiagram|flowchart|pie|journey|gantt|gitGraph)\b"
+
     def create_test_case_from_us(self):
         active_ids = self.env['project.scrum.us'].browse(self.env.context.get('active_ids'))
         if not active_ids:
