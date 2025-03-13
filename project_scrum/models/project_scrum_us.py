@@ -258,4 +258,4 @@ class ProjectUserStories(models.Model):
             if wrapped_content != rec.mermaid_editor:
                 rec.mermaid_editor = wrapped_content
 
-    mermaid_diagram = fields.Text(string="Diagram", compute=_compute_mermaid_editor)
+    mermaid_diagram = fields.Text(string="Diagram", compute=_compute_mermaid_editor, copy=False)
