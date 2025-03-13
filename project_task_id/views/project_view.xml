@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <record id="view_project_kanban_nr" model="ir.ui.view">
+            <field name="name">project.project.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="display_name" />
+                </field>
+                <xpath expr="//t[@t-esc='record.display_name.value']" position="replace">
+                    <t t-esc="record.display_name.value"/>
+                </xpath>
+            </field>
+        </record> -->
+        <record id="view_project_project_filter" model="ir.ui.view">
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_project_filter" />
+            <field name="arch" type="xml">
+                <search position="inside">
+                    <field name="project_no" string="Project number" />
+                </search>
+            </field>
+        </record>
+        <record id="view_task_form2_task_id" model="ir.ui.view">
+            <field name="name">project.task.form.task_id</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id" ref="project.view_task_form2" />
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="name" class="oe_edit_only" />
+                    <field name="display_name" class="oe_read_only" />
+                </field>
+                <field name="sequence" position="after">
+                    <field name="task_no" />
+                </field>
+            </field>
+        </record>
+        <record id="view_task_tree2" model="ir.ui.view">
+            <field name="name">project.task.tree.task_no</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id" ref="project.view_task_tree2" />
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="display_name" />
+                </field>
+            </field>
+        </record>
+        <record id="view_task_search_form" model="ir.ui.view">
+            <field name="name">project.task.search.form.task_no</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id" ref="project.view_task_search_form" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="task_no" />
+                </field>
+                <field name="name" position="replace">
+                    <field name="name" filter_domain="['|',('name','ilike',self),('task_no','=',self)]" />
+                </field>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_task_kanban">
+            <field name="name">project.task.kanban</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id" ref="project.view_task_kanban" />
+            <field name="arch" type="xml">
+               <!-- <field name="name" position="replace">
+			I have readded the name field but made it invisiable.
+			This is done since project_key tries to x_path to this field
+            and crashes if when it can't find it since we have replaced it.
+                    <field name="name" invisible="1" groups="base.group_no_one"/>
+                    <field name="display_name" />
+                </field>-->
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="active" invisible="1"/>
+                    <strong class="o_kanban_record_title">
+                        <t t-if="!record.active.raw_value">
+                            <field name="display_name" class="fw-bold fs-5"/>
+                        </t>
+                        <t t-else="">
+                            <field name="display_name" class="fw-bold fs-5"/>
+                        </t>
+                    </strong>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_config_settings" model="ir.ui.view">
+            <field name="name">project.settings.inherit</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="project.res_config_settings_view_form" />
+            <field name="priority" eval="30" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//form" position="inside">
+                    <app data_string="Task Management" string="Task Management" name="task_managment" groups="project.group_project_manager">
+                        <block title="Tasks Management" id="tasks_management">
+                            <setting id="recurring_tasks_setting" help="Auto-generate tasks for regular activities">
+                                <field name="task_sequence"/>
+                            </setting>
+                            <setting id="recurring_tasks_setting" help="Auto-generate tasks for regular activities">
+                                <field name="default_use_project_no" />
+                            </setting>
+                        </block>
+
+                    </app>
+                </xpath>
+                <!--
+                <xpath expr="//div[@data-key='project']" position="inside">
+                        <H2>Project Numbers</H2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="recurring_tasks_setting">
+                                <div class="o_setting_left_pane" />
+                                <div class="">
+                                    <span class="o_form_label">Project Numbers</span>
+                                    <div class="text-muted">Use Project Numbers by Default.</div>
+                                    <div>
+                                        <field name="default_use_project_no" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </xpath> -->
+            </field>
+        </record>
+
+        <record id="edit_ps_project_task" model="ir.ui.view">
+            <field name="name">project.project.form.etend</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <field name="tag_ids" position="after">
+                    <field name="use_project_no" class="oe_inline oe_input_align"/>
+                </field>
+
+                <field name="name" position="replace">
+                    <div>
+                        <field name="project_no" class="oe_inline oe_input_align" invisible="use_project_no == False"/>
+                        <field name="name" class="oe_inline"/>
+                    </div>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

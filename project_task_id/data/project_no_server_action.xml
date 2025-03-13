@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+           <record model="ir.actions.server" id="set_use_project_no_true">
+                <field name="name">Enable Project Number</field>
+                <field name="model_id" ref="project.model_project_project"/>
+                <field name="state">code</field>
+                <field name="binding_model_id" ref="project.model_project_project"/>
+                <field name="binding_type">action</field>
+                <field name="code">
+                    for record in records:
+                        record.write({"use_project_no":True})
+                </field>
+            </record>
+            
+            <record model="ir.actions.server" id="set_use_project_no_false">
+                <field name="name">Disable Project Number</field>
+                <field name="model_id" ref="project.model_project_project"/>
+                <field name="state">code</field>
+                <field name="binding_model_id" ref="project.model_project_project"/>
+                <field name="binding_type">action</field>
+                <field name="code">
+                    for record in records:
+                        record.write({"use_project_no":False})
+                </field>
+            </record>
+    
+    </data>
+</odoo>

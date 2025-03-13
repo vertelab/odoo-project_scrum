@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_task_sequence" model="ir.config_parameter">
+            <field name="key">project.task_sequence</field>
+            <field name="value">0</field>
+        </record>
+        <record id="project_project_sequence" model="ir.config_parameter">
+            <field name="key">project.project_sequence</field>
+            <field name="value">0</field>
+        </record>
+    </data>
+    
+    <data>
+        <function model="project.project" name="set_sequences_numbers_for_all_projects">
+        </function>
+        
+        <function model="project.task" name="set_sequences_numbers_for_all_project_tasks">
+        </function>
+    </data>
+</odoo>

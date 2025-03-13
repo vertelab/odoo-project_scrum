@@ -1,0 +1,97 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_task_id
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20210929\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-22 12:34+0000\n"
+"PO-Revision-Date: 2021-10-22 12:34+0000\n"
+"Last-Translator: Daniel Eriksson <daniel.eriksson@vertel.se>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_task_id
+#: model_terms:ir.ui.view,arch_db:project_task_id.view_config_settings
+msgid "<span class=\"o_form_label\">Task Management</span>"
+msgstr "<span class=\"o_form_label\">Hantera Ärenden</span>"
+
+#. module: project_task_id
+#: model:ir.model,name:project_task_id.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigurationsinställningar"
+
+#. module: project_task_id
+#: model:ir.model.fields,help:project_task_id.field_project_project__task_no_next
+msgid "Counter to get unique ids for tasks"
+msgstr ""
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_project_project__display_name
+#: model:ir.model.fields,field_description:project_task_id.field_project_task__display_name
+#: model:ir.model.fields,field_description:project_task_id.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_project_project__id
+#: model:ir.model.fields,field_description:project_task_id.field_project_task__id
+#: model:ir.model.fields,field_description:project_task_id.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_project_project____last_update
+#: model:ir.model.fields,field_description:project_task_id.field_project_task____last_update
+#: model:ir.model.fields,field_description:project_task_id.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr "Senast redigerad"
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_project_project__task_no_next
+msgid "Next Task id"
+msgstr "Nästa ärendenummer"
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_res_config_settings__task_sequence
+msgid "Only use one task sequence"
+msgstr "Använd endast en ärendesekvens"
+
+#. module: project_task_id
+#: model:ir.model,name:project_task_id.model_project_project
+msgid "Project"
+msgstr "Projekt"
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_project_project__project_no
+msgid "Project Number"
+msgstr "Projektnummer"
+
+#. module: project_task_id
+#: model_terms:ir.ui.view,arch_db:project_task_id.view_config_settings
+msgid "Select task sequence. Sequence at project level or at domain level."
+msgstr ""
+
+#. module: project_task_id
+#: model:ir.model,name:project_task_id.model_project_task
+msgid "Task"
+msgstr "Aktivitet"
+
+#. module: project_task_id
+#: model_terms:ir.ui.view,arch_db:project_task_id.view_config_settings
+msgid "Task Management"
+msgstr "Ärenden"
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_project_task__task_no
+msgid "Task id"
+msgstr "Ärende id"
+
+#. module: project_task_id
+#: model:ir.model.fields,help:project_task_id.field_project_task__task_no
+msgid "Unique id for this task"
+msgstr ""

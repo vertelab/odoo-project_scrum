@@ -1,0 +1,71 @@
+# -*- coding: utf-8 -*-
+
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
+from odoo.osv import expression
+import logging
+
+_logger = logging.getLogger(__name__)
+
+
+class ProjectProject(models.Model):
+    _inherit = "project.project"
+
+    use_project_no = fields.Boolean(string="Use Project No")
+
+    project_no = fields.Char(string="Project Number", copy=False)
+    task_no_next = fields.Integer(
+        string="Next Task id", copy=False, help="Counter to get unique ids for tasks"
+    )
+
+    @api.model
+    def set_sequences_numbers_for_all_projects(self):
+        records = self.env["project.project"].search([("use_project_no", "=", True), ("project_no", "=", False)])
+        for record in records:
+            record.project_no = self.env["ir.sequence"].next_by_code("project.project")
+
+    @api.model_create_multi
+    def create(self, vals):
+        # It is possible that when we create project that we want to set a project_no manually,
+        # like when we import projects, at which we don't want to use the ir.sequence.
+        for val in vals:
+            if not val.get("project_no"):
+                val["project_no"] = self.env["ir.sequence"].next_by_code("project.project")
+        result = super(ProjectProject, self).create(vals)
+        return result
+
+    # Calls create_event when the deadline or the assigned user on the project task is changed
+    def write(self, values):
+        res = super(ProjectProject, self).write(values)
+        if values.get('use_project_no'):
+            self.set_project_no_write()
+            self.task_ids._new_task_no()
+        return res
+
+    def set_project_no_write(self):
+        for record in self:
+            if not record.project_no and record.use_project_no:
+                record.project_no = self.env["ir.sequence"].next_by_code("project.project")
+        
+    def _compute_display_name(self):
+        #parameter = bool(self.env["ir.config_parameter"].sudo().get_param("project.project_sequence"))
+        for project in self:
+            project.display_name = project.name
+            if project.project_no and project.use_project_no:
+                project.display_name = f"[{project.project_no}] {project.name}"
+
+    @api.model
+    def search(self, args, offset=0, limit=80, order='id'):
+        """Override to extend searching project_no when searching name"""
+        for arg in args.copy():
+            if 'name' in arg:
+                args = expression.OR((
+                    expression.normalize_domain(args),
+                    [('project_no', 'ilike', arg[2])], 
+                ))
+        return super().search(
+            args,
+            offset=offset,
+            limit=limit,
+            order=order,
+        )
