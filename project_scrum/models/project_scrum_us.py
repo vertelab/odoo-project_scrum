@@ -162,7 +162,7 @@ class ProjectUserStories(models.Model):
         'sprint_ids': _read_group_sprint_id,
     }
 
-    mermaid_editor = fields.Html(string="Editor")
+    mermaid_editor = fields.Html(string="Editor", copy=False)
 
     def wrap_mermaid_in_pre(self, mermaid_editor):
         """
@@ -258,4 +258,4 @@ class ProjectUserStories(models.Model):
             if wrapped_content != rec.mermaid_editor:
                 rec.mermaid_editor = wrapped_content
 
-    mermaid_diagram = fields.Text(string="Diagram", compute=_compute_mermaid_editor)
+    mermaid_diagram = fields.Text(string="Diagram", compute=_compute_mermaid_editor, copy=False)
