@@ -19,10 +19,10 @@
                     <field name="sprint_ids" />
                 </field>
                 <filter name="project" position="after">
-                    <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}" domain="[('project_id', '=', 1)]" />
+                    <filter string="Sprint" name="group_by_sprint" context="{'group_by':'sprint_id'}"/>
                     <filter string="User Story" name="group_by_us" context="{'group_by':'us_id'}" />
 <!--                    <filter string="Current Sprint" name="group_by_current_sprint" domain="['|', '|', ('current_sprint', '=', True), ('next_sprint', '=', True), ('prev_sprint', '=', True)]" context="{'group_by':'sprint_id', 'current_sprint_group_by': True}" />-->
-                    <filter string="Active Sprint" name="group_by_active_sprint" domain="['|', '|', ('current_sprint', '=', True), ('next_sprint', '=', True), ('sprint_id', '=', False)]" context="{'group_by':'sprint_id', 'current_sprint_group_by': True}" />
+                    <filter string="Active Sprint" name="group_by_active_sprint" context="{'group_by':'active_sprint_id'}"  />
                 </filter>
             </field>
         </record>
