@@ -144,8 +144,6 @@ class ProjectTask(models.Model):
             # Add the filter for sprint_id (not active_sprint_id)
             # We need to be careful here - we're in the project.task model,
             # so we should be filtering on sprint_id, which is a field in project.task
-            # Create a domain that includes tasks with sprint_id in allowed_sprint_ids
-            # OR tasks with no sprint_id (undefined)
             domain = expression.AND([
                 domain,
                 [
