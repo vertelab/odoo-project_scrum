@@ -1,7 +1,7 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
 import odoo.tools
 from datetime import date
-import expression
+from odoo.osv import expression
 from odoo.exceptions import UserError, ValidationError
 import logging
 
