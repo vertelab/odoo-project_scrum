@@ -101,9 +101,7 @@ class ProjectTask(models.Model):
 
     def _read_group_sprint_id(self, sprint_id, domain, order):
 
-        sprint_ids = sprint_id._search([
-            ('project_id', '=', self.project_id.id)], order='date_start asc', access_rights_uid=SUPERUSER_ID
-        )
+        sprint_ids = sprint_id._search(domain, order='date_start asc', access_rights_uid=SUPERUSER_ID)
         return sprint_id.browse(sprint_ids)
 
     @api.model
