@@ -106,11 +106,9 @@ class ProjectTask(models.Model):
     def _read_group_sprint_id(self, sprint_id, domain):
         # #endif
         # # if VERSION <  "17.0"
-        sprint_ids = sprint_id._search([
-            ('project_id', '=', self.project_id.id)], order='date_start asc', access_rights_uid=SUPERUSER_ID
-        )
+        sprint_ids = sprint_id._search(domain, order='date_start asc', access_rights_uid=SUPERUSER_ID)
         # #else
-        sprint_ids = sprint_id.sudo()._search([('project_id', '=', self.project_id.id)], order='date_start asc')
+        sprint_ids = sprint_id.sudo()._search(domain, order='date_start asc')
         # #endif
         return sprint_id.browse(sprint_ids)
 
