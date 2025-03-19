@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
 import odoo.tools
 from datetime import date
+import expression
 from odoo.exceptions import UserError, ValidationError
 import logging
 
@@ -21,6 +22,9 @@ class ProjectTask(models.Model):
     description = fields.Html('Description')
     sprint_id = fields.Many2one(
         comodel_name='project.scrum.sprint', string='Sprint', group_expand='_read_group_sprint_id')
+    active_sprint_id = fields.Many2one(
+        related="sprint_id", string='Active Sprint', group_expand='_read_group_active_sprint_id', store=True,
+        readonly=False)
     sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprints')
 
     external_ticket_ids = fields.One2many('related.ticket.lines', 'project_task_id', string="External Ticket")
@@ -99,38 +103,51 @@ class ProjectTask(models.Model):
         sprint_ids = sprint_id.sudo()._search([('project_id', '=', self.project_id.id)], order='date_start asc')
         return sprint_id.browse(sprint_ids)
 
-    # Not sure what this is for. Keep here
-    #     project = self.env['project.project'].browse(self._resolve_project_id_from_context())
-    #     print("sprint", project)
-    #
-    #     if project.use_scrum:
-    #         if self.env.context.get('current_sprint_group_by'):
-    #             name_map = {
-    #                 'current': _('Current Sprint'),
-    #                 'prev': _('Previous Sprint'),
-    #                 'next': _('Next Sprint'),
-    #             }
-    #             current_sprints = self.env['project.scrum.sprint'].get_current_sprint(project.id)
-    #             sprint_names = []
-    #             fold = {}
-    #             for key in ('prev', 'current', 'next'):
-    #                 sprint = current_sprints[key]
-    #                 if sprint:
-    #                     sprint_names.append((sprint.id, name_map[key]))
-    #                     fold[sprint.id] = False
-    #         else:
-    #             sprints = self.env['project.scrum.sprint'].search([('project_id', '=', project.id)], order='date_start')
-    #             sprint_names = sprints.name_get()
-    #             fold = {s.id: True if s.date_stop <= fields.Date.to_string(date.today()) else False for s in sprints}
-    #             i = 0
-    #             for k in sprints.mapped('id'):
-    #                 if not fold[k]:
-    #                     i += 1
-    #                 if i > 4:
-    #                     fold[k] = True
-    #         return sprint_names, fold
-    #     else:
-    #         return [], None
+    @api.model
+    def _read_group_active_sprint_id(self, sprint_id, domain):
+        """Determine which sprints are available for grouping in project.task model."""
+        # Create a domain for the sprint search
+        sprint_domain = []
+
+        # Only include active sprints (end date is in the future)
+        sprint_domain.append(['date_stop', '>', fields.Date.today()])
+
+        # Get the project_id from context
+        project_id = self.env.context.get('default_project_id', False)
+        if project_id:
+            sprint_domain.append(['project_id', '=', project_id])
+
+        # Fetch the sprint records based on the modified domain
+        sprint_ids = self.env['project.scrum.sprint'].search(sprint_domain, limit=5, order='date_start asc')
+        _logger.info("Sprints for grouping: %s", sprint_ids.mapped('name'))
+
+        return sprint_ids
+
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        """Override read_group to filter tasks when grouping by active_sprint_id."""
+        _logger.info("Project Task read_group - Groupby: %s", groupby)
+        _logger.info("Project Task read_group - Original domain: %s", domain)
+
+        # Check if we're grouping by active_sprint_id
+        if 'active_sprint_id' in groupby:
+            _logger.info("Detected grouping by active_sprint_id")
+
+            # Get allowed sprint IDs from _read_group_active_sprint_id
+            allowed_sprints = self._read_group_active_sprint_id(None, [], None)
+            allowed_sprint_ids = allowed_sprints.ids
+
+            _logger.info("Allowed sprint IDs: %s", allowed_sprint_ids)
+
+            # Add the filter for sprint_id (not active_sprint_id)
+            # We need to be careful here - we're in the project.task model,
+            # so we should be filtering on sprint_id, which is a field in project.task
+            domain = expression.AND([domain, [('sprint_id', 'in', allowed_sprint_ids)]])
+
+            _logger.info("Modified domain for read_group: %s", domain)
+
+        return super(ProjectTask, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
+                                                   lazy=lazy)
 
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
@@ -143,29 +160,6 @@ class ProjectTask(models.Model):
         else:
             return [], None
 
-    """
-    def _read_group_us_id(self, cr, uid, domain, read_group_order=None, access_rights_uid=None, context=None):
-       # if self.use_scrum:
-        us_obj = self.pool.get('project.scrum.us')
-        order = us_obj._order
-        access_rights_uid = access_rights_uid or uid
-        if read_group_order == 'us_id desc':
-            order = '%s desc' % order
-        search_domain = []
-        project_id = self._resolve_project_id_from_context(cr, uid, context=context)
-        if project_id:
-            search_domain += ['|', ('project_ids', '=', project_id)]
-        search_domain += [('id', 'in', ids)]
-        us_ids = us_obj._search(cr, uid, search_domain, order=order, access_rights_uid=access_rights_uid, context=context)
-        result = us_obj.name_get(cr, access_rights_uid, us_ids, context=context)
-        result.sort(lambda x,y: cmp(us_ids.index(x[0]), us_ids.index(y[0])))
-
-        fold = {}
-        for us in us_obj.browse(cr, access_rights_uid, us_ids, context=context):
-            fold[us.id] = us.fold or False
-        return result, fold
-        #else:
-          #  return [], None"""
 
     @api.model
     def _read_group_stage_ids(self, stages, domain):
