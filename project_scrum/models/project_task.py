@@ -1,7 +1,7 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
 import odoo.tools
 from datetime import date
-from odoo.osv import expression
+import expression
 from odoo.exceptions import UserError, ValidationError
 import logging
 
@@ -99,13 +99,16 @@ class ProjectTask(models.Model):
                 self.sprint_ids = [(4, vals.get('sprint_id'), 0)]
         return super(ProjectTask, self).write(vals)
 
-    @api.model
     def _read_group_sprint_id(self, sprint_id, domain, order):
-        sprint_ids = sprint_id._search(domain, order='date_start asc', access_rights_uid=SUPERUSER_ID)
+
+        sprint_ids = sprint_id._search([
+            ('project_id', '=', self.project_id.id)], order='date_start asc', access_rights_uid=SUPERUSER_ID
+        )
         return sprint_id.browse(sprint_ids)
 
     @api.model
     def _read_group_active_sprint_id(self, sprint_id, domain, order):
+
         """Determine which sprints are available for grouping in project.task model."""
         # Create a domain for the sprint search
         sprint_domain = []
@@ -149,7 +152,6 @@ class ProjectTask(models.Model):
 
         return super(ProjectTask, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
                                                    lazy=lazy)
-
 
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
