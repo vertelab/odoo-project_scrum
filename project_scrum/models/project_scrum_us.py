@@ -36,7 +36,7 @@ class ProjectUserStories(models.Model):
         project_id = self.env.context.get('default_project_id')
         if not project_id:
             return False
-        return self.stage_find(project_id, [('fold', '=', False), ('is_closed', '=', False)])
+        return self.stage_find(project_id, [('fold', '=', False)])
 
     @api.model
     def _read_group_stage_ids(self, stages, domain):
