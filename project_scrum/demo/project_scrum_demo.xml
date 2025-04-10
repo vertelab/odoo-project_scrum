@@ -84,7 +84,7 @@
 <!-- Tasks -->
 <!--Project 1-->
         <record id="project_task_1" model="project.task">
-            <field name="planned_hours" eval="40.0"/>
+            <field name="allocated_hours" eval="40.0"/>
             <field name="remaining_hours" eval="40.0"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="priority">1</field>
@@ -95,7 +95,7 @@
         </record>
 
         <record id="project_task_2" model="project.task">
-            <field name="planned_hours" eval="20.0"/>
+            <field name="allocated_hours" eval="20.0"/>
             <field name="remaining_hours" eval="20.0"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="priority">1</field>
@@ -107,7 +107,7 @@
 
 <!--Project 2-->
         <record id="project_task_3" model="project.task">
-            <field name="planned_hours" eval="20.0"/>
+            <field name="allocated_hours" eval="20.0"/>
             <field name="remaining_hours" eval="20.0"/>
             <field name="user_id" ref="base.user_demo"/>
             <field name="priority">1</field>

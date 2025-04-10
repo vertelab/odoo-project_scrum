@@ -36,7 +36,7 @@ class ProjectUserStories(models.Model):
         project_id = self.env.context.get('default_project_id')
         if not project_id:
             return False
-        return self.stage_find(project_id, [('fold', '=', False), ('is_closed', '=', False)])
+        return self.stage_find(project_id, [('fold', '=', False)])
 
     @api.model
     # #if VERSION <=  "17.0"
