@@ -458,6 +458,20 @@
             </field>
         </record>
 
+        <record id="project_project_view_form_simplified_inherit_scrum" model="ir.ui.view">
+            <field name="name">project.project.view.form.simplified.inherit.scrum</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+            <field name="priority">24</field>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('o_settings_container')]" position="inside">
+                    <setting string="Use Scrum">
+                        <field name="use_scrum"/>
+                    </setting>
+                </xpath>
+            </field>
+        </record>
+
         <!--test case tree view-->
         <record id="view_ps_tc_tree" model="ir.ui.view">
             <field name="name">project.scrum.test.tree</field>
@@ -728,7 +742,7 @@
             <field name="res_model">project.scrum.us</field>
             <field name="view_mode">kanban,list,form</field>
             <field name="view_id" ref="view_ps_us_kanban" />
-            <field name="context">{"search_default_current": 1, "search_default_group_by_stage_id": 1}</field>
+            <field name="context">{"search_default_current": 1, "search_default_group_by_stage_id": 1, "search_default_group_by_stage_id": 1}</field>
             <field name="search_view_id" ref="view_ps_us_search" />
             <field name="help">The user stories of scrum.</field>
         </record>
@@ -743,6 +757,7 @@
                 'search_default_project_id': [active_id],
                 'default_project_id': active_id,
                 'search_default_group_by_project': 1,
+                'search_default_group_by_stage_id': 1,
                 'active_test': False,
                 }
             </field>
