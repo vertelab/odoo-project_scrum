@@ -742,7 +742,7 @@
             <field name="res_model">project.scrum.us</field>
             <field name="view_mode">kanban,list,form</field>
             <field name="view_id" ref="view_ps_us_kanban" />
-            <field name="context">{"search_default_current": 1, "search_default_group_by_stage_id": 1, "search_default_group_by_stage_id": 1}</field>
+            <field name="context">{"search_default_current": 1, "search_default_group_by_stage_id": 1}</field>
             <field name="search_view_id" ref="view_ps_us_search" />
             <field name="help">The user stories of scrum.</field>
         </record>
