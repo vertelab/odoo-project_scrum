@@ -103,7 +103,7 @@ More information:
         'mail', 'hr_timesheet',
         'sales_team',
         'calendar',
-        'web_widget_mermaid_field' # https://github.com/VictorHachard/odoo-modules/tree/17.0/web_widget_mermaid_field,
+        'web_mermaid'
     ],
     'data': [
         'views/project_scrum_view.xml',
