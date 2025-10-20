@@ -372,13 +372,13 @@ class SprintType(models.Model):
     sequence = fields.Integer()
 
 
-# ~ class ProjectSprintBusinessProcess(models.Model):
-    # ~ _name = 'project.scrum.business.process'
-    # ~ _order = 'sequence'
-    # ~ _description = 'Business Process'
+class ProjectSprintBusinessProcess(models.Model):
+    _name = 'project.scrum.business.process'
+    _order = 'sequence'
+    _description = 'Business Process'
 
-    # ~ name = fields.Char(string="Description")
-    # ~ sequence = fields.Integer()
+    name = fields.Char(string="Description")
+    sequence = fields.Integer()
 
 
 
