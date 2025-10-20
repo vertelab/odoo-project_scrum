@@ -4,11 +4,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 14.0-20210929\n"
+"Project-Id-Version: Odoo Server 18.0-20250925\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-22 12:34+0000\n"
-"PO-Revision-Date: 2021-10-22 12:34+0000\n"
-"Last-Translator: Daniel Eriksson <daniel.eriksson@vertel.se>\n"
+"POT-Creation-Date: 2025-09-30 13:49+0000\n"
+"PO-Revision-Date: 2025-09-30 13:49+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,39 +17,37 @@ msgstr ""
 
 #. module: project_task_id
 #: model_terms:ir.ui.view,arch_db:project_task_id.view_config_settings
-msgid "<span class=\"o_form_label\">Task Management</span>"
-msgstr "<span class=\"o_form_label\">Hantera Ärenden</span>"
+msgid "Auto-generate tasks for regular activities"
+msgstr "Autogenerera uppgifter för regelbundna aktiviteter"
 
 #. module: project_task_id
 #: model:ir.model,name:project_task_id.model_res_config_settings
 msgid "Config Settings"
-msgstr "Konfigurationsinställningar"
+msgstr "Inställningar"
 
 #. module: project_task_id
 #: model:ir.model.fields,help:project_task_id.field_project_project__task_no_next
 msgid "Counter to get unique ids for tasks"
+msgstr "Räknare för att få unika ID:n för uppgifter"
+
+#. module: project_task_id
+#: model:ir.actions.server,name:project_task_id.set_use_project_no_false
+msgid "Disable Project Number"
+msgstr "Inaktivera projektnummer"
+
+#. module: project_task_id
+#: model:ir.actions.server,name:project_task_id.set_use_project_no_true
+msgid "Enable Project Number"
+msgstr "Aktivera projektnummer"
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_res_config_settings__default_use_project_no
+msgid ""
+"If true then all created projects will have its use_project_no field set to "
+"True"
 msgstr ""
-
-#. module: project_task_id
-#: model:ir.model.fields,field_description:project_task_id.field_project_project__display_name
-#: model:ir.model.fields,field_description:project_task_id.field_project_task__display_name
-#: model:ir.model.fields,field_description:project_task_id.field_res_config_settings__display_name
-msgid "Display Name"
-msgstr "Visningsnamn"
-
-#. module: project_task_id
-#: model:ir.model.fields,field_description:project_task_id.field_project_project__id
-#: model:ir.model.fields,field_description:project_task_id.field_project_task__id
-#: model:ir.model.fields,field_description:project_task_id.field_res_config_settings__id
-msgid "ID"
-msgstr ""
-
-#. module: project_task_id
-#: model:ir.model.fields,field_description:project_task_id.field_project_project____last_update
-#: model:ir.model.fields,field_description:project_task_id.field_project_task____last_update
-#: model:ir.model.fields,field_description:project_task_id.field_res_config_settings____last_update
-msgid "Last Modified on"
-msgstr "Senast redigerad"
+"Om true så kommer alla skapade projekt att ha fältet use_project_no inställt"
+" på True"
 
 #. module: project_task_id
 #: model:ir.model.fields,field_description:project_task_id.field_project_project__task_no_next
@@ -72,9 +70,9 @@ msgid "Project Number"
 msgstr "Projektnummer"
 
 #. module: project_task_id
-#: model_terms:ir.ui.view,arch_db:project_task_id.view_config_settings
-msgid "Select task sequence. Sequence at project level or at domain level."
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:project_task_id.view_project_project_filter
+msgid "Project number"
+msgstr "Projektnummer"
 
 #. module: project_task_id
 #: model:ir.model,name:project_task_id.model_project_task
@@ -92,6 +90,17 @@ msgid "Task id"
 msgstr "Ärende id"
 
 #. module: project_task_id
+#: model_terms:ir.ui.view,arch_db:project_task_id.view_config_settings
+msgid "Tasks Management"
+msgstr "Hantering av uppgifter"
+
+#. module: project_task_id
 #: model:ir.model.fields,help:project_task_id.field_project_task__task_no
 msgid "Unique id for this task"
-msgstr ""
+msgstr "Unikt id för den här uppgiften"
+
+#. module: project_task_id
+#: model:ir.model.fields,field_description:project_task_id.field_project_project__use_project_no
+#: model:ir.model.fields,field_description:project_task_id.field_project_task__use_project_no
+msgid "Use Project No"
+msgstr "Använd projektnummer"
