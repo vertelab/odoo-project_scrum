@@ -99,8 +99,6 @@ class ProjectUserStories(models.Model):
         ('cancelled', 'Cancelled'),
     ], string='State', default='new')
 
-    external_ticket_ids = fields.One2many('related.ticket.lines', 'project_scrum_us_id', string="External Ticket")
-
     def stage_find(self, section_id, domain=[], order='sequence'):
         """ Override of the base.stage method
             Parameter of the stage search taken from the lead:
