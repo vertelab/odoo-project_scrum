@@ -227,6 +227,8 @@ class ProjectActors(models.Model):
     _description = 'Actors in user stories'
 
     name = fields.Char(string='Name', size=60)
+    role = fields.Text(string='Role',)
+    goal = fields.Text(string='Goal',)
 
 
 class ScrumMeeting(models.Model):
