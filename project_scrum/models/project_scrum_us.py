@@ -15,6 +15,7 @@ class ProjectUserStories(models.Model):
     _description = 'Project Scrum Use Stories'
     _order = 'sequence'
 
+
     def create_test_case_from_us(self):
         active_ids = self.env['project.scrum.us'].browse(self.env.context.get('active_ids'))
         if not active_ids:
@@ -158,3 +159,4 @@ class ProjectUserStories(models.Model):
     _group_by_full = {
         'sprint_ids': _read_group_sprint_id,
     }
+
