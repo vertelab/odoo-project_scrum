@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="project_scrum_us_form">
+            <field name="name">project.scrum.us.form</field>
+            <field name="model">project.scrum.us</field>
+            <field name="inherit_id" ref="project_scrum.view_ps_us_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Related Tickets" name="related_tickets">
+                        <group>
+                            <field name="external_ticket_ids" nolabel="1">
+                                <!-- #if VERSION <= "17.0" -->
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="external_ticket_url" widget="url" class="text-truncate"/>
+                                    <field name="external_ticket_assigned_id"/>
+                                    <field name="external_ticket_state"/>
+                                    <field name="project_scrum_us_id" invisible="1"/>
+                                </tree>
+                                <!-- #else -->
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="external_ticket_url" widget="url" class="text-truncate"/>
+                                    <field name="external_ticket_assigned_id"/>
+                                    <field name="external_ticket_state"/>
+                                    <field name="project_scrum_us_id" invisible="1"/>
+                                </list>
+                                <!-- #endif -->
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
