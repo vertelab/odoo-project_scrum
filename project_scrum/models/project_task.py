@@ -27,8 +27,6 @@ class ProjectTask(models.Model):
         readonly=False)
     sprint_ids = fields.Many2many(comodel_name='project.scrum.sprint', string='Sprints')
 
-    external_ticket_ids = fields.One2many('related.ticket.lines', 'project_task_id', string="External Ticket")
-
     @api.depends('sprint_id')
     def _current_sprint(self):
         for rec in self:
