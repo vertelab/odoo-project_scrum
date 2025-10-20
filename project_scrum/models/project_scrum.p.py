@@ -247,6 +247,8 @@ class ProjectActors(models.Model):
     _description = 'Actors in user stories'
 
     name = fields.Char(string='Name', size=60)
+    role = fields.Text(string='Role',)
+    goal = fields.Text(string='Goal',)
 
 
 class ScrumMeeting(models.Model):
@@ -370,13 +372,13 @@ class SprintType(models.Model):
     sequence = fields.Integer()
 
 
-class ProjectSprintBusinessProcess(models.Model):
-    _name = 'project.scrum.business.process'
-    _order = 'sequence'
-    _description = 'Business Process'
+# ~ class ProjectSprintBusinessProcess(models.Model):
+    # ~ _name = 'project.scrum.business.process'
+    # ~ _order = 'sequence'
+    # ~ _description = 'Business Process'
 
-    name = fields.Char(string="Description")
-    sequence = fields.Integer()
+    # ~ name = fields.Char(string="Description")
+    # ~ sequence = fields.Integer()
 
 
 
