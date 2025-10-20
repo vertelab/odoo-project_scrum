@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="project_scrum_external_tickets_form_view" model="ir.ui.view">
+            <field name="name">project.task.external.ticket</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id"  ref="project.view_task_form2" />
+            <field name="arch" type="xml">
+                <page name="description_page" position="after">
+                    <page string="Related Tickets" name="related_tickets">
+                        <group>
+                            <field name="external_ticket_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="external_ticket_url" widget="url" class="text-truncate"/>
+                                    <field name="external_ticket_assigned_id"/>
+                                    <field name="external_ticket_state"/>
+                                    <field name="project_task_id" invisible="1"/>
+                                </list>
+                            </field>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+</odoo>
