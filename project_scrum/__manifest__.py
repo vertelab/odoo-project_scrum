@@ -104,7 +104,7 @@ More information:
         'project_category',
         'sales_team',
         'calendar',
-        'web_widget_mermaid', # https://github.com/OCA/web/tree/14.0/web_widget_mermaid
+        'web_mermaid'
     ],
     'data': [
         'views/project_scrum_view.xml',
