@@ -1,5 +1,5 @@
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="usecase_specialist_agent" model="ai.agent">
             <field name="name">Enterprise Architect</field>
             <field name="ai_role">Specialist in business processes and use case</field>
@@ -47,7 +47,7 @@
             <field name="ai_agent_id" ref="usecase_specialist_agent" />
         </record>
 
-       <!-- Mermaid Quest-->
+        <!-- Mermaid Quest-->
         <record id="mermaid_ai_quest" model="ai.quest">
             <field name="name">Mermaid Quest</field>
             <field name="sub_description">Quest to handle Mermaid Charts</field>

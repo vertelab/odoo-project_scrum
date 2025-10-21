@@ -22,7 +22,6 @@ class MermaidMixin(models.AbstractModel):
 
             if result:
                 ai_messages = quest_id._get_last_ai_message(result.get('result', {}).get('messages', False))
-                print(ai_messages.content)
                 if not ai_messages:
                     raise UserError(
                         _("OBS: An error occurred, you should contact administrator to look into the quest"))
