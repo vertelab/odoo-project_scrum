@@ -170,19 +170,3 @@ class ProjectUserStories(models.Model):
         'sprint_ids': _read_group_sprint_id,
     }
 
-    def _mermaid_prompt(self):
-        mermaid_prompt = super()._mermaid_prompt()
-
-        if self.actor_ids:
-            actors = "\nActors:\n"
-            actor_lines = [
-                f"- Name: {actor.name}" +
-                (f"\n  Role: {actor.role}" if hasattr(actor, 'role') and actor.role else "") +
-                (f"\n  Goal: {actor.goal}" if hasattr(actor, 'goal') and actor.goal else "")
-                for actor in self.actor_ids
-            ]
-            actors += "\n".join(actor_lines)
-            mermaid_prompt += actors
-
-        return mermaid_prompt
-

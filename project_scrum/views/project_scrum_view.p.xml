@@ -387,13 +387,6 @@
                             </page>
 
                             <page string="Mermaid Editor" name="scrum_mermaid">
-                                <group>
-                                    <field name="diagram_type"/>
-                                    <field name="prompt"/>
-                                    <div style="text-align:end;">
-                                        <button name="action_process_mermaid_syntax" class="btn btn-primary" type="object" string="Build Syntax" />
-                                    </div>
-                                </group>
                                 <field name="mermaid_editor"/>
                             </page>
 
