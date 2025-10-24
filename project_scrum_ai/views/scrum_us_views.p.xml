@@ -1,6 +1,5 @@
 <odoo>
     <data>
-
         <record id="view_ps_us_ai_form" model="ir.ui.view">
             <field name="name">project.scrum.us.ai.form</field>
             <field name="model">project.scrum.us</field>
@@ -11,10 +10,9 @@
                         <field name="diagram_type" string="Digram type"/>
                     </group>
                     <field name="prompt" placeholder="Enter prompt to generate mermaid"/>
-                    <button name="process_mermaid_prompt" class="oe_highlight" string="Generate Mermaid" action="object"/>
+                    <button name="action_process_mermaid_syntax" class="oe_highlight" string="Generate Mermaid" type="object"/>
                 </field>
             </field>
         </record>
-
     </data>
 </odoo>
