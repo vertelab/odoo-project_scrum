@@ -46,7 +46,5 @@
             <field name="ai_quest_id" ref="enterprise_architect_expert_quest" />
             <field name="ai_agent_id" ref="usecase_specialist_agent" />
         </record>
-
-
     </data>
 </odoo>
