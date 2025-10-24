@@ -38,7 +38,7 @@
     'depends': [
         'project_scrum',
         'ai_agent',
-        'web_mermaid',
+        'web_mermaid_ai',
     ],
     'data': [
         'data/ai_agent_data.xml',
