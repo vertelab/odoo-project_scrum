@@ -41,7 +41,8 @@
         'web_mermaid',
     ],
     'data': [
-        'data/ai_agent_data.xml'
+        'data/ai_agent_data.xml',
+        'views/scrum_us_views.xml',
     ],
     'installable': True,
     'auto_install': False,
