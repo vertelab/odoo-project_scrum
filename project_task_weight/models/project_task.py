@@ -20,7 +20,7 @@ class ProjectTask(models.Model):
     @api.depends('weight')
     def _weight(self):
         for task in self:
-            task.planned_hours = float(task.weight)
+            task.allocated_hours = float(task.weight)
 
     @api.model
     def _read_group_weight(self, stages, domain, order):
