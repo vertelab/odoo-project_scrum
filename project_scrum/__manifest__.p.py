@@ -110,7 +110,10 @@ More information:
         # # endif
         'sales_team',
         'calendar',
-        'web_mermaid'
+        'web_mermaid',
+        # # if VERSION >= "18.0"
+        'project_task_closed',
+        # # endif
     ],
     'data': [
         'views/project_scrum_view.xml',
@@ -124,5 +127,3 @@ More information:
     'demo': ['demo/project_scrum_demo.xml'],
     'installable': True,
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
