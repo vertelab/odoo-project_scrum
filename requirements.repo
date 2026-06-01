@@ -1,0 +1,3 @@
+git@github.com:OCA/web.git /usr/share/odooext-OCA-web
+git@github.com:vertelab/odoo-web.git /usr/share/odoo-web
+git@github.com:OCA/project.git /usr/share/odooext-OCA-project
