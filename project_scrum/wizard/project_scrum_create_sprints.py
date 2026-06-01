@@ -44,15 +44,14 @@ class project(models.Model):
             dmessage.append(_('Project %s has enough sprints\n' % project.name))
         if dmessage:
             raise UserError(' '.join(dmessage))
-        #raise UserError("wat")
         sprints = []
         last_sprint = project.sprint_ids.sorted(lambda s: s.date_start)[-1] if project.sprint_ids else None
         _logger.debug('%s : %s' % (last_sprint,last_sprint.date_stop if last_sprint else None))
         date_stop = fields.Date.from_string(last_sprint.date_stop if last_sprint else fields.Date.to_string(date.today() - timedelta(days=date.today().weekday()+1)))
         while date_stop < fields.Date.from_string(project.date):
-            name = (date_stop + timedelta(days=1)).strftime('v%y%W')
+            name = (date_stop + timedelta(days=1)).strftime('v%y%V')
             if project.default_sprintduration > 7:
-                name += (date_stop + timedelta(days=project.default_sprintduration-1)).strftime('-%W')
+                name += (date_stop + timedelta(days=project.default_sprintduration-1)).strftime('-%V')
             sprints.append(self.env['project.scrum.sprint'].create({
               'name': name,
               'date_start': fields.Date.to_string(date_stop + timedelta(days=1)),
