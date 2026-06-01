@@ -466,11 +466,9 @@
             <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
             <field name="priority">24</field>
             <field name="arch" type="xml">
-                <xpath expr="//div[hasclass('o_settings_container')]" position="inside">
-                    <setting string="Use Scrum">
-                        <field name="use_scrum"/>
-                    </setting>
-                </xpath>
+                <field name="user_id" position="after">
+                    <field name="use_scrum" />
+                </field>
             </field>
         </record>
 
