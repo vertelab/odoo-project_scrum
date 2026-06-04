@@ -43,6 +43,7 @@
             <field name= "inherit_id" ref="project.view_task_tree2" />
             <field name="arch" type="xml">
                 <field name="name" position="replace">
+                    <field name="name" invisible="1" />
                     <field name="display_name" />
                 </field>
             </field>
@@ -60,19 +61,22 @@
                 </field>
             </field>
         </record>
-        <record model="ir.ui.view" id="view_task_kanban">
-            <field name="name">project.task.kanban</field>
-            <field name="model">project.task</field>
-            <field name= "inherit_id" ref="project.view_task_kanban" />
-            <field name="arch" type="xml">
-               <!-- <field name="name" position="replace">
+
+                       <!-- <field name="name" position="replace">
 			I have readded the name field but made it invisiable.
 			This is done since project_key tries to x_path to this field
             and crashes if when it can't find it since we have replaced it.
                     <field name="name" invisible="1" groups="base.group_no_one"/>
                     <field name="display_name" />
                 </field>-->
+        <record model="ir.ui.view" id="view_task_kanban">
+            <field name="name">project.task.kanban</field>
+            <field name="model">project.task</field>
+            <field name= "inherit_id" ref="project.view_task_kanban" />
+            <field name="arch" type="xml">
+
                 <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" invisible="1" />
                     <field name="active" invisible="1"/>
                     <strong class="o_kanban_record_title">
                         <t t-if="!record.active.raw_value">
