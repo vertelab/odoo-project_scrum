@@ -49,9 +49,12 @@ class project(models.Model):
         _logger.debug('%s : %s' % (last_sprint,last_sprint.date_stop if last_sprint else None))
         date_stop = fields.Date.from_string(last_sprint.date_stop if last_sprint else fields.Date.to_string(date.today() - timedelta(days=date.today().weekday()+1)))
         while date_stop < fields.Date.from_string(project.date):
-            name = (date_stop + timedelta(days=1)).strftime('v%y%V')
+            start = date_stop + timedelta(days=1)
+            iso = start.isocalendar()
+            name = 'v{}{:02d}'.format(iso[0] % 100, iso[1])
             if project.default_sprintduration > 7:
-                name += (date_stop + timedelta(days=project.default_sprintduration-1)).strftime('-%V')
+                end = date_stop + timedelta(days=project.default_sprintduration-1)
+                name += '-{:02d}'.format(end.isocalendar()[1])
             sprints.append(self.env['project.scrum.sprint'].create({
               'name': name,
               'date_start': fields.Date.to_string(date_stop + timedelta(days=1)),
