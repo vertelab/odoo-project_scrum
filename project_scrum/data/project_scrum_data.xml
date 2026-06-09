@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
 
         <record id="ps_type_prev" model="project.sprint.type">
             <field name="name">Previous Sprint</field>
@@ -28,5 +27,4 @@
             <field name="binding_view_types">form,list</field>
         </record>
 
-    </data>
-</openerp>
+</odoo>

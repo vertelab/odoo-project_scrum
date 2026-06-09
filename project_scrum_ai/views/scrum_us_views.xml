@@ -7,7 +7,7 @@
             <field name="arch" type="xml">
                 <field name="mermaid_editor" position="before">
                     <group>
-                        <field name="diagram_type" string="Digram type"/>
+                        <field name="diagram_type" string="Diagram type"/>
                     </group>
                     <field name="prompt" placeholder="Enter prompt to generate mermaid"/>
                     <button name="action_process_mermaid_syntax" class="oe_highlight" string="Generate Mermaid" type="object"/>

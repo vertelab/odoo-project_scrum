@@ -48,7 +48,7 @@ class ProjectTask(models.Model):
     def create(self, vals):
         for val in vals:
 
-            if bool(self.env["ir.config_parameter"].sudo().get_param("project.task_sequence")):
+            if bool(self.env["ir.config_parameter"].sudo().get_param("project_task_id.task_sequence")):
                 # use common sequence
                 val["task_no"] = self.env["ir.sequence"].next_by_code("project.task.common")
             else:
@@ -75,13 +75,10 @@ class ProjectTask(models.Model):
     def _new_task_no(self):
         for rec in self:
             if not rec.task_no:
-                if bool(self.env["ir.config_parameter"].sudo().get_param("project.task_sequence")):
+                if bool(self.env["ir.config_parameter"].sudo().get_param("project_task_id.task_sequence")):
                     # use common sequence
                     rec.task_no = self.env["ir.sequence"].next_by_code("project.task.common")
                 else:
-                    # create new sequence and use it
-                    # vals["task_no"] = self.env["ir.sequence"].next_by_code("project.task.common")
-                    rec.task_no = self.env["ir.sequence"].next_by_code("project.task.common")
                     seq_code = f"project.task.{rec.project_id.id}"
                     rec.task_no = self.env["ir.sequence"].next_by_code(seq_code)
 

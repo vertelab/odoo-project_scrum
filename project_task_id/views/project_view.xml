@@ -97,12 +97,12 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//form" position="inside">
-                    <app data_string="Task Management" string="Task Management" name="task_managment" groups="project.group_project_manager">
+                    <app data_string="Task Management" string="Task Management" name="task_management" groups="project.group_project_manager">
                         <block title="Tasks Management" id="tasks_management">
                             <setting id="recurring_tasks_setting" help="Auto-generate tasks for regular activities">
                                 <field name="task_sequence"/>
                             </setting>
-                            <setting id="recurring_tasks_setting" help="Auto-generate tasks for regular activities">
+                            <setting id="default_project_no_setting" help="Set project number as default for new projects">
                                 <field name="default_use_project_no" />
                             </setting>
                         </block>

@@ -1,37 +1,36 @@
-# -*- coding: utf-8 -*-
-import openerp
-from openerp.tests import common
+from odoo.tests import common
+from odoo import SUPERUSER_ID
 
 class test_something(common.TransactionCase):
     def setUp(self):
         super(test_something, self).setUp()
-        self.record_partner1 = self.env['base.res.partner'].create({
-        'name': 'Anders'})
-        self.record_partner2 = self.env['base.res.partner'].create({
-        'name': 'Bertil'})
-        self.record_user1 = self.env['base.res.users'].create({
-        'partner_id': partner1,
-        'login': 'anders',
-        #'company_id': 1})
-        self.record_user1 = self.env['base.res.users'].create({
-        'partner_id': partner2,
-        'login': 'bertil',
-        #'company_id': 1})
-        self.record_project = self.env['project_scrum.project.scrum.sprint'].create(
-        #'analytic_account_id': 1,
-        #'alias_id': 1,
-        'state': 'draft',
+        self.record_partner1 = self.env['res.partner'].create({
+            'name': 'Anders'})
+        self.record_partner2 = self.env['res.partner'].create({
+            'name': 'Bertil'})
+        self.record_user1 = self.env['res.users'].create({
+            'partner_id': self.record_partner1.id,
+            'login': 'anders',
+        })
+        self.record_user2 = self.env['res.users'].create({
+            'partner_id': self.record_partner2.id,
+            'login': 'bertil',
+        })
+        self.project = self.env['project.project'].create({
+            'name': 'Test Project',
+        })
+        self.record_sprint = self.env['project.scrum.sprint'].create({
+            'name': 'Test Sprint',
+            'project_id': self.project.id,
+            'state': 'draft',
         })
 
     def test_something(self):
-        model = self.registry('project.scrum.sprint')
-        i = model.create(self.cr, SUPERUSER_ID, {
-        'name': 'Testprojekt',
-        'date_start': '2015-01-10',
-        'date_stop': '2015-01-28',
-        'project_id': x,
-        'product_owner_id': y,
-        'scrum_master_id' z,
-        'review': 'foo',
-        'retrospective': 'bar',
-        'state': 'draft'})
+        sprint = self.env['project.scrum.sprint'].create({
+            'name': 'Testprojekt',
+            'date_start': '2015-01-10',
+            'date_stop': '2015-01-28',
+            'project_id': self.project.id,
+            'state': 'draft'})
+        self.assertTrue(sprint)
+        self.assertEqual(sprint.name, 'Testprojekt')

@@ -1,5 +1,5 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-access_project_portfolio_manager,res.groups,model_project_scrum_portfolio,project.group_project_manager,1,1,1,1
-access_project_portfolio,res.groups,model_project_scrum_portfolio,project.group_project_user,1,0,0,0
-access_project_timebox_manager,res.groups,model_project_scrum_timebox,project.group_project_manager,1,1,1,1
-access_project_timebox,res.groups,model_project_scrum_timebox,project.group_project_user,1,0,0,0
+access_project_portfolio_manager,Project Portfolio Manager,model_project_scrum_portfolio,project.group_project_manager,1,1,1,1
+access_project_portfolio,Project Portfolio User,model_project_scrum_portfolio,project.group_project_user,1,0,0,0
+access_project_timebox_manager,Project Timebox Manager,model_project_scrum_timebox,project.group_project_manager,1,1,1,1
+access_project_timebox,Project Timebox User,model_project_scrum_timebox,project.group_project_user,1,0,0,0

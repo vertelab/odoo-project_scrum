@@ -34,8 +34,6 @@
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
     'description': """
     """,
-    'author': 'Vertel AB',
-    'license': 'AGPL-3',
     'depends': ['project', 'project_scrum'],
     'data': [
         'views/project_scrum_us_views.xml',

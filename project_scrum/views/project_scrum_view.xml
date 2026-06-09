@@ -888,11 +888,11 @@
         <!--email_template for daily meeting-->
         <record id="email_template_id" model="mail.template">
             <field name="name">Email Template for Meeting</field>
-            <field name="email_from">${object.user_id_meeting or ''}</field>
+            <field name="email_from">${object.user_id_meeting.email_formatted or ''}</field>
             <field name="subject">${object.date_meeting or ''}</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_meeting"/>
             <field name="auto_delete" eval="True" />
-            <field name="email_to">${object.user_id_meeting or ''}</field>
+            <field name="email_to">${object.user_id_meeting.email_formatted or ''}</field>
             <field name="body_html">
                 <![CDATA[
                  <div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif;

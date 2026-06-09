@@ -17,7 +17,6 @@ class ProjectTask(models.Model):
 
 
     @api.onchange('weight')
-    @api.depends('weight')
     def _weight(self):
         for task in self:
             task.allocated_hours = float(task.weight)
