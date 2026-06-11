@@ -115,7 +115,7 @@ class ProjectTask(models.Model):
     def _read_group_active_sprint_id(self, sprint_id, domain, order):
 
     # #else
-    def _read_group_active_sprint_id(self, sprint_id, domain):
+    def _read_group_active_sprint_id(self, sprint_id, domain, order=None):
     # #endif
         """Determine which sprints are available for grouping in project.task model."""
         # Create a domain for the sprint search
