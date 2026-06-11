@@ -1,4 +1,5 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
+import re
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -112,7 +113,6 @@ class ProjectUserStories(models.Model):
 
     @api.depends('description')
     def _conv_html2text(self):  # method that return a short text from description of user story
-        self.ensure_one()
         for d in self:
             d.description_short = re.sub('<.*>', ' ', d.description or '')
             if len(d.description_short) >= 150:

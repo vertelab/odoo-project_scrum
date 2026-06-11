@@ -296,11 +296,9 @@
                                     </list>
                                 </field>
                             </page>
-
                             <page string="Mermaid Editor" name="scrum_mermaid">
                                 <field name="mermaid_editor"/>
                             </page>
-
                             <page string="Mermaid Diagram" name="scrum_mermaid">
                                 <field name="mermaid_diagram" widget="mermaid"/>
                             </page>
@@ -850,7 +848,7 @@
             <field name="arch" type="xml">
                 <field name="date_deadline" position="before">
                     <field name="use_scrum" invisible="1" readonly="1" />
-                    <field string="Sprint" name= "sprint_id"  context="{'default_project_id':project_id}" invisible="use_scrum == False" domain="[('project_id', '=', project_id)]" />
+                    <field string="Sprint" name= "sprint_id"  context="{'default_project_id':project_id}" domain="[('project_id', '=', project_id)]" />
 
                     <field name= "sprint_ids" widget="many2many_tags"  invisible="use_scrum == False"/>
 
@@ -935,8 +933,8 @@
   </page>
   <page id="goal" string="Goal">
     <field name="goal" />
-  </page>
-</notebook>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
