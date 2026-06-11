@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api, _
 from odoo.modules import get_module_path
-from odoo.exceptions import UserError
+from odoo.exceptions import Warning
 
 import logging
 _logger = logging.getLogger(__name__)

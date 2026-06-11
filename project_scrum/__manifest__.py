@@ -96,6 +96,8 @@ More information:
       - Moved use_scrum to the new line
     
     """,
+    'author': 'Vertel AB',
+    'license': 'AGPL-3',
     'depends': [
         'project',
         'mail', 'hr_timesheet',

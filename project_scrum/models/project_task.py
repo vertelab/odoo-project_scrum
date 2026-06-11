@@ -12,7 +12,7 @@ class ProjectTask(models.Model):
     _inherit = "project.task"
     _order = "sequence"
 
-    user_id = fields.Many2one('res.users', 'Assigned to')
+    user_id = fields.Many2one('res.users', 'Assigned to', default="")
     actor_ids = fields.Many2many(comodel_name='project.scrum.actors', string='Actor')
     us_id = fields.Many2one(comodel_name='project.scrum.us', string='User Story')
     us_ids = fields.Many2many(comodel_name='project.scrum.us', string='User Stories')
@@ -97,15 +97,12 @@ class ProjectTask(models.Model):
                 self.sprint_ids = [(4, vals.get('sprint_id'), 0)]
         return super(ProjectTask, self).write(vals)
 
-    def _read_group_sprint_id(self, sprint_id, domain, orderby=None):
-        # Build a safe domain — the incoming domain may contain fields from
-        # project.task that don't exist on project.scrum.sprint (e.g. display_in_project)
-        search_domain = [('id', 'in', sprint_id.ids)]
-        sprint_ids = sprint_id.sudo()._search(search_domain, order='date_start asc')
+    def _read_group_sprint_id(self, sprint_id, domain):
+        sprint_ids = sprint_id.sudo()._search(domain, order='date_start asc')
         return sprint_id.browse(sprint_ids)
 
     @api.model
-    def _read_group_active_sprint_id(self, sprint_id, domain, orderby=None):
+    def _read_group_active_sprint_id(self, sprint_id, domain, order=None):
         """Determine which sprints are available for grouping in project.task model."""
         # Create a domain for the sprint search
         sprint_domain = []

@@ -65,7 +65,7 @@ class project(models.Model):
             date_stop = date_stop + timedelta(days=project.default_sprintduration)
         
         res = self.env['ir.actions.act_window']._for_xml_id('project_scrum.action_ps_sprint_all')
-        res['domain'] = "[('id','in',[" + ','.join(str(s.id) for s in sprints) + "])]"
+        res['domain'] = "[('id','in',[" + ','.join(map(str, sprints)) + "])]"
         res['context'] = {
                 'search_default_project_id': project.id,
                 'default_project_id': project.id,

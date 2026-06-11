@@ -1,5 +1,9 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
+from bs4 import BeautifulSoup
+import html
+import odoo.tools
 import re
+from odoo.exceptions import UserError, ValidationError
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -111,8 +115,8 @@ class ProjectUserStories(models.Model):
     def action_assign_to_me(self):
         self.write({'user_id': self.env.user.id})
 
-    @api.depends('description')
     def _conv_html2text(self):  # method that return a short text from description of user story
+        self.ensure_one()
         for d in self:
             d.description_short = re.sub('<.*>', ' ', d.description or '')
             if len(d.description_short) >= 150:

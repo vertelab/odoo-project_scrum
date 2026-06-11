@@ -19,9 +19,14 @@
 #
 ##############################################################################
 from odoo import models, fields, api, _, SUPERUSER_ID
+from bs4 import BeautifulSoup
+import html
+import odoo.tools
+import re
+import time
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 
