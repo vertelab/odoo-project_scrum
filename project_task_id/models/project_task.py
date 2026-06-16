@@ -53,7 +53,7 @@ class ProjectTask(models.Model):
                 val["task_no"] = self.env["ir.sequence"].next_by_code("project.task.common")
             else:
                 # use project specific sequence
-                project_id = vals.get("project_id")
+                project_id = val.get("project_id")
                 seq_code = f"project.task.{project_id}"
                 if self.env["ir.sequence"].search([("code", "=", seq_code)], limit=1):
                     val["task_no"] = self.env["ir.sequence"].next_by_code(seq_code)
