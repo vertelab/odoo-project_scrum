@@ -54,9 +54,22 @@
                                 <h3 style="margin-top: -8px;">
                                     <t t-esc="task.name"/>
                                 </h3>
-                                <p style="margin-bottom: 8px; max-height: 7.5em; overflow: hidden;">
+                                <p style="margin-bottom: 8px;">
                                     <t t-if="task.description">
-                                        <t t-out="task.description"/>
+                                        <t t-set="html" t-value="task.description or ''"/>
+                                        <t t-set="idx" t-value="html.find('<p>---</p>')"/>
+                                        <t t-if="idx >= 0">
+                                            <t t-out="html[:idx]"/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="idx2" t-value="html.find('---')"/>
+                                            <t t-if="idx2 >= 0">
+                                                <t t-out="html[:idx2]"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-out="html"/>
+                                            </t>
+                                        </t>
                                     </t>
                                     <t t-else="">
                                         <span style="color: #999; font-style: italic;">No description</span>
