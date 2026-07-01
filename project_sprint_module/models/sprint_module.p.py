@@ -32,6 +32,7 @@ class SprintModule(models.Model):
     _description = "Sprint Module — Fristående modulhantering"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "name"
+    _rec_name = "technical_name"
     _sql_constraints = [
         ("technical_name_uniq", "UNIQUE(technical_name)", "Technical name must be unique!"),
     ]
