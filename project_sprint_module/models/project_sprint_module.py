@@ -7,6 +7,16 @@ _logger = logging.getLogger(__name__)
 class ScrumSprint(models.Model):
     _inherit = 'project.scrum.sprint'
 
+    @api.model
+    def _strip_html(self, text):
+        """Strippa HTML-taggar från text, returnera plain text."""
+        if not text:
+            return ''
+        import re
+        clean = re.sub(r'<[^>]+>', '', text)
+        clean = clean.replace('&lt;', '<').replace('&gt;', '>').replace('&amp;', '&').replace('&nbsp;', ' ')
+        return clean
+
     # ---- Modules (klara tasks) ----
     @api.depends('task_ids', 'task_ids.module_ids', 'task_ids.is_closed')
     def _modules(self):
