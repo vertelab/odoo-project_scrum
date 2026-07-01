@@ -171,7 +171,6 @@ class ScrumSprint(models.Model):
                 order='date_start asc', limit=1)
 
             if last_ended and next_upcoming:
-                # Välj den som är närmast i tid
                 stop_date = fields.Date.from_string(last_ended.date_stop)
                 start_date = fields.Date.from_string(next_upcoming.date_start)
                 days_since_end = (today - stop_date).days

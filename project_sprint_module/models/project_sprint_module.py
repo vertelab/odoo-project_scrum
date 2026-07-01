@@ -86,7 +86,7 @@ class ScrumSprint(models.Model):
                 ('sprint_id', '=', self.id),
                 ('is_closed', '=', False),
             ],
-            'view_mode': 'kanban,list,form,calendar',
+            'view_mode': 'kanban,tree,form,calendar',
             'target': 'current',
         }
 
@@ -101,7 +101,7 @@ class ScrumSprint(models.Model):
                 ('is_closed', '=', False),
                 ('stage_id', 'ilike', 'test'),
             ],
-            'view_mode': 'kanban,list,form,calendar',
+            'view_mode': 'kanban,tree,form,calendar',
             'target': 'current',
         }
 
@@ -115,7 +115,7 @@ class ScrumSprint(models.Model):
                 ('sprint_id', '=', self.id),
                 ('is_closed', '=', True),
             ],
-            'view_mode': 'kanban,list,form,calendar',
+            'view_mode': 'kanban,tree,form,calendar',
             'target': 'current',
         }
 
@@ -177,26 +177,15 @@ class ScrumSprint(models.Model):
 class ProjectTask(models.Model):
     _inherit = 'project.task'
 
-    def _get_module_domain(self):
-        """Domain för module_ids — filtrerar på inställd author."""
-        author_filter = self.env['ir.config_parameter'].sudo().get_param(
-            'project_scrum.module_author_filter', 'Vertel'
-        )
-        if author_filter:
-            return [('author', 'ilike', author_filter)]
-        return []
-
     module_ids = fields.Many2many(
         comodel_name='sprint.module',
         string="Modules",
         relation='project_task_sprint_module_rel',
         column1='task_id',
         column2='sprint_module_id',
-        domain=lambda self: self._get_module_domain(),
     )
     sprint_module_id = fields.Many2one(
         'sprint.module',
         string="Primary Module",
         help="Primär modul för denna task (används för relationen sprint.module -> tasks)",
-        domain=lambda self: self._get_module_domain(),
     )

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+# #if VERSION >= "18.0"
 <odoo>
     <data>
         <!-- ============================================================
@@ -37,7 +38,7 @@
                         <group>
                             <group>
                                 <field name="url" widget="url"/>
-                                <field name="path" invisible="1"/>
+                                <field name="path"/>
                                 <field name="branch"/>
                                 <field name="active"/>
                             </group>
@@ -102,3 +103,4 @@
 
     </data>
 </odoo>
+# #endif
