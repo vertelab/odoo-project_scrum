@@ -548,3 +548,14 @@ msgstr "Webbplatsmeddelanden"
 #: model:ir.model.fields,help:project_scrum.field_project_sprint__website_message_ids
 msgid "Website communication history"
 msgstr "Webbplatsens kommunikationshistorik"
+
+#. module: project_scrum
+#: model:ir.actions.server,name:project_scrum.action_copy_tasks_to_next_sprint
+msgid "Move to Next Sprint"
+msgstr "Flytta till nästa sprint"
+
+#. module: project_scrum
+#: model:ir.actions.server,name:project_scrum.action_move_tasks_to_backlog
+msgid "Move to Backlog"
+msgstr "Flytta till ärendestock"
+

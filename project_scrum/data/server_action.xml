@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="action_copy_tasks_to_next_sprint" model="ir.actions.server">
-            <field name="name">Copy to Next Sprint</field>
+            <field name="name">Move to Next Sprint</field>
             <field name="model_id" ref="project.model_project_task"/>
             <field name="binding_model_id" ref="project.model_project_task"/>
             <field name="binding_type">action</field>
@@ -14,6 +14,18 @@ for task in records:
     sprints = task.project_id.sudo().get_current_sprint(task.project_id.id)
     if sprints and sprints.get('next'):
         task.sprint_id = sprints['next'].id
+</field>
+        </record>
+
+        <record id="action_move_tasks_to_backlog" model="ir.actions.server">
+            <field name="name">Move to Backlog</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="binding_model_id" ref="project.model_project_task"/>
+            <field name="binding_type">action</field>
+            <field name="state">code</field>
+            <field name="code">
+for task in records:
+    task.sprint_id = False
 </field>
         </record>
     </data>
