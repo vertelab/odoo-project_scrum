@@ -99,7 +99,17 @@ class ProjectTask(models.Model):
 
     def _read_group_sprint_id(self, sprint_id, domain, order):
 
-        sprint_ids = sprint_id._search(domain, order='date_start asc', access_rights_uid=SUPERUSER_ID)
+        # Bygg en giltig domän för sprint-modellen från task-domänen
+        sprint_domain = []
+        for leaf in domain:
+            if isinstance(leaf, (list, tuple)) and len(leaf) >= 3:
+                if leaf[0] == 'project_id':
+                    sprint_domain.append(list(leaf))
+            elif isinstance(leaf, str) and leaf in ('&', '|', '!'):
+                continue
+        if not sprint_domain:
+            sprint_domain = []
+        sprint_ids = sprint_id._search(sprint_domain, order='date_start asc', access_rights_uid=SUPERUSER_ID)
         return sprint_id.browse(sprint_ids)
 
     @api.model
