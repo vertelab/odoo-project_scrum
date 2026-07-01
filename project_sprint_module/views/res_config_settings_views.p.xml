@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sprint_settings_form" model="ir.ui.view">
+            <field name="name">res.config.settings.sprint.repo.tokens</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <form position="inside">
+                    <div class="app_settings_block" data-string="Sprint Repositories"
+                         string="Sprint Repositories" data-key="sprint_repo">
+                        <h2>Sprint Repository Tokens</h2>
+                        <div class="row mt16">
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-md-5 col-form-label" for="sprint_github_token">
+                                        GitHub Token
+                                    </label>
+                                    <div class="col-md-7">
+                                        <field name="sprint_github_token" password="1"
+                                               placeholder="ghp_..."/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group row">
+                                    <label class="col-md-5 col-form-label" for="sprint_gitlab_token">
+                                        GitLab Token
+                                    </label>
+                                    <div class="col-md-7">
+                                        <field name="sprint_gitlab_token" password="1"
+                                               placeholder="glpat-..."/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
