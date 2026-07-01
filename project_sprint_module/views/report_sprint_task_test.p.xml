@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-# #if VERSION >= "18.0"
 <odoo>
     <data>
         <!-- ============================================================
@@ -83,4 +82,3 @@
         </template>
     </data>
 </odoo>
-# #endif
