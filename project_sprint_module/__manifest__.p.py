@@ -39,10 +39,29 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
+    # #if VERSION >= "18.0"
+    'depends': ['project', 'project_scrum', 'mail'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/sprint_module_views.xml',
+        'views/sprint_repo_views.xml',
+        'views/project_sprint_module.xml',
+        'views/report_sprint_task_test.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'project_sprint_module/static/src/css/module_list.css',
+        ],
+    },
+    # #else
     'depends': ['project', 'project_scrum'],
     'data': ['views/project_sprint_module.xml'],
+    # #endif
     'demo': [],
     'installable': True,
+    # #if VERSION >= "18.0"
+    'post_init_hook': 'post_init_hook',
+    # #endif
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
