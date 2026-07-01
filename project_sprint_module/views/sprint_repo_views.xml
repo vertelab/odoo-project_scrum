@@ -31,6 +31,11 @@
             <field name="model">sprint.repo</field>
             <field name="arch" type="xml">
                 <form string="Repository">
+                    <header>
+                        <button name="action_scan_modules" type="object"
+                                string="Scan Modules" class="btn-primary"
+                                icon="fa-refresh"/>
+                    </header>
                     <sheet>
                         <div class="oe_title">
                             <h1><field name="name" placeholder="Repo Name"/></h1>
