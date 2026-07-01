@@ -1,4 +1,3 @@
-# #if VERSION >= "18.0"
 # Copyright (C) 2026 Vertel AB (<https://vertel.se>).
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -261,4 +260,3 @@ class SprintRepo(models.Model):
             "view_mode": "kanban,list,form",
             "target": "current",
         }
-# #endif
