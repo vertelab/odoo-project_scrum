@@ -12,7 +12,7 @@
             <field name="report_file">project_sprint_module.report_sprint_task_test_template</field>
             <field name="print_report_name">"Sprint_Tasks_%s" % object.name</field>
             <field name="attachment_use" eval="True"/>
-            <field name="attachment">"'Sprint_Tasks_' + object.name.replace(' ','_') + '.pdf'"</field>
+            <field name="attachment">"Sprint_Tasks_" + object.name.replace(" ","_") + ".pdf"</field>
             <field name="binding_model_id" ref="project_scrum.model_project_scrum_sprint"/>
             <field name="binding_type">report</field>
         </record>
@@ -54,9 +54,9 @@
                                 <h3 style="margin-top: -8px;">
                                     <t t-esc="task.name"/>
                                 </h3>
-                                <p style="margin-bottom: 8px; white-space: pre-line; max-height: 7.5em; overflow: hidden;">
+                                <p style="margin-bottom: 8px; max-height: 7.5em; overflow: hidden;">
                                     <t t-if="task.description">
-                                        <t t-esc="'\n'.join(doc._strip_html(task.description or '').strip().split('\n')[:5])"/>
+                                        <t t-out="task.description"/>
                                     </t>
                                     <t t-else="">
                                         <span style="color: #999; font-style: italic;">No description</span>
