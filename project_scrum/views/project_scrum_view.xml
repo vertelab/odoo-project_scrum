@@ -862,6 +862,21 @@
 
             </field>
         </record>
+        <!--visa sprint_id i fliken Tilläggsinformation-->
+        <record id="view_ps_sprint_task_extra_info" model="ir.ui.view">
+            <field name="name">project.scrum.task.extra.info</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="arch" type="xml">
+                <page name="extra_info" position="inside">
+                    <group string="Scrum">
+                        <field name="sprint_id" string="Sprint"
+                               domain="[('project_id', '=', project_id)]"
+                               context="{'default_project_id': project_id}"/>
+                    </group>
+                </page>
+            </field>
+        </record>
         <!--menu for accessing to userstories-->
         <menuitem sequence="20" action="action_ps_us_all" id="menu_action_ps_us_all" parent="menu_scrum_in_config" />
         <!--menu for accessing to sprint-->

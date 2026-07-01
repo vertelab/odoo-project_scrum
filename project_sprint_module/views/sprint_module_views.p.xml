@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+# #if VERSION >= "18.0"
+<odoo>
+    <data>
+        <!-- ============================================================
+             SPRINT.MODULE — Tree View
+             ============================================================ -->
+        <record id="view_sprint_module_tree" model="ir.ui.view">
+            <field name="name">sprint.module.tree</field>
+            <field name="model">sprint.module</field>
+            <field name="arch" type="xml">
+                <list string="Sprint Modules" editable="top" default_order="name">
+                    <field name="name"/>
+                    <field name="technical_name"/>
+                    <field name="state" widget="badge" decoration-success="state=='installed'" decoration-warning="state in ('to install','to upgrade')" decoration-muted="state in ('uninstalled','uninstallable')"/>
+                    <field name="version"/>
+                    <field name="author"/>
+                    <field name="category_id" optional="hide"/>
+                    <field name="application" optional="hide"/>
+                    <field name="task_count" string="Tasks" optional="show"/>
+                    <field name="sprint_id" optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             SPRINT.MODULE — Form View
+             ============================================================ -->
+        <record id="view_sprint_module_form" model="ir.ui.view">
+            <field name="name">sprint.module.form</field>
+            <field name="model">sprint.module</field>
+            <field name="arch" type="xml">
+                <form string="Sprint Module">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Module Name" required="1"/>
+                            </h1>
+                            <h2>
+                                <field name="technical_name" placeholder="technical_name"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group string="Basic Info">
+                                <field name="state" invisible="1"/>
+                                <field name="version"/>
+                                <field name="license"/>
+                                <field name="author"/>
+                                <field name="maintainer"/>
+                                <field name="website" widget="url"/>
+                                <field name="category_id"/>
+                            </group>
+                            <group string="Project &amp; Sprint">
+                                <field name="sprint_id"/>
+                                <field name="repo_id"/>
+                                <field name="module_id"
+                                       help="Länk till den installerade Odoo-modulen om den finns lokalt"/>
+                                <field name="installed_version"/>
+                                <field name="application"/>
+                                <field name="auto_install"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        <group string="Summary">
+                            <field name="summary" colspan="2"/>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description_html" nolabel="1"/>
+                            </page>
+                            <page string="Tasks" name="tasks">
+                                <field name="task_ids" context="{'default_sprint_module_id': id}">
+                                    <list string="Tasks" editable="bottom">
+                                        <field name="name"/>
+                                        <field name="user_ids" widget="many2many_tags"/>
+                                        <field name="stage_id"/>
+                                        <field name="date_deadline"/>
+                                        <field name="priority" widget="priority"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Notes">
+                                <field name="notes" nolabel="1" placeholder="Internal notes..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             SPRINT.MODULE — Search View
+             ============================================================ -->
+        <record id="view_sprint_module_search" model="ir.ui.view">
+            <field name="name">sprint.module.search</field>
+            <field name="model">sprint.module</field>
+            <field name="arch" type="xml">
+                <search string="Sprint Modules">
+                    <field name="name"/>
+                    <field name="technical_name"/>
+                    <field name="author"/>
+                    <field name="summary"/>
+                    <separator/>
+                    <filter name="installed" string="Installed"
+                            domain="[('state','=','installed')]"/>
+                    <filter name="not_installed" string="Not Installed"
+                            domain="[('state','=','uninstalled')]"/>
+                    <filter name="active" string="Active"
+                            domain="[('active','=',True)]"/>
+                    <separator/>
+                    <filter name="has_tasks" string="With Tasks"
+                            domain="[('task_count','>',0)]"/>
+                    <filter name="in_sprint" string="In Sprint"
+                            domain="[('sprint_id','!=',False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_state" string="State"
+                                context="{'group_by':'state'}"/>
+                        <filter name="group_category" string="Category"
+                                context="{'group_by':'category_id'}"/>
+                        <filter name="group_sprint" string="Sprint"
+                                context="{'group_by':'sprint_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             SPRINT.MODULE — Kanban View
+             ============================================================ -->
+        <record id="view_sprint_module_kanban" model="ir.ui.view">
+            <field name="name">sprint.module.kanban</field>
+            <field name="model">sprint.module</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_small">
+                    <field name="name"/>
+                    <field name="technical_name"/>
+                    <field name="state"/>
+                    <field name="author"/>
+                    <field name="version"/>
+                    <field name="task_count"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <small><field name="technical_name"/></small>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div>
+                                        <t t-if="record.author.raw_value">
+                                            by <field name="author"/>
+                                        </t>
+                                        <t t-if="record.version.raw_value">
+                                            — v<field name="version"/>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="task_count" widget="statinfo"
+                                               string="Tasks"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             ACTIONS
+             ============================================================ -->
+        <record id="action_sprint_module" model="ir.actions.act_window">
+            <field name="name">Sprint Modules</field>
+            <field name="res_model">sprint.module</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="search_view_id" ref="view_sprint_module_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No sprint modules found
+                </p>
+                <p>
+                    Click "Import Installed Modules" to populate this list with
+                    currently installed Odoo modules, or create new modules manually
+                    for modules not yet installed.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_sprint_module_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_sprint_module_kanban"/>
+            <field name="act_window_id" ref="action_sprint_module"/>
+        </record>
+        <record id="action_sprint_module_kanban" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="view_sprint_module_tree"/>
+            <field name="act_window_id" ref="action_sprint_module"/>
+        </record>
+        <record id="action_sprint_module_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_sprint_module_form"/>
+            <field name="act_window_id" ref="action_sprint_module"/>
+        </record>
+
+        <!-- ============================================================
+             MENU
+             ============================================================ -->
+        <menuitem id="menu_sprint_module_config"
+                  name="Sprint Modules"
+                  action="action_sprint_module"
+                  parent="project.menu_project_config"
+                  sequence="15"/>
+
+    </data>
+</odoo>
+# #endif
