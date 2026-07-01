@@ -50,6 +50,8 @@
             'project_sprint_module/static/src/css/module_list.css',
         ],
     },
+    'depends': ['project', 'project_scrum'],
+    'data': ['views/project_sprint_module.xml'],
     'demo': [],
     'installable': True,
     'post_init_hook': 'post_init_hook',
