@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sprint_module_user,sprint.module.user,model_sprint_module,base.group_user,1,1,1,1
-access_sprint_module_manager,sprint.module.manager,model_sprint_module,project.group_project_manager,1,1,1,1
-access_sprint_repo_user,sprint.repo.user,model_sprint_repo,base.group_user,1,1,1,1
-access_sprint_repo_manager,sprint.repo.manager,model_sprint_repo,project.group_project_manager,1,1,1,1
+access_sprint_module_user_v2,sprint.module.user,model_sprint_module,base.group_user,1,1,1,1
+access_sprint_module_manager_v2,sprint.module.manager,model_sprint_module,project.group_project_manager,1,1,1,1
+access_sprint_repo_user_v2,sprint.repo.user,model_sprint_repo,base.group_user,1,1,1,1
+access_sprint_repo_manager_v2,sprint.repo.manager,model_sprint_repo,project.group_project_manager,1,1,1,1
