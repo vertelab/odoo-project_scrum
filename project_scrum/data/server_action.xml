@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_copy_tasks_to_next_sprint" model="ir.actions.server">
+            <field name="name">Copy to Next Sprint</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="binding_model_id" ref="project.model_project_task"/>
+            <field name="binding_type">action</field>
+            <field name="state">code</field>
+            <field name="code">
+for task in records:
+    if not task.project_id:
+        continue
+    sprints = task.project_id.sudo().get_current_sprint(task.project_id.id)
+    if sprints and sprints.get('next'):
+        task.sprint_id = sprints['next'].id
+</field>
+        </record>
+    </data>
+</odoo>

@@ -108,6 +108,7 @@ More information:
     ],
     'data': [
         'views/project_scrum_view.xml',
+        'data/server_action.xml',
         'views/calendar_event_view.xml',
         'wizard/project_scrum_test_task_view.xml',
         'wizard/project_scrum_create_sprints.xml',
