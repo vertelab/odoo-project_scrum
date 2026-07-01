@@ -37,6 +37,28 @@ class SprintModule(models.Model):
         ("technical_name_uniq", "UNIQUE(technical_name)", "Technical name must be unique!"),
     ]
 
+    @api.model
+    def _register_hook(self):
+        """Säkerställ access-regler vid varje modulladdning."""
+        for model_name in ["sprint.module", "sprint.repo"]:
+            model = self.env["ir.model"].search([("model", "=", model_name)], limit=1)
+            if not model:
+                continue
+            for group_xmlid in ["base.group_user", "project.group_project_manager"]:
+                group = self.env.ref(group_xmlid, raise_if_not_found=False)
+                if not group:
+                    continue
+                name = group_xmlid.replace(".", "_") + "_" + model_name.replace(".", "_")
+                if not self.env["ir.model.access"].search([("name", "=", name)], limit=1):
+                    self.env["ir.model.access"].create({
+                        "name": name,
+                        "model_id": model.id,
+                        "group_id": group.id,
+                        "perm_read": True, "perm_write": True,
+                        "perm_create": True, "perm_unlink": True,
+                    })
+        return super()._register_hook()
+
     # --- Identifiering ---
     name = fields.Char("Display Name", required=True, translate=True)
     technical_name = fields.Char(
