@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-# #if VERSION >= "18.0"
 <openerp>
     <data>
         <!-- Task form: add module fields -->
@@ -74,4 +73,3 @@
         </record>
     </data>
 </openerp>
-# #endif
