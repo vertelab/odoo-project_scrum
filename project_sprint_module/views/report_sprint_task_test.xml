@@ -42,9 +42,10 @@
                             </t>
                         </p>
 
-                        <!-- Klara aktiviteter -->
+                        <!-- Aktiviteter för test -->
                         <t t-set="tasks" t-value="sprint.task_ids.filtered(lambda t: t.is_closed)"/>
-                        <h2 style="margin-top: 24px;">Klara aktiviteter</h2>
+                        <h2 style="margin-top: 24px;">Aktiviteter för test</h2>
+                        <br/>
                         <t t-if="tasks">
                             <t t-foreach="tasks" t-as="task">
                                 <!-- Task-rubrik -->
@@ -52,10 +53,10 @@
                                     <t t-esc="task.name"/>
                                 </h3>
 
-                                <!-- Beskrivning, max 5 rader -->
+                                <!-- Beskrivning, max 5 rader — strippa HTML -->
                                 <p style="margin-bottom: 8px; white-space: pre-line; max-height: 7.5em; overflow: hidden;">
                                     <t t-if="task.description">
-                                        <t t-esc="'\n'.join(task.description.strip().split('\n')[:5])"/>
+                                        <t t-esc="'\n'.join(sprint._strip_html(task.description or '').strip().split('\n')[:5])"/>
                                     </t>
                                     <t t-else="">
                                         <span style="color: #999; font-style: italic;">No description</span>
