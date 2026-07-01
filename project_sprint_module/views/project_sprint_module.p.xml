@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-# #if VERSION >= "18.0"
 <openerp>
     <data>
         <record id="view_task_form2" model="ir.ui.view">
@@ -71,7 +70,6 @@
         </record>
     </data>
 </openerp>
-# #else
 <openerp>
     <data>
         <template id="assets_backend" name="module_name assets" inherit_id="web.assets_backend">
@@ -110,4 +108,3 @@
         </record>
     </data>
 </openerp>
-# #endif
