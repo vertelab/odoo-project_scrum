@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-# #if VERSION >= "18.0"
 <openerp>
     <data>
         <record id="view_task_form2" model="ir.ui.view">
@@ -13,41 +12,24 @@
                 </field>
             </field>
         </record>
-
         <record id="view_ps_sprint_smart_buttons" model="ir.ui.view">
             <field name="name">project.sprint.module.smart.buttons</field>
             <field name="model">project.scrum.sprint</field>
             <field name="inherit_id" ref="project_scrum.view_ps_sprint_form" />
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="inside">
-                    <button name="action_view_open_tasks" type="object"
-                            class="oe_stat_button" icon="fa-tasks"
-                            help="Öppna aktiviteter">
-                        <div class="o_stat_info">
-                            <field name="task_count_open" widget="statinfo"/>
-                            <span>Pågående</span>
-                        </div>
+                    <button name="action_view_open_tasks" type="object" class="oe_stat_button" icon="fa-tasks">
+                        <div class="o_stat_info"><field name="task_count_open" widget="statinfo"/><span>Pågående</span></div>
                     </button>
-                    <button name="action_view_test_tasks" type="object"
-                            class="oe_stat_button" icon="fa-flask"
-                            help="Aktiviteter i test">
-                        <div class="o_stat_info">
-                            <field name="task_count_test" widget="statinfo"/>
-                            <span>I test</span>
-                        </div>
+                    <button name="action_view_test_tasks" type="object" class="oe_stat_button" icon="fa-flask">
+                        <div class="o_stat_info"><field name="task_count_test" widget="statinfo"/><span>I test</span></div>
                     </button>
-                    <button name="action_view_closed_tasks" type="object"
-                            class="oe_stat_button" icon="fa-check"
-                            help="Klara aktiviteter">
-                        <div class="o_stat_info">
-                            <field name="task_count_closed" widget="statinfo"/>
-                            <span>Klara</span>
-                        </div>
+                    <button name="action_view_closed_tasks" type="object" class="oe_stat_button" icon="fa-check">
+                        <div class="o_stat_info"><field name="task_count_closed" widget="statinfo"/><span>Klara</span></div>
                     </button>
                 </xpath>
             </field>
         </record>
-
         <record id="view_ps_sprint_form" model="ir.ui.view">
             <field name="name">project.sprint.module.inherit.project.scrum.sprint.form</field>
             <field name="model">project.scrum.sprint</field>
@@ -56,14 +38,10 @@
                 <notebook position="inside">
                     <page string="Modules">
                         <group string="Git Repositories">
-                            <field name="git_projects" class="list_module"
-                                   nolabel="1"
-                                   placeholder="Inga repos från klara aktiviteter"/>
+                            <field name="git_projects" class="list_module" nolabel="1" placeholder="Inga repos från klara aktiviteter"/>
                         </group>
                         <group string="Modules">
-                            <field name="modules" class="list_module"
-                                   nolabel="1"
-                                   placeholder="Inga moduler från klara aktiviteter"/>
+                            <field name="modules" class="list_module" nolabel="1" placeholder="Inga moduler från klara aktiviteter"/>
                         </group>
                     </page>
                 </notebook>
@@ -71,43 +49,3 @@
         </record>
     </data>
 </openerp>
-# #else
-<openerp>
-    <data>
-        <template id="assets_backend" name="module_name assets" inherit_id="web.assets_backend">
-            <xpath expr="//link[last()]" position="after">
-                <style>
-                    .list_module  { width: 58% !important; overflow-wrap: break-word; }
-                </style>
-            </xpath>
-        </template>
-        <record id="view_task_form2" model="ir.ui.view">
-            <field name="name">project.sprint.module.inherit.project.task.form</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2" />
-            <field name="arch" type="xml">
-                <field name="user_id" position="after">
-                    <field name="module_ids" widget="many2many_tags" />
-                </field>
-            </field>
-        </record>
-        <record id="view_ps_sprint_form" model="ir.ui.view">
-            <field name="name">project.sprint.module.inherit.project.scrum.sprint.form</field>
-            <field name="model">project.scrum.sprint</field>
-            <field name="inherit_id" ref="project_scrum.view_ps_sprint_form" />
-            <field name="arch" type="xml">
-                <notebook position="inside">
-                    <page string="Modules">
-                        <group>
-                            <field name="git_projects" />
-                        </group>
-                        <group>
-                            <field name="modules" class="list_module" />
-                        </group>
-                    </page>
-                </notebook>
-            </field>
-        </record>
-    </data>
-</openerp>
-# #endif
