@@ -45,6 +45,7 @@
         'security/ir.model.access.csv',
         'views/sprint_module_views.xml',
         'views/sprint_repo_views.xml',
+        'views/res_config_settings_views.xml',
         'views/project_sprint_module.xml',
         'views/report_sprint_task_test.xml',
     ],
