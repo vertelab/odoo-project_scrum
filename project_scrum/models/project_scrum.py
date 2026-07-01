@@ -95,7 +95,11 @@ class ScrumSprint(models.Model):
     @api.depends('task_ids', 'name')
     def _task_ids(self):
         for record in self:
-            record.task_ids = self.env['project.task'].search([('sprint_ids', 'in', record.id)])
+            record.task_ids = self.env['project.task'].search([
+                '|',
+                ('sprint_id', '=', record.id),
+                ('sprint_ids', 'in', record.id),
+            ])
             record.task_count = len(record.task_ids)
 
     task_ids = fields.Many2many(comodel_name='project.task', compute='_task_ids')
@@ -144,19 +148,52 @@ class ScrumSprint(models.Model):
                     days=self.project_id.default_sprintduration)
 
     def get_current_sprint(self, project_id):
-        sprint = self.env['project.scrum.sprint'].search([
-            ('project_id', '=', project_id),
-            ('date_start', '<=', fields.Date.today()),
-            ('date_stop', '>=', fields.Date.today())
-        ], order='date_start', limit=1)
+        today = date.today()
+        domain_base = [('project_id', '=', project_id)]
+        today_str = fields.Date.to_string(today)
+
+        # 1. Försök hitta sprint som täcker dagens datum
+        sprint = self.search(
+            domain_base + [
+                ('date_start', '<=', today_str),
+                ('date_stop', '>=', today_str),
+            ], order='date_start', limit=1)
+
+        if sprint:
+            current = sprint
+        else:
+            # 2. Ingen sprint täcker idag — hitta den närmaste sprinten i tid
+            last_ended = self.search(
+                domain_base + [('date_stop', '<', today_str)],
+                order='date_stop desc', limit=1)
+            next_upcoming = self.search(
+                domain_base + [('date_start', '>', today_str)],
+                order='date_start asc', limit=1)
+
+            if last_ended and next_upcoming:
+                # Välj den som är närmast i tid
+                stop_date = fields.Date.from_string(last_ended.date_stop)
+                start_date = fields.Date.from_string(next_upcoming.date_start)
+                days_since_end = (today - stop_date).days
+                days_until_start = (start_date - today).days
+                current = next_upcoming if days_until_start <= days_since_end else last_ended
+            elif next_upcoming:
+                current = next_upcoming
+            elif last_ended:
+                current = last_ended
+            else:
+                return {'current': None, 'prev': None, 'next': None}
+
+        current_start = fields.Date.to_string(current.date_start)
+        current_stop = fields.Date.to_string(current.date_stop)
         return {
-            'current': sprint or None,
-            'prev': sprint and sprint.search([
-                ('project_id', '=', project_id), ('date_stop', '<', sprint.date_start)
-            ], order='date_start desc', limit=1) or None,
-            'next': sprint and sprint.search([
-                ('project_id', '=', project_id), ('date_start', '>', sprint.date_stop)
-            ], order='date_start', limit=1) or None,
+            'current': current,
+            'prev': self.search(
+                domain_base + [('date_stop', '<', current_start)],
+                order='date_stop desc', limit=1) or None,
+            'next': self.search(
+                domain_base + [('date_start', '>', current_stop)],
+                order='date_start asc', limit=1) or None,
         }
 
     def test_task(self):

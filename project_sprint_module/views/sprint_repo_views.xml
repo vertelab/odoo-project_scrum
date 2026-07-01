@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ============================================================
+             SPRINT.REPO — List View
+             ============================================================ -->
+        <record id="view_sprint_repo_list" model="ir.ui.view">
+            <field name="name">sprint.repo.list</field>
+            <field name="model">sprint.repo</field>
+            <field name="arch" type="xml">
+                <list string="Repositories" editable="top">
+                    <field name="name"/>
+                    <field name="url" widget="url" optional="hide"/>
+                    <field name="path" optional="hide"/>
+                    <field name="branch"/>
+                    <field name="module_count" string="Modules"/>
+                    <field name="active" optional="hide"/>
+                    <button name="action_scan_modules" type="object"
+                            string="Scan Modules" icon="fa-refresh"
+                            help="Läs in moduler från filsystemet"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             SPRINT.REPO — Form View
+             ============================================================ -->
+        <record id="view_sprint_repo_form" model="ir.ui.view">
+            <field name="name">sprint.repo.form</field>
+            <field name="model">sprint.repo</field>
+            <field name="arch" type="xml">
+                <form string="Repository">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Repo Name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="url" widget="url"/>
+                                <field name="path" invisible="1"/>
+                                <field name="branch"/>
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="module_count" string="Modules"/>
+                            </group>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1" placeholder="Repository description..."/>
+                        </group>
+                        <notebook>
+                            <page string="Modules" name="modules">
+                                <field name="module_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="technical_name"/>
+                                        <field name="author"/>
+                                        <field name="version"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             SPRINT.REPO — Search View
+             ============================================================ -->
+        <record id="view_sprint_repo_search" model="ir.ui.view">
+            <field name="name">sprint.repo.search</field>
+            <field name="model">sprint.repo</field>
+            <field name="arch" type="xml">
+                <search string="Repositories">
+                    <field name="name"/>
+                    <field name="url"/>
+                    <field name="path"/>
+                    <separator/>
+                    <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================
+             ACTIONS
+             ============================================================ -->
+        <record id="action_sprint_repo" model="ir.actions.act_window">
+            <field name="name">Repositories</field>
+            <field name="res_model">sprint.repo</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- ============================================================
+             MENU
+             ============================================================ -->
+        <menuitem id="menu_sprint_repo_config"
+                  name="Repositories"
+                  action="action_sprint_repo"
+                  parent="project.menu_project_config"
+                  sequence="14"/>
+
+    </data>
+</odoo>

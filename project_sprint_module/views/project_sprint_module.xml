@@ -1,23 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <template id="assets_backend" name="module_name assets" inherit_id="web.assets_backend">
-            <xpath expr="//link[last()]" position="after">
-                <style>
-                    .list_module  { width: 58% !important; overflow-wrap: break-word; }
-                </style>
-            </xpath>
-        </template>
+        <!-- Task form: add module fields -->
         <record id="view_task_form2" model="ir.ui.view">
             <field name="name">project.sprint.module.inherit.project.task.form</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2" />
             <field name="arch" type="xml">
-                <field name="user_id" position="after">
+                <field name="user_ids" position="after">
                     <field name="module_ids" widget="many2many_tags" />
+                    <field name="sprint_module_id" />
                 </field>
             </field>
         </record>
+
+        <!-- Sprint form: smart buttons — lägg till i befintlig button_box -->
+        <record id="view_ps_sprint_smart_buttons" model="ir.ui.view">
+            <field name="name">project.sprint.module.smart.buttons</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="inherit_id" ref="project_scrum.view_ps_sprint_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_open_tasks" type="object"
+                            class="oe_stat_button" icon="fa-tasks"
+                            help="Öppna aktiviteter">
+                        <div class="o_stat_info">
+                            <field name="task_count_open" widget="statinfo"/>
+                            <span>Pågående</span>
+                        </div>
+                    </button>
+                    <button name="action_view_test_tasks" type="object"
+                            class="oe_stat_button" icon="fa-flask"
+                            help="Aktiviteter i test">
+                        <div class="o_stat_info">
+                            <field name="task_count_test" widget="statinfo"/>
+                            <span>I test</span>
+                        </div>
+                    </button>
+                    <button name="action_view_closed_tasks" type="object"
+                            class="oe_stat_button" icon="fa-check"
+                            help="Klara aktiviteter">
+                        <div class="o_stat_info">
+                            <field name="task_count_closed" widget="statinfo"/>
+                            <span>Klara</span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Sprint form: modules tab -->
         <record id="view_ps_sprint_form" model="ir.ui.view">
             <field name="name">project.sprint.module.inherit.project.scrum.sprint.form</field>
             <field name="model">project.scrum.sprint</field>
@@ -25,11 +57,15 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="Modules">
-                        <group>
-                            <field name="git_projects" />
+                        <group string="Git Repositories">
+                            <field name="git_projects" class="list_module"
+                                   nolabel="1"
+                                   placeholder="Inga repos från klara aktiviteter"/>
                         </group>
-                        <group>
-                            <field name="modules" class="list_module" />
+                        <group string="Modules">
+                            <field name="modules" class="list_module"
+                                   nolabel="1"
+                                   placeholder="Inga moduler från klara aktiviteter"/>
                         </group>
                     </page>
                 </notebook>
