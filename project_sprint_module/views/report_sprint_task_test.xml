@@ -34,7 +34,7 @@
                                 <t t-if="doc.date_stop"><t t-esc="doc.date_stop"/></t>
                             </t>
                         </p>
-                        <t t-set="tasks" t-value="doc.task_ids.filtered(lambda t: t.is_closed)"/>
+                        <t t-set="tasks" t-value="doc.task_ids.filtered(lambda t: t.stage_id and 'Test' in t.stage_id.name)"/>
                         <h2 style="margin-top: 24px;">Aktiviteter för test</h2>
                         <br/>
                         <t t-if="tasks">
@@ -53,6 +53,20 @@
                                     <t t-if="task.module_ids"><t t-esc="', '.join(task.module_ids.mapped('technical_name'))"/></t>
                                     <t t-else=""><span style="color: #ccc;">—</span></t>
                                 </p>
+
+                                <!-- AI Use Case -->
+                                <t t-if="task.ai_usecase or task.ai_usecase_mermaid">
+                                    <div style="margin: 12px 0 24px 0; padding: 12px; border-left: 4px solid #4A90D9; background: #f0f4f8;">
+                                        <p style="font-weight: bold; color: #4A90D9; margin-bottom: 10px;">AI Use Case</p>
+                                        <t t-if="task.ai_usecase">
+                                            <div style="color: #444; font-size: 0.9em; margin-bottom: 12px; line-height: 1.5;" t-field="task.ai_usecase"/>
+                                        </t>
+                                        <t t-if="task.ai_usecase_mermaid">
+                                            <p style="font-weight: bold; font-size: 0.85em; color: #666; margin: 8px 0 4px 0;">Mermaid Diagram:</p>
+                                            <div style="padding: 10px; background: #ffffff; border: 1px solid #d0d7de; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.78em; line-height: 1.4; white-space: pre-wrap; overflow-x: auto; color: #333;"><t t-esc="task.ai_usecase_mermaid"/></div>
+                                        </t>
+                                    </div>
+                                </t>
                             </t>
                         </t>
                         <t t-else="">
