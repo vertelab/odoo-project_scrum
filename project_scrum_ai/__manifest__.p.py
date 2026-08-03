@@ -37,11 +37,11 @@
     # Any module necessary for this one to work correctly
     'depends': [
         'project_scrum',
-        'ai_agent',
+        'ai_agent_core',
         'web_mermaid_ai',
     ],
     'data': [
-        'data/ai_agent_data.xml',
+        'data/ai_coworker_data.xml',
         'views/scrum_us_views.xml',
     ],
     'installable': True,
