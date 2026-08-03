@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ════════════════════════════════════════════
+         project_scrum_ai — AI-brygga (ny standard)
+         ────────────────────────────────────────────
+         Powerbox-coworkers för User Stories + Projekt
+         enligt brygg-standarden: coworkers som data-XML,
+         inga ai.quest/ai.agent-referenser, init_type-rader
+         (enabled) i stället för legacy init_type-fält.
+         Mönster: web_mermaid_ai / social_ai.
+         ════════════════════════════════════════════ -->
+
+    <!-- ── Enterprise Architect — User Stories (powerbox) ── -->
+    <record id="coworker_enterprise_architect_us" model="ai.coworker">
+        <field name="name">Enterprise Architect — User Stories</field>
+        <field name="sub_description">Förvandlar verbala processbeskrivningar till användarberättelser + Mermaid-diagram</field>
+        <field name="description">
+Architector serves as an advanced AI-powered enterprise architect specializing in converting unstructured verbal business descriptions into structured artifacts, including roles/actors, use cases/user stories, and visual diagrams using Mermaid syntax.
+
+1. Analyse the verbal description, use project description as context
+2. Create a clean text describing the business process as a use case with correct terms, introduce actors and roles. Provide a brief explanation and how your solution align with the company and the specific project goals,
+3. Create a graph visualizing the business process using mermaid syntax
+
+Du arbetar från en user story (project.scrum.us). Generera ren Mermaid-syntax enligt web_mermaid_ai:s Mermaid Diagram Generator.
+        </field>
+        <field name="status">active</field>
+        <field name="orchestration_mode">single</field>
+        <field name="injection_level">summary_and_key</field>
+        <field name="hitl_threshold">always</field>
+        <field name="budget_kr_monthly">0</field>
+        <field name="max_actions_per_day">20</field>
+        <field name="model_ids" eval="[(6, 0, [
+            ref('project_scrum.model_project_scrum_us'),
+        ])]"/>
+        <field name="filter_domain">[]</field>
+        <field name="example_prompts">
+- "Förvandla denna beskrivning till en användarberättelse med aktörer och Mermaid-diagram"
+- "Skapa ett sekvensdiagram för orderflödet"
+        </field>
+    </record>
+    <record id="coworker_enterprise_architect_us_init" model="ai.coworker.init_type">
+        <field name="coworker_id" ref="coworker_enterprise_architect_us"/>
+        <field name="init_type">powerbox</field>
+        <field name="enabled">True</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- ── Enterprise Architect — Projekt (powerbox) ── -->
+    <record id="coworker_enterprise_architect_project" model="ai.coworker">
+        <field name="name">Enterprise Architect — Projekt</field>
+        <field name="sub_description">Definierar projektbeskrivning och mål från verbala beskrivningar</field>
+        <field name="description">
+Architector serves as an advanced AI-powered enterprise architect specializing in converting unstructured verbal business descriptions into structured business process and goals. When you need more information, ask for that instead of hallucinate.
+
+1. Analyse the verbal description and the dialog to define a description and goals for the project
+2. Create a description for the project
+3. Create a list of goals for the project
+4. Provide a brief explanation and how these goals are important and relevant for the project
+        </field>
+        <field name="status">active</field>
+        <field name="orchestration_mode">single</field>
+        <field name="injection_level">summary_and_key</field>
+        <field name="hitl_threshold">always</field>
+        <field name="budget_kr_monthly">0</field>
+        <field name="max_actions_per_day">20</field>
+        <field name="model_ids" eval="[(6, 0, [
+            ref('project.model_project_project'),
+        ])]"/>
+        <field name="filter_domain">[]</field>
+        <field name="example_prompts">
+- "Definiera projektbeskrivning och mål utifrån detta"
+- "Hjälp mig formulera projektets mål"
+        </field>
+    </record>
+    <record id="coworker_enterprise_architect_project_init" model="ai.coworker.init_type">
+        <field name="coworker_id" ref="coworker_enterprise_architect_project"/>
+        <field name="init_type">powerbox</field>
+        <field name="enabled">True</field>
+        <field name="sequence">10</field>
+    </record>
+</odoo>
