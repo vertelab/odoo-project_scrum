@@ -13,7 +13,7 @@ for task in records:
         continue
     sprints = task.project_id.sudo().get_current_sprint(task.project_id.id)
     if sprints and sprints.get('next'):
-        task.sprint_id = sprints['next'].id
+        task.write({'sprint_id': sprints['next'].id})
 </field>
         </record>
 
@@ -24,8 +24,7 @@ for task in records:
             <field name="binding_type">action</field>
             <field name="state">code</field>
             <field name="code">
-for task in records:
-    task.sprint_id = False
+records.write({'sprint_id': False})
 </field>
         </record>
     </data>

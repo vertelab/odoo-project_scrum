@@ -102,8 +102,8 @@ class ScrumSprint(models.Model):
             ])
             record.task_count = len(record.task_ids)
 
-    task_ids = fields.Many2many(comodel_name='project.task', compute='_task_ids', store=True)
-    task_count = fields.Integer(compute='_task_ids')
+    task_ids = fields.Many2many(comodel_name='project.task', compute='_task_ids', store=True, compute_sudo=True)
+    task_count = fields.Integer(compute='_task_ids', store=True, compute_sudo=True)
 
     review = fields.Html(string='Sprint Review', default="""
         <h1 style="color:blue"><ul>What was the goal of this sprint?</ul></h1><br/><br/>
