@@ -140,7 +140,7 @@
                     <field name="task_count"/>
                     <field name="color"/>
                     <templates>
-                        <t t-name="card">
+                        <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">
                                 <div class="o_kanban_record_top">
                                     <div class="o_kanban_record_headings">
