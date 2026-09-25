@@ -21,14 +21,22 @@
 
 {
     'name': 'Project Scrum: Task Weight',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Measure the scope of the activity',
+    'summary': 'Measure the scope of the activity.',
     'category': 'Project',
-    'description': """
-        Drop down on the kanban-view with standard scopes 
-        This is a simple way to estimate the scope of a task
-    """,
+    'description': '''
+Task Weight
+===========
+
+    Drop down on the kanban-view with standard scopes 
+            This is a simple way to estimate the scope of a task
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on project.task.
+    ''',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_task_weight',

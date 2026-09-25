@@ -1,6 +1,10 @@
 odoo-project-scrum / project_hierarchy_timesheet -- icons
 2022-06-23
 
+Be aware of these!
+odoo-project_scrum/project_scrum/static/description/banner.png
+odoo-project_scrum/project_scrum/static/description/icon.png
+
 Path:
 /static/description/icon.png
 

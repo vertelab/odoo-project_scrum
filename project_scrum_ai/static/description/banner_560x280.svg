@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 280" width="560px" height="280px" role="img" aria-label="AI for project_scrum banner">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+  </defs>
+  <rect width="560" height="280" fill="url(#bg)" rx="8"/>
+  <text x="40" y="100" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="30" fill="#F8FAFC">odoo-project_scrum</text>
+  <text x="40" y="140" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="28" fill="#F8FAFC">AI for project_scrum</text>
+  <text x="40" y="184" font-family="Inter, system-ui, sans-serif" font-weight="400" font-size="16" fill="#E2E8F0"><tspan x="40" dy="0">Add powerbox for User Stories</tspan></text>
+  <text x="520" y="252" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="16" fill="#F8FAFC" text-anchor="end">VERTEL</text>
+</svg>

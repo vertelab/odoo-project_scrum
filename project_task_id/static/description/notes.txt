@@ -1,6 +1,10 @@
 odoo-project-scrum / project_taask_id -- icons
 2022-06-23
 
+Be aware of these!
+odoo-project_scrum/project_task_id/static/description/banner.png
+odoo-project_scrum/project_task_id/static/description/icon.png
+
 Path:
 /static/description/icon.png
 

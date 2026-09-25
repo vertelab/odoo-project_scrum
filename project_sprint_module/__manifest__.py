@@ -21,12 +21,20 @@
 
 {
     'name': 'Project Scrum: Project Sprint Module',
-    'version': '1.24',
+    'version': '18.0.1.24.0',
     'summary': 'Adds new page for module list.',
     'category': 'Project',
-    'description': """
+    'description': '''
+Project Sprint Module
+=====================
+
     Adds new page for module list.
-    """,
+
+    Features:
+
+        - UI Integration: Extends 10 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on mail.thread, project.scrum.sprint, project.task, sprint.module.
+    ''',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_sprint_module',

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Project Task Weight icon">
+  <!-- Odoo O (purple) -->
+  <circle cx="58" cy="58" r="38" fill="none" stroke="#875A7B" stroke-width="11"/>
+  <rect x="70" y="22" width="22" height="24" fill="#F8FAFC" rx="2"/>
+  <!-- Domain symbol (accent) bottom-right -->
+  <g transform="translate(76, 72) scale(1.05)">
+    <g fill="none" stroke="#6366F1" stroke-width="2.2">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <line x1="7" y1="8" x2="7" y2="16"/><line x1="12" y1="8" x2="12" y2="13"/>
+      <line x1="17" y1="8" x2="17" y2="18"/></g>
+  </g>
+</svg>

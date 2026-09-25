@@ -1,0 +1,55 @@
+odoo-project_scrum / project_task_weight
+2026-09-24
+
+
+Be aware of these!
+odoo-project_scrum/project_task_weight/static/description/banner.png
+odoo-project_scrum/project_task_weight/static/description/icon.png
+
+
+Icon: "Project Scrum: Task Weight"
+https://fontawesome.com/v6/icons
+
+
+Odoo banner: 560 x 280
+Odoo icon: 140 x 140
+
+HEX
+#875A7B   (Odoo purple)
+#10B981   (accent)
+
+Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors/Color_picker_tool
+
+Edit image:
+Ubuntu = Pinta, https://www.pinta-project.com/howto/installing-pinta
+Windows = Paint.net , https://www.getpaint.net/
+
+Guide:
+1. Use Inkscape to create a colored background. (Import)
+2. Odoo icon: 140 x 140, 560 x 280.
+3. Pick icon at fontawesome and paste in a text field.
+4. Save in ordinary / plain svg format.
+5. In Inkscape, choose Generate PNG image and "Export as...".
+6. Write a filename...
+7. Be careful when selecting the filename! It's easy to select the wrong path!
+8. ...of choice and choose "Export".
+
+Check module:
+grep -sR "'name':" */*__.py
+grep -sR "'version':" */*__.py
+grep -sR "'category':" */*__.py
+grep -sR "'summary':" */*__.py
+grep -sR "'description':" */*__.py
+grep -sR "'depends':" */*__.py
+grep -sR "'repository':" */*__.py
+grep -sR "'website':" */*__.py
+ls | wc -l
+grep -sR "'website':" */*__.py | tr "'" " "
+
+Find the latest project to copy / paste:
+grep -r "2026-*" odoo-*/*/static/description/notes.txt
+
+
+Unexpected errors sometimes occurs, then set the correct permissions!
+sudo chmod 664 /usr/share/*/*/static/description/banner.png
+sudo chmod 664 /usr/share/*/*/static/description/icon.png

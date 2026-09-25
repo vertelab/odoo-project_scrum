@@ -21,7 +21,7 @@
 
 {
     'name': 'Project Scrum: Scrum Portfolio',
-    'version': '1.0',
+    'version': '18.0.1.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adding Portfilio management to Project Scrum.',
     'category': 'Project',
@@ -33,45 +33,44 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
-    'description': """
-Adding Portfilio management to Project Scrum
-==========================================
+    'description': '''
+Scrum Portfolio
+===============
 
-Most organizations want or need to produce more than one product (focus 
-areas) at a time. These multiproduct organizations need to make economically 
-sound choices regarding how to manage the tradeoffs between their products. 
-One way to make economically sensible choices is to use 
-an agile portfolio planning process that aligns well with core agile 
-principles. For example can the webshop be one product (focus area) and 
-logisticts and manufacturing be other products. Some organizarions rather 
-work with focus areas than products, but the priciple is the same.
+    Most organizations want or need to produce more than one product (focus 
+    areas) at a time. These multiproduct organizations need to make economically 
+    sound choices regarding how to manage the tradeoffs between their products. 
+    One way to make economically sensible choices is to use 
+    an agile portfolio planning process that aligns well with core agile 
+    principles. For example can the webshop be one product (focus area) and 
+    logisticts and manufacturing be other products. Some organizarions rather 
+    work with focus areas than products, but the priciple is the same.
 
-Agile portfolio planning (or portfolio management) is an activity 
-for determining which products or projects to work on, in which order, 
-and for how long. If the same team are working with all these products, a 
-multiproduct team/project, Timeboxing aligns well with other agile principles.
+    Agile portfolio planning (or portfolio management) is an activity 
+    for determining which products or projects to work on, in which order, 
+    and for how long. If the same team are working with all these products, a 
+    multiproduct team/project, Timeboxing aligns well with other agile principles.
 
-Timeboxing is allotting a fixed, maximum unit of time for an activity or 
-several activities of the same type. That unit of time is called a time box. 
-The goal of timeboxing is to define and limit the amount of time dedicated 
-to an activity. For example are a sprint a type of Timebox. In this case
-a Sprint can be divied in several timeboxes where each timebox represent
-resources allotted for a product or focus area.
+    Timeboxing is allotting a fixed, maximum unit of time for an activity or 
+    several activities of the same type. That unit of time is called a time box. 
+    The goal of timeboxing is to define and limit the amount of time dedicated 
+    to an activity. For example are a sprint a type of Timebox. In this case
+    a Sprint can be divied in several timeboxes where each timebox represent
+    resources allotted for a product or focus area.
 
-* Products and/or focus areas for planning and monitoring in a Portfolio
-* Split a sprint in several timeboxes / products / focus areas
-* Attach activites to a timebox / focus area / product
-* Color an actrivity from a timebox / focus area / Product
+    Agile portfolio planning should include an appropriate set of internal 
+    stakeholders, who have the perspective to properly prioritize new products 
+    and make decisions regarding in-process products. It should also include the 
+    product owners of individual products, who act as champions for their products 
+    and advocates for resources.
 
-Agile portfolio planning should include an appropriate set of internal 
-stakeholders, who have the perspective to properly prioritize new products 
-and make decisions regarding in-process products. It should also include the 
-product owners of individual products, who act as champions for their products 
-and advocates for resources. 
+    https://innolution.com/essential-scrum/table-of-contents/chapter-16-portfolio-planning
 
-https://innolution.com/essential-scrum/table-of-contents/chapter-16-portfolio-planning
+    Features:
 
-    """,
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on mail.thread, portfolio_id, project.project, project.scrum.portfolio.
+    ''',
     'author': 'Vertel AB',
     'license': 'AGPL-3',
     'depends': ['project', 'project_scrum'],
