@@ -1,20 +1,101 @@
-<section class="s_title pt32 pb32 o_colored_level" data-vcss="001" data-snippet="s_title" data-name="Title">
-  <div class="container s_allow_columns">
-    <h1 style="text-align: center;">
-      <font style="font-size: 62px;">odoo-base | attachment notebook</font>
-    </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Scrum: Project Task Id &mdash; Vertel for Odoo</title>
+  <style>
+    :root { --navy:#0F172A; --darkBg:#1E293B; --white:#F8FAFC; --gray:#94A3B8;
+             --lightGray:#E2E8F0; --brand:#930a57; --brand2:#8105a7; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:Inter,system-ui,-apple-system,sans-serif; color:var(--darkBg);
+            background:var(--white); line-height:1.6; }
+    .hero { background:linear-gradient(135deg,var(--brand),var(--brand2)); color:var(--white);
+             padding:48px 32px; text-align:center; }
+    .hero h1 { font-size:2.25rem; font-weight:800; margin-bottom:8px; }
+    .hero .subtitle { font-size:1.1rem; color:#f3d7e6; }
+    .hero .meta { margin-top:16px; font-size:0.85rem; color:#e8b8d2; }
+    .hero .meta span { margin:0 8px; }
+    .container { max-width:860px; margin:0 auto; padding:40px 24px; }
+    section { margin-bottom:40px; }
+    section h2 { font-size:1.5rem; font-weight:700; color:var(--navy);
+                  margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--brand); }
+    section p, section li { font-size:1rem; color:#334155; }
+    section p { margin-bottom:12px; }
+    section ul { padding-left:24px; }
+    section li { margin-bottom:8px; }
+    .feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+                     gap:16px; margin-top:16px; }
+    .feature-card { background:#F1F5F9; border-radius:8px; padding:20px;
+                     border-left:4px solid var(--brand); }
+    .feature-card h4 { font-size:1rem; font-weight:600; color:var(--navy); margin-bottom:6px; }
+    .feature-card p { font-size:0.9rem; color:#475569; margin:0; }
+    .screenshots { display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start; }
+    .screenshots figure { margin:0; text-align:center; }
+    .screenshots img { display:block; border-radius:8px;
+                        box-shadow:0 2px 8px rgba(0,0,0,0.08);
+                        border:1px solid var(--lightGray); }
+    .screenshots figcaption { margin-top:8px; font-size:0.8rem; color:var(--gray); }
+    footer { background:var(--navy); color:var(--white); text-align:center;
+              padding:32px 24px; font-size:0.9rem; }
+    footer a { color:#f3d7e6; text-decoration:none; }
+  </style>
+</head>
+<body>
+<div class="hero">
+  <h1>Project Scrum: Project Task Id</h1>
+  <p class="subtitle">Adds Id to task.</p>
+  <div class="meta">
+    <span>Odoo 18.0</span><span>&middot;</span>
+    <span>Project</span><span>&middot;</span>
+    <span>by Vertel Sverige AB</span>
   </div>
-</section>
-<section class="s_text_image pt32 pb32 o_colored_level" data-snippet="s_image_text" data-name="Image - Text">
-  <div class="container">
-    <div class="row align-items-start">
-      <div class="col-lg-6 pt16 pb16 o_colored_level">
-        <img src="/web/image/website.s_image_text_default_image" class="img img-fluid mx-auto" alt="Beskrivning av bild." loading="lazy" data-original-title="" title="Beskrivning av bild." aria-describedby="tooltip305522" data-original-id="157" data-original-src="/website/static/src/img/snippets_demo/s_image_text.jpg" data-mimetype="image/jpeg"/>
-      </div>
-      <div class="col-lg-6 pt16 pb16 o_colored_level">
-        <h2>odoo base<br/></h2>
-        <p>Text area to be filled with some interesting content. </p>
-      </div>
+</div>
+<div class="container">
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>Adds Id to task.</p>
+    <p>It extends Odoo's tasks, settings, projects.</p>
+  </section>
+  <section id="features">
+    <h2>Key Features</h2>
+    <div class="feature-grid">
+      <div class="feature-card"><h4>UI integration</h4><p>Extends 1 view(s) in the Odoo interface.</p></div>
     </div>
-  </div>
-</section>
+  </section>
+  <section id="screenshots">
+    <h2>Module Graphics</h2>
+    <div class="screenshots">
+      <figure>
+        <img src="icon.png" alt="Project Scrum: Project Task Id icon" width="140" height="140">
+        <figcaption>Icon &mdash; 140 &times; 140 px</figcaption>
+      </figure>
+      <figure>
+        <img src="banner.png" alt="Project Scrum: Project Task Id banner" width="560" height="280">
+        <figcaption>Banner &mdash; 560 &times; 280 px</figcaption>
+      </figure>
+    </div>
+  </section>
+  <section id="dependencies">
+    <h2>Dependencies</h2>
+    <ul><li><code>project</code></li></ul>
+    <p><small>Requires <strong>Odoo 18.0</strong> or later.</small></p>
+  </section>
+  <section id="installation">
+    <h2>Installation</h2>
+    <p>Install the module <code>project_task_id</code> from the Odoo Apps menu,
+       or deploy it via the Vertel SaltStack pipeline.</p>
+  </section>
+  <section id="support">
+    <h2>Support &amp; Contact</h2>
+    <p>Vertel Sverige AB &mdash; <a href="https://vertel.se">vertel.se</a> &middot;
+       <a href="mailto:info@vertel.se">info@vertel.se</a></p>
+  </section>
+</div>
+<footer>
+  <p><strong>Project Scrum: Project Task Id</strong> &mdash; by <a href="https://vertel.se">Vertel Sverige AB</a></p>
+  <p><a href="https://vertel.se">vertel.se</a> &middot;
+     <a href="mailto:info@vertel.se">info@vertel.se</a></p>
+</footer>
+</body>
+</html>
