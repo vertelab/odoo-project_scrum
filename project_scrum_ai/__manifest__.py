@@ -21,20 +21,12 @@
 
 {
     'name': 'AI for project_scrum',
-    'version': '18.0.1.0.0',
-    'summary': 'Add powerbox for User Stories.',
+    'version': '0.3',
+    'summary': 'Add powerbox for User Stories',
     'category': 'Productivity / Discuss',
-    'description': '''
-AI for project_scrum
-====================
-
-    Powerbox to help formulate User Stories and Use Case and Mermaid graph to represent this
-
-    Features:
-
-        - UI Integration: Extends 2 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on project.scrum.us.
-    ''',
+    'description': """
+        Powerbox to help formulate User Stories and Use Case and Mermaid graph to represent this
+    """,
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_scrum_ai',
     'images': ['static/description/banner.png'],  # 560x280 px.
@@ -56,3 +48,4 @@ AI for project_scrum
     'auto_install': False,
     'application': False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
