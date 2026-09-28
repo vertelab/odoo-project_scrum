@@ -1,0 +1,6 @@
+# >>> geany-pfiles >>>
+*.p.py  linguist-language=Python     text eol=lf
+*.p.js  linguist-language=JavaScript text eol=lf
+*.p.xml linguist-language=XML        text eol=lf
+*.p.csv linguist-language=CSV        text eol=lf
+# <<< geany-pfiles <<<

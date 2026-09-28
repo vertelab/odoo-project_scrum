@@ -1,0 +1,48 @@
+#!/bin/sh
+# Managed by salt odoo.pfiles.
+#
+# Expanderar staged p-filer för den utgåva grenen anger (branch-per-version)
+# och staging:ar resultatet, så en commit aldrig kan innehålla en stale
+# expansion. En gren som inte matchar någon utgåva hoppar tyst över.
+#
+# Miljövariabler:
+#   GEANY_PFILES_VERSION     — tvinga utgåva (annars läses grennamnet)
+#   GEANY_PFILES_PREPROCESS  — annat preprocess-kommando
+#
+# Utgåvorna som matchas sätts av Salt vid deploy (PFILES_EDITIONS nedan).
+set -e
+
+PFILES_EDITIONS="17.0,18.0,19.0"
+
+V="${GEANY_PFILES_VERSION:-}"
+if [ -z "$V" ]; then
+    b=$(git symbolic-ref --short -q HEAD || true)
+    case "$b" in
+    17.0|18.0|19.0) V="$b" ;;
+    esac
+fi
+if [ -z "$V" ]; then
+    echo "pfiles: grenen matchar ingen utgåva ($PFILES_EDITIONS) - hoppar över expansion"
+    exit 0
+fi
+
+CMD="${GEANY_PFILES_PREPROCESS:-preprocess}"
+if ! command -v "$CMD" >/dev/null 2>&1; then
+    echo "pfiles: '$CMD' saknas - hoppar över expansion" >&2
+    exit 0
+fi
+
+# Bara riktiga p-filer: <namn>.p.<kand andelse>. Ett brett '\.p\.' matchar
+# aven __pycache__/*.p.cpython-312.pyc (binarfil) -> preprocess kraschar.
+files=$(git diff --cached --name-only --diff-filter=ACM \
+    | grep -E '\.p\.(py|js|csv|xml|sh|html|htm|kpf|xul)$' || true)
+[ -n "$files" ] || exit 0
+
+printf '%s\n' "$files" | while IFS= read -r f; do
+    [ -f "$f" ] || continue
+    o=$(printf '%s' "$f" | sed 's/\.p\././')
+    "$CMD" -f -D VERSION="$V" -o "$o" "$f"
+    git add "$o"
+    echo "pfiles: $f -> $o (VERSION=$V)"
+done
+exit 0
