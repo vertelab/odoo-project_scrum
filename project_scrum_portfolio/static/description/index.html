@@ -1,101 +1,103 @@
-<t name="Homepage" priority="29" t-name="website.homepage">
-  <t t-call="website.layout">
-
-    <div id="wrap" class="oe_structure oe_empty">
-      <div class="carousel slide mb64 mt0" id="myCarousel0">
-        <ol class="carousel-indicators">
-          <li class="active" data-slide-to="0" data-target="#myCarousel0"/>
-          <li data-slide-to="1" data-target="#myCarousel0"/>
-          <li data-slide-to="2" data-target="#myCarousel0"/>
-        </ol>
-        <div class="carousel-inner">
-          <div class="item oe_img_bg active" style="background-image: url(&quot;http://localhost:8069/website/static/src/img/banner/mango.jpg&quot;); height:300px;">
-            <div class="container">
-              <div class="row content">
-                <!--<h1 class="carousel-content col-sm-12 mb16 mt128 col-md-3 col-md-offset-1">Planning Work With Scrum</h1>-->
-                <h1 class="carousel-content row text-center ">Planning Work With Scrum</h1>          
-                <div class="carousel-img row col-xs-offset-2 ">
-                  <img alt="Banner Odoo Image" class="img-responsive" src="/project_scrum/static/description/Scrum.png" style="transition: none; -webkit-transition: none; -webkit-animation-play-state: paused; -webkit-transform: translateX(-10.6%) translateY(-12.7%) scaleX(0.8) scaleY(0.8); transform: translateX(-10.6%) translateY(-12.7%) scaleX(0.8) scaleY(0.8);"/>
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item oe_img_bg" style="background-image: url(http://localhost:8069/website/static/src/img/banner/mango.jpg);height:300px;">
-            <div class="container">
-              <div class="row content">              
-                <!--<h1 class="carousel-content col-sm-12 mb128 mt128 col-md-5 col-md-offset-1">Working in Teams</h1>-->          
-                <h1 class="carousel-content row text-center">Working in Teams</h1>              
-                <div class="carousel-img row col-xs-offset-6">
-                  <img alt="Banner Odoo Image" class="img-responsive" src="/project_scrum/static/description/TeamWork.png" style="transition: none; -webkit-transition: none; -webkit-animation-play-state: paused; -webkit-transform: translateX(-49.5%) translateY(-7.3%) scaleX(0.9) scaleY(0.73); transform: translateX(-49.5%) translateY(-7.3%) scaleX(0.9) scaleY(0.73);"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item oe_img_bg" style="background-image: url(http://localhost:8069/website/static/src/img/banner/mango.jpg);height:300px;">
-            <div class="container">
-              <div class="row content">
-                <!--<h1 class="carousel-content col-md-6 col-sm-12 mb128 mt128">Get a good overview at your work</h1>-->
-                <h1 class="carousel-content text-center">Get a good overview at your work</h1>
-                <div class="carousel-img row col-xs-offset-4 ">
-                  <img alt="Banner Odoo Image" class="img-responsive" src="/project_scrum/static/description/kanban.png" style="transition: none; -webkit-transition: none; -webkit-animation-play-state: paused; -webkit-transform: translateX(-3.2%) translateY(6.9%) scaleX(0.57) scaleY(0.84); transform: translateX(-3.2%) translateY(6.9%) scaleX(0.57) scaleY(0.84);"/>
-                </div>
-              </div>          
-            </div>
-          </div>
-        </div>
-        <div class="carousel-control left" data-slide="prev" data-target="#myCarousel0" href="#myCarousel0" style="width: 10%">
-          <i class="fa fa-chevron-left"/>
-        </div>
-        <div class="carousel-control right" data-slide="next" data-target="#myCarousel0" href="#myCarousel0" style="width: 10%">
-          <i class="fa fa-chevron-right" style=""/>
-        </div>
-      </div>
-    <section class="mb12 para_large">
-        <div class="oe_container">
-            <div class="row ">
-                <div class="text-center col-md-4">
-                    <span class="fa fa-suitcase fa-5x"/>
-                    <h3 class="mt8 mb0">Planning</h3>
-                    Scrum is a tool that gives your team and empolyees the oportunity to plan their work in a more neat and structured way.
-                </div>
-                
-                <div class="text-center  col-md-4">
-                    <span class="fa fa-lock fa-5x" style=""/>
-                    <h3 class="mt8 mb0">Roles</h3>
-                    Each team member has his own role. In Scrum there are always three different roles; Product Owner, Scrum Master and the developers.
-                    <div class="text-muted"/>
-                </div>
-
-                <div class="text-center  col-md-4">
-                    <span class="fa fa-heart fa-5x" style=""/>
-                    <h3 class="mt8 mb0 " style="">Daily Meetings.</h3>
-                    Daily Meeting for a maximum of 15 minutes duration where each member of the team will have to answer three question about what he did/will do and what obsticles he faces.
-                </div>
-            </div>
-        </div>
-    </section>
-
-        <section>          
-            <div class="oe_span12 ">
-                <h3 class="oe_slogan">Sprints</h3>   
-                <p>
-                    In Scrum you will work by sprints, where every sprint should be completed under a specific period which can vary from weeks and up to months.
-                </p>
-                <center>
-                    <img src="kanban.png" height="300" width="500">
-                </center> 
-                <br/><br/>
-            </div> 
-            <br/><br/>     
-        
-        
-            <div class="form-group">
-                <div class="col-sm-10">
-                <label class="control-label">This is a port and enhancement of the old project_scrum version 6.1 by OpenERP SA.</label>
-            </div>  
-        </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Scrum: Scrum Portfolio &mdash; Vertel for Odoo</title>
+  <style>
+    :root { --navy:#0F172A; --darkBg:#1E293B; --white:#F8FAFC; --gray:#94A3B8;
+             --lightGray:#E2E8F0; --brand:#930a57; --brand2:#8105a7; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:Inter,system-ui,-apple-system,sans-serif; color:var(--darkBg);
+            background:var(--white); line-height:1.6; }
+    .hero { background:linear-gradient(135deg,var(--brand),var(--brand2)); color:var(--white);
+             padding:48px 32px; text-align:center; }
+    .hero h1 { font-size:2.25rem; font-weight:800; margin-bottom:8px; }
+    .hero .subtitle { font-size:1.1rem; color:#f3d7e6; }
+    .hero .meta { margin-top:16px; font-size:0.85rem; color:#e8b8d2; }
+    .hero .meta span { margin:0 8px; }
+    .container { max-width:860px; margin:0 auto; padding:40px 24px; }
+    section { margin-bottom:40px; }
+    section h2 { font-size:1.5rem; font-weight:700; color:var(--navy);
+                  margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--brand); }
+    section p, section li { font-size:1rem; color:#334155; }
+    section p { margin-bottom:12px; }
+    section ul { padding-left:24px; }
+    section li { margin-bottom:8px; }
+    .feature-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+                     gap:16px; margin-top:16px; }
+    .feature-card { background:#F1F5F9; border-radius:8px; padding:20px;
+                     border-left:4px solid var(--brand); }
+    .feature-card h4 { font-size:1rem; font-weight:600; color:var(--navy); margin-bottom:6px; }
+    .feature-card p { font-size:0.9rem; color:#475569; margin:0; }
+    .screenshots { display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start; }
+    .screenshots figure { margin:0; text-align:center; }
+    .screenshots img { display:block; border-radius:8px;
+                        box-shadow:0 2px 8px rgba(0,0,0,0.08);
+                        border:1px solid var(--lightGray); }
+    .screenshots figcaption { margin-top:8px; font-size:0.8rem; color:var(--gray); }
+    footer { background:var(--navy); color:var(--white); text-align:center;
+              padding:32px 24px; font-size:0.9rem; }
+    footer a { color:#f3d7e6; text-decoration:none; }
+  </style>
+</head>
+<body>
+<div class="hero">
+  <h1>Project Scrum: Scrum Portfolio</h1>
+  <p class="subtitle">Adding Portfilio management to Project Scrum.</p>
+  <div class="meta">
+    <span>Odoo 18.0</span><span>&middot;</span>
+    <span>Project</span><span>&middot;</span>
+    <span>by Vertel Sverige AB</span>
+  </div>
+</div>
+<div class="container">
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>Adding Portfilio management to Project Scrum.</p>
+    <p>It introduces the model(s) <code>scrum_sprint_portfolio</code>, <code>scrum_sprint_timebox</code>, <code>scrum_sprint</code> to handle this workflow.</p>
+    <p>It extends Odoo's tasks.</p>
+  </section>
+  <section id="features">
+    <h2>Key Features</h2>
+    <div class="feature-grid">
+      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: scrum_sprint_portfolio, scrum_sprint_timebox, scrum_sprint.</p></div>
+      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
     </div>
-  </t>
-</t>
-
+  </section>
+  <section id="screenshots">
+    <h2>Module Graphics</h2>
+    <div class="screenshots">
+      <figure>
+        <img src="icon.png" alt="Project Scrum: Scrum Portfolio icon" width="140" height="140">
+        <figcaption>Icon &mdash; 140 &times; 140 px</figcaption>
+      </figure>
+      <figure>
+        <img src="banner.png" alt="Project Scrum: Scrum Portfolio banner" width="560" height="280">
+        <figcaption>Banner &mdash; 560 &times; 280 px</figcaption>
+      </figure>
+    </div>
+  </section>
+  <section id="dependencies">
+    <h2>Dependencies</h2>
+    <ul><li><code>project</code></li><li><code>project_scrum</code></li></ul>
+    <p><small>Requires <strong>Odoo 18.0</strong> or later.</small></p>
+  </section>
+  <section id="installation">
+    <h2>Installation</h2>
+    <p>Install the module <code>project_scrum_portfolio</code> from the Odoo Apps menu,
+       or deploy it via the Vertel SaltStack pipeline.</p>
+  </section>
+  <section id="support">
+    <h2>Support &amp; Contact</h2>
+    <p>Vertel Sverige AB &mdash; <a href="https://vertel.se">vertel.se</a> &middot;
+       <a href="mailto:info@vertel.se">info@vertel.se</a></p>
+  </section>
+</div>
+<footer>
+  <p><strong>Project Scrum: Scrum Portfolio</strong> &mdash; by <a href="https://vertel.se">Vertel Sverige AB</a></p>
+  <p><a href="https://vertel.se">vertel.se</a> &middot;
+     <a href="mailto:info@vertel.se">info@vertel.se</a></p>
+</footer>
+</body>
+</html>
