@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project Scrum: Task Weight &mdash; Vertel for Odoo</title>
+  <title>Project Scrum: Scrum Module &mdash; Vertel for Odoo</title>
   <style>
     :root { --navy:#0F172A; --darkBg:#1E293B; --white:#F8FAFC; --gray:#94A3B8;
              --lightGray:#E2E8F0; --brand:#930a57; --brand2:#8105a7; }
@@ -43,8 +43,8 @@
 </head>
 <body>
 <div class="hero">
-  <h1>Project Scrum: Task Weight</h1>
-  <p class="subtitle">Measure the scope of the activity.</p>
+  <h1>Project Scrum: Scrum Module</h1>
+  <p class="subtitle">Using Scrum to plan the work in teams.</p>
   <div class="meta">
     <span>Odoo 18.0</span><span>&middot;</span>
     <span>Project</span><span>&middot;</span>
@@ -54,36 +54,40 @@
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Measure the scope of the activity.</p>
-    <p>It extends Odoo's tasks.</p>
+    <p>Using Scrum to plan the work in teams.</p>
+    <p>It introduces the model(s) <code>ProjectUserStories</code>, <code>ScrumSprintTags</code>, <code>ScrumSprint</code> to handle this workflow.</p>
+    <p>It extends Odoo's analytic lines, tasks, projects.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 2 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: ProjectUserStories, ScrumSprintTags, ScrumSprint.</p></div>
+      <div class="feature-card"><h4>Guided wizards</h4><p>Step-by-step dialogs for data entry.</p></div>
+      <div class="feature-card"><h4>Actions</h4><p>Adds action_assign_to_me, action_view_sprint_calendar, action_create_sprint_calendar.</p></div>
+      <div class="feature-card"><h4>UI integration</h4><p>Extends 4 view(s) in the Odoo interface.</p></div>
     </div>
   </section>
   <section id="screenshots">
     <h2>Module Graphics</h2>
     <div class="screenshots">
       <figure>
-        <img src="icon.png" alt="Project Scrum: Task Weight icon" width="140" height="140">
+        <img src="icon.png" alt="Project Scrum: Scrum Module icon" width="140" height="140">
         <figcaption>Icon &mdash; 140 &times; 140 px</figcaption>
       </figure>
       <figure>
-        <img src="banner.png" alt="Project Scrum: Task Weight banner" width="560" height="280">
+        <img src="banner.png" alt="Project Scrum: Scrum Module banner" width="560" height="280">
         <figcaption>Banner &mdash; 560 &times; 280 px</figcaption>
       </figure>
     </div>
   </section>
   <section id="dependencies">
     <h2>Dependencies</h2>
-    <ul><li><code>project</code></li></ul>
+    <ul><li><code>project</code></li><li><code>mail</code></li><li><code>hr_timesheet</code></li><li><code>sales_team</code></li><li><code>calendar</code></li><li><code>web_mermaid</code></li><li><code>project_task_closed</code></li></ul>
     <p><small>Requires <strong>Odoo 18.0</strong> or later.</small></p>
   </section>
   <section id="installation">
     <h2>Installation</h2>
-    <p>Install the module <code>project_task_weight</code> from the Odoo Apps menu,
+    <p>Install the module <code>project_scrum</code> from the Odoo Apps menu,
        or deploy it via the Vertel SaltStack pipeline.</p>
   </section>
   <section id="support">
@@ -93,7 +97,7 @@
   </section>
 </div>
 <footer>
-  <p><strong>Project Scrum: Task Weight</strong> &mdash; by <a href="https://vertel.se">Vertel Sverige AB</a></p>
+  <p><strong>Project Scrum: Scrum Module</strong> &mdash; by <a href="https://vertel.se">Vertel Sverige AB</a></p>
   <p><a href="https://vertel.se">vertel.se</a> &middot;
      <a href="mailto:info@vertel.se">info@vertel.se</a></p>
 </footer>
