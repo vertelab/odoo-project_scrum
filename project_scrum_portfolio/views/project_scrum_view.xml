@@ -6,13 +6,13 @@
             <field name="model">project.scrum.portfolio</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name" />
                     <field name="user_id" />
                     <field name="color" />
                     <field name="planned_hours" />
                     <field name="consumed_hours" />
-                </tree>
+                </list>
             </field>
         </record>
         <record id="action_timebox_portfolio_button" model="ir.actions.act_window">
@@ -138,14 +138,14 @@
                              <field name="timebox_ids" context="{'default_project_id': project_id,'default_sprint_id': id,}">
                         -->
                         <field name="timebox_ids">
-                            <tree editable="top">
+                            <list editable="top">
                                 <!--
                                      <field name="name" />
                                 -->
                                 <field name="portfolio_id" />
                                 <field name="planned_hours" sum="Planned Hours" />
                                 <field name="sprint_share" avg="Share" />
-                            </tree>
+                            </list>
                         </field>
                     </page>
                 </page>
@@ -156,13 +156,13 @@
             <field name="model">project.scrum.timebox</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="portfolio_id" />
                     <field name="sprint_id" />
                     <field name="state" />
                     <field name="planned_hours" sum="Planned Hours" />
                     <field name="sprint_share" avg="Share" />
-                </tree>
+                </list>
             </field>
         </record>
         <record id="view_timebox_search" model="ir.ui.view">
