@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2022- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,36 +21,29 @@
 
 {
     'name': 'Project Scrum: Project Task Id',
-    'version': '18.0.1.2.0',
+    'version': '1.2',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds Id to task.',
     'category': 'Project',
     #'sequence': '1',
-    'description': '''
-Project Task Id
-===============
+    'description': """
+This module is maintained from https://github.com/vertelab/odoo-project_scrum/tree/14.0/project_task_id. \n
+Adds an id to task using a counter on each projekt. \n
+It can give one global sequence or one sequence per project. \n
+Toggle which to use through Project -> Configuration -> Settings -> Only use one task sequence
 
-    This module is maintained from https://github.com/vertelab/odoo-project_scrum/tree/14.0/project_task_id. \n
-    Adds an id to task using a counter on each projekt. \n
-    It can give one global sequence or one sequence per project. \n
-    Toggle which to use through Project -> Configuration -> Settings -> Only use one task sequence
-
-    This module i fairly similar to https://github.com/OCA/project/tree/14.0/project_key. \n
-        14.0.2.0.1\n
-         - Added use_project_no to project and make project number show based on that
-         - Showed project number to show on project.project form view
-
-    Features:
-
-        - UI Integration: Extends 1 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on project.project, project.task.
-    ''',
-    'author': 'Vertel AB',
+This module i fairly similar to https://github.com/OCA/project/tree/14.0/project_key. \n
+    14.0.2.0.1\n
+     - Added use_project_no to project and make project number show based on that
+     - Showed project number to show on project.project form view 
+    
+    """,
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_task_id',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
     'depends': ['project'],
     "data": [
@@ -62,3 +55,5 @@ Project Task Id
     "demo": [],
     "installable": True,
 }
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
