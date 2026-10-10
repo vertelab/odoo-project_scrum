@@ -21,11 +21,15 @@
 
 {
     'name': 'AI for project_scrum',
-    'version': '0.3',
-    'summary': 'Add powerbox for User Stories',
+    'version': '0.4',
+    'summary': 'Add powerbox for User Stories + Scrum-master agent for Project',
     'category': 'Productivity / Discuss',
     'description': """
         Powerbox to help formulate User Stories and Use Case and Mermaid graph to represent this
+
+        Also adds the Scrum-master specialist agent to the Project coworker
+        (project_ai.coworker_project_task_manager) using the additive
+        capability-expansion pattern — see project_ai/docs/additiv-formageexpansion.md.
     """,
     'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project_scrum/project_scrum_ai',
@@ -37,11 +41,13 @@
     # Any module necessary for this one to work correctly
     'depends': [
         'project_scrum',
+        'project_ai',
         'ai_agent_core',
         'web_mermaid_ai',
     ],
     'data': [
         'data/ai_coworker_data.xml',
+        'data/scrum_agents.xml',
         'views/scrum_us_views.xml',
     ],
     'installable': True,
