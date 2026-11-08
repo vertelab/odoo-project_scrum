@@ -19,42 +19,36 @@ msgstr ""
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_sprint.py:0
 #: model:ir.model.fields.selection,name:project_scrum.selection__project_sprint__date_option__1_months
 msgid "1 Month"
 msgstr "1 månad"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_sprint.py:0
 #: model:ir.model.fields.selection,name:project_scrum.selection__project_sprint__date_option__1_weeks
 msgid "1 Week"
 msgstr "1 vecka"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_sprint.py:0
 #: model:ir.model.fields.selection,name:project_scrum.selection__project_sprint__date_option__1_years
 msgid "1 Year"
 msgstr "1 år"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_sprint.py:0
 #: model:ir.model.fields.selection,name:project_scrum.selection__project_sprint__date_option__2_months
 msgid "2 Month"
 msgstr "2 månader"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_sprint.py:0
 #: model:ir.model.fields.selection,name:project_scrum.selection__project_sprint__date_option__2_weeks
 msgid "2 Weeks"
 msgstr "2 veckor"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_sprint.py:0
 #: model:ir.model.fields.selection,name:project_scrum.selection__project_sprint__date_option__2_years
 msgid "2 Years"
 msgstr "2 år"
@@ -124,16 +118,11 @@ msgstr "Antal bifogade filer"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_project.p.py:0
-#: code:addons/project_scrum/models/project_project.py:0
-#: code:addons/project_scrum/models/project_scrum.p.py:0
-#: code:addons/project_scrum/models/project_scrum.py:0
 msgid "Attachments"
 msgstr "Bilagor"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project.py:0
 #: model_terms:ir.ui.view,arch_db:project_scrum.project_project_view_kanban_inherit
 msgid "Backlog"
 msgstr "Eftersläpning"
@@ -145,8 +134,6 @@ msgstr "Antal eftersläpande ärenden"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_scrum.p.py:0
-#: code:addons/project_scrum/models/project_scrum.py:0
 msgid "Compose Email"
 msgstr "Skriva e-post"
 
@@ -162,14 +149,11 @@ msgstr "Skapad den"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_task.p.py:0
-#: code:addons/project_scrum/models/project_task.py:0
 msgid "Current Sprint"
 msgstr "Nuvarande Sprint"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_sprint.py:0
 #: model:ir.model.fields.selection,name:project_scrum.selection__project_sprint__date_option__custom
 msgid "Custom"
 msgstr "Anpassad"
@@ -340,8 +324,6 @@ msgstr "Nästa aktivitetstyp"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_task.p.py:0
-#: code:addons/project_scrum/models/project_task.py:0
 msgid "Next Sprint"
 msgstr "Nästa sprint"
 
@@ -367,8 +349,6 @@ msgstr "Antal meddelanden med leveransfel"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_task.p.py:0
-#: code:addons/project_scrum/models/project_task.py:0
 msgid "Previous Sprint"
 msgstr "Tidigare Sprint"
 
@@ -381,36 +361,26 @@ msgstr "Projekt"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.p.py:0
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.py:0
 msgid "Project %s has enough sprints\n"
 msgstr "Projektet %s har tillräckligt många sprintar\n"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.p.py:0
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.py:0
 msgid "Project %s is not a Scrum-project\n"
 msgstr "Projektet %s är inte ett Scrum-projekt\n"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.p.py:0
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.py:0
 msgid "Project %s missing Calendar Days\n"
 msgstr "Projekt %s saknar kalenderdagar\n"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.p.py:0
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.py:0
 msgid "Project %s missing End Date\n"
 msgstr "Projekt %s saknar slutdatum\n"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.p.py:0
-#: code:addons/project_scrum/wizard/project_scrum_create_sprints.py:0
 msgid "Project %s missing Manhours\n"
 msgstr "Projekt %s saknar mantimmar\n"
 
@@ -457,13 +427,11 @@ msgstr "Sprintläge"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project.py:0
 msgid "Sprint Timeline"
 msgstr "Tidslinje för sprint"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project.py:0
 #: model:ir.actions.act_window,name:project_scrum.project_sprint_action
 #: model:ir.model.fields,field_description:project_scrum.field_project_project__sprint_ids
 #: model:ir.ui.menu,name:project_scrum.project_sprint_menu
@@ -513,7 +481,6 @@ msgstr "Aktivitet"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_sprint.py:0
 #: model:ir.model.fields,field_description:project_scrum.field_project_sprint__task_ids
 msgid "Tasks"
 msgstr "Uppgifter"
@@ -525,7 +492,6 @@ msgstr "Antal uppgifter"
 
 #. module: project_scrum
 #. odoo-python
-#: code:addons/project_scrum/models/project_task.py:0
 msgid "The assignees must be part of the sprint."
 msgstr "Uppdragstagarna måste vara en del av sprinten."
 

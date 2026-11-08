@@ -67,7 +67,6 @@ msgid " ${object.date_meeting or ''}"
 msgstr " ${object.date_meeting or ''}"
 
 #. module: project_scrum
-#: field:project.scrum.us,actor_ids:0 field:project.task,actor_ids:0
 msgid "Actor"
 msgstr "الفاعل"
 
@@ -82,155 +81,121 @@ msgid "Analytic Account"
 msgstr "حساب تحليلي"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "Are there anything blocking you?"
 msgstr "هل هناك أي شيء يمنعك من التقدم ؟"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "Are your Sprint Backlog estimate accurate ?"
 msgstr "هل تقديراتك دقيقة لسجل سبرينت؟"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,user_id:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__user_id
 msgid "Assigned to"
 msgstr "تعيين إلى  "
 
 #. module: project_scrum
-#: field:project.scrum.meeting,question_backlog:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__question_backlog
 msgid "Backlog Accurate?"
 msgstr " دقة التراكم؟"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: selection:project.scrum.sprint,state:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: selection:project.scrum.test,stats_test:0
 msgid "Cancelled"
 msgstr "إلغاء"
 
 #. module: project_scrum
-#: field:project.scrum.test,color:0 field:project.scrum.us,color:0
 msgid "Color Index"
 msgstr "مؤشر اللون"
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:174
 #, python-format
 msgid "Compose Email"
 msgstr "إنشاء البريد الإلكتروني"
 
 #. module: project_scrum
-#: field:project.scrum.actors,create_uid:0
-#: field:project.scrum.meeting,create_uid:0
-#: field:project.scrum.sprint,create_uid:0
-#: field:project.scrum.test,create_uid:0 field:project.scrum.us,create_uid:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_actors__create_uid
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__create_uid
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__create_uid
 msgid "Created by"
 msgstr "انشأها "
 
 #. module: project_scrum
-#: field:project.scrum.actors,create_date:0
-#: field:project.scrum.meeting,create_date:0
-#: field:project.scrum.sprint,create_date:0
-#: field:project.scrum.test,create_date:0 field:project.scrum.us,create_date:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_actors__create_date
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__create_date
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__create_date
 msgid "Created on"
 msgstr "تم إنشاؤها في "
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
 msgid "Customer"
 msgstr "العميل"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "Daily Meeting"
 msgstr "لقاء يومي"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,meeting_ids:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__meeting_ids
 msgid "Daily Scrum"
 msgstr " سكروم اليومي "
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
-#: field:project.scrum.meeting,date_meeting:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__date_meeting
 msgid "Date"
 msgstr "تاريخ"
 
 #. module: project_scrum
-#: help:project.scrum.meeting,message_last_post:0
 msgid "Date of the last message posted on the record."
 msgstr "تاريخ آخر رسالة نشرت على السجل."
 
 #. module: project_scrum
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_kanban
-#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
 msgid "Delete"
 msgstr "حذف"
 
 #. module: project_scrum
-#: field:project.scrum.meeting,question_blocks:0
-#: field:project.scrum.meeting,question_today:0
-#: field:project.scrum.meeting,question_yesterday:0
-#: field:project.scrum.sprint,description:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_form
-#: field:project.scrum.test,description_test:0
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: field:project.scrum.us,description:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__question_blocks
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__question_today
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__question_yesterday
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__description
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_test__description_test
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_us__description
 msgid "Description"
 msgstr "وصف"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: selection:project.scrum.sprint,state:0
 msgid "Done"
 msgstr "منته"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: selection:project.scrum.sprint,state:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: selection:project.scrum.test,stats_test:0
 msgid "Draft"
 msgstr "مسودة"
 
 #. module: project_scrum
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_kanban
-#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
 msgid "Edit..."
 msgstr "تحرير..."
 
 #. module: project_scrum
-#: field:project.scrum.sprint,date_stop:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__date_stop
 msgid "Ending Date"
 msgstr "تاريخ الانتهاء"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
 msgid "Filter By..."
 msgstr "تصفية حسب ..."
 
 #. module: project_scrum
-#: field:project.scrum.meeting,message_follower_ids:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__message_follower_ids
 msgid "Followers"
 msgstr "أتباع"
 
 #. module: project_scrum
-#: help:project.scrum.sprint,sequence:0
 msgid "Gives the sequence order when displaying a list of tasks."
 msgstr "يعطي النظام التسلسلي عند عرض قائمة من المهام."
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: view:project.scrum.us:project_scrum.view_scrum_us_search
 msgid "Group By..."
 msgstr "تجميع حسب..."
 
 #. module: project_scrum
-#: help:project.scrum.meeting,message_summary:0
 msgid ""
 "Holds the Chatter summary (number of messages, ...). This summary is "
 "directly in html format in order to be inserted in kanban views."
@@ -239,19 +204,15 @@ msgstr ""
 "إدراجها في طرق العرض كانبان."
 
 #. module: project_scrum
-#: field:project.scrum.actors,id:0 field:project.scrum.meeting,id:0
-#: field:project.scrum.sprint,id:0 field:project.scrum.test,id:0
-#: field:project.scrum.us,id:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_us__id
 msgid "ID"
 msgstr "الهوية"
 
 #. module: project_scrum
-#: help:project.scrum.meeting,message_unread:0
 msgid "If checked new messages require your attention."
 msgstr "إذا اختير الرسائل الجديدة تتطلب انتباهكم."
 
 #. module: project_scrum
-#: help:project.scrum.sprint,project_id:0
 msgid ""
 "If you have [?] in the project name, it means there are no analytic account "
 "linked to this project."
@@ -260,39 +221,34 @@ msgstr ""
 "المشروع."
 
 #. module: project_scrum
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: selection:project.scrum.test,stats_test:0
 msgid "In Progress"
 msgstr "قيد التقدم"
 
 #. module: project_scrum
-#: field:project.scrum.meeting,message_is_follower:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__message_is_follower
 msgid "Is a Follower"
 msgstr "هو متابع"
 
 #. module: project_scrum
-#: field:project.scrum.meeting,message_last_post:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__message_last_post
 msgid "Last Message Date"
 msgstr "آخر تاريخ لإرسال رسالة "
 
 #. module: project_scrum
-#: field:project.scrum.actors,write_uid:0
-#: field:project.scrum.meeting,write_uid:0
-#: field:project.scrum.sprint,write_uid:0 field:project.scrum.test,write_uid:0
-#: field:project.scrum.us,write_uid:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_actors__write_uid
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__write_uid
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_us__write_uid
 msgid "Last Updated by"
 msgstr "اخر تحديث قام به"
 
 #. module: project_scrum
-#: field:project.scrum.actors,write_date:0
-#: field:project.scrum.meeting,write_date:0
-#: field:project.scrum.sprint,write_date:0
-#: field:project.scrum.test,write_date:0 field:project.scrum.us,write_date:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_actors__write_date
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__write_date
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__write_date
 msgid "Last Updated on"
 msgstr "اخر تحديث في"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
 msgid "Meeting"
 msgstr "اجتماع"
 
@@ -300,77 +256,60 @@ msgstr "اجتماع"
 #: model:ir.actions.act_window,name:project_scrum.action_meeting_all_tree
 #: model:ir.actions.act_window,name:project_scrum.action_meeting_current_tree
 #: model:ir.ui.menu,name:project_scrum.menu_action_meeting_all_tree
-#: view:project.project:project_scrum.view_project_scrum_kanban
-#: field:project.project,meeting_ids:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_project__meeting_ids
 msgid "Meetings"
 msgstr "اجتماعات"
 
 #. module: project_scrum
-#: field:project.scrum.meeting,message_ids:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__message_ids
 msgid "Messages"
 msgstr "رسائل"
 
 #. module: project_scrum
-#: help:project.scrum.meeting,message_ids:0
 msgid "Messages and communication history"
 msgstr "رسائل وتاريخ الاتصال"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
 msgid "Month"
 msgstr "شهر "
 
 #. module: project_scrum
-#: field:project.scrum.actors,name:0
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
-#: field:project.scrum.meeting,user_id_meeting:0
-#: field:project.scrum.test,name:0 field:project.scrum.us,name:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_actors__name
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__user_id_meeting
 msgid "Name"
 msgstr "إسم"
 
 #. module: project_scrum
-#: selection:project.scrum.meeting,question_backlog:0
 msgid "No"
 msgstr " لا"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: selection:project.scrum.sprint,state:0
 msgid "Open"
 msgstr "مفتوح"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: selection:project.scrum.sprint,state:0
 msgid "Pending"
 msgstr "معلّق"
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
-#: field:project.scrum.sprint,product_owner_id:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__product_owner_id
 msgid "Product Owner"
 msgstr "صاحب المنتج"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
 msgid "Product owner"
 msgstr "صاحب المنتج"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_project
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
-#: field:project.scrum.meeting,project_id:0
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: field:project.scrum.sprint,project_id:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: field:project.scrum.test,project_id:0
-#: view:project.scrum.us:project_scrum.view_scrum_us_search
-#: field:project.scrum.us,project_id:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__project_id
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__project_id
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_test__project_id
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_us__project_id
 msgid "Project"
 msgstr "مشروع"
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
 msgid "Project Manager"
 msgstr "مدير المشروع"
 
@@ -390,17 +329,14 @@ msgid "Project Scrum Use Stories"
 msgstr "قصص العضو  لمشروع سكروم "
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_task_gantt
 msgid "Projects"
 msgstr "مشاريع"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 msgid "Retrospective"
 msgstr "أثر رجعي"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 msgid "Review"
 msgstr "مراجعة"
 
@@ -410,72 +346,54 @@ msgid "Scrum"
 msgstr " سكروم "
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
-#: field:project.scrum.sprint,scrum_master_id:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__scrum_master_id
 msgid "Scrum Master"
 msgstr "رئيس السكروم"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_calendar
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_tree
 msgid "Scrum Meeting"
 msgstr "اجتماع سكروم"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_project_task_graph
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_calendar
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_tree
 msgid "Scrum Sprint"
 msgstr "سباق سكروم"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "Send Email"
 msgstr "إرسال البريد"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,sequence:0
-#: field:project.scrum.test,sequence_test:0 field:project.scrum.us,sequence:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__sequence
 msgid "Sequence"
 msgstr "تسلسل"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_search
-#: field:project.scrum.meeting,sprint_id:0
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_search
-#: field:project.scrum.us,sprint_id:0
-#: view:project.task:project_scrum.view_scrum_sprint_task_form2
-#: view:project.task:project_scrum.view_scrum_sprint_task_search
-#: field:project.task,sprint_id:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__sprint_id
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_us__sprint_id
+#: model:ir.model.fields,field_description:project_scrum.field_project_task__sprint_id
 msgid "Sprint"
 msgstr "سبرينت"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
 msgid "Sprint Month"
 msgstr "سبرينت الشهر"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,name:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__name
 msgid "Sprint Name"
 msgstr " اسم السبرينت"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,retrospective:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__retrospective
 msgid "Sprint Retrospective"
 msgstr "سبرينت بأثر رجعي"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,review:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__review
 msgid "Sprint Review"
 msgstr "مراجعة  السبرينت "
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
 msgid "Sprint..."
 msgstr "سبرينت ..."
 
@@ -483,45 +401,34 @@ msgstr "سبرينت ..."
 #: model:ir.actions.act_window,name:project_scrum.action_sprint_all_tree
 #: model:ir.actions.act_window,name:project_scrum.action_sprint_current_tree
 #: model:ir.ui.menu,name:project_scrum.menu_action_sprint_all_tree
-#: view:project.project:project_scrum.view_project_scrum_kanban
-#: field:project.project,sprint_ids:0
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_search
+#: model:ir.model.fields,field_description:project_scrum.field_project_project__sprint_ids
 msgid "Sprints"
 msgstr "سبرينت"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,date_start:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_sprint__date_start
 msgid "Starting Date"
 msgstr "تاريخ الإبتداء"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: field:project.scrum.sprint,state:0 field:project.scrum.test,stats_test:0
 msgid "State"
 msgstr "حالة"
 
 #. module: project_scrum
-#: field:project.scrum.meeting,message_summary:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__message_summary
 msgid "Summary"
 msgstr "ملخص"
 
 #. module: project_scrum
 #: model:ir.model,name:project_scrum.model_project_task
-#: view:project.project:project_scrum.edit_project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
 msgid "Task"
 msgstr "مهمة"
 
 #. module: project_scrum
-#: field:project.scrum.sprint,task_ids:0 field:project.scrum.us,task_ids:0
 msgid "Task ids"
 msgstr "هويات المهمة "
 
 #. module: project_scrum
-#: view:project.project:project_scrum.edit_project_scrum
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
 msgid "Tasks"
 msgstr "مهمات "
 
@@ -529,27 +436,20 @@ msgstr "مهمات "
 #: model:ir.actions.act_window,name:project_scrum.action_test_case_all_tree
 #: model:ir.actions.act_window,name:project_scrum.action_test_case_current_tree
 #: model:ir.ui.menu,name:project_scrum.menu_action_test_case_all_tree
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
 msgid "Test Case"
 msgstr " قضية تجريبية"
 
 #. module: project_scrum
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_form
 msgid "Test Case..."
 msgstr " قضية تجريبية..."
 
 #. module: project_scrum
-#: view:project.project:project_scrum.view_project_scrum_kanban
-#: field:project.project,test_case_ids:0
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_form
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_kanban
+#: model:ir.model.fields,field_description:project_scrum.field_project_project__test_case_ids
 msgid "Test Cases"
 msgstr "قضايا تجريبية"
 
 #. module: project_scrum
-#: field:project.scrum.us,test_ids:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_us__test_ids
 msgid "Test ids"
 msgstr "هويات تجريبية"
 
@@ -560,12 +460,10 @@ msgid "The daily meeting of scrum."
 msgstr "الاجتماع اليومي للسكروم."
 
 #. module: project_scrum
-#: help:project.scrum.sprint,scrum_master_id:0
 msgid "The person who is maintains the processes for the product"
 msgstr "الشخص الذي يحافظ على العمليات للمنتجللمنتج"
 
 #. module: project_scrum
-#: help:project.scrum.sprint,product_owner_id:0
 msgid "The person who is responsible for the product"
 msgstr "الشخص المسؤول عن المنتج"
 
@@ -598,13 +496,12 @@ msgid "The user stories of scrum."
 msgstr "قصص المستعمل في سكروم."
 
 #. module: project_scrum
-#: field:project.scrum.meeting,message_unread:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_meeting__message_unread
 msgid "Unread Messages"
 msgstr "الرسائل الغير مقروءة"
 
 #. module: project_scrum
-#: field:account.analytic.account,use_scrum:0
-#: view:project.project:project_scrum.edit_project_scrum
+#: model:ir.model.fields,field_description:project_scrum.field_account_analytic_account__use_scrum
 msgid "Use Scrum"
 msgstr "استخدم سكروم"
 
@@ -612,40 +509,27 @@ msgstr "استخدم سكروم"
 #: model:ir.actions.act_window,name:project_scrum.action_us_all_tree
 #: model:ir.actions.act_window,name:project_scrum.action_us_current_tree
 #: model:ir.ui.menu,name:project_scrum.menu_action_us_all_tree
-#: view:project.project:project_scrum.view_project_scrum_kanban
-#: field:project.project,user_story_ids:0 field:project.scrum.sprint,us_ids:0
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: view:project.scrum.us:project_scrum.view_scrum_us_search
-#: field:project.task,us_id:0
+#: model:ir.model.fields,field_description:project_scrum.field_project_task__us_id
 msgid "User Stories"
 msgstr "قصص المستعمل"
 
 #. module: project_scrum
-#: view:project.scrum.sprint:project_scrum.view_scrum_sprint_form
-#: view:project.scrum.test:project_scrum.view_scrum_test_case_search
-#: field:project.scrum.test,user_story_id_test:0
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
-#: view:project.task:project_scrum.view_scrum_sprint_task_form2
-#: view:project.task:project_scrum.view_scrum_sprint_task_search
+#: model:ir.model.fields,field_description:project_scrum.field_project_scrum_test__user_story_id_test
 msgid "User Story"
 msgstr "قصة المستخدم"
 
 #. module: project_scrum
-#: view:project.scrum.us:project_scrum.view_scrum_us_form
 msgid "User Story..."
 msgstr "قصة المستخدم ..."
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "What did you do since the last meeting?"
 msgstr "ماذا فعلت من بعد اخر اجتماع؟"
 
 #. module: project_scrum
-#: view:project.scrum.meeting:project_scrum.view_scrum_meeting_form
 msgid "What do you plan to do till the next meeting?"
 msgstr "ماذا تنوي أن تفعل حتى الاجتماع المقبل؟"
 
 #. module: project_scrum
-#: selection:project.scrum.meeting,question_backlog:0
 msgid "Yes"
 msgstr " نعم"

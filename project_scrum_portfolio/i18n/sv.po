@@ -18,174 +18,151 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,color:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__color
 msgid "Color Index"
 msgstr "Färgindex"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,consumed_hours:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__consumed_hours
 msgid "Consumed Hours"
 msgstr "Förbrukade timmar"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,create_uid:0
-#: field:project.scrum.timebox,create_uid:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__create_uid
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__create_uid
 msgid "Created by"
 msgstr "Skapad av"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,create_date:0
-#: field:project.scrum.timebox,create_date:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__create_date
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__create_date
 msgid "Created on"
 msgstr "Skapad"
 
 #. module: project_scrum_portfolio
-#: help:project.scrum.portfolio,message_last_post:0
 msgid "Date of the last message posted on the record."
 msgstr "Datum när det senaste meddelandet postades."
 
 #. module: project_scrum_portfolio
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_form
-#: field:project.scrum.portfolio,description:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__description
 msgid "Description"
 msgstr "Beskrivning"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,display_name:0
-#: field:project.scrum.timebox,display_name:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__display_name
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__display_name
 msgid "Display Name"
 msgstr "Visningsnamn"
 
 #. module: project_scrum_portfolio
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_search
-#: view:project.scrum.timebox:project_scrum_portfolio.view_timebox_search
 msgid "Filter By..."
 msgstr "Filtrerad efter..."
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,message_follower_ids:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__message_follower_ids
 msgid "Followers"
 msgstr "Följare"
 
 #. module: project_scrum_portfolio
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_search
-#: view:project.scrum.timebox:project_scrum_portfolio.view_timebox_search
 msgid "Group By..."
 msgstr "Gruppera efter..."
 
 #. module: project_scrum_portfolio
-#: help:project.scrum.portfolio,message_summary:0
 msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
 msgstr "Chattersammanfattning (antal meddelanden, ...). Denna sammanställning är utformad i htmlformat för att bli inklistrad i kanbanvyn."
 
 #. module: project_scrum_portfolio
-#: help:project.scrum.portfolio,consumed_hours:0
 msgid "Hours consumed for done sprints"
 msgstr "Timmar använda för färdiga iterationer"
 
 #. module: project_scrum_portfolio
-#: help:project.scrum.portfolio,planned_hours:0
 msgid "Hours timedboxed for sprints planned"
 msgstr "Timmar tidlådade för planerade iterationer"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,id:0 field:project.scrum.timebox,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: project_scrum_portfolio
-#: help:project.scrum.portfolio,message_unread:0
 msgid "If checked new messages require your attention."
 msgstr "Om markerad, nya meddelanden kräver din uppmärksamhet."
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,message_is_follower:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__message_is_follower
 msgid "Is a Follower"
 msgstr "Är en följare"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,message_last_post:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__message_last_post
 msgid "Last Message Date"
 msgstr "Senaste meddelande, datum"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,__last_update:0
-#: field:project.scrum.timebox,__last_update:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio____last_update
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox____last_update
 msgid "Last Modified on"
 msgstr "Senast modifierad"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,write_uid:0
-#: field:project.scrum.timebox,write_uid:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__write_uid
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__write_uid
 msgid "Last Updated by"
 msgstr "Senast uppdaterad av"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,write_date:0
-#: field:project.scrum.timebox,write_date:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__write_date
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__write_date
 msgid "Last Updated on"
 msgstr "Senast uppdaterad"
 
 #. module: project_scrum_portfolio
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_search
 msgid "Manager"
 msgstr "Chef"
 
 #. module: project_scrum_portfolio
-#: help:project.scrum.portfolio,user_id:0
 msgid "Manager for a product or Focus Area"
 msgstr "Chef för produkt- eller fokusområde"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,message_ids:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__message_ids
 msgid "Messages"
 msgstr "Meddelanden"
 
 #. module: project_scrum_portfolio
-#: help:project.scrum.portfolio,message_ids:0
 msgid "Messages and communication history"
 msgstr "Meddelanden och kommunikativ historia"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,planned_hours:0
-#: view:project.scrum.sprint:project_scrum_portfolio.view_ps_sprint_form
-#: view:project.scrum.timebox:project_scrum_portfolio.view_timebox_tree
-#: field:project.scrum.timebox,planned_hours:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__planned_hours
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__planned_hours
 msgid "Planned Hours"
 msgstr "Plannerade timmar"
 
 #. module: project_scrum_portfolio
 #: model:ir.actions.act_window,name:project_scrum_portfolio.action_portfolio_all
 #: model:ir.ui.menu,name:project_scrum_portfolio.menu_action_portfolio_all
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_form
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_search
-#: view:project.scrum.timebox:project_scrum_portfolio.view_timebox_search
-#: view:project.task:project_scrum_portfolio.view_task_search_form
 msgid "Portfolio"
 msgstr "Portfölj"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,name:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__name
 msgid "Portfolio Name"
 msgstr "Portföljnamn"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.timebox,portfolio_id:0 field:project.task,portfolio_id:0
 msgid "Portfolio id"
 msgstr "Portfölj"
 
 #. module: project_scrum_portfolio
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_form
 msgid "Portfolio..."
 msgstr "Portfölj..."
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,user_id:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__user_id
 msgid "Product Owner"
 msgstr "Produktägare"
 
 #. module: project_scrum_portfolio
-#: help:project.scrum.portfolio,name:0
 msgid "Product or focus area"
 msgstr "Produkt- eller fokusområde"
 
@@ -196,7 +173,6 @@ msgstr "Projekt"
 
 #. module: project_scrum_portfolio
 #: model:ir.model,name:project_scrum_portfolio.model_project_scrum_portfolio
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_form
 msgid "Project Scrum Portfolio"
 msgstr "Projekt Scrum Portfölj"
 
@@ -211,32 +187,30 @@ msgid "Project Scrum Timebox"
 msgstr "Projekt Scrum tidlåda"
 
 #. module: project_scrum_portfolio
-#: view:project.scrum.sprint:project_scrum_portfolio.view_ps_sprint_form
 msgid "Review"
 msgstr "Återblick"
 
 #. module: project_scrum_portfolio
-#: view:project.scrum.timebox:project_scrum_portfolio.view_timebox_search
 msgid "Sprint"
 msgstr "Iteration"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.timebox,sprint_id:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__sprint_id
 msgid "Sprint id"
 msgstr "Iteration"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.timebox,sprint_share:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__sprint_share
 msgid "Sprint share"
 msgstr "Andel"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.timebox,state:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_timebox__state
 msgid "State"
 msgstr "Status"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,message_summary:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__message_summary
 msgid "Summary"
 msgstr "Sammanfattning"
 
@@ -259,24 +233,21 @@ msgstr "Tidlådornas portföljer."
 #. module: project_scrum_portfolio
 #: model:ir.actions.act_window,name:project_scrum_portfolio.action_timebox_portfolio
 #: model:ir.actions.act_window,name:project_scrum_portfolio.action_timebox_portfolio_button
-#: view:project.scrum.portfolio:project_scrum_portfolio.view_portfolio_form
-#: view:project.scrum.sprint:project_scrum_portfolio.view_ps_sprint_form
-#: view:project.scrum.timebox:project_scrum_portfolio.view_timebox_search
 msgid "Timebox"
 msgstr "Tidlåda"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,timebox_count:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__timebox_count
 msgid "Timebox count"
 msgstr "Tidlådsräknare"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,timebox_ids:0
-#: field:project.scrum.sprint,timebox_ids:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__timebox_ids
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_sprint__timebox_ids
 msgid "Timebox ids"
 msgstr "Tidlådor"
 
 #. module: project_scrum_portfolio
-#: field:project.scrum.portfolio,message_unread:0
+#: model:ir.model.fields,field_description:project_scrum_portfolio.field_project_scrum_portfolio__message_unread
 msgid "Unread Messages"
 msgstr "Olästa meddelanden"
