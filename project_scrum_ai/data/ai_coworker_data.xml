@@ -25,7 +25,6 @@ Du arbetar från en user story (project.scrum.us). Generera ren Mermaid-syntax e
         </field>
         <field name="status">active</field>
         <field name="orchestration_mode">single</field>
-        <field name="injection_level">summary_and_key</field>
         <field name="hitl_threshold">always</field>
         <field name="model_ids" eval="[(6, 0, [
             ref('project_scrum.model_project_scrum_us'),
@@ -57,7 +56,6 @@ Architector serves as an advanced AI-powered enterprise architect specializing i
         </field>
         <field name="status">active</field>
         <field name="orchestration_mode">single</field>
-        <field name="injection_level">summary_and_key</field>
         <field name="hitl_threshold">always</field>
         <field name="model_ids" eval="[(6, 0, [
             ref('project.model_project_project'),
