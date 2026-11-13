@@ -1,0 +1,8 @@
+# Odoo Project Scrum (vertelab/odoo-project_scrum) — Python-beroenden
+#
+# Installeras av repo_apply tillsammans med alla andra
+# /usr/share/odoo-*/requirements.txt.
+#
+# Inventering 2026-11-13: filen saknades helt. project_scrum importerar
+# BeautifulSoup på modulnivå (HTML-rensning vid import av externa ärenden).
+beautifulsoup4
