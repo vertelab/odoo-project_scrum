@@ -18,7 +18,11 @@
         <record id="action_timebox_portfolio_button" model="ir.actions.act_window">
             <field name="name">Timebox</field>
             <field name="res_model">project.scrum.timebox</field>
+            <!-- #if VERSION >= "18.0" -->
+            <field name="view_mode">list,form</field>
+            <!-- #else -->
             <field name="view_mode">tree,form</field>
+            <!-- #endif -->
             <field name="context">{"search_default_portfolio_id": [active_id]}</field>
             <field name="help">The timeboxes of portfolio.</field>
         </record>
@@ -80,7 +84,11 @@
         <record id="action_portfolio_all" model="ir.actions.act_window">
             <field name="name">Portfolio</field>
             <field name="res_model">project.scrum.portfolio</field>
+            <!-- #if VERSION >= "18.0" -->
+            <field name="view_mode">list,form</field>
+            <!-- #else -->
             <field name="view_mode">tree,form</field>
+            <!-- #endif -->
             <field name="view_id" ref="view_portfolio_tree" />
             <!--
                  <field name="context">{"search_default_portfolio_id": [active_id]}</field>
@@ -194,7 +202,11 @@
         <record id="action_timebox_portfolio" model="ir.actions.act_window">
             <field name="name">Timebox</field>
             <field name="res_model">project.scrum.timebox</field>
+            <!-- #if VERSION >= "18.0" -->
+            <field name="view_mode">list,form</field>
+            <!-- #else -->
             <field name="view_mode">tree,form</field>
+            <!-- #endif -->
             <field name="view_id" ref="view_timebox_tree" />
             <!--
                  <field name="context">{"search_default_portfolio_id": [active_id]}</field>
