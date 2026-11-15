@@ -21,7 +21,7 @@
 
 {
     'name': 'Project Scrum: External Tickets',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': 'External Tickets for Project Scrum.',
     'category': 'Project',
     #'sequence': '1',
