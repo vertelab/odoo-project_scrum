@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <odoo>
+    <!-- #if VERSION <= "19.0" -->
     <data>
     
 <!--
@@ -39,4 +40,5 @@
 -->
 
     </data>
+    <!-- #endif -->
 </odoo>
