@@ -6,6 +6,7 @@ import re
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, AccessError
+from odoo.osv import expression
 
 
 class AccountAnalyticLine(models.Model):
