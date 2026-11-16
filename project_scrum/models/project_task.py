@@ -1,7 +1,7 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
 import odoo.tools
 from datetime import date
-from odoo.osv import expression
+from odoo.fields import Domain
 from odoo.exceptions import UserError, ValidationError
 import logging
 
@@ -150,13 +150,13 @@ class ProjectTask(models.Model):
             # Add the filter for sprint_id (not active_sprint_id)
             # We need to be careful here - we're in the project.task model,
             # so we should be filtering on sprint_id, which is a field in project.task
-            domain = expression.AND([
-                domain,
-                [
+            domain = Domain.AND([
+                Domain(domain),
+                Domain([
                     '|',
                     ('sprint_id', 'in', allowed_sprint_ids),
                     ('sprint_id', '=', False)
-                ]
+                ])
             ])
 
             _logger.info("Modified domain for read_group: %s", domain)

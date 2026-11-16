@@ -1,7 +1,11 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
 import odoo.tools
 from datetime import date
+# #if VERSION >= "20.0"
+from odoo.fields import Domain
+# #else
 from odoo.osv import expression
+# #endif
 from odoo.exceptions import UserError, ValidationError
 import logging
 
@@ -97,12 +101,7 @@ class ProjectTask(models.Model):
                 self.sprint_ids = [(4, vals.get('sprint_id'), 0)]
         return super(ProjectTask, self).write(vals)
 
-    # # if VERSION <  "17.0"
-    def _read_group_sprint_id(self, sprint_id, domain, order):
-
-    # #else
     def _read_group_sprint_id(self, sprint_id, domain):
-        # #endif
         # Bygg en giltig domän för sprint-modellen från task-domänen
         sprint_domain = []
         for leaf in domain:
@@ -113,20 +112,11 @@ class ProjectTask(models.Model):
                 continue
         if not sprint_domain:
             sprint_domain = []
-        # # if VERSION <  "17.0"
-        sprint_ids = sprint_id._search(sprint_domain, order='date_start asc', access_rights_uid=SUPERUSER_ID)
-        # #else
         sprint_ids = sprint_id.sudo()._search(sprint_domain, order='date_start asc')
-        # #endif
         return sprint_id.browse(sprint_ids)
 
     @api.model
-    # # if VERSION <  "17.0"
-    def _read_group_active_sprint_id(self, sprint_id, domain, order):
-
-    # #else
     def _read_group_active_sprint_id(self, sprint_id, domain, order=None):
-    # #endif
         """Determine which sprints are available for grouping in project.task model."""
         # Create a domain for the sprint search
         sprint_domain = []
@@ -164,6 +154,16 @@ class ProjectTask(models.Model):
             # Add the filter for sprint_id (not active_sprint_id)
             # We need to be careful here - we're in the project.task model,
             # so we should be filtering on sprint_id, which is a field in project.task
+            # #if VERSION >= "20.0"
+            domain = Domain.AND([
+                Domain(domain),
+                Domain([
+                    '|',
+                    ('sprint_id', 'in', allowed_sprint_ids),
+                    ('sprint_id', '=', False)
+                ])
+            ])
+            # #else
             domain = expression.AND([
                 domain,
                 [
@@ -172,6 +172,7 @@ class ProjectTask(models.Model):
                     ('sprint_id', '=', False)
                 ]
             ])
+            # #endif
 
             _logger.info("Modified domain for read_group: %s", domain)
 
@@ -191,20 +192,12 @@ class ProjectTask(models.Model):
 
 
     @api.model
-    # #if VERSION <=  "17.0"
-    def _read_group_stage_ids(self, stages, domain, order):
-    # # else
     def _read_group_stage_ids(self, stages, domain):
-        # #endif
         search_domain = [('id', 'in', stages.ids)]
         if 'default_project_id' in self.env.context:
             search_domain = ['|', ('project_ids', '=', self.env.context['default_project_id'])] + search_domain
 
-        # #if VERSION <=  "17.0"
-        stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
-        # # else
         stage_ids = stages.sudo()._search(search_domain, order=stages._order)
-        # #endif
         return stages.browse(stage_ids)
 
     def _read_group_user_id(self, domain, read_group_order=None, access_rights_uid=None, context=None):

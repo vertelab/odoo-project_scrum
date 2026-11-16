@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
-from odoo.osv import expression
+from odoo.fields import Domain
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -59,9 +59,9 @@ class ProjectProject(models.Model):
         """Override to extend searching project_no when searching name"""
         for arg in args.copy():
             if 'name' in arg:
-                args = expression.OR((
-                    expression.normalize_domain(args),
-                    [('project_no', 'ilike', arg[2])], 
+                args = Domain.OR((
+                    Domain(args),
+                    Domain([('project_no', 'ilike', arg[2])]),
                 ))
         return super().search(
             args,
