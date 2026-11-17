@@ -112,7 +112,7 @@ More information:
         'views/calendar_event_view.xml',
         'wizard/project_scrum_test_task_view.xml',
         'wizard/project_scrum_create_sprints.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'security/project_security.xml',
         'data/project_scrum_data.xml',
        ],

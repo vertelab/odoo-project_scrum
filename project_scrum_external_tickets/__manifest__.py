@@ -47,7 +47,7 @@ External Tickets
     'data': [
         'views/project_scrum_us_views.xml',
         'views/project_task_views.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
     ],
     'installable': True,
 }

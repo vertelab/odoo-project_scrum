@@ -121,7 +121,11 @@ More information:
         'views/calendar_event_view.xml',
         'wizard/project_scrum_test_task_view.xml',
         'wizard/project_scrum_create_sprints.xml',
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'security/project_security.xml',
         'data/project_scrum_data.xml',
        ],

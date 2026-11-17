@@ -41,7 +41,11 @@
     'repository': 'https://github.com/vertelab/odoo-project_scrum',
     'depends': ['project', 'project_scrum', 'mail'],
     'data': [
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'views/sprint_module_views.xml',
         'views/sprint_repo_views.xml',
         'views/res_config_settings_views.xml',
