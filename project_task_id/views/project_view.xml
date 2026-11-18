@@ -72,7 +72,8 @@
         <record model="ir.ui.view" id="view_task_kanban">
             <field name="name">project.task.kanban</field>
             <field name="model">project.task</field>
-            <field name= "inherit_id" ref="project.view_task_kanban" />
+            <!-- 20.0 moved the kanban card fields into project.view_task_card. -->
+            <field name="inherit_id" ref="project.view_task_card" />
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='name']" position="replace">
