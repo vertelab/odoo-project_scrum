@@ -1,134 +1,21 @@
 name: pfiles
 
-# Grindar för versionsagnostisk kod (p-filer).
-# Se /skill:odoo-pfiles. Fyra oberoende kontroller:
-#   1. täckning  — varje källfil är p-fil eller genererad (pfiles-check)
-#   2. expansion — committad utdata matchar p-filerna, för DENNA gren
-#   3. syntax    — enkelt '#' i direktiv, manifest-prefix
-#   4. bygge     — expansionen är reproducerbar i en ren miljö
+# Shared gate for version-agnostic code (p-files). See /skill:odoo-pfiles.
+# Scripts are fetched from vertelab/pfiles-ci, not copied — a fix there
+# reaches every repo without being re-copied.
+#
+# Repo-specific, and stays here:
+#   .pfiles-ci     which editions this repo has, and the repos it depends on
+#   .pfiles-allow  files that are not p-files yet
 
 on:
   push:
-    branches:
-      - '*.0'
-      - 'ci/**'
-      - 'pfiles/**'
+    branches: ['*.0', 'ci/**', 'pfiles/**']
   pull_request:
 
 permissions:
   contents: read
 
-env:
-  # Grenen bestämmer utgåvan — samma värde som pre-commit-hooken använder lokalt.
-  # Vi läser ref_name och faller tillbaka på grennamnet, så att även en
-  # test-gren som ci/pfiles-coverage får rätt VERSION (18.0).
-  VERSION: ${{ github.base_ref || github.ref_name }}
-
 jobs:
   pfiles:
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0            # odoobranchpfile/-diff behöver historiken
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Installera preprocess
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install "preprocess==2.0.0"
-          preprocess --version
-
-      - name: Utled VERSION ur grenen
-        run: |
-          case "$VERSION" in
-            [0-9][0-9].0) ;;
-            *)
-              # Grenar som inte är rena utgåvor (t.ex. ci/pfiles-coverage) eller
-              # en PR från en feature-gren: leta efter xx.0 i namnet, annars 18.0.
-              derived=$(printf '%s' "$VERSION" | grep -oE '[0-9][0-9]\.0' | head -1)
-              VERSION="${derived:-18.0}"
-              echo "::notice::Grenen '${{ github.base_ref || github.ref_name }}' är ingen utgåvegern — använder VERSION=$VERSION"
-              ;;
-          esac
-          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
-          echo "Kör med VERSION=$VERSION"
-
-
-      - name: 1. Täckning — filer utan p-motsvarighet
-        run: python .github/pfiles-check.py --version "$VERSION" .
-
-      - name: 2. Expansion — committad utdata ska stämma
-        run: |
-          find . -path ./.git -prune -o \( -name '*.p.py' -o -name '*.p.xml' \
-            -o -name '*.p.js' -o -name '*.p.csv' -o -name '*.p.sh' \) -print |
-          while read -r f; do
-            out="${f%.p.*}.${f##*.p.}"
-            REPO="${GITHUB_REPOSITORY##*/}"
-            preprocess -f -D VERSION="$VERSION" -D REPO="$REPO" -o "$out" "$f"
-          done
-          if ! git diff --quiet -- '*.py' '*.xml' '*.js' '*.csv' '*.sh'; then
-            echo "::error::Genererad utdata matchar inte p-filerna (stale utdata)"
-            git diff --stat
-            git diff | head -200
-            exit 1
-          fi
-
-      - name: 3a. Enkelt '#' bearbetas inte av preprocess
-        run: |
-          if grep -rn --include='*.p.py' -E '^[[:space:]]*#(if|elif|else|endif)\b' .; then
-            echo "::error::Direktiv måste vara '# #if VERSION ...' (dubbelt #), inte '#if'"
-            exit 1
-          fi
-          # XML: direktivet måste stå inuti en kommentar
-          bad_xml=$(grep -rn --include='*.p.xml' -E '^[[:space:]]*#(if|elif|else|endif)\b' . || true)
-          if [ -n "$bad_xml" ]; then
-            echo "$bad_xml"
-            echo "::error::XML-direktiv måste vara '<!-- #if ... -->'"
-            exit 1
-          fi
-
-      - name: 3b. Manifest utan Odoo-prefix
-        run: |
-          # Bara ett Odoo-UTGÅVEPREFIX är fel ('18.0.1.1.0'). Ett vanligt
-          # semantiskt versionsnummer ('1.1.0') är rätt — adapt_version()
-          # lägger till prefixet. Regexen kräver därför xx.0. som prefix.
-          status=0
-          for m in $(git ls-files '*__manifest__.p.py'); do
-            if grep -qE "['\"]version['\"][[:space:]]*:[[:space:]]*['\"][0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" "$m"; then
-              echo "::error file=$m::version ska vara utan Odoo-prefix (använd '1.1.0', inte '18.0.1.1.0')"
-              status=1
-            fi
-          done
-          exit $status
-
-      - name: 4. Syntaxkontroll
-        run: |
-          python -m compileall -q $(git ls-files '*.py' | xargs -r dirname | sort -u) \
-            || { echo "::error::py_compile misslyckades"; exit 1; }
-          if [ "$VERSION" = "14.0" ]; then
-            echo "Odoo 14 kräver Python 3.8-syntax — kontrollera med pyupgrade/ast om tillgängligt"
-          fi
-          # .p.xml kontrolleras EFTER expansion (steg 2), inte som källa
-          git ls-files '*.xml' | grep -v '\.p\.xml$' | python - <<'PY'
-          import sys, xml.etree.ElementTree as ET
-          bad = []
-          for f in (line.strip() for line in sys.stdin if line.strip()):
-              try:
-                  ET.parse(f)
-              except ET.ParseError as e:
-                  bad.append(f"{f}: {e}")
-          print("\n".join(bad))
-          sys.exit(1 if bad else 0)
-          PY
-
-      - name: Sammanfattning
-        if: always()
-        run: |
-          echo "### pfiles ($VERSION)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- preprocess: $(preprocess --version 2>&1 | head -1)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- p-filer: $(git ls-files '*.p.*' | wc -l)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- vitlista: $(git ls-files '.pfiles-allow')" >> "$GITHUB_STEP_SUMMARY"
+    uses: vertelab/pfiles-ci/.github/workflows/pfiles.yml@v1
