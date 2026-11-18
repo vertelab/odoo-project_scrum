@@ -1,7 +1,10 @@
 from odoo import models, fields, api, _, SUPERUSER_ID
 import odoo.tools
 from datetime import date
+# #if VERSION < "20.0"
+# odoo.osv was removed in 20.0; this module does not use expression.
 from odoo.osv import expression
+# #endif
 from odoo.exceptions import UserError, ValidationError
 import logging
 

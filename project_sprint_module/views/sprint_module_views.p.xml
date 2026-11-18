@@ -112,6 +112,7 @@
                             domain="[('task_count','>',0)]"/>
                     <filter name="in_sprint" string="In Sprint"
                             domain="[('sprint_id','!=',False)]"/>
+                    <!-- #if VERSION <= "19.0" -->
                     <group expand="0" string="Group By">
                         <filter name="group_state" string="State"
                                 context="{'group_by':'state'}"/>
@@ -120,6 +121,7 @@
                         <filter name="group_sprint" string="Sprint"
                                 context="{'group_by':'sprint_id'}"/>
                     </group>
+                    <!-- #endif -->
                 </search>
             </field>
         </record>

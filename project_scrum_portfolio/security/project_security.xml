@@ -48,5 +48,5 @@
         <field name="global" eval="True"/>
     </record>
 
-    </data>
+</data>
 </openerp>

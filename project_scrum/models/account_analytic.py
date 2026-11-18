@@ -6,6 +6,7 @@ import re
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, AccessError
+# odoo.osv was removed in 20.0; this module does not use expression.
 from odoo.osv import expression
 
 

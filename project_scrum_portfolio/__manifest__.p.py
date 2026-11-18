@@ -81,7 +81,11 @@ https://innolution.com/essential-scrum/table-of-contents/chapter-16-portfolio-pl
     'depends': ['project', 'project_scrum'],
     'data': [
         'views/project_scrum_view.xml',
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         #        'security/project_security.xml',
     ],
     # 'external_dependencies': {

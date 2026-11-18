@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+    <!-- #if VERSION <= "19.0" -->
     
     <record model="ir.rule" id="ps_sprint_rule">
         <field name="name">Sprint</field>
@@ -48,5 +49,6 @@
         <field name="global" eval="True"/>
     </record>
 
-    </data>
+        <!-- #endif -->
+</data>
 </openerp>
