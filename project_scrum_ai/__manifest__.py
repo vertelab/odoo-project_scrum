@@ -21,7 +21,7 @@
 
 {
     'name': 'AI for project_scrum',
-    'version': '0.3',
+    'version': '0.4',
     'summary': 'Add powerbox for User Stories',
     'category': 'Productivity / Discuss',
     'description': """
@@ -45,7 +45,7 @@
         'views/scrum_us_views.xml',
     ],
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
     'application': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
