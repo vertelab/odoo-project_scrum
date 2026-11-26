@@ -147,14 +147,6 @@ class ProjectUserStories(models.Model):
                 return project_ids[0][0]
         return None
 
-    @api.model
-    def _read_group_sprint_id(self, present_ids, domain):
-        project_id = self._resolve_project_id_from_context()
-        sprints = self.env['project.scrum.sprint'].search([
-            ('project_id', '=', project_id)], order='sequence').name_get()
-        return sprints, None
-
-    _group_by_full = {
-        'sprint_ids': _read_group_sprint_id,
-    }
+    # _group_by_full was removed from the ORM in 19.0. The sprint grouping is
+    # handled by group_expand on the field instead (see sprint_ids above).
 

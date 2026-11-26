@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_project_portfolio_manager,Project Portfolio Manager,project.scrum.portfolio,project.group_project_manager,crud,
+access_project_portfolio,Project Portfolio User,project.scrum.portfolio,project.group_project_user,r,
+access_project_timebox_manager,Project Timebox Manager,project.scrum.timebox,project.group_project_manager,crud,
+access_project_timebox,Project Timebox User,project.scrum.timebox,project.group_project_user,r,

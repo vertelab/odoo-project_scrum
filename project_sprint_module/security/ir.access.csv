@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_sprint_module_user,sprint.module.user,sprint.module,base.group_user,crud,
+access_sprint_module_manager,sprint.module.manager,sprint.module,project.group_project_manager,crud,
+access_sprint_repo_user,sprint.repo.user,sprint.repo,base.group_user,crud,
+access_sprint_repo_manager,sprint.repo.manager,sprint.repo,project.group_project_manager,crud,

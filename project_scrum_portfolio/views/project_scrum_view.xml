@@ -4,7 +4,7 @@
         <record id="view_portfolio_tree" model="ir.ui.view">
             <field name="name">project.scrum.portfolio.tree</field>
             <field name="model">project.scrum.portfolio</field>
-            <field name="type">tree</field>
+            <field name="type">list</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -69,9 +69,8 @@
                     <!--
                          <field name="sprint_ids" />
                     -->
-                    <group string="Filter By..." />
-                    <newline />
-                    <group expand="0" string="Group By...">
+                    <group />
+                    <group>
                         <filter string="Manager" name="user_id" context="{'group_by':'user_id'}" />
                     </group>
                 </search>
@@ -154,7 +153,7 @@
         <record id="view_timebox_tree" model="ir.ui.view">
             <field name="name">project.scrum.timebox.tree</field>
             <field name="model">project.scrum.timebox</field>
-            <field name="type">tree</field>
+            <field name="type">list</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="portfolio_id" />
@@ -182,9 +181,8 @@
                     <!--
                          <field name="sprint_ids" />
                     -->
-                    <group string="Filter By..." />
-                    <newline />
-                    <group expand="0" string="Group By...">
+                    <group />
+                    <group>
                         <filter string="Sprint" name="sprint_id" context="{'group_by':'sprint_id'}" />
                         <filter string="Portfolio" name="portfolio_id" context="{'group_by':'portfolio_id'}" />
                     </group>

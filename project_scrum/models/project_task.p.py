@@ -101,7 +101,11 @@ class ProjectTask(models.Model):
                 self.sprint_ids = [(4, vals.get('sprint_id'), 0)]
         return super(ProjectTask, self).write(vals)
 
+    # #if VERSION >= "20.0"
+    def _read_group_sprint_id(self, sprint_id, domain, order=None):
+    # #else
     def _read_group_sprint_id(self, sprint_id, domain):
+    # #endif
         # Bygg en giltig domän för sprint-modellen från task-domänen
         sprint_domain = []
         for leaf in domain:
@@ -135,9 +139,16 @@ class ProjectTask(models.Model):
 
         return sprint_ids
 
+    # #if VERSION < "20.0"
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        """Override read_group to filter tasks when grouping by active_sprint_id."""
+        """Override read_group to filter tasks when grouping by active_sprint_id.
+
+        Odoo 20.0 changed the read_group signature (domain, groupby, aggregates,
+        having, offset, limit, order) and calls _read_group internally, so this
+        override is only valid for 18.0/19.0. On 20.0 the grouping is handled by
+        the group_expand hook on active_sprint_id.
+        """
         _logger.info("Project Task read_group - Groupby: %s", groupby)
         _logger.info("Project Task read_group - Original domain: %s", domain)
 
@@ -178,6 +189,7 @@ class ProjectTask(models.Model):
 
         return super(ProjectTask, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
                                                    lazy=lazy)
+    # #endif
 
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
@@ -223,6 +235,7 @@ class ProjectTask(models.Model):
     def _read_group_sprint_type(self, ids, domain, **kwarg):
         return self.env['project.sprint.type'].search([]).name_get(), {}
 
+    # #if VERSION < "19.0"
     _group_by_full = {
         # 'sprint_id': _read_group_sprint_id,
         'us_id': _read_group_us_id,
@@ -230,6 +243,7 @@ class ProjectTask(models.Model):
         'user_id': _read_group_user_id,
         'sprint_type': _read_group_sprint_type,
     }
+    # #endif
 
 
 class ProjectTaskType(models.Model):

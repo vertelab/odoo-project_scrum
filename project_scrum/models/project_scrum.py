@@ -368,15 +368,7 @@ class TestCase(models.Model):
                 return project_ids[0][0]
         return None
 
-    @api.model
-    def _read_group_us_id(self, present_ids, domain, **kwargs):
-        project_id = self._resolve_project_id_from_context()
-        user_stories = self.env['project.scrum.us'].search([('project_id', '=', project_id)]).name_get()
-        return user_stories, None
-
-    _group_by_full = {
-        'user_story_id_test': _read_group_us_id,
-        }
+    # _group_by_full was removed from the ORM in 19.0; the hook had no consumer.
 
 
 class SprintType(models.Model):

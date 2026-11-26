@@ -37,14 +37,25 @@
     # Any module necessary for this one to work correctly
     'depends': [
         'project_scrum',
+        # #if VERSION >= "19.0"
+        # Blocked on 19.0: ai_agent_core needs web_pwa_push and web_mermaid_ai
+        # has no 19.0 branch. installable: False below.
+        # #else
         'ai_agent_core',
         'web_mermaid_ai',
+        # #endif
     ],
     'data': [
         'data/ai_coworker_data.xml',
         'views/scrum_us_views.xml',
     ],
+    # #if VERSION >= "19.0"
+    # Blocked: web_mermaid_ai (and ai_agent_core's web_pwa_push) are not
+    # available on 19.0 in the pfile environment.
+    'installable': False,
+    # #else
     'installable': True,
+    # #endif
     'auto_install': False,
     'application': False,
 }

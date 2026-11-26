@@ -112,7 +112,7 @@
                             domain="[('task_count','>',0)]"/>
                     <filter name="in_sprint" string="In Sprint"
                             domain="[('sprint_id','!=',False)]"/>
-                    <group expand="0" string="Group By">
+                    <group>
                         <filter name="group_state" string="State"
                                 context="{'group_by':'state'}"/>
                         <filter name="group_category" string="Category"
