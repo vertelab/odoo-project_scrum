@@ -32,7 +32,8 @@
                     <field name="name" class="oe_edit_only" />
                     <field name="display_name" class="oe_read_only" />
                 </field>
-                <field name="sequence" position="after">
+                <!-- 20.0 moved sequence out of the form; task_no goes after the name. -->
+                <field name="user_ids" position="after">
                     <field name="task_no" />
                 </field>
             </field>
@@ -69,27 +70,8 @@
                     <field name="name" invisible="1" groups="base.group_no_one"/>
                     <field name="display_name" />
                 </field>-->
-        <record model="ir.ui.view" id="view_task_kanban">
-            <field name="name">project.task.kanban</field>
-            <field name="model">project.task</field>
-            <!-- 20.0 moved the kanban card fields into project.view_task_card. -->
-            <field name="inherit_id" ref="project.view_task_card" />
-            <field name="arch" type="xml">
 
-                <xpath expr="//field[@name='name']" position="replace">
-                    <field name="name" invisible="1" />
-                    <field name="active" invisible="1"/>
-                    <strong class="o_kanban_record_title">
-                        <t t-if="!record.active.raw_value">
-                            <field name="display_name" class="fw-bold fs-5"/>
-                        </t>
-                        <t t-else="">
-                            <field name="display_name" class="fw-bold fs-5"/>
-                        </t>
-                    </strong>
-                </xpath>
-            </field>
-        </record>
+
         <record id="view_config_settings" model="ir.ui.view">
             <field name="name">project.settings.inherit</field>
             <field name="model">res.config.settings</field>

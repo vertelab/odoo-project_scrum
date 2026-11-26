@@ -17,11 +17,5 @@ project_sprint_module/security/ir.access.csv
 project_sprint_module/security/ir.model.access.csv
 project_sprint_module/security/ir.model.access.xml
 project_sprint_module/static/description/index.html
-project_task_id/data/enable_project_no.xml
-project_task_id/data/ir_config_parameter_data.xml
-project_task_id/data/ir_sequence_data.xml
-project_task_id/data/project_no_server_action.xml
-project_task_id/models/res_config_settings.py
 project_task_id/static/description/index.html
-project_task_id/views/project_view.xml
 project_task_weight/static/description/index.html
