@@ -37,41 +37,16 @@
 
     <!-- Project Task Kanban View -->
 
-    <record model="ir.ui.view" id="view_task_kanban">
-        <field name="name">project.task.kanban</field>
+    <!-- 20.0 moved the kanban fields into project.view_task_card; the card has
+         no partner_id field, so weight is placed after the task name. The
+         progressbar and the card menu moved too, and are not touched here. -->
+    <record model="ir.ui.view" id="view_task_card_weight">
+        <field name="name">project.task.card.weight</field>
         <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_kanban" />
+        <field name="inherit_id" ref="project.view_task_card" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='partner_id']" position="after">
+            <xpath expr="//field[@name='name']" position="after">
                 <field name="weight" />
-            </xpath>
-            <xpath expr="//progressbar[@field='state']" position="after">
-                <progressbar field="weight" sum_field="remaining_hours" colors='{"1": "success", "2": "info", "4": "primary", "8": "warning", "16": "danger"}'/>
-            </xpath>
-            <xpath expr="//t[@t-name='menu']/field[@name='color']" position="after">
-                <div role="separator" class="dropdown-divider"></div>
-                <div class="o_kanban_card_manage_section">
-                    <div role="menuitem">
-
-                        <a name="set_weight_easy" type="object" class="dropdown-item"><span t-if="record.weight.raw_value == '1'">*</span> Easy</a>
-                    </div>
-                    <div role="menuitem">
-
-                        <a name="set_weight_medium" type="object" class="dropdown-item"> <span t-if="record.weight.raw_value == '2'">*</span> Medium</a>
-                    </div>
-                    <div role="menuitem">
-
-                        <a name="set_weight_hard" type="object" class="dropdown-item"> <span t-if="record.weight.raw_value == '4'">*</span> Hard</a>
-                    </div>
-                    <div role="menuitem">
-
-                        <a name="set_weight_challenging" type="object" class="dropdown-item"><span t-if="record.weight.raw_value == '8'">*</span> Challenging</a>
-                    </div>
-                    <div role="menuitem">
-
-                        <a name="set_weight_exhausting" type="object" class="dropdown-item"> <span t-if="record.weight.raw_value == '16'">*</span> Exhausting</a>
-                    </div>
-                </div>
             </xpath>
         </field>
     </record>

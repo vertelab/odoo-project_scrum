@@ -97,7 +97,7 @@ class ProjectTask(models.Model):
                 self.sprint_ids = [(4, vals.get('sprint_id'), 0)]
         return super(ProjectTask, self).write(vals)
 
-    def _read_group_sprint_id(self, sprint_id, domain):
+    def _read_group_sprint_id(self, sprint_id, domain, order=None):
         # Bygg en giltig domän för sprint-modellen från task-domänen
         sprint_domain = []
         for leaf in domain:
@@ -131,38 +131,6 @@ class ProjectTask(models.Model):
 
         return sprint_ids
 
-    @api.model
-    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        """Override read_group to filter tasks when grouping by active_sprint_id."""
-        _logger.info("Project Task read_group - Groupby: %s", groupby)
-        _logger.info("Project Task read_group - Original domain: %s", domain)
-
-        # Check if we're grouping by active_sprint_id
-        if 'active_sprint_id' in groupby:
-            _logger.info("Detected grouping by active_sprint_id")
-
-            # Get allowed sprint IDs from _read_group_active_sprint_id
-            allowed_sprints = self._read_group_active_sprint_id(None, [], None)
-            allowed_sprint_ids = allowed_sprints.ids
-
-            _logger.info("Allowed sprint IDs: %s", allowed_sprint_ids)
-
-            # Add the filter for sprint_id (not active_sprint_id)
-            # We need to be careful here - we're in the project.task model,
-            # so we should be filtering on sprint_id, which is a field in project.task
-            domain = Domain.AND([
-                Domain(domain),
-                Domain([
-                    '|',
-                    ('sprint_id', 'in', allowed_sprint_ids),
-                    ('sprint_id', '=', False)
-                ])
-            ])
-
-            _logger.info("Modified domain for read_group: %s", domain)
-
-        return super(ProjectTask, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
-                                                   lazy=lazy)
 
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
@@ -208,13 +176,6 @@ class ProjectTask(models.Model):
     def _read_group_sprint_type(self, ids, domain, **kwarg):
         return self.env['project.sprint.type'].search([]).name_get(), {}
 
-    _group_by_full = {
-        # 'sprint_id': _read_group_sprint_id,
-        'us_id': _read_group_us_id,
-        # 'stage_id': _read_group_stage_ids,
-        'user_id': _read_group_user_id,
-        'sprint_type': _read_group_sprint_type,
-    }
 
 
 class ProjectTaskType(models.Model):

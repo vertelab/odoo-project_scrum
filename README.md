@@ -14,18 +14,31 @@ The project_scrum module depends on an OCA module (https://github.com/OCA/projec
 # Mars 18, 2019
 ```
 
-## Porteringsstatus
+## Porteringsstatus — Odoo 20.0
 
-18.0 är baseline. 19.0/20.0 visar om p-filen har ett villkor för utgåvan
-— inte om grenen finns. Blockerare är `depends` som saknas i 20.0
-(kärna + alla 20.0-grenar).
+Den här grenen är Odoo 20.0. Tabellen beskriver bara 20.0.
 
-| Modul | Beskrivning | Manifest | p-fil | 19.0 | 20.0 | Blockerare |
-|---|---|---|---|---|---|---|
-| project_scrum | Using Scrum to plan the work in teams | 1.24 | 20 | — | ✓ | — |
-| project_scrum_ai | Add powerbox for User Stories | 0.3 | 6 | — | — | — |
-| project_scrum_external_tickets | External Tickets for Project Scrum. | 1.0.0 | 5 | — | — | — |
-| project_scrum_portfolio | Adding Portfilio management to Project Scrum. | 1.0 | 6 | — | — | — |
-| project_sprint_module | Adds new page for module list. | 1.24 | 11 | — | — | — |
-| project_task_id | Adds Id to task. | 1.2.0 | 1 | — | ✓ | — |
-| project_task_weight | Measure the scope of the activity | 1.0 | 5 | — | — | — |
+| Modul | Funktionsbeskrivning | Porteringsstatus |
+|---|---|---|
+| `project_scrum` | Scrum i projekt: user stories, sprintar, scrum-roller | installerad · 20 p-filer |
+| `project_scrum_ai` | Powerbox för user stories + mermaid-graf | blockerad — `ai_agent_core` kräver `web_pwa_push`, `web_mermaid_ai` saknas; `installable: False` |
+| `project_scrum_external_tickets` | Externa ärenden kopplade till user stories | installerad · 6 p-filer |
+| `project_scrum_portfolio` | Portfölj- och timebox-hantering | installerad · 6 p-filer |
+| `project_sprint_module` | Sida för modullista per sprint | installerad · 11 p-filer |
+| `project_task_id` | Löpnummer på uppgifter (globalt eller per projekt) | installerad · 2 p-filer |
+| `project_task_weight` | Omfattningsmått (weight) på uppgifter | installerad · 5 p-filer |
+
+## Vad "portad" betyder
+
+Installerad i `pfile_<utgåva>` utan ERROR/CRITICAL, minst en testmetod grön,
+och p-filerna i synk mellan 18.0/19.0/20.0. Att modulen finns i filträdet
+räknas inte.
+
+## Grind
+
+`.pfiles-ci` deklarerar `editions: 18.0 19.0 20.0` och
+`deps: odoo-web odoo-project`. Fem CI-filer krävs (`.github/workflows/pfiles.yml`
+plus fyra skript i `.github/`); saknas någon fäller `editions`-jobbet med
+`exit 2` innan någon modul granskats.
+
+Lokal förkontroll: `git config core.hooksPath .githooks`.

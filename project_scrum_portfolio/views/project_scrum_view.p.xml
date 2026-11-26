@@ -4,7 +4,11 @@
         <record id="view_portfolio_tree" model="ir.ui.view">
             <field name="name">project.scrum.portfolio.tree</field>
             <field name="model">project.scrum.portfolio</field>
+            <!-- #if VERSION >= "19.0" -->
+            <field name="type">list</field>
+            <!-- #else -->
             <field name="type">tree</field>
+            <!-- #endif -->
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -69,10 +73,9 @@
                     <!--
                          <field name="sprint_ids" />
                     -->
-                    <group string="Filter By..." />
-                    <newline />
+                    <group />
                     <!-- #if VERSION <= "19.0" -->
-                    <group expand="0" string="Group By...">
+                    <group>
                         <filter string="Manager" name="user_id" context="{'group_by':'user_id'}" />
                     </group>
                     <!-- #endif -->
@@ -156,7 +159,11 @@
         <record id="view_timebox_tree" model="ir.ui.view">
             <field name="name">project.scrum.timebox.tree</field>
             <field name="model">project.scrum.timebox</field>
+            <!-- #if VERSION >= "19.0" -->
+            <field name="type">list</field>
+            <!-- #else -->
             <field name="type">tree</field>
+            <!-- #endif -->
             <field name="arch" type="xml">
                 <list>
                     <field name="portfolio_id" />
@@ -184,10 +191,9 @@
                     <!--
                          <field name="sprint_ids" />
                     -->
-                    <group string="Filter By..." />
-                    <newline />
+                    <group />
                     <!-- #if VERSION <= "19.0" -->
-                    <group expand="0" string="Group By...">
+                    <group>
                         <filter string="Sprint" name="sprint_id" context="{'group_by':'sprint_id'}" />
                         <filter string="Portfolio" name="portfolio_id" context="{'group_by':'portfolio_id'}" />
                     </group>

@@ -11,7 +11,8 @@
                 <field name="stage_id" position="attributes">
                     <attribute name="domain">["|", ("project_ids", "=", False), ("project_ids", "=", project_id)]</attribute>
                 </field>
-                <filter name="inactive" position="after">
+                <!-- project.view_task_search_form has no 'inactive' filter from 19.0. -->
+                <filter name="open_tasks" position="after">
                     <separator />
                     <filter string="Current Sprint" name="current_sprint" domain="[('current_sprint','=',True)]" />
                     <filter string="Previous Sprint" name="prev_sprint" domain="[('prev_sprint','=',True)]" />
@@ -453,7 +454,8 @@
             <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
             <field name="priority">24</field>
             <field name="arch" type="xml">
-                <xpath expr="//div[hasclass('o_settings_container')]" position="inside">
+                <!-- o_settings_container is gone from the simplified form in 20.0. -->
+                <xpath expr="//group" position="inside">
                     <setting string="Use Scrum">
                         <field name="use_scrum"/>
                     </setting>
@@ -545,7 +547,7 @@
                     <field name="date_duration"/>
                     <field name="us_ids"/>
                     <field name="task_ids"/>
-                    <group string="Filter By">
+                    <group>
                         <filter string="Draft" name="draft" domain="[('state','=','draft')]" />
                         <separator orientation="vertical" />
                         <filter string="Open" name="open" domain="[('state','=','open')]" />
@@ -556,7 +558,6 @@
                         <separator orientation="vertical" />
                         <filter string="Done" name="done" domain="[('state','=','done')]" />
                     </group>
-                    <newline />
                 </search>
             </field>
         </record>
@@ -599,7 +600,7 @@
                     <field name="user_story_id_test" />
                     <field name="description_test" />
                     <field name="state" />
-                    <group string="Filter By">
+                    <group>
                         <filter string="My Test Cases" name="my_test_cases" domain="[('user_id', '=', uid)]"/>
                         <separator orientation="vertical" />
                         <filter string="New" name="new" domain="[('state','=','new')]" />
@@ -608,7 +609,6 @@
                         <separator orientation="vertical" />
                         <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]" />
                     </group>
-                    <newline />
                 </search>
             </field>
         </record>
@@ -851,7 +851,8 @@
         <record id="view_ps_kanban" model="ir.ui.view">
             <field name="name">project.scrum.project.kanban</field>
             <field name="model">project.project</field>
-            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <!-- The kanban fields moved into project.view_project_card in 20.0. -->
+            <field name="inherit_id" ref="project.view_project_card"/>
             <field name="arch" type="xml">
                 <field name="rating_count" position="before">
                     <field name="user_story_count" />

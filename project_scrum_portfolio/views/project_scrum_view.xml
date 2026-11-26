@@ -4,7 +4,7 @@
         <record id="view_portfolio_tree" model="ir.ui.view">
             <field name="name">project.scrum.portfolio.tree</field>
             <field name="model">project.scrum.portfolio</field>
-            <field name="type">tree</field>
+            <field name="type">list</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -69,8 +69,7 @@
                     <!--
                          <field name="sprint_ids" />
                     -->
-                    <group string="Filter By..." />
-                    <newline />
+                    <group />
                 </search>
             </field>
         </record>
@@ -151,7 +150,7 @@
         <record id="view_timebox_tree" model="ir.ui.view">
             <field name="name">project.scrum.timebox.tree</field>
             <field name="model">project.scrum.timebox</field>
-            <field name="type">tree</field>
+            <field name="type">list</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="portfolio_id" />
@@ -179,8 +178,7 @@
                     <!--
                          <field name="sprint_ids" />
                     -->
-                    <group string="Filter By..." />
-                    <newline />
+                    <group />
                 </search>
             </field>
         </record>

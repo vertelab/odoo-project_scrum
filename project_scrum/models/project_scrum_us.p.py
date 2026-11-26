@@ -155,6 +155,10 @@ class ProjectUserStories(models.Model):
                 return project_ids[0][0]
         return None
 
+    # #if VERSION >= "19.0"
+    # _group_by_full was removed from the ORM in 19.0. The sprint grouping is
+    # handled by group_expand on the field instead (see sprint_ids above).
+    # #else
     @api.model
     # # if VERSION <  "17.0"
     def _read_group_sprint_id(self, present_ids, domain, **kwargs):
@@ -169,4 +173,5 @@ class ProjectUserStories(models.Model):
     _group_by_full = {
         'sprint_ids': _read_group_sprint_id,
     }
+    # #endif
 

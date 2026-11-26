@@ -8,7 +8,12 @@ def post_init_hook(env):
 
 
 def _ensure_access_rules(env):
-    """Säkerställ att access-regler finns för sprint.module och sprint.repo."""
+    """Säkerställ att access-regler finns för sprint.module och sprint.repo.
+
+    Odoo 20.0 renamed ir.model.access to ir.access and replaced the four
+    perm_* booleans with a single operation selection.
+    """
+    access_model = env["ir.access"]
     for model_name, group_xmlid in [
         ("sprint.module", "base.group_user"),
         ("sprint.module", "project.group_project_manager"),
@@ -22,13 +27,10 @@ def _ensure_access_rules(env):
         if not group:
             continue
         name = f"{model_name}.{group_xmlid.split('.')[-1]}"
-        if not env["ir.model.access"].search([("name", "=", name)], limit=1):
-            env["ir.model.access"].create({
+        if not access_model.search([("name", "=", name)], limit=1):
+            access_model.create({
                 "name": name,
                 "model_id": model.id,
                 "group_id": group.id,
-                "perm_read": True,
-                "perm_write": True,
-                "perm_create": True,
-                "perm_unlink": True,
+                "operation": "crud",
             })
