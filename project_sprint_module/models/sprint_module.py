@@ -39,7 +39,12 @@ class SprintModule(models.Model):
 
     @api.model
     def _register_hook(self):
-        """Säkerställ access-regler vid varje modulladdning."""
+        """Säkerställ access-regler vid varje modulladdning.
+
+        Odoo 20.0 renamed ir.model.access to ir.access and replaced the four
+        perm_* booleans with a single operation selection.
+        """
+        access_model = self.env["ir.model.access"]
         for model_name in ["sprint.module", "sprint.repo"]:
             model = self.env["ir.model"].search([("model", "=", model_name)], limit=1)
             if not model:
@@ -49,8 +54,8 @@ class SprintModule(models.Model):
                 if not group:
                     continue
                 name = group_xmlid.replace(".", "_") + "_" + model_name.replace(".", "_")
-                if not self.env["ir.model.access"].search([("name", "=", name)], limit=1):
-                    self.env["ir.model.access"].create({
+                if not access_model.search([("name", "=", name)], limit=1):
+                    access_model.create({
                         "name": name,
                         "model_id": model.id,
                         "group_id": group.id,

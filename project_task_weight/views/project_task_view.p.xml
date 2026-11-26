@@ -37,6 +37,20 @@
 
     <!-- Project Task Kanban View -->
 
+    <!-- #if VERSION >= "20.0" -->
+    <!-- 20.0 moved the kanban fields into project.view_task_card; the card has
+         no partner_id field, so weight is placed after the task name. -->
+    <record model="ir.ui.view" id="view_task_card_weight">
+        <field name="name">project.task.card.weight</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_card" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="weight" />
+            </xpath>
+        </field>
+    </record>
+    <!-- #else -->
     <record model="ir.ui.view" id="view_task_kanban">
         <field name="name">project.task.kanban</field>
         <field name="model">project.task</field>
@@ -83,6 +97,7 @@
             </xpath>
         </field>
     </record>
+    <!-- #endif -->
     <record id="view_task_tree2" model="ir.ui.view">
         <field name="name">project.task.tree</field>
         <field name="model">project.task</field>

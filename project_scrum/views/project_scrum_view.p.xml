@@ -11,12 +11,22 @@
                 <field name="stage_id" position="attributes">
                     <attribute name="domain">["|", ("project_ids", "=", False), ("project_ids", "=", project_id)]</attribute>
                 </field>
+                <!-- #if VERSION >= "19.0" -->
+                <!-- project.view_task_search_form has no 'inactive' filter from 19.0. -->
+                <filter name="open_tasks" position="after">
+                    <separator />
+                    <filter string="Current Sprint" name="current_sprint" domain="[('current_sprint','=',True)]" />
+                    <filter string="Previous Sprint" name="prev_sprint" domain="[('prev_sprint','=',True)]" />
+                    <filter string="Next Sprint" name="next_sprint" domain="[('next_sprint','=',True)]" />
+                </filter>
+                <!-- #else -->
                 <filter name="inactive" position="after">
                     <separator />
                     <filter string="Current Sprint" name="current_sprint" domain="[('current_sprint','=',True)]" />
                     <filter string="Previous Sprint" name="prev_sprint" domain="[('prev_sprint','=',True)]" />
                     <filter string="Next Sprint" name="next_sprint" domain="[('next_sprint','=',True)]" />
                 </filter>
+                <!-- #endif -->
                 <field name="project_id" position="after">
                     <field name="sprint_id" />
                     <field name="sprint_ids" />
@@ -453,11 +463,20 @@
             <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
             <field name="priority">24</field>
             <field name="arch" type="xml">
+                <!-- #if VERSION >= "20.0" -->
+                <!-- o_settings_container is gone from the simplified form in 20.0. -->
+                <xpath expr="//group" position="inside">
+                    <setting string="Use Scrum">
+                        <field name="use_scrum"/>
+                    </setting>
+                </xpath>
+                <!-- #else -->
                 <xpath expr="//div[hasclass('o_settings_container')]" position="inside">
                     <setting string="Use Scrum">
                         <field name="use_scrum"/>
                     </setting>
                 </xpath>
+                <!-- #endif -->
             </field>
         </record>
 
@@ -545,7 +564,7 @@
                     <field name="date_duration"/>
                     <field name="us_ids"/>
                     <field name="task_ids"/>
-                    <group string="Filter By">
+                    <group>
                         <filter string="Draft" name="draft" domain="[('state','=','draft')]" />
                         <separator orientation="vertical" />
                         <filter string="Open" name="open" domain="[('state','=','open')]" />
@@ -556,9 +575,8 @@
                         <separator orientation="vertical" />
                         <filter string="Done" name="done" domain="[('state','=','done')]" />
                     </group>
-                    <newline />
                     <!-- #if VERSION <= "19.0" -->
-                    <group expand="0" string="Group By">
+                    <group>
                         <!--            <filter string="Product owner" name="product_owner" domain="[]" context="{'group_by':'product_owner_id'}" />-->
                         <!--            <separator orientation="vertical" />-->
                         <!--            <filter string="Scrum Master" name="scrum_master" domain="[]" context="{'group_by':'scrum_master_id'}" />-->
@@ -584,7 +602,7 @@
                     <field name="date_meeting"/>
                     <field name="user_id_meeting"/>
                     <!-- #if VERSION <= "19.0" -->
-                    <group expand="0" string="Group By">
+                    <group>
                         <filter string="Project" name="project" domain="[]" context="{'group_by':'project_id'}"/>
                         <separator orientation="vertical"/>
                         <filter string="Sprint" name="sprint" domain="[]" context="{'group_by':'sprint_id'}"/>
@@ -610,7 +628,7 @@
                     <field name="tag_ids"/>
                     <field name="test_ids"/>
                     <!-- #if VERSION <= "19.0" -->
-                    <group expand="0" string="Group By">
+                    <group>
                         <filter string="Sprint" name="sprint" context="{'group_by':'sprint_id'}"/>
                         <separator orientation="vertical"/>
                         <filter string="Project" name="project" domain="[]" context="{'group_by':'project_id'}"/>
@@ -637,7 +655,7 @@
                     <field name="user_story_id_test" />
                     <field name="description_test" />
                     <field name="state" />
-                    <group string="Filter By">
+                    <group>
                         <filter string="My Test Cases" name="my_test_cases" domain="[('user_id', '=', uid)]"/>
                         <separator orientation="vertical" />
                         <filter string="New" name="new" domain="[('state','=','new')]" />
@@ -646,9 +664,8 @@
                         <separator orientation="vertical" />
                         <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]" />
                     </group>
-                    <newline />
                     <!-- #if VERSION <= "19.0" -->
-                    <group expand="0" string="Group By">
+                    <group>
                         <filter string="Project" name="group_by_project" context="{'group_by':'project_id'}" />
                         <separator orientation="vertical" />
                         <filter string="User Story" name="group_by_us_test" context="{'group_by':'user_story_id_test'}" />
@@ -900,6 +917,19 @@
         <record id="view_ps_kanban" model="ir.ui.view">
             <field name="name">project.scrum.project.kanban</field>
             <field name="model">project.project</field>
+            <!-- #if VERSION >= "20.0" -->
+            <!-- The kanban fields moved into project.view_project_card in 20.0. -->
+            <field name="inherit_id" ref="project.view_project_card"/>
+            <field name="arch" type="xml">
+                <field name="rating_count" position="before">
+                    <field name="user_story_count" />
+                    <field name="sprint_count" />
+                    <field name="meeting_count" />
+                    <field name="test_case_count" />
+                    <field name="use_scrum" />
+                </field>
+            </field>
+            <!-- #else -->
             <field name="inherit_id" ref="project.view_project_kanban"/>
             <field name="arch" type="xml">
                 <field name="rating_count" position="before">
@@ -910,6 +940,7 @@
                     <field name="use_scrum" />
                 </field>
             </field>
+            <!-- #endif -->
         </record>
         <!--email_template for daily meeting-->
         <record id="email_template_id" model="mail.template">
@@ -1007,7 +1038,11 @@
             <field name="code">
                 action = model.merge_tasks()
             </field>
+            <!-- #if VERSION >= "19.0" -->
+            <field name="group_ids" eval="[(4, ref('project.group_project_manager'))]"/>
+            <!-- #else -->
             <field name="groups_id" eval="[(4, ref('project.group_project_manager'))]"/>
+            <!-- #endif -->
         </record>
     </data>
 </odoo>

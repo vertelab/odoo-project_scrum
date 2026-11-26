@@ -111,9 +111,9 @@ More information:
         'sales_team',
         'calendar',
         'web_mermaid',
-        # # if VERSION >= "18.0"
+        # #if VERSION >= "18.0"
         'project_task_closed',
-        # # endif
+        # #endif
     ],
     'data': [
         'views/project_scrum_view.xml',

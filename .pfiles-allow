@@ -1,0 +1,24 @@
+project_scrum/data/server_action.xml
+project_scrum/security/ir.model.access.csv
+project_scrum/static/description/index (kopia).html
+project_scrum/static/description/index.html
+project_scrum/tests/test_something.py
+project_scrum_ai/data/scrum_agents.xml
+project_scrum_ai/static/description/index.html
+project_scrum_external_tickets/security/ir.model.access.csv
+project_scrum_external_tickets/static/description/index.html
+project_scrum_portfolio/security/ir.model.access.csv
+project_scrum_portfolio/static/description/index.html
+project_sprint_module/data/server_action.xml
+project_sprint_module/models/res_config_settings.py
+project_sprint_module/security/ir.model.access.csv
+project_sprint_module/security/ir.model.access.xml
+project_sprint_module/static/description/index.html
+project_task_id/data/enable_project_no.xml
+project_task_id/data/ir_config_parameter_data.xml
+project_task_id/data/ir_sequence_data.xml
+project_task_id/data/project_no_server_action.xml
+project_task_id/models/res_config_settings.py
+project_task_id/static/description/index.html
+project_task_id/views/project_view.xml
+project_task_weight/static/description/index.html

@@ -113,7 +113,7 @@
                     <filter name="in_sprint" string="In Sprint"
                             domain="[('sprint_id','!=',False)]"/>
                     <!-- #if VERSION <= "19.0" -->
-                    <group expand="0" string="Group By">
+                    <group>
                         <filter name="group_state" string="State"
                                 context="{'group_by':'state'}"/>
                         <filter name="group_category" string="Category"

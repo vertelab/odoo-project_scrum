@@ -388,6 +388,9 @@ class TestCase(models.Model):
                 return project_ids[0][0]
         return None
 
+    # #if VERSION >= "19.0"
+    # _group_by_full was removed from the ORM in 19.0; the hook had no consumer.
+    # #else
     @api.model
     def _read_group_us_id(self, present_ids, domain, **kwargs):
         project_id = self._resolve_project_id_from_context()
@@ -397,6 +400,7 @@ class TestCase(models.Model):
     _group_by_full = {
         'user_story_id_test': _read_group_us_id,
         }
+    # #endif
 
 
 class SprintType(models.Model):
