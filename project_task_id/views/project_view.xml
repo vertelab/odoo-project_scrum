@@ -32,16 +32,9 @@
                     <field name="name" class="oe_edit_only" />
                     <field name="display_name" class="oe_read_only" />
                 </field>
-                <!-- #if VERSION >= "20.0" -->
-                <!-- 20.0 moved sequence out of the form; task_no goes after the name. -->
-                <field name="user_ids" position="after">
-                    <field name="task_no" />
-                </field>
-                <!-- #else -->
                 <field name="sequence" position="after">
                     <field name="task_no" />
                 </field>
-                <!-- #endif -->
             </field>
         </record>
         <record id="view_task_tree2" model="ir.ui.view">
